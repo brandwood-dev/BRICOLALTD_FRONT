@@ -33,6 +33,12 @@ const Header = () => {
             <Link to="/blog" className="text-gray-700 hover:text-accent font-medium transition-colors">
               Blog
             </Link>
+            <Link to="/about" className="text-gray-700 hover:text-accent font-medium transition-colors">
+              À propos
+            </Link>
+            <Link to="/contact" className="text-gray-700 hover:text-accent font-medium transition-colors">
+              Contact
+            </Link>
           </nav>
 
           {/* Right side */}
