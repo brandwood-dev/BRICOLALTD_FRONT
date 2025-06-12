@@ -164,9 +164,11 @@ const Search = () => {
                           <span className="text-lg font-bold text-accent">{tool.price}€</span>
                           <span className="text-sm text-gray-500">/{tool.period}</span>
                         </div>
-                        <Button size="sm" disabled={!tool.available}>
-                          {tool.available ? 'Louer' : 'Indisponible'}
-                        </Button>
+                        <Link to={`/tool/${tool.id}`}>
+                          <Button size="sm" disabled={!tool.available}>
+                            {tool.available ? 'Louer' : 'Indisponible'}
+                          </Button>
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>

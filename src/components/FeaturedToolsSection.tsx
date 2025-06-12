@@ -121,7 +121,7 @@ const FeaturedToolsSection = () => {
                 </div>
 
                 <div className="flex gap-2">
-                  <Link to={`/rent/${tool.id}`} className="flex-1">
+                  <Link to={`/tool/${tool.id}`} className="flex-1">
                     <Button size="sm" className="w-full">
                       {t('tools.rent')}
                     </Button>
