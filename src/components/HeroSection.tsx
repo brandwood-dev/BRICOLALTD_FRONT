@@ -1,13 +1,46 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Search, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import MapView from './MapView';
 
 const HeroSection = () => {
   const { t } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('');
+  const [showMap, setShowMap] = useState(false);
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      setShowMap(true);
+    } else {
+      // If no search query, go to normal search page
+      window.location.href = '/search';
+    }
+  };
+
+  if (showMap) {
+    return (
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-6 text-center">
+            <h2 className="text-2xl font-bold mb-4">Résultats de recherche pour "{searchQuery}"</h2>
+            <Button 
+              variant="outline" 
+              onClick={() => setShowMap(false)}
+              className="mb-4"
+            >
+              ← Retour à la recherche
+            </Button>
+          </div>
+          <MapView searchQuery={searchQuery} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section 
@@ -32,6 +65,9 @@ const HeroSection = () => {
               <Input
                 placeholder={t('hero.search.placeholder')}
                 className="pl-10 h-12 border-0 bg-gray-50 focus:bg-white"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
             <div className="flex-1 relative">
@@ -39,13 +75,18 @@ const HeroSection = () => {
               <Input
                 placeholder={t('hero.search.location')}
                 className="pl-10 h-12 border-0 bg-gray-50 focus:bg-white"
+                value={locationQuery}
+                onChange={(e) => setLocationQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
-            <Link to="/search">
-              <Button size="lg" className="h-12 px-8 bg-accent hover:bg-accent/90 text-white">
-                {t('hero.search.button')}
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              className="h-12 px-8 bg-accent hover:bg-accent/90 text-white"
+              onClick={handleSearch}
+            >
+              {t('hero.search.button')}
+            </Button>
           </div>
         </div>
 

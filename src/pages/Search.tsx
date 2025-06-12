@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,12 +12,46 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
 import { Search as SearchIcon, MapPin, Star, Filter } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const Search = () => {
   const { t } = useLanguage();
+  const [searchParams] = useSearchParams();
   const [priceRange, setPriceRange] = useState([0, 100]);
-  const [filteredTools] = useState(mockTools);
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
+  const [filteredTools, setFilteredTools] = useState(mockTools);
+
+  // Category mapping
+  const categoryMap: { [key: string]: string } = {
+    'garden': 'Jardinage',
+    'construction': 'Construction', 
+    'automotive': 'Automobile',
+    'electric': 'Électricité'
+  };
+
+  useEffect(() => {
+    // Filter tools based on selected category
+    let filtered = mockTools;
+    
+    if (selectedCategory !== 'all') {
+      const categoryName = categoryMap[selectedCategory];
+      if (categoryName) {
+        filtered = mockTools.filter(tool => 
+          tool.category.toLowerCase().includes(categoryName.toLowerCase())
+        );
+      }
+    }
+    
+    setFilteredTools(filtered);
+  }, [selectedCategory]);
+
+  // Set initial category from URL params
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam && categoryParam !== selectedCategory) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,7 +87,7 @@ const Search = () => {
 
                     <div className="space-y-2">
                       <Label>Catégorie</Label>
-                      <Select>
+                      <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                         <SelectTrigger>
                           <SelectValue placeholder="Toutes les catégories" />
                         </SelectTrigger>
@@ -115,7 +149,14 @@ const Search = () => {
             {/* Résultats */}
             <div className="lg:col-span-3">
               <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">{filteredTools.length} outils trouvés</h1>
+                <div>
+                  <h1 className="text-2xl font-bold">{filteredTools.length} outils trouvés</h1>
+                  {selectedCategory !== 'all' && (
+                    <p className="text-gray-600 mt-1">
+                      Catégorie: {categoryMap[selectedCategory] || selectedCategory}
+                    </p>
+                  )}
+                </div>
                 <Select>
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Trier par" />
