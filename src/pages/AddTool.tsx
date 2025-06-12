@@ -34,75 +34,61 @@ const AddTool = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-background">
       <Header />
-      <main className="py-20">
+      <main className="py-12">
         <div className="max-w-4xl mx-auto px-4">
           {/* Header Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-foreground mb-3">
               Proposer un outil
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Partagez vos outils avec la communauté et générez des revenus en les louant facilement
             </p>
-            <div className="flex justify-center gap-4 mt-6">
-              <Badge className="bg-green-100 text-green-800 px-4 py-2">
-                <Star className="h-4 w-4 mr-2" />
-                Commission faible
-              </Badge>
-              <Badge className="bg-blue-100 text-blue-800 px-4 py-2">
-                <Shield className="h-4 w-4 mr-2" />
-                Paiement sécurisé
-              </Badge>
-              <Badge className="bg-purple-100 text-purple-800 px-4 py-2">
-                <Calendar className="h-4 w-4 mr-2" />
-                Gestion simplifiée
-              </Badge>
-            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Main Form */}
-            <div className="lg:col-span-2">
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-primary to-accent text-white rounded-t-lg">
-                  <CardTitle className="text-2xl flex items-center">
-                    <Tag className="h-6 w-6 mr-3" />
+            <div className="lg:col-span-3">
+              <Card>
+                <CardHeader className="bg-accent text-accent-foreground">
+                  <CardTitle className="text-xl flex items-center">
+                    <Tag className="h-5 w-5 mr-2" />
                     Informations de l'outil
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-8 space-y-8">
+                <CardContent className="p-6 space-y-6">
                   {/* Basic Information */}
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="title" className="text-lg font-semibold flex items-center">
-                        <FileText className="h-5 w-5 mr-2 text-primary" />
+                      <Label htmlFor="title" className="font-medium flex items-center">
+                        <FileText className="h-4 w-4 mr-2 text-accent" />
                         Titre de l'annonce
                       </Label>
                       <Input 
                         id="title" 
                         placeholder="Ex: Perceuse électrique Bosch Professional" 
-                        className="h-12 text-lg border-2 focus:border-primary"
+                        className="h-10"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="description" className="text-lg font-semibold">Description détaillée</Label>
+                      <Label htmlFor="description" className="font-medium">Description</Label>
                       <Textarea 
                         id="description" 
-                        placeholder="Décrivez votre outil, son état, ses accessoires, son utilisation recommandée..."
-                        className="min-h-[120px] border-2 focus:border-primary resize-none"
+                        placeholder="Décrivez votre outil, son état, ses accessoires..."
+                        className="min-h-[100px] resize-none"
                       />
                     </div>
                   </div>
 
                   {/* Category and Condition */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-lg font-semibold">Catégorie</Label>
+                      <Label className="font-medium">Catégorie</Label>
                       <Select>
-                        <SelectTrigger className="h-12 border-2 focus:border-primary">
+                        <SelectTrigger className="h-10">
                           <SelectValue placeholder="Choisir une catégorie" />
                         </SelectTrigger>
                         <SelectContent>
@@ -117,9 +103,9 @@ const AddTool = () => {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label className="text-lg font-semibold">État de l'outil</Label>
+                      <Label className="font-medium">État</Label>
                       <Select>
-                        <SelectTrigger className="h-12 border-2 focus:border-primary">
+                        <SelectTrigger className="h-10">
                           <SelectValue placeholder="État de l'outil" />
                         </SelectTrigger>
                         <SelectContent>
@@ -133,93 +119,93 @@ const AddTool = () => {
                   </div>
 
                   {/* Pricing */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="price" className="text-lg font-semibold flex items-center">
-                        <Euro className="h-5 w-5 mr-2 text-green-600" />
+                      <Label htmlFor="price" className="font-medium flex items-center">
+                        <Euro className="h-4 w-4 mr-2 text-accent" />
                         Prix par jour (€)
                       </Label>
                       <Input 
                         id="price" 
                         type="number" 
                         placeholder="25" 
-                        className="h-12 border-2 focus:border-primary"
+                        className="h-10"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="deposit" className="text-lg font-semibold flex items-center">
-                        <Shield className="h-5 w-5 mr-2 text-blue-600" />
+                      <Label htmlFor="deposit" className="font-medium flex items-center">
+                        <Shield className="h-4 w-4 mr-2 text-accent" />
                         Caution (€)
                       </Label>
                       <Input 
                         id="deposit" 
                         type="number" 
                         placeholder="100" 
-                        className="h-12 border-2 focus:border-primary"
+                        className="h-10"
                       />
                     </div>
                   </div>
 
                   {/* Location */}
                   <div className="space-y-2">
-                    <Label htmlFor="location" className="text-lg font-semibold flex items-center">
-                      <MapPin className="h-5 w-5 mr-2 text-red-600" />
+                    <Label htmlFor="location" className="font-medium flex items-center">
+                      <MapPin className="h-4 w-4 mr-2 text-accent" />
                       Localisation
                     </Label>
                     <Input 
                       id="location" 
                       placeholder="Paris 15ème" 
-                      className="h-12 border-2 focus:border-primary"
+                      className="h-10"
                     />
                   </div>
 
                   {/* Photo Upload */}
                   <div className="space-y-2">
-                    <Label className="text-lg font-semibold flex items-center">
-                      <Camera className="h-5 w-5 mr-2 text-purple-600" />
-                      Photos de l'outil
+                    <Label className="font-medium flex items-center">
+                      <Camera className="h-4 w-4 mr-2 text-accent" />
+                      Photos
                     </Label>
                     <div 
-                      className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-300 ${
+                      className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                         dragActive 
-                          ? 'border-primary bg-primary/5 scale-105' 
-                          : 'border-gray-300 hover:border-primary hover:bg-gray-50'
+                          ? 'border-accent bg-accent/5' 
+                          : 'border-border hover:border-accent'
                       }`}
                       onDragEnter={handleDrag}
                       onDragLeave={handleDrag}
                       onDragOver={handleDrag}
                       onDrop={handleDrop}
                     >
-                      <Upload className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-                      <p className="text-lg font-medium text-gray-700 mb-2">
-                        Cliquez pour ajouter des photos ou glissez-déposez
+                      <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+                      <p className="font-medium text-foreground mb-1">
+                        Cliquez ou glissez vos photos
                       </p>
-                      <p className="text-sm text-gray-500 mb-4">
+                      <p className="text-sm text-muted-foreground mb-3">
                         PNG, JPG jusqu'à 10MB (5 photos max)
                       </p>
-                      <Button variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white">
-                        Parcourir les fichiers
+                      <Button variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
+                        Parcourir
                       </Button>
                     </div>
                   </div>
 
                   {/* Availability */}
                   <div className="space-y-2">
-                    <Label htmlFor="availability" className="text-lg font-semibold flex items-center">
-                      <Calendar className="h-5 w-5 mr-2 text-orange-600" />
+                    <Label htmlFor="availability" className="font-medium flex items-center">
+                      <Calendar className="h-4 w-4 mr-2 text-accent" />
                       Disponibilité
                     </Label>
                     <Textarea 
                       id="availability" 
-                      placeholder="Précisez vos créneaux de disponibilité (ex: Lun-Ven 8h-18h, Week-end sur demande...)"
-                      className="min-h-[100px] border-2 focus:border-primary resize-none"
+                      placeholder="Ex: Lun-Ven 8h-18h, Week-end sur demande..."
+                      className="min-h-[80px] resize-none"
                     />
                   </div>
 
                   {/* Submit Button */}
-                  <Button className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl">
-                    <Upload className="h-5 w-5 mr-2" />
+                  <Button className="w-full h-12 font-medium bg-accent hover:bg-accent/90 text-accent-foreground">
+                    <Upload className="h-4 w-4 mr-2" />
                     Publier l'annonce
                   </Button>
                 </CardContent>
@@ -227,85 +213,85 @@ const AddTool = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* Tips Card */}
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-t-lg">
-                  <CardTitle className="flex items-center">
-                    <Star className="h-5 w-5 mr-2" />
-                    Conseils pour une annonce réussie
+              <Card>
+                <CardHeader className="bg-accent text-accent-foreground pb-3">
+                  <CardTitle className="text-lg flex items-center">
+                    <Star className="h-4 w-4 mr-2" />
+                    Conseils
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6 space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                      <p className="text-sm">Ajoutez plusieurs photos de qualité</p>
+                <CardContent className="p-4 space-y-3">
+                  <div className="space-y-2">
+                    <div className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
+                      <p className="text-sm">Photos de qualité</p>
                     </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                      <p className="text-sm">Décrivez précisément l'état de l'outil</p>
+                    <div className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
+                      <p className="text-sm">Description précise</p>
                     </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                      <p className="text-sm">Fixez un prix compétitif</p>
+                    <div className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
+                      <p className="text-sm">Prix compétitif</p>
                     </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                      <p className="text-sm">Mentionnez les accessoires inclus</p>
+                    <div className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
+                      <p className="text-sm">Accessoires inclus</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Pricing Guide */}
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-t-lg">
-                  <CardTitle className="flex items-center">
-                    <Euro className="h-5 w-5 mr-2" />
-                    Guide de prix
+              <Card>
+                <CardHeader className="bg-accent text-accent-foreground pb-3">
+                  <CardTitle className="text-lg flex items-center">
+                    <Euro className="h-4 w-4 mr-2" />
+                    Prix moyens
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6 space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">Perceuse</span>
-                    <span className="text-sm text-green-600 font-semibold">15-25€/jour</span>
+                <CardContent className="p-4 space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Perceuse</span>
+                    <span className="font-medium">15-25€/j</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">Tronçonneuse</span>
-                    <span className="text-sm text-green-600 font-semibold">25-40€/jour</span>
+                  <div className="flex justify-between text-sm">
+                    <span>Tronçonneuse</span>
+                    <span className="font-medium">25-40€/j</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">Bétonnière</span>
-                    <span className="text-sm text-green-600 font-semibold">30-50€/jour</span>
+                  <div className="flex justify-between text-sm">
+                    <span>Bétonnière</span>
+                    <span className="font-medium">30-50€/j</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">Ponceuse</span>
-                    <span className="text-sm text-green-600 font-semibold">10-20€/jour</span>
+                  <div className="flex justify-between text-sm">
+                    <span>Ponceuse</span>
+                    <span className="font-medium">10-20€/j</span>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Security Card */}
-              <Card className="shadow-lg border-0">
-                <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-t-lg">
-                  <CardTitle className="flex items-center">
-                    <Shield className="h-5 w-5 mr-2" />
-                    Sécurité & Protection
+              <Card>
+                <CardHeader className="bg-accent text-accent-foreground pb-3">
+                  <CardTitle className="text-lg flex items-center">
+                    <Shield className="h-4 w-4 mr-2" />
+                    Sécurité
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6 space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-green-500" />
-                    <span className="text-sm">Assurance incluse</span>
+                <CardContent className="p-4 space-y-2">
+                  <div className="flex items-center space-x-2 text-sm">
+                    <Shield className="h-3 w-3 text-accent" />
+                    <span>Assurance incluse</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-green-500" />
-                    <span className="text-sm">Paiement sécurisé</span>
+                  <div className="flex items-center space-x-2 text-sm">
+                    <Shield className="h-3 w-3 text-accent" />
+                    <span>Paiement sécurisé</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-green-500" />
-                    <span className="text-sm">Support 24/7</span>
+                  <div className="flex items-center space-x-2 text-sm">
+                    <Shield className="h-3 w-3 text-accent" />
+                    <span>Support 24/7</span>
                   </div>
                 </CardContent>
               </Card>
