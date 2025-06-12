@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Search, User, Menu, Wrench } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -13,24 +14,24 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="bg-primary rounded-lg p-2">
               <Wrench className="h-6 w-6 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900">ToolShare</span>
-          </div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-700 hover:text-primary font-medium transition-colors">
+            <Link to="/" className="text-gray-700 hover:text-primary font-medium transition-colors">
               {t('nav.home')}
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary font-medium transition-colors">
+            </Link>
+            <Link to="/search" className="text-gray-700 hover:text-primary font-medium transition-colors">
               {t('nav.catalog')}
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary font-medium transition-colors">
+            </Link>
+            <Link to="/blog" className="text-gray-700 hover:text-primary font-medium transition-colors">
               {t('nav.rent')}
-            </a>
+            </Link>
           </nav>
 
           {/* Right side */}
@@ -48,18 +49,24 @@ const Header = () => {
             </Select>
 
             {/* List tool button */}
-            <Button variant="outline" className="hidden sm:flex">
-              {t('nav.list')}
-            </Button>
+            <Link to="/add-tool">
+              <Button variant="outline" className="hidden sm:flex">
+                {t('nav.list')}
+              </Button>
+            </Link>
 
             {/* User menu */}
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" className="hidden sm:flex">
-                {t('nav.login')}
-              </Button>
-              <Button size="sm">
-                {t('nav.signup')}
-              </Button>
+              <Link to="/login">
+                <Button variant="outline" size="sm" className="hidden sm:flex">
+                  {t('nav.login')}
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button size="sm">
+                  {t('nav.signup')}
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile menu */}

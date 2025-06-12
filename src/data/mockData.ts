@@ -11,7 +11,10 @@ export const mockTools = [
     owner: 'Jean Dupont',
     rating: 4.8,
     reviews: 23,
-    images: ['/placeholder.svg', '/placeholder.svg'],
+    images: [
+      'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    ],
     available: true,
     features: ['Batterie 18V', 'Chargeur inclus', 'Mandrin auto-serrant', '2 vitesses']
   },
@@ -26,7 +29,7 @@ export const mockTools = [
     owner: 'Marie Martin',
     rating: 4.6,
     reviews: 15,
-    images: ['/placeholder.svg'],
+    images: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
     available: true,
     features: ['Coupe 32cm', 'Bac de ramassage 40L', 'Réglage hauteur', 'Électrique 1400W']
   },
@@ -41,7 +44,7 @@ export const mockTools = [
     owner: 'Pierre Durand',
     rating: 4.9,
     reviews: 31,
-    images: ['/placeholder.svg'],
+    images: ['https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
     available: false,
     features: ['Acier trempé', '5 tailles différentes', 'Poignée ergonomique', 'Mallette incluse']
   },
@@ -56,7 +59,7 @@ export const mockTools = [
     owner: 'Sophie Leroy',
     rating: 5.0,
     reviews: 8,
-    images: ['/placeholder.svg'],
+    images: ['https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
     available: true,
     features: ['Écran LCD', 'Test continuité', 'Mesure AC/DC', 'Sonde de température']
   }
@@ -71,7 +74,7 @@ export const mockBlogPosts = [
     author: 'Expert ToolShare',
     date: '2024-01-15',
     category: 'Guides',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     readTime: '5 min'
   },
   {
@@ -82,7 +85,7 @@ export const mockBlogPosts = [
     author: 'Marie Jardins',
     date: '2024-01-10',
     category: 'Jardinage',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     readTime: '7 min'
   },
   {
@@ -93,7 +96,7 @@ export const mockBlogPosts = [
     author: 'Paul Technique',
     date: '2024-01-05',
     category: 'Entretien',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     readTime: '4 min'
   }
 ];

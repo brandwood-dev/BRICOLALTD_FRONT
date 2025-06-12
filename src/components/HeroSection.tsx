@@ -4,12 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Search, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="hero-gradient py-20 px-4">
+    <section 
+      className="hero-gradient py-20 px-4 relative bg-cover bg-center"
+      style={{ 
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")'
+      }}
+    >
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
           {t('hero.title')}
@@ -35,9 +41,11 @@ const HeroSection = () => {
                 className="pl-10 h-12 border-0 bg-gray-50 focus:bg-white"
               />
             </div>
-            <Button size="lg" className="h-12 px-8 bg-accent hover:bg-accent/90 text-white">
-              {t('hero.search.button')}
-            </Button>
+            <Link to="/search">
+              <Button size="lg" className="h-12 px-8 bg-accent hover:bg-accent/90 text-white">
+                {t('hero.search.button')}
+              </Button>
+            </Link>
           </div>
         </div>
 

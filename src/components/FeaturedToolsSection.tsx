@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Star, MapPin, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const FeaturedToolsSection = () => {
   const { t } = useLanguage();
@@ -16,7 +17,7 @@ const FeaturedToolsSection = () => {
       rating: 4.8,
       reviews: 24,
       location: 'Paris 15ème',
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
       category: 'Électrique',
       available: true,
       owner: 'Marc D.'
@@ -28,7 +29,7 @@ const FeaturedToolsSection = () => {
       rating: 4.9,
       reviews: 18,
       location: 'Lyon 3ème',
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
       category: 'Jardinage',
       available: true,
       owner: 'Sophie L.'
@@ -40,7 +41,7 @@ const FeaturedToolsSection = () => {
       rating: 4.7,
       reviews: 12,
       location: 'Marseille 8ème',
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
       category: 'Construction',
       available: true,
       owner: 'Pierre M.'
@@ -52,7 +53,7 @@ const FeaturedToolsSection = () => {
       rating: 4.6,
       reviews: 31,
       location: 'Toulouse 1er',
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
       category: 'Électrique',
       available: true,
       owner: 'Anne R.'
@@ -120,12 +121,16 @@ const FeaturedToolsSection = () => {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button size="sm" className="flex-1">
-                    {t('tools.rent')}
-                  </Button>
-                  <Button size="sm" variant="outline">
-                    {t('tools.details')}
-                  </Button>
+                  <Link to={`/rent/${tool.id}`} className="flex-1">
+                    <Button size="sm" className="w-full">
+                      {t('tools.rent')}
+                    </Button>
+                  </Link>
+                  <Link to={`/tool/${tool.id}`}>
+                    <Button size="sm" variant="outline">
+                      {t('tools.details')}
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -133,9 +138,11 @@ const FeaturedToolsSection = () => {
         </div>
 
         <div className="text-center mt-10">
-          <Button variant="outline" size="lg">
-            Voir tous les outils
-          </Button>
+          <Link to="/search">
+            <Button variant="outline" size="lg">
+              Voir tous les outils
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
