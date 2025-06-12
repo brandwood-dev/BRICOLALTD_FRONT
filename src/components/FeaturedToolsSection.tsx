@@ -3,62 +3,84 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Star, MapPin, Calendar } from 'lucide-react';
+import { useFavorites } from '@/contexts/FavoritesContext';
+import { Star, MapPin, Calendar, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const FeaturedToolsSection = () => {
   const { t } = useLanguage();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
   const tools = [
     {
-      id: 1,
-      name: 'Perceuse Bosch Professional',
+      id: "1",
+      title: 'Perceuse Bosch Professional',
       price: 15,
       rating: 4.8,
       reviews: 24,
       location: 'Paris 15ème',
-      image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+      images: ['https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
       category: 'Électrique',
       available: true,
-      owner: 'Marc D.'
+      owner: 'Marc D.',
+      description: 'Perceuse professionnelle Bosch très puissante.',
+      features: ['Puissante', 'Sans fil', 'Batterie longue durée'],
+      period: 'jour'
     },
     {
-      id: 2,
-      name: 'Tronçonneuse Stihl',
+      id: "2",
+      title: 'Tronçonneuse Stihl',
       price: 25,
       rating: 4.9,
       reviews: 18,
       location: 'Lyon 3ème',
-      image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+      images: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
       category: 'Jardinage',
       available: true,
-      owner: 'Sophie L.'
+      owner: 'Sophie L.',
+      description: 'Tronçonneuse Stihl professionnelle pour tous vos travaux.',
+      features: ['Moteur puissant', 'Légère', 'Facile à utiliser'],
+      period: 'jour'
     },
     {
-      id: 3,
-      name: 'Bétonnière 140L',
+      id: "3",
+      title: 'Bétonnière 140L',
       price: 35,
       rating: 4.7,
       reviews: 12,
       location: 'Marseille 8ème',
-      image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+      images: ['https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
       category: 'Construction',
       available: true,
-      owner: 'Pierre M.'
+      owner: 'Pierre M.',
+      description: 'Bétonnière électrique 140L pour vos travaux de maçonnerie.',
+      features: ['140L', 'Électrique', 'Robuste'],
+      period: 'jour'
     },
     {
-      id: 4,
-      name: 'Ponceuse excentrique',
+      id: "4",
+      title: 'Ponceuse excentrique',
       price: 12,
       rating: 4.6,
       reviews: 31,
       location: 'Toulouse 1er',
-      image: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+      images: ['https://images.unsplash.com/photo-1572981779307-38b8cabb2407?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
       category: 'Électrique',
       available: true,
-      owner: 'Anne R.'
+      owner: 'Anne R.',
+      description: 'Ponceuse excentrique pour finitions parfaites.',
+      features: ['Excentrique', 'Aspirateur intégré', 'Ergonomique'],
+      period: 'jour'
     }
   ];
+
+  const handleFavoriteToggle = (tool: any) => {
+    if (isFavorite(tool.id)) {
+      removeFromFavorites(tool.id);
+    } else {
+      addToFavorites(tool);
+    }
+  };
 
   return (
     <section className="py-16 bg-white">
@@ -78,16 +100,23 @@ const FeaturedToolsSection = () => {
               {/* Image */}
               <div className="relative h-48 bg-gray-100">
                 <img
-                  src={tool.image}
-                  alt={tool.name}
+                  src={tool.images[0]}
+                  alt={tool.title}
                   className="w-full h-full object-cover"
                 />
                 <Badge className="absolute top-3 left-3 bg-green-100 text-green-800 hover:bg-green-100">
                   {t('tools.available')}
                 </Badge>
-                <div className="absolute top-3 right-3 bg-white rounded-full p-1">
-                  <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                </div>
+                <button
+                  onClick={() => handleFavoriteToggle(tool)}
+                  className="absolute top-3 right-3 bg-white rounded-full p-1 hover:bg-gray-50"
+                >
+                  <Heart 
+                    className={`h-4 w-4 ${
+                      isFavorite(tool.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'
+                    }`} 
+                  />
+                </button>
               </div>
 
               {/* Content */}
@@ -103,7 +132,7 @@ const FeaturedToolsSection = () => {
                 </div>
 
                 <h3 className="font-semibold text-gray-900 mb-2 truncate">
-                  {tool.name}
+                  {tool.title}
                 </h3>
 
                 <div className="flex items-center text-sm text-gray-500 mb-3">

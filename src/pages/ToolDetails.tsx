@@ -1,19 +1,28 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useFavorites } from '@/contexts/FavoritesContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
-import { Star, MapPin, User, Shield, Calendar, ArrowLeft } from 'lucide-react';
+import { Star, MapPin, User, Shield, Calendar, ArrowLeft, Heart } from 'lucide-react';
 
 const ToolDetails = () => {
   const { id } = useParams();
   const { t } = useLanguage();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const tool = mockTools.find(t => t.id === id) || mockTools[0];
+
+  const handleFavoriteToggle = () => {
+    if (isFavorite(tool.id)) {
+      removeFromFavorites(tool.id);
+    } else {
+      addToFavorites(tool);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -80,11 +89,22 @@ const ToolDetails = () => {
                   Caution: 100€ (remboursée en fin de location)
                 </div>
                 <div className="space-y-2">
-                  <Button className="w-full" size="lg" disabled={!tool.available}>
-                    {tool.available ? 'Louer maintenant' : 'Non disponible'}
-                  </Button>
-                  <Button variant="outline" className="w-full" disabled={!tool.available}>
-                    Ajouter aux favoris
+                  <Link to={`/rent/${tool.id}`}>
+                    <Button className="w-full" size="lg" disabled={!tool.available}>
+                      {tool.available ? 'Louer maintenant' : 'Non disponible'}
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={handleFavoriteToggle}
+                  >
+                    <Heart 
+                      className={`h-4 w-4 mr-2 ${
+                        isFavorite(tool.id) ? 'fill-red-500 text-red-500' : ''
+                      }`} 
+                    />
+                    {isFavorite(tool.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}
                   </Button>
                 </div>
               </div>
