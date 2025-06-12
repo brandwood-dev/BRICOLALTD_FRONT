@@ -15,10 +15,11 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-primary rounded-lg p-2">
-              <Wrench className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gray-900">ToolShare</span>
+            <img 
+              src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+              alt="Bricola" 
+              className="h-8"
+            />
           </Link>
 
           {/* Navigation */}
