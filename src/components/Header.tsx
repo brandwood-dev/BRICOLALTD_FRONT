@@ -3,11 +3,13 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Search, User, Menu, Wrench } from 'lucide-react';
+import { useFavorites } from '@/contexts/FavoritesContext';
+import { Search, User, Menu, Wrench, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
+  const { favoritesCount } = useFavorites();
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -55,6 +57,18 @@ const Header = () => {
               </SelectContent>
             </Select>
 
+            {/* Favorites */}
+            <Link to="/favorites" className="relative">
+              <Button variant="ghost" size="sm" className="hidden sm:flex">
+                <Heart className="h-5 w-5" />
+                {favoritesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {favoritesCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+
             {/* List tool button */}
             <Link to="/add-tool">
               <Button variant="outline" className="hidden sm:flex">
@@ -72,6 +86,11 @@ const Header = () => {
               <Link to="/register">
                 <Button size="sm">
                   {t('nav.signup')}
+                </Button>
+              </Link>
+              <Link to="/profile">
+                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                  <User className="h-5 w-5" />
                 </Button>
               </Link>
             </div>
