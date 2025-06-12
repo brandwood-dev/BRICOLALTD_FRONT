@@ -2,6 +2,7 @@
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Wrench, Facebook, Twitter, Instagram, Mail, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -13,10 +14,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-primary rounded-lg p-2">
-                <Wrench className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-xl font-bold">ToolShare</span>
+              <img 
+                src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+                alt="Bricola" 
+                className="h-8"
+              />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               La plateforme de location d'outils qui connecte les propriétaires avec ceux qui en ont besoin. Simple, sécurisé et local.
@@ -32,6 +34,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Liens utiles</h3>
             <ul className="space-y-2 text-gray-400">
+              <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
               <li><a href="#" className="hover:text-white transition-colors">{t('footer.about')}</a></li>
               <li><a href="#" className="hover:text-white transition-colors">{t('footer.help')}</a></li>
               <li><a href="#" className="hover:text-white transition-colors">{t('footer.contact')}</a></li>
@@ -45,7 +48,7 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-400">
               <li className="flex items-center">
                 <Mail className="h-4 w-4 mr-2" />
-                contact@toolshare.com
+                contact@bricola.com
               </li>
               <li className="flex items-center">
                 <Phone className="h-4 w-4 mr-2" />
@@ -56,7 +59,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 pt-8 mt-8 text-center text-gray-400">
-          <p>&copy; 2024 ToolShare. {t('footer.rights')}.</p>
+          <p>&copy; 2024 Bricola. {t('footer.rights')}.</p>
         </div>
       </div>
     </footer>

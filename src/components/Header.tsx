@@ -24,14 +24,14 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-primary font-medium transition-colors">
+            <Link to="/" className="text-gray-700 hover:text-accent font-medium transition-colors">
               {t('nav.home')}
             </Link>
-            <Link to="/search" className="text-gray-700 hover:text-primary font-medium transition-colors">
+            <Link to="/search" className="text-gray-700 hover:text-accent font-medium transition-colors">
               {t('nav.catalog')}
             </Link>
-            <Link to="/blog" className="text-gray-700 hover:text-primary font-medium transition-colors">
-              {t('nav.rent')}
+            <Link to="/blog" className="text-gray-700 hover:text-accent font-medium transition-colors">
+              Blog
             </Link>
           </nav>
 
