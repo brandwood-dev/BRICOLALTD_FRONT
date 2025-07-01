@@ -39,7 +39,7 @@ const Login = () => {
                   Pas encore de compte ? S'inscrire
                 </Link>
                 <div>
-                  <Link to="#" className="text-sm text-muted-foreground hover:underline">
+                  <Link to="/forgot-password" className="text-sm text-muted-foreground hover:underline">
                     Mot de passe oublié ?
                   </Link>
                 </div>

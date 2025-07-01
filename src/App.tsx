@@ -10,6 +10,9 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyCode from "./pages/VerifyCode";
+import ResetPassword from "./pages/ResetPassword";
 import AddTool from "./pages/AddTool";
 import Search from "./pages/Search";
 import ToolDetails from "./pages/ToolDetails";
@@ -35,6 +38,9 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/verify-code" element={<VerifyCode />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/add-tool" element={<AddTool />} />
               <Route path="/search" element={<Search />} />
               <Route path="/tool/:id" element={<ToolDetails />} />
