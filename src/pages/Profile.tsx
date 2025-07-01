@@ -23,7 +23,8 @@ import {
   Heart, 
   ArrowLeft,
   Shield,
-  Settings
+  Building2,
+  UserCircle
 } from 'lucide-react';
 
 const Profile = () => {
@@ -34,7 +35,8 @@ const Profile = () => {
     lastName: 'Dupont',
     email: 'jean.dupont@email.com',
     verified: true,
-    memberSince: 'janvier 2024'
+    memberSince: 'janvier 2024',
+    accountType: 'Particulier'
   };
 
   const stats = {
@@ -78,6 +80,14 @@ const Profile = () => {
                       Vérifié
                     </Badge>
                   )}
+                  <Badge variant="secondary" className="flex items-center gap-1">
+                    {userInfo.accountType === 'Entreprise' ? (
+                      <Building2 className="h-3 w-3" />
+                    ) : (
+                      <UserCircle className="h-3 w-3" />
+                    )}
+                    {userInfo.accountType}
+                  </Badge>
                 </div>
                 <p className="text-gray-600 mb-4">
                   Membre depuis {userInfo.memberSince}

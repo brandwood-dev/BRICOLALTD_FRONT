@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Edit3, Check, X, Shield } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Edit3, Check, X, Shield, Camera, Upload } from 'lucide-react';
 
 const ProfileInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -14,25 +15,73 @@ const ProfileInfo = () => {
     firstName: 'Jean',
     lastName: 'Dupont',
     email: 'jean.dupont@email.com',
-    phone: '06 12 34 56 78',
-    city: 'Paris',
+    phonePrefix: '+33',
+    phone: '6 12 34 56 78',
+    address: '123 Avenue des Champs-Élysées, 75008 Paris, France',
     country: 'France',
-    verified: true
+    verified: true,
+    profileImage: '',
+    accountType: 'Particulier'
   });
+
+  const phonePrefixes = [
+    { value: '+33', label: '+33 (France)' },
+    { value: '+32', label: '+32 (Belgique)' },
+    { value: '+41', label: '+41 (Suisse)' },
+    { value: '+1', label: '+1 (USA/Canada)' },
+    { value: '+44', label: '+44 (Royaume-Uni)' },
+    { value: '+49', label: '+49 (Allemagne)' },
+    { value: '+34', label: '+34 (Espagne)' },
+    { value: '+39', label: '+39 (Italie)' }
+  ];
+
+  const countries = [
+    'France', 'Belgique', 'Suisse', 'Canada', 'États-Unis', 'Royaume-Uni', 
+    'Allemagne', 'Espagne', 'Italie', 'Portugal', 'Pays-Bas', 'Luxembourg'
+  ];
 
   const handleSave = () => {
     setIsEditing(false);
     // Save logic here
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUserInfo({...userInfo, profileImage: e.target?.result as string});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-4">
-          <Avatar className="h-16 w-16">
-            <AvatarImage src="" />
-            <AvatarFallback className="text-lg">{userInfo.firstName[0]}{userInfo.lastName[0]}</AvatarFallback>
-          </Avatar>
+          <div className="relative">
+            <Avatar className="h-16 w-16">
+              <AvatarImage src={userInfo.profileImage} />
+              <AvatarFallback className="text-lg">{userInfo.firstName[0]}{userInfo.lastName[0]}</AvatarFallback>
+            </Avatar>
+            {isEditing && (
+              <div className="absolute -bottom-2 -right-2">
+                <label htmlFor="profile-image-upload" className="cursor-pointer">
+                  <div className="bg-primary text-primary-foreground rounded-full p-1.5 shadow-lg hover:bg-primary/90 transition-colors">
+                    <Camera className="h-3 w-3" />
+                  </div>
+                </label>
+                <input
+                  id="profile-image-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                />
+              </div>
+            )}
+          </div>
           <div>
             <CardTitle className="flex items-center gap-2">
               {userInfo.firstName} {userInfo.lastName}
@@ -43,7 +92,12 @@ const ProfileInfo = () => {
                 </Badge>
               )}
             </CardTitle>
-            <p className="text-sm text-muted-foreground">Membre depuis janvier 2024</p>
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-sm text-muted-foreground">Membre depuis janvier 2024</p>
+              <Badge variant="secondary" className="text-xs">
+                {userInfo.accountType}
+              </Badge>
+            </div>
           </div>
         </div>
         {!isEditing ? (
@@ -83,6 +137,7 @@ const ProfileInfo = () => {
             />
           </div>
         </div>
+        
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input 
@@ -93,35 +148,80 @@ const ProfileInfo = () => {
             onChange={(e) => setUserInfo({...userInfo, email: e.target.value})}
           />
         </div>
+        
         <div className="space-y-2">
           <Label htmlFor="phone">Téléphone</Label>
+          <div className="flex gap-2">
+            <Select 
+              value={userInfo.phonePrefix} 
+              onValueChange={(value) => setUserInfo({...userInfo, phonePrefix: value})}
+              disabled={!isEditing}
+            >
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {phonePrefixes.map((prefix) => (
+                  <SelectItem key={prefix.value} value={prefix.value}>
+                    {prefix.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input 
+              id="phone" 
+              value={userInfo.phone}
+              disabled={!isEditing}
+              onChange={(e) => setUserInfo({...userInfo, phone: e.target.value})}
+              className="flex-1"
+            />
+          </div>
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="address">Adresse</Label>
           <Input 
-            id="phone" 
-            value={userInfo.phone}
+            id="address" 
+            value={userInfo.address}
             disabled={!isEditing}
-            onChange={(e) => setUserInfo({...userInfo, phone: e.target.value})}
+            onChange={(e) => setUserInfo({...userInfo, address: e.target.value})}
+            placeholder="Saisissez votre adresse complète"
           />
+          {isEditing && (
+            <p className="text-xs text-muted-foreground">
+              Saisissez une adresse valide compatible avec Google Maps
+            </p>
+          )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="city">Ville</Label>
-            <Input 
-              id="city" 
-              value={userInfo.city}
-              disabled={!isEditing}
-              onChange={(e) => setUserInfo({...userInfo, city: e.target.value})}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="country">Pays</Label>
-            <Input 
-              id="country" 
-              value={userInfo.country}
-              disabled={!isEditing}
-              onChange={(e) => setUserInfo({...userInfo, country: e.target.value})}
-            />
-          </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="country">Pays</Label>
+          <Select 
+            value={userInfo.country} 
+            onValueChange={(value) => setUserInfo({...userInfo, country: value})}
+            disabled={!isEditing}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Sélectionnez un pays" />
+            </SelectTrigger>
+            <SelectContent>
+              {countries.map((country) => (
+                <SelectItem key={country} value={country}>
+                  {country}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
+        
+        {!isEditing && (
+          <div className="pt-4 border-t">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Upload className="h-4 w-4" />
+              <span>Cliquez sur "Modifier" pour changer votre photo de profil</span>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
