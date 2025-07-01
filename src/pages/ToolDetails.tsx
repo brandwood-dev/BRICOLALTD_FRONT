@@ -6,13 +6,12 @@ import { useFavorites } from '@/contexts/FavoritesContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar } from '@/components/ui/calendar';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
-import { Star, MapPin, User, Shield, Calendar as CalendarIcon, ArrowLeft, Heart, CheckCircle } from 'lucide-react';
+import { Star, MapPin, User, CheckCircle, ArrowLeft, Heart } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -22,8 +21,6 @@ const ToolDetails = () => {
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const tool = mockTools.find(t => t.id === id) || mockTools[0];
   
-  const [pickupDate, setPickupDate] = useState<Date>();
-  const [returnDate, setReturnDate] = useState<Date>();
   const [currentReviewPage, setCurrentReviewPage] = useState(1);
   const reviewsPerPage = 3;
 
@@ -53,15 +50,6 @@ const ToolDetails = () => {
     { id: 5, user: "Lucie V.", rating: 5, comment: "Je recommande vivement, très bon rapport qualité-prix.", date: "2024-05-20" },
   ];
 
-  // Mock unavailable dates
-  const unavailableDates = [
-    new Date(2024, 6, 15),
-    new Date(2024, 6, 16),
-    new Date(2024, 6, 22),
-    new Date(2024, 6, 23),
-    new Date(2024, 6, 24),
-  ];
-
   const totalReviews = allReviews.length;
   const totalPages = Math.ceil(totalReviews / reviewsPerPage);
   const startIndex = (currentReviewPage - 1) * reviewsPerPage;
@@ -73,12 +61,6 @@ const ToolDetails = () => {
     } else {
       addToFavorites(tool);
     }
-  };
-
-  const isDateUnavailable = (date: Date) => {
-    return unavailableDates.some(unavailableDate => 
-      date.toDateString() === unavailableDate.toDateString()
-    );
   };
 
   return (
@@ -208,9 +190,9 @@ const ToolDetails = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             {/* Description and Reviews */}
-            <div className="lg:col-span-2">
+            <div>
               <Card className="mb-6">
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Description</h2>
@@ -297,117 +279,6 @@ const ToolDetails = () => {
                       </PaginationContent>
                     </Pagination>
                   )}
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Booking Calendar */}
-            <div>
-              <Card className="mb-6">
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Réservation</h2>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Date de récupération</label>
-                      <div className="border rounded-lg p-3">
-                        {pickupDate ? (
-                          <div className="flex items-center gap-2">
-                            <CalendarIcon className="h-4 w-4" />
-                            <span>{format(pickupDate, 'dd MMMM yyyy', { locale: fr })}</span>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              onClick={() => setPickupDate(undefined)}
-                            >
-                              Modifier
-                            </Button>
-                          </div>
-                        ) : (
-                          <Calendar
-                            mode="single"
-                            selected={pickupDate}
-                            onSelect={setPickupDate}
-                            disabled={(date) => {
-                              const today = new Date();
-                              today.setHours(0, 0, 0, 0);
-                              return date < today || isDateUnavailable(date);
-                            }}
-                            modifiers={{
-                              unavailable: unavailableDates
-                            }}
-                            modifiersStyles={{
-                              unavailable: { 
-                                backgroundColor: '#fee2e2', 
-                                color: '#dc2626',
-                                textDecoration: 'line-through'
-                              }
-                            }}
-                            className="pointer-events-auto"
-                          />
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Date de retour</label>
-                      <div className="border rounded-lg p-3">
-                        {returnDate ? (
-                          <div className="flex items-center gap-2">
-                            <CalendarIcon className="h-4 w-4" />
-                            <span>{format(returnDate, 'dd MMMM yyyy', { locale: fr })}</span>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              onClick={() => setReturnDate(undefined)}
-                            >
-                              Modifier
-                            </Button>
-                          </div>
-                        ) : (
-                          <Calendar
-                            mode="single"
-                            selected={returnDate}
-                            onSelect={setReturnDate}
-                            disabled={(date) => {
-                              const minDate = pickupDate || new Date();
-                              return date <= minDate || isDateUnavailable(date);
-                            }}
-                            modifiers={{
-                              unavailable: unavailableDates
-                            }}
-                            modifiersStyles={{
-                              unavailable: { 
-                                backgroundColor: '#fee2e2', 
-                                color: '#dc2626',
-                                textDecoration: 'line-through'
-                              }
-                            }}
-                            className="pointer-events-auto"
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 text-xs text-gray-500">
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="w-3 h-3 bg-red-200 rounded"></div>
-                      <span>Dates non disponibles</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Conditions</h2>
-                  <ul className="text-sm space-y-2 text-gray-600">
-                    <li>• Pièce d'identité requise</li>
-                    <li>• Caution de {toolDetails.deposit}€</li>
-                    <li>• Assurance incluse</li>
-                    <li>• Retour dans le même état</li>
-                  </ul>
                 </CardContent>
               </Card>
             </div>
