@@ -8,21 +8,26 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const Register = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
+    userType: 'individual',
     firstName: '',
     lastName: '',
     email: '',
+    phonePrefix: '+33',
     phone: '',
     country: '',
-    city: '',
+    address: '',
     password: '',
     confirmPassword: ''
   });
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [salesConditionsAccepted, setSalesConditionsAccepted] = useState(false);
 
   const countries = [
     { value: 'fr', label: 'France' },
@@ -34,9 +39,21 @@ const Register = () => {
     { value: 'dz', label: 'Algérie' }
   ];
 
+  const phonePrefixes = [
+    { value: '+33', label: '+33 (France)' },
+    { value: '+32', label: '+32 (Belgique)' },
+    { value: '+41', label: '+41 (Suisse)' },
+    { value: '+1', label: '+1 (Canada)' },
+    { value: '+212', label: '+212 (Maroc)' },
+    { value: '+216', label: '+216 (Tunisie)' },
+    { value: '+213', label: '+213 (Algérie)' }
+  ];
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Registration data:', formData);
+    console.log('Terms accepted:', termsAccepted);
+    console.log('Sales conditions accepted:', salesConditionsAccepted);
     // Logique d'inscription ici
   };
 
@@ -54,6 +71,25 @@ const Register = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Type d'utilisateur */}
+                <div className="space-y-3">
+                  <Label>Type d'utilisateur</Label>
+                  <RadioGroup 
+                    value={formData.userType} 
+                    onValueChange={(value) => setFormData({...formData, userType: value})}
+                    className="flex flex-row space-x-6"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="individual" id="individual" />
+                      <Label htmlFor="individual">Particulier</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="business" id="business" />
+                      <Label htmlFor="business">Entreprise</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">Prénom</Label>
@@ -74,6 +110,7 @@ const Register = () => {
                     />
                   </div>
                 </div>
+                
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input 
@@ -84,16 +121,34 @@ const Register = () => {
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                   />
                 </div>
+                
+                {/* Téléphone avec préfixe */}
                 <div className="space-y-2">
                   <Label htmlFor="phone">Téléphone</Label>
-                  <Input 
-                    id="phone" 
-                    type="tel" 
-                    placeholder="06 12 34 56 78"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
+                  <div className="flex space-x-2">
+                    <Select value={formData.phonePrefix} onValueChange={(value) => setFormData({...formData, phonePrefix: value})}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {phonePrefixes.map((prefix) => (
+                          <SelectItem key={prefix.value} value={prefix.value}>
+                            {prefix.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Input 
+                      id="phone" 
+                      type="tel" 
+                      placeholder="12 34 56 78"
+                      className="flex-1"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    />
+                  </div>
                 </div>
+                
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="country">Pays</Label>
@@ -111,15 +166,19 @@ const Register = () => {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="city">Ville</Label>
+                    <Label htmlFor="address">Adresse</Label>
                     <Input 
-                      id="city" 
-                      placeholder="Paris"
-                      value={formData.city}
-                      onChange={(e) => setFormData({...formData, city: e.target.value})}
+                      id="address" 
+                      placeholder="123 Rue de la Paix, Paris"
+                      value={formData.address}
+                      onChange={(e) => setFormData({...formData, address: e.target.value})}
                     />
+                    <p className="text-xs text-muted-foreground">
+                      Adresse complète avec code postal et ville
+                    </p>
                   </div>
                 </div>
+                
                 <div className="space-y-2">
                   <Label htmlFor="password">Mot de passe</Label>
                   <Input 
@@ -130,6 +189,7 @@ const Register = () => {
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                   />
                 </div>
+                
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
                   <Input 
@@ -140,13 +200,40 @@ const Register = () => {
                     onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                   />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="terms" />
-                  <Label htmlFor="terms" className="text-sm">
-                    J'accepte les <Link to="#" className="text-accent hover:underline">conditions d'utilisation</Link>
-                  </Label>
+                
+                {/* Cases à cocher pour les conditions */}
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="terms" 
+                      checked={termsAccepted}
+                      onCheckedChange={setTermsAccepted}
+                    />
+                    <Label htmlFor="terms" className="text-sm">
+                      J'accepte les <Link to="#" className="text-accent hover:underline">conditions d'utilisation</Link>
+                    </Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="sales" 
+                      checked={salesConditionsAccepted}
+                      onCheckedChange={setSalesConditionsAccepted}
+                    />
+                    <Label htmlFor="sales" className="text-sm">
+                      J'accepte les <Link to="#" className="text-accent hover:underline">termes et conditions</Link> et les <Link to="#" className="text-accent hover:underline">conditions de vente</Link>
+                    </Label>
+                  </div>
                 </div>
-                <Button type="submit" className="w-full">Créer mon compte</Button>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={!termsAccepted || !salesConditionsAccepted}
+                >
+                  Créer mon compte
+                </Button>
+                
                 <div className="text-center">
                   <Link to="/login" className="text-sm text-accent hover:underline">
                     Déjà un compte ? Se connecter
