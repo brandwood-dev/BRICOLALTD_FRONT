@@ -57,6 +57,14 @@ const Register = () => {
     // Logique d'inscription ici
   };
 
+  const handleTermsChange = (checked: boolean | "indeterminate") => {
+    setTermsAccepted(checked === true);
+  };
+
+  const handleSalesConditionsChange = (checked: boolean | "indeterminate") => {
+    setSalesConditionsAccepted(checked === true);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -207,7 +215,7 @@ const Register = () => {
                     <Checkbox 
                       id="terms" 
                       checked={termsAccepted}
-                      onCheckedChange={setTermsAccepted}
+                      onCheckedChange={handleTermsChange}
                     />
                     <Label htmlFor="terms" className="text-sm">
                       J'accepte les <Link to="#" className="text-accent hover:underline">conditions d'utilisation</Link>
@@ -218,7 +226,7 @@ const Register = () => {
                     <Checkbox 
                       id="sales" 
                       checked={salesConditionsAccepted}
-                      onCheckedChange={setSalesConditionsAccepted}
+                      onCheckedChange={handleSalesConditionsChange}
                     />
                     <Label htmlFor="sales" className="text-sm">
                       J'accepte les <Link to="#" className="text-accent hover:underline">termes et conditions</Link> et les <Link to="#" className="text-accent hover:underline">conditions de vente</Link>
