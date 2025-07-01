@@ -1,20 +1,71 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Calendar } from '@/components/ui/calendar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
-import { Star, MapPin, User, Shield, Calendar, ArrowLeft, Heart } from 'lucide-react';
+import { Star, MapPin, User, Shield, Calendar as CalendarIcon, ArrowLeft, Heart, CheckCircle } from 'lucide-react';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 const ToolDetails = () => {
   const { id } = useParams();
   const { t } = useLanguage();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const tool = mockTools.find(t => t.id === id) || mockTools[0];
+  
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [returnDate, setReturnDate] = useState<Date>();
+  const [currentReviewPage, setCurrentReviewPage] = useState(1);
+  const reviewsPerPage = 3;
+
+  // Mock data for the new fields
+  const toolDetails = {
+    ...tool,
+    brand: "DeWalt",
+    model: "DCD771C2",
+    purchaseYear: "2022",
+    subcategory: "Construction",
+    condition: "Très bon état",
+    deposit: 50,
+    ownerInstructions: "Veuillez manipuler avec précaution. Retourner l'outil propre et chargé. En cas de problème, contactez-moi immédiatement.",
+    owner: {
+      name: "Pierre Dubois",
+      avatar: "/placeholder.svg",
+      verified: true
+    }
+  };
+
+  // Mock reviews data
+  const allReviews = [
+    { id: 1, user: "Marie L.", rating: 5, comment: "Excellent outil, très bien entretenu. Le propriétaire est très réactif et arrangeant.", date: "2024-06-15" },
+    { id: 2, user: "Jean M.", rating: 4, comment: "Bon outil, fonctionne parfaitement. Quelques traces d'usure normale.", date: "2024-06-10" },
+    { id: 3, user: "Sophie R.", rating: 5, comment: "Parfait ! Exactement ce dont j'avais besoin pour mes travaux.", date: "2024-06-05" },
+    { id: 4, user: "Antoine B.", rating: 4, comment: "Outil de qualité, propriétaire disponible et sympa.", date: "2024-05-28" },
+    { id: 5, user: "Lucie V.", rating: 5, comment: "Je recommande vivement, très bon rapport qualité-prix.", date: "2024-05-20" },
+  ];
+
+  // Mock unavailable dates
+  const unavailableDates = [
+    new Date(2024, 6, 15),
+    new Date(2024, 6, 16),
+    new Date(2024, 6, 22),
+    new Date(2024, 6, 23),
+    new Date(2024, 6, 24),
+  ];
+
+  const totalReviews = allReviews.length;
+  const totalPages = Math.ceil(totalReviews / reviewsPerPage);
+  const startIndex = (currentReviewPage - 1) * reviewsPerPage;
+  const currentReviews = allReviews.slice(startIndex, startIndex + reviewsPerPage);
 
   const handleFavoriteToggle = () => {
     if (isFavorite(tool.id)) {
@@ -22,6 +73,12 @@ const ToolDetails = () => {
     } else {
       addToFavorites(tool);
     }
+  };
+
+  const isDateUnavailable = (date: Date) => {
+    return unavailableDates.some(unavailableDate => 
+      date.toDateString() === unavailableDate.toDateString()
+    );
   };
 
   return (
@@ -35,6 +92,32 @@ const ToolDetails = () => {
               Retour aux résultats
             </Link>
           </div>
+
+          {/* Owner Information */}
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-4">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src={toolDetails.owner.avatar} alt={toolDetails.owner.name} />
+                  <AvatarFallback>
+                    <User className="h-8 w-8" />
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-semibold">{toolDetails.owner.name}</h2>
+                    {toolDetails.owner.verified && (
+                      <Badge variant="secondary" className="bg-green-100 text-green-800">
+                        <CheckCircle className="h-3 w-3 mr-1" />
+                        Vérifié
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-gray-600">Propriétaire</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Images */}
@@ -56,42 +139,56 @@ const ToolDetails = () => {
               </div>
             </div>
 
-            {/* Informations */}
+            {/* Tool Information */}
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Badge variant="secondary">{tool.category}</Badge>
-                {tool.available ? (
-                  <Badge className="bg-green-500">Disponible</Badge>
-                ) : (
-                  <Badge variant="destructive">Non disponible</Badge>
-                )}
+                <Badge variant="outline">{toolDetails.subcategory}</Badge>
+                <Badge className="bg-green-500">{toolDetails.condition}</Badge>
               </div>
 
               <h1 className="text-3xl font-bold mb-4">{tool.title}</h1>
               
+              <div className="space-y-3 mb-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-gray-600">Marque:</span>
+                    <span className="ml-2 font-medium">{toolDetails.brand}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Modèle:</span>
+                    <span className="ml-2 font-medium">{toolDetails.model}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600">Année d'achat:</span>
+                    <span className="ml-2 font-medium">{toolDetails.purchaseYear}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-4 w-4 text-gray-400" />
+                    <span className="text-gray-600">{tool.location}</span>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                   <span className="font-medium">{tool.rating}</span>
                   <span className="text-gray-500">({tool.reviews} avis)</span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4 text-gray-400" />
-                  <span className="text-gray-600">{tool.location}</span>
-                </div>
               </div>
 
               <div className="bg-accent/5 rounded-lg p-6 mb-6">
                 <div className="text-3xl font-bold text-accent mb-2">
-                  {tool.price}€<span className="text-lg font-normal text-gray-600">/{tool.period}</span>
+                  {tool.price}€<span className="text-lg font-normal text-gray-600">/jour</span>
                 </div>
                 <div className="text-sm text-gray-600 mb-4">
-                  Caution: 100€ (remboursée en fin de location)
+                  Caution: {toolDetails.deposit}€ (remboursée en fin de location)
                 </div>
                 <div className="space-y-2">
                   <Link to={`/rent/${tool.id}`}>
-                    <Button className="w-full" size="lg" disabled={!tool.available}>
-                      {tool.available ? 'Louer maintenant' : 'Non disponible'}
+                    <Button className="w-full" size="lg">
+                      Louer maintenant
                     </Button>
                   </Link>
                   <Button 
@@ -108,28 +205,13 @@ const ToolDetails = () => {
                   </Button>
                 </div>
               </div>
-
-              <Card>
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                      <User className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{tool.owner}</h3>
-                      <p className="text-sm text-gray-600">Propriétaire vérifié</p>
-                    </div>
-                    <Shield className="h-5 w-5 text-green-500 ml-auto" />
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Description */}
+            {/* Description and Reviews */}
             <div className="lg:col-span-2">
-              <Card>
+              <Card className="mb-6">
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Description</h2>
                   <p className="text-gray-700 mb-6">{tool.description}</p>
@@ -146,56 +228,183 @@ const ToolDetails = () => {
                 </CardContent>
               </Card>
 
-              {/* Avis */}
-              <Card className="mt-6">
+              {/* Owner Instructions */}
+              <Card className="mb-6">
+                <CardContent className="p-6">
+                  <h2 className="text-xl font-semibold mb-4">Consignes du propriétaire</h2>
+                  <p className="text-gray-700">{toolDetails.ownerInstructions}</p>
+                </CardContent>
+              </Card>
+
+              {/* Reviews with Pagination */}
+              <Card>
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Avis des locataires</h2>
-                  <div className="space-y-4">
-                    {[1, 2, 3].map((review) => (
-                      <div key={review} className="border-b pb-4 last:border-b-0">
+                  <div className="space-y-4 mb-6">
+                    {currentReviews.map((review) => (
+                      <div key={review.id} className="border-b pb-4 last:border-b-0">
                         <div className="flex items-center gap-2 mb-2">
                           <div className="flex items-center">
                             {[1, 2, 3, 4, 5].map((star) => (
-                              <Star key={star} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                              <Star 
+                                key={star} 
+                                className={`h-4 w-4 ${
+                                  star <= review.rating 
+                                    ? 'fill-yellow-400 text-yellow-400' 
+                                    : 'text-gray-300'
+                                }`} 
+                              />
                             ))}
                           </div>
-                          <span className="font-medium">Marie L.</span>
-                          <span className="text-sm text-gray-500">il y a 2 semaines</span>
+                          <span className="font-medium">{review.user}</span>
+                          <span className="text-sm text-gray-500">
+                            {format(new Date(review.date), 'dd MMMM yyyy', { locale: fr })}
+                          </span>
                         </div>
-                        <p className="text-gray-700">
-                          Excellent outil, très bien entretenu. Le propriétaire est très réactif et arrangeant.
-                        </p>
+                        <p className="text-gray-700">{review.comment}</p>
                       </div>
                     ))}
                   </div>
+                  
+                  {totalPages > 1 && (
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            onClick={() => setCurrentReviewPage(Math.max(1, currentReviewPage - 1))}
+                            className={currentReviewPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                          />
+                        </PaginationItem>
+                        
+                        {[...Array(totalPages)].map((_, index) => (
+                          <PaginationItem key={index}>
+                            <PaginationLink
+                              onClick={() => setCurrentReviewPage(index + 1)}
+                              isActive={currentReviewPage === index + 1}
+                              className="cursor-pointer"
+                            >
+                              {index + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            onClick={() => setCurrentReviewPage(Math.min(totalPages, currentReviewPage + 1))}
+                            className={currentReviewPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  )}
                 </CardContent>
               </Card>
             </div>
 
-            {/* Disponibilité */}
+            {/* Booking Calendar */}
             <div>
-              <Card>
+              <Card className="mb-6">
                 <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Disponibilité</h2>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm">Disponible tous les jours</span>
+                  <h2 className="text-xl font-semibold mb-4">Réservation</h2>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Date de récupération</label>
+                      <div className="border rounded-lg p-3">
+                        {pickupDate ? (
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon className="h-4 w-4" />
+                            <span>{format(pickupDate, 'dd MMMM yyyy', { locale: fr })}</span>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => setPickupDate(undefined)}
+                            >
+                              Modifier
+                            </Button>
+                          </div>
+                        ) : (
+                          <Calendar
+                            mode="single"
+                            selected={pickupDate}
+                            onSelect={setPickupDate}
+                            disabled={(date) => {
+                              const today = new Date();
+                              today.setHours(0, 0, 0, 0);
+                              return date < today || isDateUnavailable(date);
+                            }}
+                            modifiers={{
+                              unavailable: unavailableDates
+                            }}
+                            modifiersStyles={{
+                              unavailable: { 
+                                backgroundColor: '#fee2e2', 
+                                color: '#dc2626',
+                                textDecoration: 'line-through'
+                              }
+                            }}
+                            className="pointer-events-auto"
+                          />
+                        )}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-600">
-                      Récupération: 9h - 18h<br/>
-                      Retour: 9h - 19h
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Date de retour</label>
+                      <div className="border rounded-lg p-3">
+                        {returnDate ? (
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon className="h-4 w-4" />
+                            <span>{format(returnDate, 'dd MMMM yyyy', { locale: fr })}</span>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => setReturnDate(undefined)}
+                            >
+                              Modifier
+                            </Button>
+                          </div>
+                        ) : (
+                          <Calendar
+                            mode="single"
+                            selected={returnDate}
+                            onSelect={setReturnDate}
+                            disabled={(date) => {
+                              const minDate = pickupDate || new Date();
+                              return date <= minDate || isDateUnavailable(date);
+                            }}
+                            modifiers={{
+                              unavailable: unavailableDates
+                            }}
+                            modifiersStyles={{
+                              unavailable: { 
+                                backgroundColor: '#fee2e2', 
+                                color: '#dc2626',
+                                textDecoration: 'line-through'
+                              }
+                            }}
+                            className="pointer-events-auto"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 text-xs text-gray-500">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-3 h-3 bg-red-200 rounded"></div>
+                      <span>Dates non disponibles</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="mt-6">
+              <Card>
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Conditions</h2>
                   <ul className="text-sm space-y-2 text-gray-600">
                     <li>• Pièce d'identité requise</li>
-                    <li>• Caution de 100€</li>
+                    <li>• Caution de {toolDetails.deposit}€</li>
                     <li>• Assurance incluse</li>
                     <li>• Retour dans le même état</li>
                   </ul>
