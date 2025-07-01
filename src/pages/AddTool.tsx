@@ -7,14 +7,30 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Upload, Camera, Euro, Shield, MapPin, Calendar, Tag, FileText, Star } from 'lucide-react';
+import { Upload, Camera, Euro, Shield, MapPin, Tag, FileText, Settings, Calendar } from 'lucide-react';
 
 const AddTool = () => {
   const { t } = useLanguage();
   const [dragActive, setDragActive] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const categories = {
+    'jardinage': 'Jardinage',
+    'bricolage': 'Bricolage', 
+    'transport': 'Transport',
+    'nettoyage': 'Nettoyage',
+    'evenementiel': 'Événementiel'
+  };
+
+  const subcategories = {
+    'jardinage': ['Gazon', 'Terre', 'Bois', 'Arbre', 'Feuilles'],
+    'bricolage': ['Construction', 'Électricité', 'Peinture', 'Vis et Boulons'],
+    'transport': ['Charge lourde', 'Moteur', 'Roue'],
+    'nettoyage': ['Tissus', 'Eau', 'Poussière'],
+    'evenementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
+  };
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -34,269 +50,282 @@ const AddTool = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
       <Header />
-      <main className="py-12">
-        <div className="max-w-4xl mx-auto px-4">
+      <main className="py-16">
+        <div className="max-w-5xl mx-auto px-6">
           {/* Header Section */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-3">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-accent/10 rounded-2xl mb-6">
+              <Tag className="h-8 w-8 text-accent" />
+            </div>
+            <h1 className="text-4xl font-bold text-foreground mb-4">
               Proposer un outil
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Partagez vos outils avec la communauté et générez des revenus en les louant facilement
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Main Form */}
-            <div className="lg:col-span-3">
-              <Card>
-                <CardHeader className="bg-accent text-accent-foreground">
-                  <CardTitle className="text-xl flex items-center">
-                    <Tag className="h-5 w-5 mr-2" />
-                    Informations de l'outil
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 space-y-6">
-                  {/* Basic Information */}
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="title" className="font-medium flex items-center">
-                        <FileText className="h-4 w-4 mr-2 text-accent" />
-                        Titre de l'annonce
+          {/* Main Form Card */}
+          <Card className="shadow-xl border-0 bg-card/80 backdrop-blur-sm">
+            <CardHeader className="bg-gradient-to-r from-accent/10 to-accent/5 border-b">
+              <CardTitle className="text-2xl flex items-center text-foreground">
+                <Settings className="h-6 w-6 mr-3 text-accent" />
+                Informations de l'outil
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-8">
+              <div className="space-y-8">
+                {/* Basic Information Section */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <FileText className="h-5 w-5 mr-2 text-accent" />
+                    Informations générales
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="title" className="text-sm font-medium text-foreground">
+                        Titre de l'annonce *
                       </Label>
                       <Input 
                         id="title" 
                         placeholder="Ex: Perceuse électrique Bosch Professional" 
-                        className="h-10"
+                        className="h-12 text-base"
                       />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="description" className="font-medium">Description</Label>
-                      <Textarea 
-                        id="description" 
-                        placeholder="Décrivez votre outil, son état, ses accessoires..."
-                        className="min-h-[100px] resize-none"
+                    <div className="space-y-3">
+                      <Label htmlFor="brand" className="text-sm font-medium text-foreground">
+                        Marque
+                      </Label>
+                      <Input 
+                        id="brand" 
+                        placeholder="Ex: Bosch" 
+                        className="h-12 text-base"
                       />
                     </div>
                   </div>
 
-                  {/* Category and Condition */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label className="font-medium">Catégorie</Label>
-                      <Select>
-                        <SelectTrigger className="h-10">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="model" className="text-sm font-medium text-foreground">
+                        Modèle
+                      </Label>
+                      <Input 
+                        id="model" 
+                        placeholder="Ex: GSB 13 RE" 
+                        className="h-12 text-base"
+                      />
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <Label htmlFor="year" className="text-sm font-medium text-foreground">
+                        Année d'achat
+                      </Label>
+                      <Input 
+                        id="year" 
+                        type="number"
+                        placeholder="Ex: 2022" 
+                        className="h-12 text-base"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <Label htmlFor="description" className="text-sm font-medium text-foreground">
+                      Description
+                    </Label>
+                    <Textarea 
+                      id="description" 
+                      placeholder="Décrivez votre outil, son état, ses accessoires..."
+                      className="min-h-[120px] resize-none text-base"
+                    />
+                  </div>
+                </div>
+
+                {/* Category Section */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    Catégorisation
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-foreground">Catégorie *</Label>
+                      <Select onValueChange={setSelectedCategory}>
+                        <SelectTrigger className="h-12 text-base">
                           <SelectValue placeholder="Choisir une catégorie" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="garden">🌿 Jardinage</SelectItem>
-                          <SelectItem value="construction">🔨 Construction</SelectItem>
-                          <SelectItem value="automotive">🚗 Automobile</SelectItem>
-                          <SelectItem value="electric">⚡ Électricité</SelectItem>
-                          <SelectItem value="painting">🎨 Peinture</SelectItem>
-                          <SelectItem value="cleaning">🧽 Nettoyage</SelectItem>
+                          {Object.entries(categories).map(([key, value]) => (
+                            <SelectItem key={key} value={key}>{value}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label className="font-medium">État</Label>
-                      <Select>
-                        <SelectTrigger className="h-10">
-                          <SelectValue placeholder="État de l'outil" />
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-foreground">Sous-catégorie</Label>
+                      <Select disabled={!selectedCategory}>
+                        <SelectTrigger className="h-12 text-base">
+                          <SelectValue placeholder="Choisir une sous-catégorie" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="new">✨ Neuf</SelectItem>
-                          <SelectItem value="excellent">🌟 Excellent</SelectItem>
-                          <SelectItem value="good">👍 Bon</SelectItem>
-                          <SelectItem value="fair">👌 Correct</SelectItem>
+                          {selectedCategory && subcategories[selectedCategory as keyof typeof subcategories]?.map((sub) => (
+                            <SelectItem key={sub} value={sub}>{sub}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
 
-                  {/* Pricing */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="price" className="font-medium flex items-center">
-                        <Euro className="h-4 w-4 mr-2 text-accent" />
-                        Prix par jour (€)
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium text-foreground">État de l'outil *</Label>
+                    <Select>
+                      <SelectTrigger className="h-12 text-base">
+                        <SelectValue placeholder="État de l'outil" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="new">✨ Neuf</SelectItem>
+                        <SelectItem value="excellent">🌟 Excellent</SelectItem>
+                        <SelectItem value="good">👍 Bon</SelectItem>
+                        <SelectItem value="fair">👌 Correct</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Pricing Section */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <Euro className="h-5 w-5 mr-2 text-accent" />
+                    Tarification
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <Label htmlFor="price" className="text-sm font-medium text-foreground">
+                        Prix par jour (€) *
                       </Label>
-                      <Input 
-                        id="price" 
-                        type="number" 
-                        placeholder="25" 
-                        className="h-10"
-                      />
+                      <div className="relative">
+                        <Input 
+                          id="price" 
+                          type="number" 
+                          placeholder="25" 
+                          className="h-12 text-base pl-8"
+                        />
+                        <Euro className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label htmlFor="deposit" className="font-medium flex items-center">
-                        <Shield className="h-4 w-4 mr-2 text-accent" />
+                    <div className="space-y-3">
+                      <Label htmlFor="deposit" className="text-sm font-medium text-foreground">
                         Caution (€)
                       </Label>
-                      <Input 
-                        id="deposit" 
-                        type="number" 
-                        placeholder="100" 
-                        className="h-10"
-                      />
+                      <div className="relative">
+                        <Input 
+                          id="deposit" 
+                          type="number" 
+                          placeholder="100" 
+                          className="h-12 text-base pl-8"
+                        />
+                        <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Location */}
-                  <div className="space-y-2">
-                    <Label htmlFor="location" className="font-medium flex items-center">
-                      <MapPin className="h-4 w-4 mr-2 text-accent" />
-                      Localisation
+                {/* Location Section */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <MapPin className="h-5 w-5 mr-2 text-accent" />
+                    Localisation
+                  </h3>
+                  
+                  <div className="space-y-3">
+                    <Label htmlFor="location" className="text-sm font-medium text-foreground">
+                      Adresse ou ville *
                     </Label>
                     <Input 
                       id="location" 
                       placeholder="Paris 15ème" 
-                      className="h-10"
+                      className="h-12 text-base"
                     />
                   </div>
+                </div>
 
-                  {/* Photo Upload */}
-                  <div className="space-y-2">
-                    <Label className="font-medium flex items-center">
-                      <Camera className="h-4 w-4 mr-2 text-accent" />
-                      Photos
-                    </Label>
-                    <div 
-                      className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
-                        dragActive 
-                          ? 'border-accent bg-accent/5' 
-                          : 'border-border hover:border-accent'
-                      }`}
-                      onDragEnter={handleDrag}
-                      onDragLeave={handleDrag}
-                      onDragOver={handleDrag}
-                      onDrop={handleDrop}
-                    >
-                      <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
-                      <p className="font-medium text-foreground mb-1">
-                        Cliquez ou glissez vos photos
+                {/* Photos Section */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <Camera className="h-5 w-5 mr-2 text-accent" />
+                    Photos
+                  </h3>
+                  
+                  <div 
+                    className={`border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200 ${
+                      dragActive 
+                        ? 'border-accent bg-accent/10 scale-[1.02]' 
+                        : 'border-border hover:border-accent hover:bg-accent/5'
+                    }`}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                  >
+                    <div className="flex flex-col items-center">
+                      <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mb-4">
+                        <Upload className="h-8 w-8 text-accent" />
+                      </div>
+                      <p className="text-lg font-medium text-foreground mb-2">
+                        Ajoutez vos photos
                       </p>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        PNG, JPG jusqu'à 10MB (5 photos max)
+                      <p className="text-sm text-muted-foreground mb-6">
+                        Glissez vos images ici ou cliquez pour parcourir
                       </p>
-                      <Button variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-                        Parcourir
+                      <Button variant="outline" size="lg" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
+                        Parcourir les fichiers
                       </Button>
+                      <p className="text-xs text-muted-foreground mt-3">
+                        PNG, JPG jusqu'à 10MB • 5 photos maximum
+                      </p>
                     </div>
                   </div>
+                </div>
 
-                  {/* Availability */}
-                  <div className="space-y-2">
-                    <Label htmlFor="availability" className="font-medium flex items-center">
-                      <Calendar className="h-4 w-4 mr-2 text-accent" />
-                      Disponibilité
+                {/* Instructions Section */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                    <FileText className="h-5 w-5 mr-2 text-accent" />
+                    Consignes d'utilisation
+                  </h3>
+                  
+                  <div className="space-y-3">
+                    <Label htmlFor="instructions" className="text-sm font-medium text-foreground">
+                      Consignes du propriétaire
                     </Label>
                     <Textarea 
-                      id="availability" 
-                      placeholder="Ex: Lun-Ven 8h-18h, Week-end sur demande..."
-                      className="min-h-[80px] resize-none"
+                      id="instructions" 
+                      placeholder="Ex: Prévoir une rallonge électrique, nettoyer après usage, manipulation délicate..."
+                      className="min-h-[100px] resize-none text-base"
                     />
                   </div>
+                </div>
 
-                  {/* Submit Button */}
-                  <Button className="w-full h-12 font-medium bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Upload className="h-4 w-4 mr-2" />
+                {/* Submit Button */}
+                <div className="pt-6">
+                  <Button 
+                    size="lg"
+                    className="w-full h-14 text-base font-semibold bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-200"
+                  >
+                    <Upload className="h-5 w-5 mr-2" />
                     Publier l'annonce
                   </Button>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-4">
-              {/* Tips Card */}
-              <Card>
-                <CardHeader className="bg-accent text-accent-foreground pb-3">
-                  <CardTitle className="text-lg flex items-center">
-                    <Star className="h-4 w-4 mr-2" />
-                    Conseils
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 space-y-3">
-                  <div className="space-y-2">
-                    <div className="flex items-start space-x-2">
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
-                      <p className="text-sm">Photos de qualité</p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
-                      <p className="text-sm">Description précise</p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
-                      <p className="text-sm">Prix compétitif</p>
-                    </div>
-                    <div className="flex items-start space-x-2">
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2"></div>
-                      <p className="text-sm">Accessoires inclus</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Pricing Guide */}
-              <Card>
-                <CardHeader className="bg-accent text-accent-foreground pb-3">
-                  <CardTitle className="text-lg flex items-center">
-                    <Euro className="h-4 w-4 mr-2" />
-                    Prix moyens
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Perceuse</span>
-                    <span className="font-medium">15-25€/j</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Tronçonneuse</span>
-                    <span className="font-medium">25-40€/j</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Bétonnière</span>
-                    <span className="font-medium">30-50€/j</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Ponceuse</span>
-                    <span className="font-medium">10-20€/j</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Security Card */}
-              <Card>
-                <CardHeader className="bg-accent text-accent-foreground pb-3">
-                  <CardTitle className="text-lg flex items-center">
-                    <Shield className="h-4 w-4 mr-2" />
-                    Sécurité
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 space-y-2">
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Shield className="h-3 w-3 text-accent" />
-                    <span>Assurance incluse</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Shield className="h-3 w-3 text-accent" />
-                    <span>Paiement sécurisé</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Shield className="h-3 w-3 text-accent" />
-                    <span>Support 24/7</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
       <Footer />
