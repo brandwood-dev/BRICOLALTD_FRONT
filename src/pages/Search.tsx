@@ -19,14 +19,25 @@ const Search = () => {
   const [searchParams] = useSearchParams();
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
+  const [selectedSubCategory, setSelectedSubCategory] = useState('all');
   const [filteredTools, setFilteredTools] = useState(mockTools);
 
   // Category mapping
   const categoryMap: { [key: string]: string } = {
-    'garden': 'Jardinage',
-    'construction': 'Construction', 
-    'automotive': 'Automobile',
-    'electric': 'Électricité'
+    'jardinage': 'Jardinage',
+    'bricolage': 'Bricolage', 
+    'transport': 'Transport',
+    'nettoyage': 'Nettoyage',
+    'evenementiel': 'Événementiel'
+  };
+
+  // Subcategories mapping
+  const subCategoriesMap: { [key: string]: string[] } = {
+    'jardinage': ['Gazon', 'Terre', 'Bois', 'Arbre', 'Feuilles'],
+    'bricolage': ['Construction', 'Électricité', 'Peinture', 'Vis et Boulons'],
+    'transport': ['Charge lourde', 'Moteur', 'Roue'],
+    'nettoyage': ['Tissus', 'Eau', 'Poussière'],
+    'evenementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
   };
 
   useEffect(() => {
@@ -52,6 +63,11 @@ const Search = () => {
       setSelectedCategory(categoryParam);
     }
   }, [searchParams]);
+
+  // Reset subcategory when category changes
+  useEffect(() => {
+    setSelectedSubCategory('all');
+  }, [selectedCategory]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -93,51 +109,54 @@ const Search = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="all">Toutes les catégories</SelectItem>
-                          <SelectItem value="garden">Jardinage</SelectItem>
-                          <SelectItem value="construction">Construction</SelectItem>
-                          <SelectItem value="automotive">Automobile</SelectItem>
-                          <SelectItem value="electric">Électricité</SelectItem>
+                          <SelectItem value="jardinage">Jardinage</SelectItem>
+                          <SelectItem value="bricolage">Bricolage</SelectItem>
+                          <SelectItem value="transport">Transport</SelectItem>
+                          <SelectItem value="nettoyage">Nettoyage</SelectItem>
+                          <SelectItem value="evenementiel">Événementiel</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
-                    <div className="space-y-2">
-                      <Label>Prix par jour: {priceRange[0]}€ - {priceRange[1]}€</Label>
-                      <Slider
-                        value={priceRange}
-                        onValueChange={setPriceRange}
-                        max={100}
-                        step={5}
-                        className="mt-2"
-                      />
-                    </div>
+                    {selectedCategory !== 'all' && (
+                      <div className="space-y-2">
+                        <Label>Sous-catégorie</Label>
+                        <Select value={selectedSubCategory} onValueChange={setSelectedSubCategory}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Toutes les sous-catégories" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">Toutes les sous-catégories</SelectItem>
+                            {subCategoriesMap[selectedCategory]?.map((subCat) => (
+                              <SelectItem key={subCat} value={subCat.toLowerCase().replace(/\s+/g, '-')}>
+                                {subCat}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
 
-                    <div className="space-y-2">
-                      <Label>Note minimum</Label>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Toutes les notes" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Toutes les notes</SelectItem>
-                          <SelectItem value="4">4+ étoiles</SelectItem>
-                          <SelectItem value="4.5">4.5+ étoiles</SelectItem>
-                          <SelectItem value="5">5 étoiles</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>Disponibilité</Label>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Tous les outils" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Tous les outils</SelectItem>
-                          <SelectItem value="available">Disponible maintenant</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium">Prix par jour</Label>
+                      <div className="px-2">
+                        <Slider
+                          value={priceRange}
+                          onValueChange={setPriceRange}
+                          max={100}
+                          step={5}
+                          className="mt-2"
+                        />
+                        <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
+                          <span className="px-2 py-1 bg-gray-100 rounded text-xs font-medium">
+                            {priceRange[0]}€
+                          </span>
+                          <span className="text-gray-400">-</span>
+                          <span className="px-2 py-1 bg-gray-100 rounded text-xs font-medium">
+                            {priceRange[1]}€
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
                     <Button className="w-full">Appliquer les filtres</Button>
