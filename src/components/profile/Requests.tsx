@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye } from 'lucide-react';
+import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye, Star, Upload } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface RequestBase {
@@ -28,6 +27,7 @@ interface RequestBase {
   refusalMessage?: string;
   cancellationReason?: string;
   cancellationMessage?: string;
+  renterHasReturned?: boolean;
 }
 
 interface OwnerRequest extends RequestBase {
@@ -54,6 +54,14 @@ const Requests = () => {
   const [reportMessage, setReportMessage] = useState('');
   const [refusalReason, setRefusalReason] = useState('');
   const [refusalMessage, setRefusalMessage] = useState('');
+  const [claimType, setClaimType] = useState('');
+  const [claimDescription, setClaimDescription] = useState('');
+  const [rating, setRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
+  const [isClaimDialogOpen, setIsClaimDialogOpen] = useState(false);
+  const [selectedRequestId, setSelectedRequestId] = useState('');
   const { toast } = useToast();
 
   const [requests, setRequests] = useState<Request[]>([
@@ -125,6 +133,8 @@ const Requests = () => {
       case 'declined': return 'bg-red-100 text-red-800';
       case 'cancelled': return 'bg-gray-100 text-gray-800';
       case 'confirmed': return 'bg-blue-100 text-blue-800';
+      case 'ongoing': return 'bg-purple-100 text-purple-800';
+      case 'completed': return 'bg-emerald-100 text-emerald-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -136,6 +146,8 @@ const Requests = () => {
       case 'declined': return 'Refusée';
       case 'cancelled': return 'Annulée';
       case 'confirmed': return 'Confirmée';
+      case 'ongoing': return 'En cours';
+      case 'completed': return 'Terminé';
       default: return status;
     }
   };
@@ -198,13 +210,13 @@ const Requests = () => {
   };
 
   const handleValidationCode = (requestId: string) => {
-    if (validationCode === '1234') { // Code de validation fictif
+    if (validationCode === '1234') {
       setRequests(prev => prev.map(req => 
-        req.id === requestId ? { ...req, status: 'confirmed' } : req
+        req.id === requestId ? { ...req, status: 'ongoing' } : req
       ));
       toast({
         title: "Remise confirmée",
-        description: "L'outil a été remis avec succès.",
+        description: "L'outil a été remis avec succès. Le statut passe à 'En cours'.",
       });
       setValidationCode('');
     } else {
@@ -216,12 +228,74 @@ const Requests = () => {
     }
   };
 
+  const handleToolRecovery = (requestId: string) => {
+    setSelectedRequestId(requestId);
+    setIsConfirmDialogOpen(true);
+  };
+
+  const handleConfirmRecovery = () => {
+    setIsConfirmDialogOpen(false);
+    setIsReviewDialogOpen(true);
+  };
+
+  const handleOpenClaim = () => {
+    setIsConfirmDialogOpen(false);
+    setIsClaimDialogOpen(true);
+  };
+
+  const handleSubmitReview = () => {
+    setRequests(prev => prev.map(req => 
+      req.id === selectedRequestId ? { ...req, status: 'completed' } : req
+    ));
+    
+    toast({
+      title: "Évaluation soumise",
+      description: "Merci pour votre évaluation. Le statut passe à 'Terminé'.",
+    });
+    
+    setIsReviewDialogOpen(false);
+    setRating(0);
+    setReviewComment('');
+    setSelectedRequestId('');
+  };
+
+  const handleSubmitClaim = () => {
+    if (!claimType || !claimDescription) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez remplir tous les champs obligatoires.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    toast({
+      title: "Réclamation envoyée",
+      description: "Votre réclamation a bien été transmise à notre support. Elle sera traitée sous 48h.",
+    });
+    
+    setIsClaimDialogOpen(false);
+    setClaimType('');
+    setClaimDescription('');
+    setSelectedRequestId('');
+  };
+
   const handleCall = (phone: string) => {
     window.location.href = `tel:${phone}`;
   };
 
   const handleEmail = (email: string) => {
     window.location.href = `mailto:${email}`;
+  };
+
+  const simulateRenterReturn = (requestId: string) => {
+    setRequests(prev => prev.map(req => 
+      req.id === requestId ? { ...req, renterHasReturned: true } : req
+    ));
+    toast({
+      title: "Simulation",
+      description: "Le locataire a confirmé avoir rendu l'outil.",
+    });
   };
 
   return (
@@ -431,6 +505,111 @@ const Requests = () => {
                   </>
                 )}
 
+                {/* Actions pour les demandes en cours */}
+                {request.isOwnerView && request.status === 'ongoing' && (
+                  <>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          Contacter
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Informations du locataire</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-3">
+                            <Avatar className="h-12 w-12">
+                              <AvatarImage src={request.renterAvatar} />
+                              <AvatarFallback>
+                                {request.renterName?.split(' ').map(n => n[0]).join('')}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <h3 className="font-semibold">{request.renterName}</h3>
+                              <p className="text-sm text-muted-foreground">{request.renterEmail}</p>
+                              <p className="text-sm text-muted-foreground">{request.renterPhone}</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <Button 
+                              onClick={() => handleCall(request.renterPhone!)}
+                              className="flex-1 flex items-center gap-2"
+                            >
+                              <Phone className="h-4 w-4" />
+                              Appeler
+                            </Button>
+                            <Button 
+                              variant="outline"
+                              onClick={() => handleEmail(request.renterEmail!)}
+                              className="flex-1 flex items-center gap-2"
+                            >
+                              <Mail className="h-4 w-4" />
+                              E-mail
+                            </Button>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <Flag className="h-4 w-4 mr-1" />
+                          Signaler
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Signaler un problème</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <Select value={reportReason} onValueChange={setReportReason}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Sélectionnez une raison" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="no-response">Ne répond pas</SelectItem>
+                              <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
+                              <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
+                              <SelectItem value="other">Autre</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Textarea
+                            placeholder="Décrivez le problème"
+                            value={reportMessage}
+                            onChange={(e) => setReportMessage(e.target.value)}
+                          />
+                          <Button onClick={() => handleReport(request.id)} className="w-full">
+                            Envoyer le signalement
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+
+                    <Button 
+                      variant={request.renterHasReturned ? "default" : "outline"}
+                      size="sm"
+                      disabled={!request.renterHasReturned}
+                      onClick={() => handleToolRecovery(request.id)}
+                    >
+                      J'ai récupéré mon outil
+                    </Button>
+
+                    {!request.renterHasReturned && (
+                      <Button 
+                        variant="secondary" 
+                        size="sm"
+                        onClick={() => simulateRenterReturn(request.id)}
+                      >
+                        [Simuler] Locataire a rendu
+                      </Button>
+                    )}
+                  </>
+                )}
+
                 {/* Code de validation pour les demandes acceptées */}
                 {request.isOwnerView && request.status === 'accepted' && (
                   <div className="w-full mt-3 p-3 bg-blue-50 rounded border">
@@ -486,10 +665,113 @@ const Requests = () => {
             </div>
           ))}
         </div>
+
+        {/* Modal de confirmation de récupération */}
+        <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Confirmer la récupération</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <p>Voulez-vous vraiment confirmer la bonne réception de votre outil, sans déclaration de problème ?</p>
+              <p className="text-sm text-muted-foreground">
+                Si vous avez rencontré un souci, cliquez sur le lien "Signaler un problème"
+              </p>
+              <div className="flex gap-2">
+                <Button onClick={handleConfirmRecovery} className="flex-1">
+                  Oui, je confirme la bonne réception
+                </Button>
+                <Button variant="outline" onClick={handleOpenClaim} className="flex-1">
+                  Signaler un problème
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Modal d'évaluation */}
+        <Dialog open={isReviewDialogOpen} onOpenChange={setIsReviewDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Évaluer la location</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Note par étoiles</label>
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      onClick={() => setRating(star)}
+                      className={`p-1 ${star <= rating ? 'text-yellow-500' : 'text-gray-300'}`}
+                    >
+                      <Star className="h-6 w-6 fill-current" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Commentaire</label>
+                <Textarea
+                  placeholder="Partagez votre expérience..."
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                />
+              </div>
+              <Button onClick={handleSubmitReview} className="w-full">
+                Soumettre l'évaluation
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Modal de réclamation */}
+        <Dialog open={isClaimDialogOpen} onOpenChange={setIsClaimDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Signaler un problème</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Type de problème</label>
+                <Select value={claimType} onValueChange={setClaimType}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionnez le type de problème" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="damaged">Outil endommagé</SelectItem>
+                    <SelectItem value="late-return">Retard de restitution</SelectItem>
+                    <SelectItem value="missing-parts">Pièces manquantes</SelectItem>
+                    <SelectItem value="not-working">Outil ne fonctionne pas</SelectItem>
+                    <SelectItem value="other">Autre</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Description du problème</label>
+                <Textarea
+                  placeholder="Décrivez le problème rencontré..."
+                  value={claimDescription}
+                  onChange={(e) => setClaimDescription(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Pièces justificatives</label>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                  <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                  <p className="text-sm text-gray-500">Glissez vos fichiers ici ou cliquez pour sélectionner</p>
+                  <p className="text-xs text-gray-400 mt-1">Images ou vidéos (max 10MB)</p>
+                </div>
+              </div>
+              <Button onClick={handleSubmitClaim} className="w-full">
+                Envoyer la réclamation
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );
 };
 
 export default Requests;
-
