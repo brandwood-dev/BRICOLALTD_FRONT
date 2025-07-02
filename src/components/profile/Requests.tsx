@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,18 +8,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye, Star, Upload } from 'lucide-react';
+import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye, Star, Upload, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { generateRentalContract } from '@/utils/contractGenerator';
 
 interface RequestBase {
   id: string;
+  referenceId: string;
   toolName: string;
+  toolDescription: string;
+  toolImage: string;
   owner: string;
   startDate: string;
   endDate: string;
   pickupTime: string;
   status: string;
   totalPrice: number;
+  dailyPrice: number;
   message: string;
   isOwnerView: boolean;
   refusalReason?: string;
@@ -28,6 +32,7 @@ interface RequestBase {
   cancellationReason?: string;
   cancellationMessage?: string;
   renterHasReturned?: boolean;
+  hasActiveClaim?: boolean;
 }
 
 interface OwnerRequest extends RequestBase {
@@ -35,6 +40,8 @@ interface OwnerRequest extends RequestBase {
   renterEmail: string;
   renterPhone: string;
   renterAvatar: string;
+  ownerEmail: string;
+  ownerPhone: string;
   isOwnerView: true;
 }
 
@@ -43,6 +50,8 @@ interface RenterRequest extends RequestBase {
   renterEmail?: undefined;
   renterPhone?: undefined;
   renterAvatar?: undefined;
+  ownerEmail?: undefined;
+  ownerPhone?: undefined;
   isOwnerView: false;
 }
 
@@ -67,58 +76,78 @@ const Requests = () => {
   const [requests, setRequests] = useState<Request[]>([
     {
       id: '1',
+      referenceId: 'REF-2024-001',
       toolName: 'Tondeuse à gazon électrique',
+      toolDescription: 'Tondeuse électrique 1800W avec bac de ramassage 40L',
+      toolImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
       owner: 'Marie Dubois',
       renterName: 'Jean Martin',
       renterEmail: 'jean.martin@email.com',
       renterPhone: '+33 6 12 34 56 78',
       renterAvatar: '',
+      ownerEmail: 'marie.dubois@email.com',
+      ownerPhone: '+33 6 87 65 43 21',
       startDate: '2024-01-20',
       endDate: '2024-01-22',
       pickupTime: '14:00',
       status: 'pending',
       totalPrice: 60,
+      dailyPrice: 20,
       message: 'Bonjour, j\'aimerais louer votre tondeuse pour le weekend.',
       isOwnerView: true
     },
     {
       id: '2',
+      referenceId: 'REF-2024-002',
       toolName: 'Perceuse sans fil Bosch',
+      toolDescription: 'Perceuse visseuse sans fil 18V avec 2 batteries',
+      toolImage: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=300&fit=crop',
       owner: 'Paul Martin',
       renterName: 'Sophie Durand',
       renterEmail: 'sophie.durand@email.com',
       renterPhone: '+33 6 98 76 54 32',
       renterAvatar: '',
+      ownerEmail: 'paul.martin@email.com',
+      ownerPhone: '+33 6 11 22 33 44',
       startDate: '2024-01-25',
       endDate: '2024-01-26',
       pickupTime: '10:00',
       status: 'accepted',
       totalPrice: 25,
+      dailyPrice: 12.5,
       message: 'Disponible pour récupération après 14h.',
       isOwnerView: true
     },
     {
       id: '3',
+      referenceId: 'REF-2024-003',
       toolName: 'Scie circulaire',
+      toolDescription: 'Scie circulaire 1400W avec lame carbure',
+      toolImage: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop',
       owner: 'Sophie Durand',
       startDate: '2024-01-18',
       endDate: '2024-01-19',
       pickupTime: '16:00',
       status: 'declined',
       totalPrice: 35,
+      dailyPrice: 17.5,
       message: 'Désolé, l\'outil n\'est plus disponible pour ces dates.',
       refusalReason: 'Outil non disponible',
       isOwnerView: false
     },
     {
       id: '4',
+      referenceId: 'REF-2024-004',
       toolName: 'Échelle télescopique',
+      toolDescription: 'Échelle télescopique 3.8m, charge max 150kg',
+      toolImage: 'https://images.unsplash.com/photo-1631047038830-c6c8e1af70b9?w=400&h=300&fit=crop',
       owner: 'Marc Dubois',
       startDate: '2024-01-15',
       endDate: '2024-01-16',
       pickupTime: '09:00',
       status: 'cancelled',
       totalPrice: 40,
+      dailyPrice: 20,
       message: 'Demande annulée par le locataire.',
       cancellationReason: 'Changement de plans',
       cancellationMessage: 'Je ne peux plus utiliser l\'outil à ces dates.',
@@ -149,6 +178,34 @@ const Requests = () => {
       case 'ongoing': return 'En cours';
       case 'completed': return 'Terminé';
       default: return status;
+    }
+  };
+
+  const handleDownloadContract = (request: Request) => {
+    if (request.isOwnerView && request.renterName) {
+      const contractData = {
+        referenceId: request.referenceId,
+        toolName: request.toolName,
+        toolDescription: request.toolDescription,
+        ownerName: request.owner,
+        ownerEmail: request.ownerEmail!,
+        ownerPhone: request.ownerPhone!,
+        renterName: request.renterName,
+        renterEmail: request.renterEmail!,
+        renterPhone: request.renterPhone!,
+        startDate: request.startDate,
+        endDate: request.endDate,
+        pickupTime: request.pickupTime,
+        totalPrice: request.totalPrice,
+        dailyPrice: request.dailyPrice
+      };
+      
+      generateRentalContract(contractData);
+      
+      toast({
+        title: "Contrat téléchargé",
+        description: "Le contrat de location a été généré et téléchargé avec succès.",
+      });
     }
   };
 
@@ -269,6 +326,11 @@ const Requests = () => {
       return;
     }
     
+    // Mark the request as having an active claim
+    setRequests(prev => prev.map(req => 
+      req.id === selectedRequestId ? { ...req, hasActiveClaim: true } : req
+    ));
+    
     toast({
       title: "Réclamation envoyée",
       description: "Votre réclamation a bien été transmise à notre support. Elle sera traitée sous 48h.",
@@ -311,16 +373,36 @@ const Requests = () => {
           {requests.map((request) => (
             <div key={request.id} className="border rounded-lg p-4 space-y-3">
               <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <h3 className="font-semibold">{request.toolName}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <User className="h-4 w-4" />
-                    {request.isOwnerView ? request.renterName : request.owner}
+                <div className="flex gap-4">
+                  {/* Tool image */}
+                  <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                    <img 
+                      src={request.toolImage} 
+                      alt={request.toolName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-semibold">{request.toolName}</h3>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <User className="h-4 w-4" />
+                      {request.isOwnerView ? request.renterName : request.owner}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Référence: {request.referenceId}
+                    </div>
                   </div>
                 </div>
-                <Badge className={getStatusColor(request.status)}>
-                  {getStatusText(request.status)}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <Badge className={getStatusColor(request.status)}>
+                    {getStatusText(request.status)}
+                  </Badge>
+                  {request.status === 'ongoing' && request.hasActiveClaim && (
+                    <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
+                      Réclamation en cours
+                    </Badge>
+                  )}
+                </div>
               </div>
               
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -347,6 +429,19 @@ const Requests = () => {
               )}
 
               <div className="flex gap-2 flex-wrap">
+                {/* Contract download for accepted and ongoing requests */}
+                {request.isOwnerView && ['accepted', 'ongoing'].includes(request.status) && (
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleDownloadContract(request)}
+                    className="flex items-center gap-2"
+                  >
+                    <Download className="h-4 w-4" />
+                    Télécharger le contrat
+                  </Button>
+                )}
+
                 {/* Actions pour les propriétaires */}
                 {request.isOwnerView && request.status === 'pending' && (
                   <>
