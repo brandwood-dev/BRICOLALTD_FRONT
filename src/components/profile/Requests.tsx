@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -110,6 +111,7 @@ const Requests = () => {
       pickupTime: '09:00',
       status: 'cancelled',
       totalPrice: 40,
+      message: 'Demande annulée par le locataire.',
       cancellationReason: 'Changement de plans',
       cancellationMessage: 'Je ne peux plus utiliser l\'outil à ces dates.',
       isOwnerView: false
@@ -490,3 +492,4 @@ const Requests = () => {
 };
 
 export default Requests;
+
