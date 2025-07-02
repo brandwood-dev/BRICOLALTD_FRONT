@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -124,7 +123,12 @@ const Requests = () => {
     }
     
     setRequests(prev => prev.map(req => 
-      req.id === requestId ? { ...req, status: 'declined', refusalReason, refusalMessage } : req
+      req.id === requestId ? { 
+        ...req, 
+        status: 'declined', 
+        refusalReason, 
+        refusalMessage 
+      } : req
     ));
     
     toast({
