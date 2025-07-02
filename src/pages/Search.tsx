@@ -40,6 +40,13 @@ const Search = () => {
     'evenementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
   };
 
+  // Calculate display price with 5.4% fees
+  const calculateDisplayPrice = (originalPrice: number) => {
+    const feeRate = 0.054;
+    const feeAmount = originalPrice * feeRate;
+    return originalPrice + feeAmount;
+  };
+
   useEffect(() => {
     // Filter tools based on selected category
     let filtered = mockTools;
@@ -190,49 +197,52 @@ const Search = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredTools.map((tool) => (
-                  <Card key={tool.id} className="hover:shadow-lg transition-shadow">
-                    <div className="relative">
-                      <img 
-                        src={tool.images[0]} 
-                        alt={tool.title}
-                        className="w-full h-48 object-cover rounded-t-lg"
-                      />
-                      {!tool.available && (
-                        <Badge className="absolute top-2 right-2 bg-red-500">
-                          Non disponible
-                        </Badge>
-                      )}
-                    </div>
-                    <CardContent className="p-4">
-                      <Link to={`/tool/${tool.id}`}>
-                        <h3 className="font-semibold text-lg mb-2 hover:text-accent">
-                          {tool.title}
-                        </h3>
-                      </Link>
-                      <div className="flex items-center gap-1 mb-2">
-                        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-medium">{tool.rating}</span>
-                        <span className="text-sm text-gray-500">({tool.reviews} avis)</span>
+                {filteredTools.map((tool) => {
+                  const displayPrice = calculateDisplayPrice(tool.price);
+                  return (
+                    <Card key={tool.id} className="hover:shadow-lg transition-shadow">
+                      <div className="relative">
+                        <img 
+                          src={tool.images[0]} 
+                          alt={tool.title}
+                          className="w-full h-48 object-cover rounded-t-lg"
+                        />
+                        {!tool.available && (
+                          <Badge className="absolute top-2 right-2 bg-red-500">
+                            Non disponible
+                          </Badge>
+                        )}
                       </div>
-                      <div className="flex items-center gap-1 mb-3">
-                        <MapPin className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm text-gray-600">{tool.location}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <span className="text-lg font-bold text-accent">{tool.price}€</span>
-                          <span className="text-sm text-gray-500">/{tool.period}</span>
-                        </div>
+                      <CardContent className="p-4">
                         <Link to={`/tool/${tool.id}`}>
-                          <Button size="sm" disabled={!tool.available}>
-                            {tool.available ? 'Louer' : 'Indisponible'}
-                          </Button>
+                          <h3 className="font-semibold text-lg mb-2 hover:text-accent">
+                            {tool.title}
+                          </h3>
                         </Link>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                        <div className="flex items-center gap-1 mb-2">
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-sm font-medium">{tool.rating}</span>
+                          <span className="text-sm text-gray-500">({tool.reviews} avis)</span>
+                        </div>
+                        <div className="flex items-center gap-1 mb-3">
+                          <MapPin className="h-4 w-4 text-gray-400" />
+                          <span className="text-sm text-gray-600">{tool.location}</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <span className="text-lg font-bold text-accent">{displayPrice.toFixed(1)}€</span>
+                            <span className="text-sm text-gray-500">/{tool.period}</span>
+                          </div>
+                          <Link to={`/tool/${tool.id}`}>
+                            <Button size="sm" disabled={!tool.available}>
+                              {tool.available ? 'Louer' : 'Indisponible'}
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,11 +7,16 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
 import { ArrowLeft, Calendar as CalendarIcon, CreditCard, Shield, Check } from 'lucide-react';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
 const Rent = () => {
   const { id } = useParams();
@@ -32,17 +36,39 @@ const Rent = () => {
     paymentMethod: 'card'
   });
 
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+
+  // Mock unavailable dates
+  const unavailableDates = [
+    new Date(2024, 6, 15), // July 15, 2024
+    new Date(2024, 6, 16), // July 16, 2024
+    new Date(2024, 6, 20), // July 20, 2024
+    new Date(2024, 6, 21), // July 21, 2024
+  ];
+
+  const isDateUnavailable = (date: Date) => {
+    return unavailableDates.some(unavailable => 
+      date.toDateString() === unavailable.toDateString()
+    );
+  };
+
   const calculateDays = () => {
-    if (formData.startDate && formData.endDate) {
-      const start = new Date(formData.startDate);
-      const end = new Date(formData.endDate);
-      const diffTime = Math.abs(end.getTime() - start.getTime());
+    if (startDate && endDate) {
+      const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
     }
     return 1;
   };
 
-  const totalPrice = calculateDays() * tool.price;
+  // Calculate prices with 5.4% fees
+  const originalPrice = tool.price; // Original price entered by owner
+  const feeRate = 0.054; // 5.4%
+  const feeAmount = originalPrice * feeRate;
+  const displayPrice = originalPrice + feeAmount;
+  const totalPrice = calculateDays() * displayPrice;
+  const dailyFees = feeAmount;
+  const totalFees = dailyFees * calculateDays();
   const deposit = 100;
   const totalToPay = totalPrice + deposit;
 
@@ -50,7 +76,7 @@ const Rent = () => {
     e.preventDefault();
     
     // Validation simple
-    if (!formData.startDate || !formData.endDate || !formData.firstName || !formData.lastName || !formData.phone) {
+    if (!startDate || !endDate || !formData.firstName || !formData.lastName || !formData.phone) {
       toast({
         title: "Informations manquantes",
         description: "Veuillez remplir tous les champs obligatoires.",
@@ -100,7 +126,7 @@ const Rent = () => {
                       <img src={tool.images[0]} alt={tool.title} className="w-16 h-16 object-cover rounded" />
                       <div>
                         <h3 className="font-semibold">{tool.title}</h3>
-                        <p className="text-sm text-gray-600">{tool.price}€/jour</p>
+                        <p className="text-sm text-gray-600">{displayPrice.toFixed(1)}€/jour</p>
                         <p className="text-sm text-gray-600">{tool.location}</p>
                       </div>
                     </div>
@@ -110,26 +136,82 @@ const Rent = () => {
                       <h3 className="font-semibold text-lg">Période de location</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="startDate">Date de début *</Label>
-                          <Input 
-                            id="startDate"
-                            type="date" 
-                            value={formData.startDate}
-                            onChange={(e) => setFormData({...formData, startDate: e.target.value})}
-                            min={new Date().toISOString().split('T')[0]}
-                            required
-                          />
+                          <Label>Date de début *</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full justify-start text-left font-normal",
+                                  !startDate && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {startDate ? format(startDate, "PPP", { locale: fr }) : "Sélectionner une date"}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={startDate}
+                                onSelect={setStartDate}
+                                disabled={(date) => {
+                                  return date < new Date() || isDateUnavailable(date);
+                                }}
+                                modifiers={{
+                                  unavailable: unavailableDates
+                                }}
+                                modifiersStyles={{
+                                  unavailable: { 
+                                    backgroundColor: '#fecaca', 
+                                    color: '#dc2626',
+                                    textDecoration: 'line-through'
+                                  }
+                                }}
+                                initialFocus
+                                className="pointer-events-auto"
+                              />
+                            </PopoverContent>
+                          </Popover>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="endDate">Date de fin *</Label>
-                          <Input 
-                            id="endDate"
-                            type="date" 
-                            value={formData.endDate}
-                            onChange={(e) => setFormData({...formData, endDate: e.target.value})}
-                            min={formData.startDate || new Date().toISOString().split('T')[0]}
-                            required
-                          />
+                          <Label>Date de fin *</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full justify-start text-left font-normal",
+                                  !endDate && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {endDate ? format(endDate, "PPP", { locale: fr }) : "Sélectionner une date"}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={endDate}
+                                onSelect={setEndDate}
+                                disabled={(date) => {
+                                  return date < (startDate || new Date()) || isDateUnavailable(date);
+                                }}
+                                modifiers={{
+                                  unavailable: unavailableDates
+                                }}
+                                modifiersStyles={{
+                                  unavailable: { 
+                                    backgroundColor: '#fecaca', 
+                                    color: '#dc2626',
+                                    textDecoration: 'line-through'
+                                  }
+                                }}
+                                initialFocus
+                                className="pointer-events-auto"
+                              />
+                            </PopoverContent>
+                          </Popover>
                         </div>
                       </div>
 
@@ -254,7 +336,7 @@ const Rent = () => {
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
                       <span>Prix par jour</span>
-                      <span>{tool.price}€</span>
+                      <span>{displayPrice.toFixed(1)}€</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Nombre de jours</span>
@@ -262,7 +344,11 @@ const Rent = () => {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Sous-total</span>
-                      <span>{totalPrice}€</span>
+                      <span>{totalPrice.toFixed(1)}€</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Frais de paiement sécurisé (taxes et frais)</span>
+                      <span>{totalFees.toFixed(1)}€</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Caution (remboursable)</span>
@@ -271,7 +357,7 @@ const Rent = () => {
                     <div className="border-t pt-3">
                       <div className="flex justify-between font-semibold text-lg">
                         <span>Total à payer</span>
-                        <span>{totalToPay}€</span>
+                        <span>{totalToPay.toFixed(1)}€</span>
                       </div>
                     </div>
                   </div>

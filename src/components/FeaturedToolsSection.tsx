@@ -82,6 +82,13 @@ const FeaturedToolsSection = () => {
     }
   };
 
+  // Calculate display price with 5.4% fees
+  const calculateDisplayPrice = (originalPrice: number) => {
+    const feeRate = 0.054;
+    const feeAmount = originalPrice * feeRate;
+    return originalPrice + feeAmount;
+  };
+
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,75 +102,78 @@ const FeaturedToolsSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {tools.map((tool) => (
-            <div key={tool.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover">
-              {/* Image */}
-              <div className="relative h-48 bg-gray-100">
-                <img
-                  src={tool.images[0]}
-                  alt={tool.title}
-                  className="w-full h-full object-cover"
-                />
-                <Badge className="absolute top-3 left-3 bg-green-100 text-green-800 hover:bg-green-100">
-                  {t('tools.available')}
-                </Badge>
-                <button
-                  onClick={() => handleFavoriteToggle(tool)}
-                  className="absolute top-3 right-3 bg-white rounded-full p-1 hover:bg-gray-50"
-                >
-                  <Heart 
-                    className={`h-4 w-4 ${
-                      isFavorite(tool.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'
-                    }`} 
+          {tools.map((tool) => {
+            const displayPrice = calculateDisplayPrice(tool.price);
+            return (
+              <div key={tool.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover">
+                {/* Image */}
+                <div className="relative h-48 bg-gray-100">
+                  <img
+                    src={tool.images[0]}
+                    alt={tool.title}
+                    className="w-full h-full object-cover"
                   />
-                </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="secondary" className="text-xs">
-                    {tool.category}
+                  <Badge className="absolute top-3 left-3 bg-green-100 text-green-800 hover:bg-green-100">
+                    {t('tools.available')}
                   </Badge>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
-                    {tool.rating} ({tool.reviews})
-                  </div>
+                  <button
+                    onClick={() => handleFavoriteToggle(tool)}
+                    className="absolute top-3 right-3 bg-white rounded-full p-1 hover:bg-gray-50"
+                  >
+                    <Heart 
+                      className={`h-4 w-4 ${
+                        isFavorite(tool.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'
+                      }`} 
+                    />
+                  </button>
                 </div>
 
-                <h3 className="font-semibold text-gray-900 mb-2 truncate">
-                  {tool.title}
-                </h3>
-
-                <div className="flex items-center text-sm text-gray-500 mb-3">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  {tool.location}
-                </div>
-
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-lg font-bold text-primary">
-                    {tool.price}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
+                {/* Content */}
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {tool.category}
+                    </Badge>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
+                      {tool.rating} ({tool.reviews})
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-500">
-                    par {tool.owner}
-                  </div>
-                </div>
 
-                <div className="flex gap-2">
-                  <Link to={`/tool/${tool.id}`} className="flex-1">
-                    <Button size="sm" className="w-full">
-                      {t('tools.rent')}
-                    </Button>
-                  </Link>
-                  <Link to={`/tool/${tool.id}`}>
-                    <Button size="sm" variant="outline">
-                      {t('tools.details')}
-                    </Button>
-                  </Link>
+                  <h3 className="font-semibold text-gray-900 mb-2 truncate">
+                    {tool.title}
+                  </h3>
+
+                  <div className="flex items-center text-sm text-gray-500 mb-3">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    {tool.location}
+                  </div>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-lg font-bold text-primary">
+                      {displayPrice.toFixed(1)}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      par {tool.owner}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Link to={`/tool/${tool.id}`} className="flex-1">
+                      <Button size="sm" className="w-full">
+                        {t('tools.rent')}
+                      </Button>
+                    </Link>
+                    <Link to={`/tool/${tool.id}`}>
+                      <Button size="sm" variant="outline">
+                        {t('tools.details')}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="text-center mt-10">

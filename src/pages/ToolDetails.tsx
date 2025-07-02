@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -40,6 +39,12 @@ const ToolDetails = () => {
       verified: true
     }
   };
+
+  // Calculate prices with 5.4% fees
+  const originalPrice = tool.price; // Original price entered by owner
+  const feeRate = 0.054; // 5.4%
+  const feeAmount = originalPrice * feeRate;
+  const displayPrice = originalPrice + feeAmount;
 
   // Mock reviews data
   const allReviews = [
@@ -162,7 +167,10 @@ const ToolDetails = () => {
 
               <div className="bg-accent/5 rounded-lg p-6 mb-6">
                 <div className="text-3xl font-bold text-accent mb-2">
-                  {tool.price}€<span className="text-lg font-normal text-gray-600">/jour</span>
+                  {displayPrice.toFixed(1)}€<span className="text-lg font-normal text-gray-600">/jour</span>
+                </div>
+                <div className="text-sm text-gray-600 mb-4">
+                  Incluant taxes et frais : {feeAmount.toFixed(1)} € (5,4% des {originalPrice} € saisis par le loueur)
                 </div>
                 <div className="text-sm text-gray-600 mb-4">
                   Caution: {toolDetails.deposit}€ (remboursée en fin de location)
