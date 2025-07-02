@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,41 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+interface RequestBase {
+  id: string;
+  toolName: string;
+  owner: string;
+  startDate: string;
+  endDate: string;
+  pickupTime: string;
+  status: string;
+  totalPrice: number;
+  message: string;
+  isOwnerView: boolean;
+  refusalReason?: string;
+  refusalMessage?: string;
+  cancellationReason?: string;
+  cancellationMessage?: string;
+}
+
+interface OwnerRequest extends RequestBase {
+  renterName: string;
+  renterEmail: string;
+  renterPhone: string;
+  renterAvatar: string;
+  isOwnerView: true;
+}
+
+interface RenterRequest extends RequestBase {
+  renterName?: undefined;
+  renterEmail?: undefined;
+  renterPhone?: undefined;
+  renterAvatar?: undefined;
+  isOwnerView: false;
+}
+
+type Request = OwnerRequest | RenterRequest;
+
 const Requests = () => {
   const [validationCode, setValidationCode] = useState('');
   const [reportReason, setReportReason] = useState('');
@@ -19,7 +55,7 @@ const Requests = () => {
   const [refusalMessage, setRefusalMessage] = useState('');
   const { toast } = useToast();
 
-  const [requests, setRequests] = useState([
+  const [requests, setRequests] = useState<Request[]>([
     {
       id: '1',
       toolName: 'Tondeuse à gazon électrique',
@@ -128,7 +164,7 @@ const Requests = () => {
         status: 'declined', 
         refusalReason, 
         refusalMessage 
-      } : req
+      } as Request : req
     ));
     
     toast({
