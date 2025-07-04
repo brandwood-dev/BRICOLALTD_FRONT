@@ -120,6 +120,22 @@ const Reservations = () => {
       location: 'Paris 14ème',
       cancellationReason: 'Changement de plans',
       cancellationMessage: 'Je ne peux plus utiliser l\'outil à ces dates.'
+    },
+    {
+      id: '5',
+      referenceId: 'RES-2024-005',
+      toolName: 'Marteau-piqueur',
+      toolDescription: 'Marteau-piqueur électrique 1500W avec 3 burins',
+      toolImage: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=400&h=300&fit=crop',
+      owner: 'Claire Martin',
+      ownerEmail: 'claire.martin@email.com',
+      ownerPhone: '+33 6 55 44 33 22',
+      startDate: '2024-01-05',
+      endDate: '2024-01-07',
+      status: 'completed',
+      price: 60,
+      dailyPrice: 30,
+      location: 'Paris 11ème'
     }
   ]);
 
