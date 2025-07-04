@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, MapPin, Star, Clock, Phone, Mail, Flag, Eye, Upload, Download, User } from 'lucide-react';
+import { Calendar, MapPin, Star, Clock, Phone, Mail, Flag, Eye, Upload, Download, User, EyeOff, Copy, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { generateRentalContract } from '@/utils/contractGenerator';
 
@@ -36,8 +35,8 @@ interface Reservation {
 }
 
 const Reservations = () => {
-  const [validationCode, setValidationCode] = useState('');
   const [showValidationCode, setShowValidationCode] = useState<{[key: string]: boolean}>({});
+  const [copiedCode, setCopiedCode] = useState<{[key: string]: boolean}>({});
   const [cancellationReason, setCancellationReason] = useState('');
   const [cancellationMessage, setCancellationMessage] = useState('');
   const [reportReason, setReportReason] = useState('');
@@ -199,26 +198,6 @@ const Reservations = () => {
     });
   };
 
-  const handleValidationCode = (reservationId: string) => {
-    const reservation = reservations.find(r => r.id === reservationId);
-    if (reservation && validationCode === reservation.validationCode) {
-      setReservations(prev => prev.map(res => 
-        res.id === reservationId ? { ...res, status: 'ongoing' as const } : res
-      ));
-      toast({
-        title: "Code validé",
-        description: "Le code de validation est correct. Le statut passe à 'En cours'.",
-      });
-      setValidationCode('');
-    } else {
-      toast({
-        title: "Code invalide",
-        description: "Le code de validation est incorrect.",
-        variant: "destructive"
-      });
-    }
-  };
-
   const handleReport = (reservationId: string) => {
     if (!reportReason) {
       toast({
@@ -300,6 +279,26 @@ const Reservations = () => {
       ...prev,
       [reservationId]: !prev[reservationId]
     }));
+  };
+
+  const copyValidationCode = async (code: string, reservationId: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedCode(prev => ({ ...prev, [reservationId]: true }));
+      toast({
+        title: "Code copié",
+        description: "Le code de validation a été copié dans le presse-papiers.",
+      });
+      setTimeout(() => {
+        setCopiedCode(prev => ({ ...prev, [reservationId]: false }));
+      }, 2000);
+    } catch (err) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de copier le code.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -551,35 +550,62 @@ const Reservations = () => {
                       )}
                     </div>
 
-                    {/* Section code de validation pour statut "Acceptée" */}
-                    {reservation.status === 'accepted' && (
-                      <div className="mt-4 p-3 bg-blue-50 rounded border">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-sm font-medium">Code de validation :</p>
+                    {/* Section code de validation modernisée */}
+                    {reservation.status === 'accepted' && reservation.validationCode && (
+                      <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium text-blue-900">Code de validation</span>
+                          </div>
                           <Button 
-                            variant="outline" 
+                            variant="ghost" 
                             size="sm"
                             onClick={() => toggleValidationCode(reservation.id)}
+                            className="text-blue-700 hover:text-blue-900 hover:bg-blue-100"
                           >
-                            {showValidationCode[reservation.id] ? 'Masquer' : 'Afficher'}
+                            {showValidationCode[reservation.id] ? (
+                              <>
+                                <EyeOff className="h-4 w-4 mr-1" />
+                                Masquer
+                              </>
+                            ) : (
+                              <>
+                                <Eye className="h-4 w-4 mr-1" />
+                                Afficher
+                              </>
+                            )}
                           </Button>
                         </div>
+                        
                         {showValidationCode[reservation.id] && (
-                          <div className="space-y-2">
-                            <div className="bg-white p-2 rounded border text-center font-mono text-lg">
-                              {reservation.validationCode}
-                            </div>
-                            <div className="flex gap-2">
-                              <Input
-                                placeholder="Entrez le code"
-                                value={validationCode}
-                                onChange={(e) => setValidationCode(e.target.value)}
-                                className="flex-1"
-                              />
-                              <Button onClick={() => handleValidationCode(reservation.id)}>
-                                Confirmer
+                          <div className="mt-3 p-3 bg-white rounded-md border border-blue-200 shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <div className="font-mono text-xl font-bold text-gray-900 tracking-wider">
+                                {reservation.validationCode}
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyValidationCode(reservation.validationCode!, reservation.id)}
+                                className="text-blue-700 hover:text-blue-900 hover:bg-blue-50"
+                              >
+                                {copiedCode[reservation.id] ? (
+                                  <>
+                                    <Check className="h-4 w-4 mr-1" />
+                                    Copié
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="h-4 w-4 mr-1" />
+                                    Copier
+                                  </>
+                                )}
                               </Button>
                             </div>
+                            <p className="text-xs text-blue-600 mt-2">
+                              Présentez ce code au propriétaire lors de la récupération
+                            </p>
                           </div>
                         )}
                       </div>
