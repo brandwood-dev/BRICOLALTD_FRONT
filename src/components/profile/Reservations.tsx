@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -336,11 +337,16 @@ const Reservations = () => {
                   <div className="flex-1 p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
+                        <div className="flex items-center gap-3 mb-2 flex-wrap">
                           <h3 className="text-lg font-semibold text-gray-900">{reservation.toolName}</h3>
                           <Badge className={getStatusColor(reservation.status)}>
                             {getStatusText(reservation.status)}
                           </Badge>
+                          {reservation.status === 'ongoing' && reservation.renterHasReturned && (
+                            <Badge variant="outline" className="bg-blue-50 text-blue-800 border-blue-200">
+                              En attente de confirmation de remise par le propriétaire
+                            </Badge>
+                          )}
                           {reservation.status === 'ongoing' && reservation.hasActiveClaim && (
                             <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
                               Réclamation en cours
