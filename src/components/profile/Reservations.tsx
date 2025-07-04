@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, MapPin, Star, Clock, Phone, Mail, Flag, Eye, Upload, Download } from 'lucide-react';
+import { Calendar, MapPin, Star, Clock, Phone, Mail, Flag, Eye, Upload, Download, User } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { generateRentalContract } from '@/utils/contractGenerator';
 
@@ -311,51 +311,70 @@ const Reservations = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-6">
           {reservations.map((reservation) => (
-            <div key={reservation.id} className="border rounded-lg p-4">
-              <div className="flex items-start gap-4">
-                <img 
-                  src={reservation.toolImage} 
-                  alt={reservation.toolName}
-                  className="w-16 h-16 rounded-lg object-cover"
-                />
-                <div className="flex-1 space-y-2">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-semibold">{reservation.toolName}</h3>
-                      <p className="text-sm text-muted-foreground">par {reservation.owner}</p>
-                      <div className="text-xs text-muted-foreground">
-                        Référence: {reservation.referenceId}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className={getStatusColor(reservation.status)}>
-                        {getStatusText(reservation.status)}
-                      </Badge>
-                      {reservation.status === 'ongoing' && reservation.hasActiveClaim && (
-                        <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
-                          Réclamation en cours
-                        </Badge>
-                      )}
-                    </div>
+            <Card key={reservation.id} className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex">
+                  {/* Image de l'outil */}
+                  <div className="w-32 h-32 flex-shrink-0">
+                    <img 
+                      src={reservation.toolImage} 
+                      alt={reservation.toolName}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      Du {reservation.startDate} au {reservation.endDate}
+                  {/* Contenu principal */}
+                  <div className="flex-1 p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-lg font-semibold text-gray-900">{reservation.toolName}</h3>
+                          <Badge className={getStatusColor(reservation.status)}>
+                            {getStatusText(reservation.status)}
+                          </Badge>
+                          {reservation.status === 'ongoing' && reservation.hasActiveClaim && (
+                            <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
+                              Réclamation en cours
+                            </Badge>
+                          )}
+                        </div>
+                        
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                          <User className="h-4 w-4" />
+                          <span>par {reservation.owner}</span>
+                        </div>
+                        
+                        <div className="text-xs text-gray-500 mb-3">
+                          Référence: {reservation.referenceId}
+                        </div>
+                        
+                        <p className="text-sm text-gray-600 mb-4">{reservation.toolDescription}</p>
+                        
+                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                          <div className="flex items-center gap-1">
+                            <Calendar className="h-4 w-4" />
+                            <span>Du {reservation.startDate} au {reservation.endDate}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MapPin className="h-4 w-4" />
+                            <span>{reservation.location}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-blue-600 mb-2">
+                          {reservation.price}€
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {reservation.dailyPrice}€/jour
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-4 w-4" />
-                      {reservation.location}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="font-semibold text-primary">
-                      {reservation.price}€
-                    </div>
+                    
+                    {/* Actions */}
                     <div className="flex gap-2 flex-wrap">
                       {/* Actions pour statut "En attente" */}
                       {reservation.status === 'pending' && (
@@ -490,37 +509,6 @@ const Reservations = () => {
                               </div>
                             </DialogContent>
                           </Dialog>
-
-                          <div className="w-full mt-3 p-3 bg-blue-50 rounded border">
-                            <div className="flex items-center justify-between mb-2">
-                              <p className="text-sm font-medium">Code de validation :</p>
-                              <Button 
-                                variant="outline" 
-                                size="sm"
-                                onClick={() => toggleValidationCode(reservation.id)}
-                              >
-                                {showValidationCode[reservation.id] ? 'Masquer' : 'Afficher'}
-                              </Button>
-                            </div>
-                            {showValidationCode[reservation.id] && (
-                              <div className="space-y-2">
-                                <div className="bg-white p-2 rounded border text-center font-mono text-lg">
-                                  {reservation.validationCode}
-                                </div>
-                                <div className="flex gap-2">
-                                  <Input
-                                    placeholder="Entrez le code"
-                                    value={validationCode}
-                                    onChange={(e) => setValidationCode(e.target.value)}
-                                    className="flex-1"
-                                  />
-                                  <Button onClick={() => handleValidationCode(reservation.id)}>
-                                    Confirmer
-                                  </Button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
                         </>
                       )}
 
@@ -562,10 +550,44 @@ const Reservations = () => {
                         </Dialog>
                       )}
                     </div>
+
+                    {/* Section code de validation pour statut "Acceptée" */}
+                    {reservation.status === 'accepted' && (
+                      <div className="mt-4 p-3 bg-blue-50 rounded border">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-sm font-medium">Code de validation :</p>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => toggleValidationCode(reservation.id)}
+                          >
+                            {showValidationCode[reservation.id] ? 'Masquer' : 'Afficher'}
+                          </Button>
+                        </div>
+                        {showValidationCode[reservation.id] && (
+                          <div className="space-y-2">
+                            <div className="bg-white p-2 rounded border text-center font-mono text-lg">
+                              {reservation.validationCode}
+                            </div>
+                            <div className="flex gap-2">
+                              <Input
+                                placeholder="Entrez le code"
+                                value={validationCode}
+                                onChange={(e) => setValidationCode(e.target.value)}
+                                className="flex-1"
+                              />
+                              <Button onClick={() => handleValidationCode(reservation.id)}>
+                                Confirmer
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
