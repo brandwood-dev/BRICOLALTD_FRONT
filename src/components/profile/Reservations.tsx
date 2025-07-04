@@ -144,6 +144,14 @@ const Reservations = () => {
     }
   };
 
+  const isCancellationAllowed = (startDate: string) => {
+    const today = new Date();
+    const start = new Date(startDate);
+    today.setHours(0, 0, 0, 0);
+    start.setHours(0, 0, 0, 0);
+    return today < start;
+  };
+
   const handleCancelReservation = (reservationId: string) => {
     if (!cancellationReason) {
       toast({
@@ -418,6 +426,48 @@ const Reservations = () => {
                       {/* Actions pour statut "Acceptée" */}
                       {reservation.status === 'accepted' && (
                         <>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                disabled={!isCancellationAllowed(reservation.startDate)}
+                                className={!isCancellationAllowed(reservation.startDate) ? 'opacity-50 cursor-not-allowed' : ''}
+                              >
+                                Annuler
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Annuler la réservation</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <Select value={cancellationReason} onValueChange={setCancellationReason}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Sélectionnez une raison" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="change-plans">Changement de plans</SelectItem>
+                                    <SelectItem value="found-alternative">Trouvé une alternative</SelectItem>
+                                    <SelectItem value="no-longer-needed">Plus besoin</SelectItem>
+                                    <SelectItem value="other">Autre</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <Textarea
+                                  placeholder="Message complémentaire (optionnel)"
+                                  value={cancellationMessage}
+                                  onChange={(e) => setCancellationMessage(e.target.value)}
+                                />
+                                <Button 
+                                  onClick={() => handleCancelReservation(reservation.id)}
+                                  className="w-full"
+                                >
+                                  Confirmer l'annulation
+                                </Button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+
                           <Button 
                             variant="outline" 
                             size="sm"
