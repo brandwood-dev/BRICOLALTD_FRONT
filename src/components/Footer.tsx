@@ -1,8 +1,9 @@
-
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Wrench, Facebook, Twitter, Instagram, Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import visaLogo from '@/assets/visa-logo.png';
+import mastercardLogo from '@/assets/mastercard-logo.png';
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -10,7 +11,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
@@ -20,8 +21,11 @@ const Footer = () => {
                 className="h-8"
               />
             </div>
-            <p className="text-gray-400 mb-6 max-w-md">
+            <p className="text-gray-400 mb-4 max-w-md">
               La plateforme de location d'outils qui connecte les propriétaires avec ceux qui en ont besoin. Simple, sécurisé et local.
+            </p>
+            <p className="text-xs text-gray-500 mb-6 max-w-md">
+              « www.bricolaltd.com » est une marque de « BRICOLA LTD ». Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372
             </p>
             <div className="flex space-x-4">
               <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
@@ -35,10 +39,23 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Liens utiles</h3>
             <ul className="space-y-2 text-gray-400">
               <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('footer.about')}</a></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">{t('footer.about')}</Link></li>
               <li><a href="#" className="hover:text-white transition-colors">{t('footer.help')}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('footer.contact')}</a></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">{t('footer.contact')}</Link></li>
               <li><a href="#" className="hover:text-white transition-colors">{t('footer.legal')}</a></li>
+            </ul>
+          </div>
+
+          {/* Centre d'assistance */}
+          <div>
+            <h3 className="font-semibold mb-4">Centre d'assistance</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><Link to="/guide-loueur" className="hover:text-white transition-colors">Guide du loueur</Link></li>
+              <li><Link to="/guide-locataire" className="hover:text-white transition-colors">Guide du locataire</Link></li>
+              <li><Link to="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
+              <li><Link to="/cgu" className="hover:text-white transition-colors">CGU</Link></li>
+              <li><Link to="/contrat-location" className="hover:text-white transition-colors">Contrat de location</Link></li>
+              <li><Link to="/politique-confidentialite" className="hover:text-white transition-colors">Politique de confidentialité</Link></li>
             </ul>
           </div>
 
@@ -55,11 +72,33 @@ const Footer = () => {
                 +33 1 23 45 67 89
               </li>
             </ul>
+            
+            {/* Payment Methods */}
+            <div className="mt-6">
+              <h4 className="font-semibold mb-3 text-sm">Modes de paiement</h4>
+              <div className="flex space-x-3">
+                <img src={visaLogo} alt="Visa" className="h-6 object-contain" />
+                <img src={mastercardLogo} alt="Mastercard" className="h-6 object-contain" />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 mt-8 text-center text-gray-400">
-          <p>&copy; 2024 Bricola. {t('footer.rights')}.</p>
+        <div className="border-t border-gray-800 pt-8 mt-8">
+          <div className="flex flex-col items-center text-center text-gray-400 space-y-2">
+            <p>&copy; 2025 Bricola LTD. {t('footer.rights')}.</p>
+            <p className="text-sm">
+              designed by{' '}
+              <a 
+                href="https://www.brandwoodandco.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-accent hover:text-accent-foreground transition-colors"
+              >
+                Brandwood & co
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

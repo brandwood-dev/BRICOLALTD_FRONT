@@ -24,6 +24,12 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
+import GuideLoueur from "./pages/GuideLoueur";
+import GuideLocataire from "./pages/GuideLocataire";
+import FAQ from "./pages/FAQ";
+import CGU from "./pages/CGU";
+import ContratLocation from "./pages/ContratLocation";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +59,12 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/guide-loueur" element={<GuideLoueur />} />
+                <Route path="/guide-locataire" element={<GuideLocataire />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/cgu" element={<CGU />} />
+                <Route path="/contrat-location" element={<ContratLocation />} />
+                <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

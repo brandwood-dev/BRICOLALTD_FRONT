@@ -11,11 +11,13 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
-import { Search as SearchIcon, MapPin, Star, Filter } from 'lucide-react';
+import { Search as SearchIcon, MapPin, Star, Filter, Heart } from 'lucide-react';
+import { useFavorites } from '@/contexts/FavoritesContext';
 import { Link, useSearchParams } from 'react-router-dom';
 
 const Search = () => {
   const { t } = useLanguage();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const [searchParams] = useSearchParams();
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
@@ -200,47 +202,58 @@ const Search = () => {
                 {filteredTools.map((tool) => {
                   const displayPrice = calculateDisplayPrice(tool.price);
                   return (
-                    <Card key={tool.id} className="hover:shadow-lg transition-shadow">
-                      <div className="relative">
-                        <img 
-                          src={tool.images[0]} 
+                    <div key={tool.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover">
+                      {/* Image */}
+                      <div className="relative h-48 bg-gray-100">
+                        <img
+                          src={tool.images[0]}
                           alt={tool.title}
-                          className="w-full h-48 object-cover rounded-t-lg"
+                          className="w-full h-full object-cover"
                         />
-                        {!tool.available && (
-                          <Badge className="absolute top-2 right-2 bg-red-500">
-                            Non disponible
+                        <div className="absolute top-3 left-3 flex gap-1">
+                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                            {tool.category}
                           </Badge>
-                        )}
+                          <Badge variant="outline" className="bg-white/90">
+                            {tool.subcategory}
+                          </Badge>
+                        </div>
                       </div>
-                      <CardContent className="p-4">
-                        <Link to={`/tool/${tool.id}`}>
-                          <h3 className="font-semibold text-lg mb-2 hover:text-accent">
-                            {tool.title}
-                          </h3>
-                        </Link>
-                        <div className="flex items-center gap-1 mb-2">
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm font-medium">{tool.rating}</span>
-                          <span className="text-sm text-gray-500">({tool.reviews} avis)</span>
-                        </div>
-                        <div className="flex items-center gap-1 mb-3">
-                          <MapPin className="h-4 w-4 text-gray-400" />
-                          <span className="text-sm text-gray-600">{tool.location}</span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <span className="text-lg font-bold text-accent">{displayPrice.toFixed(1)}€</span>
-                            <span className="text-sm text-gray-500">/{tool.period}</span>
+
+                      {/* Content */}
+                      <div className="p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center text-sm text-gray-500">
+                            <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
+                            {tool.rating} ({tool.reviews})
                           </div>
-                          <Link to={`/tool/${tool.id}`}>
-                            <Button size="sm" disabled={!tool.available}>
-                              {tool.available ? 'Louer' : 'Indisponible'}
-                            </Button>
-                          </Link>
                         </div>
-                      </CardContent>
-                    </Card>
+
+                        <h3 className="font-semibold text-gray-900 mb-2 truncate">
+                          {tool.title}
+                        </h3>
+
+                        <div className="flex items-center text-sm text-gray-500 mb-3">
+                          <MapPin className="h-4 w-4 mr-1" />
+                          {tool.location}
+                        </div>
+
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="text-lg font-bold text-primary">
+                            {displayPrice.toFixed(1)}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            par {tool.owner}
+                          </div>
+                        </div>
+
+                        <Link to={`/tool/${tool.id}`} className="w-full">
+                          <Button size="sm" className="w-full" disabled={!tool.available}>
+                            {tool.available ? t('tools.rent') : 'Indisponible'}
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
                   );
                 })}
               </div>

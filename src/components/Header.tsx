@@ -27,18 +27,18 @@ const Header = () => {
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-gray-700 hover:text-accent font-medium transition-colors">
               {t('nav.home')}
             </Link>
             <Link to="/search" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              {t('nav.catalog')}
-            </Link>
-            <Link to="/blog" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Blog
+              Catalogue
             </Link>
             <Link to="/about" className="text-gray-700 hover:text-accent font-medium transition-colors">
               À propos
+            </Link>
+            <Link to="/blog" className="text-gray-700 hover:text-accent font-medium transition-colors">
+              Blog
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-accent font-medium transition-colors">
               Contact
@@ -66,13 +66,13 @@ const Header = () => {
 
             {/* Language selector */}
             <Select value={language} onValueChange={(value: 'fr' | 'en' | 'ar') => setLanguage(value)}>
-              <SelectTrigger className="w-24 border-none bg-transparent">
+              <SelectTrigger className="w-28 border-none bg-transparent">
                 <SelectValue placeholder="Langue" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="fr">🇫🇷 FR</SelectItem>
-                <SelectItem value="en">🇬🇧 EN</SelectItem>
-                <SelectItem value="ar">🇸🇦 AR</SelectItem>
+                <SelectItem value="fr">🇫🇷 Français</SelectItem>
+                <SelectItem value="en">🇬🇧 English</SelectItem>
+                <SelectItem value="ar">🇸🇦 العربية</SelectItem>
               </SelectContent>
             </Select>
 
