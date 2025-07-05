@@ -12,6 +12,7 @@ import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye, Star, Upl
 import { useToast } from '@/hooks/use-toast';
 import { generateRentalContract } from '@/utils/contractGenerator';
 import RequestsAndReservationsFilters from './RequestsAndReservationsFilters';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 interface RequestBase {
   id: string;
@@ -73,6 +74,8 @@ const Requests = () => {
   const [isClaimDialogOpen, setIsClaimDialogOpen] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState('');
   const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const { toast } = useToast();
 
   const [requests, setRequests] = useState<Request[]>([
@@ -370,6 +373,26 @@ const Requests = () => {
     { value: 'ongoing', label: 'En cours' }
   ];
 
+  // Données à paginer (utilisez les données filtrées si elles existent, sinon les données originales)
+  const dataToDisplay = filteredRequests.length > 0 ? filteredRequests : requests;
+  
+  // Calcul de la pagination
+  const totalPages = Math.ceil(dataToDisplay.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedRequests = dataToDisplay.slice(startIndex, endIndex);
+
+  // Gestion du changement de page
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Reset de la page quand les filtres changent
+  const handleFilteredDataChange = (data: Request[]) => {
+    setFilteredRequests(data);
+    setCurrentPage(1); // Retour à la première page lors d'un changement de filtre
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -382,13 +405,13 @@ const Requests = () => {
         {/* Filtres */}
         <RequestsAndReservationsFilters 
           data={requests}
-          onFilteredDataChange={setFilteredRequests}
+          onFilteredDataChange={handleFilteredDataChange}
           searchPlaceholder="Rechercher par titre d'annonce..."
           statusOptions={statusOptions}
         />
         
         <div className="space-y-4">
-          {(filteredRequests.length > 0 ? filteredRequests : requests).map((request) => (
+          {paginatedRequests.map((request) => (
             <div key={request.id} className="border rounded-lg p-4 space-y-3">
               <div className="flex items-start justify-between">
                 <div className="flex gap-4">
@@ -778,6 +801,57 @@ const Requests = () => {
             </div>
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage > 1) handlePageChange(currentPage - 1);
+                    }}
+                    className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
+                  />
+                </PaginationItem>
+                
+                {Array.from({ length: totalPages }, (_, index) => {
+                  const pageNumber = index + 1;
+                  const isCurrentPage = pageNumber === currentPage;
+                  
+                  return (
+                    <PaginationItem key={pageNumber}>
+                      <PaginationLink
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(pageNumber);
+                        }}
+                        isActive={isCurrentPage}
+                      >
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+                
+                <PaginationItem>
+                  <PaginationNext 
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (currentPage < totalPages) handlePageChange(currentPage + 1);
+                    }}
+                    className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : ''}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
 
         {/* Modal de confirmation de récupération */}
         <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
