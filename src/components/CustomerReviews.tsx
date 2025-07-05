@@ -1,0 +1,87 @@
+
+import React from 'react';
+import { Star } from 'lucide-react';
+
+const CustomerReviews = () => {
+  const reviews = [
+    {
+      id: 1,
+      name: 'Marie L.',
+      rating: 5,
+      comment: 'Service exceptionnel ! J\'ai pu louer une perceuse en quelques clics. Le propriétaire était très sympathique et l\'outil en parfait état.',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80'
+    },
+    {
+      id: 2,
+      name: 'Thomas M.',
+      rating: 5,
+      comment: 'Parfait pour mes travaux de jardinage ! J\'ai économisé beaucoup d\'argent en louant plutôt qu\'en achetant. Je recommande vivement.',
+      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80'
+    },
+    {
+      id: 3,
+      name: 'Sophie R.',
+      rating: 5,
+      comment: 'Une plateforme très bien pensée. J\'ai pu louer mes outils facilement et générer des revenus supplémentaires. Excellent concept !',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80'
+    },
+    {
+      id: 4,
+      name: 'Pierre K.',
+      rating: 4,
+      comment: 'Très satisfait de mon expérience. Le processus de location est simple et sécurisé. Parfait pour les bricoleurs occasionnels comme moi.',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80'
+    }
+  ];
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <Star
+        key={index}
+        className={`h-4 w-4 ${
+          index < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+        }`}
+      />
+    ));
+  };
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Avis de nos clients
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Découvrez ce que nos utilisateurs pensent de notre plateforme
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {reviews.map((review) => (
+            <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center mb-4">
+                <img
+                  src={review.avatar}
+                  alt={review.name}
+                  className="w-12 h-12 rounded-full object-cover mr-4"
+                />
+                <div>
+                  <h4 className="font-semibold text-gray-900">{review.name}</h4>
+                  <div className="flex">
+                    {renderStars(review.rating)}
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                "{review.comment}"
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CustomerReviews;

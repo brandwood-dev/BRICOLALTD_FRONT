@@ -20,7 +20,8 @@ const FeaturedToolsSection = () => {
       reviews: 24,
       location: 'Paris 15ème',
       images: ['https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
-      category: 'Électrique',
+      category: 'Bricolage',
+      subcategory: 'Perceuses',
       available: true,
       owner: 'Marc D.',
       description: 'Perceuse professionnelle Bosch très puissante.',
@@ -36,6 +37,7 @@ const FeaturedToolsSection = () => {
       location: 'Lyon 3ème',
       images: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
       category: 'Jardinage',
+      subcategory: 'Élagage',
       available: true,
       owner: 'Sophie L.',
       description: 'Tronçonneuse Stihl professionnelle pour tous vos travaux.',
@@ -50,7 +52,8 @@ const FeaturedToolsSection = () => {
       reviews: 12,
       location: 'Marseille 8ème',
       images: ['https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
-      category: 'Construction',
+      category: 'Bricolage',
+      subcategory: 'Maçonnerie',
       available: true,
       owner: 'Pierre M.',
       description: 'Bétonnière électrique 140L pour vos travaux de maçonnerie.',
@@ -65,7 +68,8 @@ const FeaturedToolsSection = () => {
       reviews: 31,
       location: 'Toulouse 1er',
       images: ['https://images.unsplash.com/photo-1572981779307-38b8cabb2407?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'],
-      category: 'Électrique',
+      category: 'Bricolage',
+      subcategory: 'Ponçage',
       available: true,
       owner: 'Anne R.',
       description: 'Ponceuse excentrique pour finitions parfaites.',
@@ -113,9 +117,14 @@ const FeaturedToolsSection = () => {
                     alt={tool.title}
                     className="w-full h-full object-cover"
                   />
-                  <Badge className="absolute top-3 left-3 bg-green-100 text-green-800 hover:bg-green-100">
-                    {t('tools.available')}
-                  </Badge>
+                  <div className="absolute top-3 left-3 flex gap-1">
+                    <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                      {tool.category}
+                    </Badge>
+                    <Badge variant="outline" className="bg-white/90">
+                      {tool.subcategory}
+                    </Badge>
+                  </div>
                   <button
                     onClick={() => handleFavoriteToggle(tool)}
                     className="absolute top-3 right-3 bg-white rounded-full p-1 hover:bg-gray-50"
@@ -131,9 +140,6 @@ const FeaturedToolsSection = () => {
                 {/* Content */}
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {tool.category}
-                    </Badge>
                     <div className="flex items-center text-sm text-gray-500">
                       <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
                       {tool.rating} ({tool.reviews})

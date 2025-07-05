@@ -4,12 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { Search, User, Menu, Wrench, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const { favoritesCount } = useFavorites();
+  const { currency, setCurrency, currencies } = useCurrency();
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -45,10 +47,27 @@ const Header = () => {
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
+            {/* Currency selector */}
+            <Select value={currency.code} onValueChange={(value) => {
+              const selectedCurrency = currencies.find(c => c.code === value);
+              if (selectedCurrency) setCurrency(selectedCurrency);
+            }}>
+              <SelectTrigger className="w-20 border-none bg-transparent">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {currencies.map((curr) => (
+                  <SelectItem key={curr.code} value={curr.code}>
+                    {curr.flag} {curr.code}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             {/* Language selector */}
             <Select value={language} onValueChange={(value: 'fr' | 'en' | 'ar') => setLanguage(value)}>
-              <SelectTrigger className="w-16 border-none bg-transparent">
-                <SelectValue />
+              <SelectTrigger className="w-24 border-none bg-transparent">
+                <SelectValue placeholder="Langue" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="fr">🇫🇷 FR</SelectItem>
