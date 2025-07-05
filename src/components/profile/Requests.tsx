@@ -157,6 +157,44 @@ const Requests = () => {
       cancellationReason: 'Changement de plans',
       cancellationMessage: 'Je ne peux plus utiliser l\'outil à ces dates.',
       isOwnerView: false
+    },
+    {
+      id: '5',
+      referenceId: 'REF-2024-005',
+      toolName: 'Niveau laser',
+      toolDescription: 'Niveau laser rotatif avec trépied',
+      toolImage: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop',
+      owner: 'Thomas Bernard',
+      startDate: '2024-01-12',
+      endDate: '2024-01-14',
+      pickupTime: '11:00',
+      status: 'pending',
+      totalPrice: 45,
+      dailyPrice: 22.5,
+      message: 'Besoin pour un projet de rénovation.',
+      isOwnerView: false
+    },
+    {
+      id: '6',
+      referenceId: 'REF-2024-006',
+      toolName: 'Aspirateur de chantier',
+      toolDescription: 'Aspirateur eau et poussière 30L',
+      toolImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
+      owner: 'Claire Martin',
+      renterName: 'Alex Dupont',
+      renterEmail: 'alex.dupont@email.com',
+      renterPhone: '+33 6 99 88 77 66',
+      renterAvatar: '',
+      ownerEmail: 'claire.martin@email.com',
+      ownerPhone: '+33 6 55 44 33 22',
+      startDate: '2024-01-28',
+      endDate: '2024-01-30',
+      pickupTime: '13:00',
+      status: 'accepted',
+      totalPrice: 50,
+      dailyPrice: 25,
+      message: 'Parfait pour mon nettoyage post-travaux.',
+      isOwnerView: true
     }
   ]);
 
