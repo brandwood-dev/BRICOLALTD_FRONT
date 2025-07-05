@@ -132,22 +132,22 @@ const Header = () => {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 p-0">
-                <div className="flex flex-col h-full">
-                  {/* Header */}
-                  <div className="flex items-center justify-between p-6 border-b">
-                    <img 
-                      src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
-                      alt="Bricola" 
-                      className="h-8"
-                    />
-                    <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(false)}>
-                      <X className="h-5 w-5" />
-                    </Button>
-                  </div>
+              <SheetContent side="right" className="w-80 p-0 flex flex-col">
+                {/* Fixed Header */}
+                <div className="flex items-center justify-between p-6 border-b flex-shrink-0">
+                  <img 
+                    src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+                    alt="Bricola" 
+                    className="h-8"
+                  />
+                  <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(false)}>
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
 
-                  {/* Content */}
-                  <div className="flex-1 p-6 space-y-6">
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto">
+                  <div className="p-6 space-y-6">
                     {/* Auth Buttons */}
                     <div className="space-y-3">
                       <Link to="/login" onClick={() => setIsMenuOpen(false)}>
