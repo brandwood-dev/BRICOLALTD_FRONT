@@ -47,9 +47,6 @@ const RentalProcess = () => {
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <IconComponent className="h-8 w-8 text-primary" />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
-                    {index + 1}
-                  </div>
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
                   {step.title}
