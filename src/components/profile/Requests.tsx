@@ -373,7 +373,7 @@ const Requests = () => {
     { value: 'ongoing', label: 'En cours' }
   ];
 
-  // Données à paginer (utilisez les données filtrées si elles existent, sinon les données originales)
+  // Données à paginer
   const dataToDisplay = filteredRequests.length > 0 ? filteredRequests : requests;
   
   // Calcul de la pagination

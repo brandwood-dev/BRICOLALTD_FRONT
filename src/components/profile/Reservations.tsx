@@ -372,7 +372,7 @@ const Reservations = () => {
     { value: 'rejected', label: 'Refusée' }
   ];
 
-  // Données à paginer (utilisez les données filtrées si elles existent, sinon les données originales)
+  // Données à paginer
   const dataToDisplay = filteredReservations.length > 0 ? filteredReservations : reservations;
   
   // Calcul de la pagination
