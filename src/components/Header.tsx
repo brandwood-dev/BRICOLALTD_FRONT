@@ -1,17 +1,19 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
-import { Search, User, Menu, Wrench, Heart } from 'lucide-react';
+import { Search, User, Menu, Wrench, Heart, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const { favoritesCount } = useFavorites();
   const { currency, setCurrency, currencies } = useCurrency();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -45,8 +47,8 @@ const Header = () => {
             </Link>
           </nav>
 
-          {/* Right side */}
-          <div className="flex items-center space-x-4">
+          {/* Desktop Right side */}
+          <div className="hidden md:flex items-center space-x-4">
             {/* Currency selector */}
             <Select value={currency.code} onValueChange={(value) => {
               const selectedCurrency = currencies.find(c => c.code === value);
@@ -78,7 +80,7 @@ const Header = () => {
 
             {/* Favorites */}
             <Link to="/favorites" className="relative">
-              <Button variant="ghost" size="sm" className="hidden sm:flex">
+              <Button variant="ghost" size="sm">
                 <Heart className="h-5 w-5" />
                 {favoritesCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -90,7 +92,7 @@ const Header = () => {
 
             {/* List tool button */}
             <Link to="/add-tool">
-              <Button variant="outline" className="hidden sm:flex">
+              <Button variant="outline">
                 {t('nav.list')}
               </Button>
             </Link>
@@ -98,7 +100,7 @@ const Header = () => {
             {/* User menu */}
             <div className="flex items-center space-x-2">
               <Link to="/login">
-                <Button variant="outline" size="sm" className="hidden sm:flex">
+                <Button variant="outline" size="sm">
                   {t('nav.login')}
                 </Button>
               </Link>
@@ -108,16 +110,143 @@ const Header = () => {
                 </Button>
               </Link>
               <Link to="/profile">
-                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                <Button variant="ghost" size="sm">
                   <User className="h-5 w-5" />
                 </Button>
               </Link>
             </div>
+          </div>
 
-            {/* Mobile menu */}
-            <Button variant="ghost" size="sm" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
+          {/* Mobile Right side */}
+          <div className="md:hidden flex items-center space-x-2">
+            <Link to="/profile">
+              <Button variant="ghost" size="sm">
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
+
+            {/* Mobile Burger Menu */}
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-80 p-0">
+                <div className="flex flex-col h-full">
+                  {/* Header */}
+                  <div className="flex items-center justify-between p-6 border-b">
+                    <img 
+                      src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+                      alt="Bricola" 
+                      className="h-8"
+                    />
+                    <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(false)}>
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 p-6 space-y-6">
+                    {/* Auth Buttons */}
+                    <div className="space-y-3">
+                      <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                        <Button variant="outline" className="w-full">
+                          {t('nav.login')}
+                        </Button>
+                      </Link>
+                      <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                        <Button className="w-full">
+                          {t('nav.signup')}
+                        </Button>
+                      </Link>
+                      <Link to="/add-tool" onClick={() => setIsMenuOpen(false)}>
+                        <Button variant="outline" className="w-full">
+                          {t('nav.list')}
+                        </Button>
+                      </Link>
+                    </div>
+
+                    {/* Navigation Links */}
+                    <div className="space-y-4 border-t pt-6">
+                      <h3 className="font-semibold text-lg">Navigation</h3>
+                      <div className="space-y-2">
+                        <Link 
+                          to="/" 
+                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {t('nav.home')}
+                        </Link>
+                        <Link 
+                          to="/search" 
+                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Catalogue
+                        </Link>
+                        <Link 
+                          to="/about" 
+                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          À propos
+                        </Link>
+                        <Link 
+                          to="/blog" 
+                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Blog
+                        </Link>
+                        <Link 
+                          to="/contact" 
+                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Contact
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Language selector */}
+                    <div className="space-y-3 border-t pt-6">
+                      <h3 className="font-semibold text-lg">Langue</h3>
+                      <Select value={language} onValueChange={(value: 'fr' | 'en' | 'ar') => setLanguage(value)}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Langue" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="fr">🇫🇷 Français</SelectItem>
+                          <SelectItem value="en">🇬🇧 English</SelectItem>
+                          <SelectItem value="ar">🇸🇦 العربية</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Currency selector */}
+                    <div className="space-y-3 border-t pt-6">
+                      <h3 className="font-semibold text-lg">Devise</h3>
+                      <Select value={currency.code} onValueChange={(value) => {
+                        const selectedCurrency = currencies.find(c => c.code === value);
+                        if (selectedCurrency) setCurrency(selectedCurrency);
+                      }}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {currencies.map((curr) => (
+                            <SelectItem key={curr.code} value={curr.code}>
+                              {curr.flag} {curr.code} - {curr.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
