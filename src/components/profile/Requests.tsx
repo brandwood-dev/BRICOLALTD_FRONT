@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye, Star, Upload, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { generateRentalContract } from '@/utils/contractGenerator';
+import RequestsAndReservationsFilters from './RequestsAndReservationsFilters';
 
 interface RequestBase {
   id: string;
@@ -71,6 +72,7 @@ const Requests = () => {
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [isClaimDialogOpen, setIsClaimDialogOpen] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState('');
+  const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
   const { toast } = useToast();
 
   const [requests, setRequests] = useState<Request[]>([
@@ -360,6 +362,14 @@ const Requests = () => {
     });
   };
 
+  const statusOptions = [
+    { value: 'pending', label: 'En attente' },
+    { value: 'accepted', label: 'Acceptée' },
+    { value: 'declined', label: 'Refusée' },
+    { value: 'cancelled', label: 'Annulée' },
+    { value: 'ongoing', label: 'En cours' }
+  ];
+
   return (
     <Card>
       <CardHeader>
@@ -369,8 +379,16 @@ const Requests = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {/* Filtres */}
+        <RequestsAndReservationsFilters 
+          data={requests}
+          onFilteredDataChange={setFilteredRequests}
+          searchPlaceholder="Rechercher par titre d'annonce..."
+          statusOptions={statusOptions}
+        />
+        
         <div className="space-y-4">
-          {requests.map((request) => (
+          {(filteredRequests.length > 0 ? filteredRequests : requests).map((request) => (
             <div key={request.id} className="border rounded-lg p-4 space-y-3">
               <div className="flex items-start justify-between">
                 <div className="flex gap-4">

@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Calendar, MapPin, Star, Clock, Phone, Mail, Flag, Eye, Upload, Download, User, EyeOff, Copy, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { generateRentalContract } from '@/utils/contractGenerator';
+import RequestsAndReservationsFilters from './RequestsAndReservationsFilters';
 
 interface Reservation {
   id: string;
@@ -51,6 +52,7 @@ const Reservations = () => {
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [isClaimDialogOpen, setIsClaimDialogOpen] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState('');
+  const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]);
   const { toast } = useToast();
 
   const [reservations, setReservations] = useState<Reservation[]>([
@@ -358,6 +360,15 @@ const Reservations = () => {
     }
   };
 
+  const statusOptions = [
+    { value: 'pending', label: 'En attente' },
+    { value: 'accepted', label: 'Acceptée' },
+    { value: 'ongoing', label: 'En cours' },
+    { value: 'completed', label: 'Terminée' },
+    { value: 'cancelled', label: 'Annulée' },
+    { value: 'rejected', label: 'Refusée' }
+  ];
+
   return (
     <Card>
       <CardHeader>
@@ -367,8 +378,16 @@ const Reservations = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {/* Filtres */}
+        <RequestsAndReservationsFilters 
+          data={reservations}
+          onFilteredDataChange={setFilteredReservations}
+          searchPlaceholder="Rechercher par titre d'annonce..."
+          statusOptions={statusOptions}
+        />
+        
         <div className="space-y-6">
-          {reservations.map((reservation) => (
+          {(filteredReservations.length > 0 ? filteredReservations : reservations).map((reservation) => (
             <Card key={reservation.id} className="overflow-hidden">
               <CardContent className="p-0">
                 <div className="flex">
