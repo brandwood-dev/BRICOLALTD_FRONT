@@ -210,9 +210,12 @@ const Search = () => {
                           alt={tool.title}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute top-3 left-3">
+                        <div className="absolute top-3 left-3 flex gap-1">
                           <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
                             {tool.category}
+                          </Badge>
+                          <Badge variant="outline" className="bg-white/90">
+                            {tool.subcategory}
                           </Badge>
                         </div>
                       </div>
