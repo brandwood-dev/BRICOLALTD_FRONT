@@ -60,56 +60,69 @@ const Profile = () => {
           </div>
 
           {/* Profile header */}
-          <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src="" />
-                <AvatarFallback className="text-2xl">
-                  {userInfo.firstName[0]}{userInfo.lastName[0]}
-                </AvatarFallback>
-              </Avatar>
-              
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl font-bold">
-                    {userInfo.firstName} {userInfo.lastName}
-                  </h1>
-                  {userInfo.verified && (
-                    <Badge variant="default" className="flex items-center gap-1">
-                      <Shield className="h-3 w-3" />
-                      Vérifié
-                    </Badge>
-                  )}
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    {userInfo.accountType === 'Entreprise' ? (
-                      <Building2 className="h-3 w-3" />
-                    ) : (
-                      <UserCircle className="h-3 w-3" />
-                    )}
-                    {userInfo.accountType}
-                  </Badge>
+          <div className="bg-gradient-to-br from-card to-card/50 rounded-2xl shadow-lg border border-border/50 p-8 mb-8 backdrop-blur-sm">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+              {/* Avatar Section */}
+              <div className="flex flex-col items-center lg:items-start gap-4">
+                <div className="relative">
+                  <Avatar className="h-32 w-32 ring-4 ring-primary/20 shadow-xl">
+                    <AvatarImage src="" />
+                    <AvatarFallback className="text-3xl font-bold bg-gradient-to-br from-primary to-accent text-primary-foreground">
+                      {userInfo.firstName[0]}{userInfo.lastName[0]}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="absolute -bottom-2 -right-2 bg-primary rounded-full p-2 shadow-lg">
+                    <Shield className="h-4 w-4 text-primary-foreground" />
+                  </div>
                 </div>
-                <p className="text-gray-600 mb-4">
-                  Membre depuis {userInfo.memberSince}
-                </p>
+              </div>
+              
+              {/* Profile Info */}
+              <div className="flex-1 text-center lg:text-left">
+                <div className="mb-6">
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-3 mb-3">
+                    <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                      {userInfo.firstName} {userInfo.lastName}
+                    </h1>
+                    <div className="flex items-center justify-center lg:justify-start gap-2">
+                      {userInfo.verified && (
+                        <Badge variant="default" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
+                          <Shield className="h-3 w-3 mr-1" />
+                          Vérifié
+                        </Badge>
+                      )}
+                      <Badge variant="secondary" className="bg-accent/10 text-accent border-accent/20">
+                        {userInfo.accountType === 'Entreprise' ? (
+                          <Building2 className="h-3 w-3 mr-1" />
+                        ) : (
+                          <UserCircle className="h-3 w-3 mr-1" />
+                        )}
+                        {userInfo.accountType}
+                      </Badge>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground text-lg font-medium">
+                    Membre depuis {userInfo.memberSince}
+                  </p>
+                </div>
                 
-                {/* Quick stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.totalEarnings}€</div>
-                    <div className="text-sm text-muted-foreground">Gains totaux</div>
+                {/* Stats Cards */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">{stats.totalEarnings}€</div>
+                    <div className="text-xs lg:text-sm text-primary/80 font-medium">Gains totaux</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.activeAds}</div>
-                    <div className="text-sm text-muted-foreground">Annonces actives</div>
+                  <div className="bg-gradient-to-br from-accent/5 to-accent/10 rounded-xl p-4 border border-accent/20 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div className="text-2xl lg:text-3xl font-bold text-accent mb-1">{stats.activeAds}</div>
+                    <div className="text-xs lg:text-sm text-accent/80 font-medium">Annonces actives</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.totalRentals}</div>
-                    <div className="text-sm text-muted-foreground">Locations réalisées</div>
+                  <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-4 border border-primary/20 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">{stats.totalRentals}</div>
+                    <div className="text-xs lg:text-sm text-primary/80 font-medium">Locations réalisées</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.rating}</div>
-                    <div className="text-sm text-muted-foreground">Note moyenne</div>
+                  <div className="bg-gradient-to-br from-accent/5 to-accent/10 rounded-xl p-4 border border-accent/20 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                    <div className="text-2xl lg:text-3xl font-bold text-accent mb-1">{stats.rating}</div>
+                    <div className="text-xs lg:text-sm text-accent/80 font-medium">Note moyenne</div>
                   </div>
                 </div>
               </div>
