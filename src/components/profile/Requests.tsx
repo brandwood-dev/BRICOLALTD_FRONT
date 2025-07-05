@@ -75,7 +75,7 @@ const Requests = () => {
   const [selectedRequestId, setSelectedRequestId] = useState('');
   const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(3);
   const { toast } = useToast();
 
   const [requests, setRequests] = useState<Request[]>([
