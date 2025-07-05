@@ -1,65 +1,129 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { 
   Wallet as WalletIcon, 
-  ArrowUpRight, 
-  ArrowDownLeft, 
-  CreditCard, 
   TrendingUp, 
   Banknote,
   CheckCircle,
-  Info
+  Info,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
+import { isWithinInterval, parseISO } from 'date-fns';
+import TransactionFilters from './TransactionFilters';
+import TransactionCard from './TransactionCard';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 const Wallet = () => {
   const [showWithdrawDialog, setShowWithdrawDialog] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [transactionType, setTransactionType] = useState('all');
+  const itemsPerPage = 5;
   
-  const transactions = [
+  const allTransactions = [
     {
       id: '1',
-      type: 'credit',
+      type: 'receipt' as const,
       amount: 45,
-      description: 'Location tondeuse - Jean Martin',
+      toolName: 'Tondeuse à gazon électrique',
+      userName: 'Jean Martin',
+      reference: 'REF-2024-001',
       date: '2024-01-15',
-      status: 'completed'
+      status: 'completed' as const
     },
     {
       id: '2',
-      type: 'debit',
+      type: 'withdrawal' as const,
       amount: 25,
-      description: 'Location perceuse - Marie Dubois',
+      withdrawalId: 'WDR-2024-003',
       date: '2024-01-12',
-      status: 'completed'
+      status: 'completed' as const
     },
     {
       id: '3',
-      type: 'credit',
+      type: 'receipt' as const,
       amount: 35,
-      description: 'Location scie circulaire - Paul Durand',
+      toolName: 'Scie circulaire',
+      userName: 'Paul Durand',
+      reference: 'REF-2024-002',
       date: '2024-01-10',
-      status: 'pending'
+      status: 'pending' as const
     },
     {
       id: '4',
-      type: 'credit',
+      type: 'receipt' as const,
       amount: 60,
-      description: 'Location compresseur - Sophie Leroy',
+      toolName: 'Compresseur',
+      userName: 'Sophie Leroy',
+      reference: 'REF-2024-003',
       date: '2024-01-08',
-      status: 'completed'
+      status: 'completed' as const
+    },
+    {
+      id: '5',
+      type: 'withdrawal' as const,
+      amount: 50,
+      withdrawalId: 'WDR-2024-002',
+      date: '2024-01-05',
+      status: 'pending' as const
+    },
+    {
+      id: '6',
+      type: 'withdrawal' as const,
+      amount: 30,
+      withdrawalId: 'WDR-2024-001',
+      date: '2024-01-02',
+      status: 'failed' as const
     }
   ];
 
+  // Filter transactions
+  const filteredTransactions = useMemo(() => {
+    let filtered = allTransactions;
+
+    // Filter by type
+    if (transactionType !== 'all') {
+      if (transactionType === 'receipts') {
+        filtered = filtered.filter(t => t.type === 'receipt');
+      } else if (transactionType === 'withdrawals') {
+        filtered = filtered.filter(t => t.type === 'withdrawal');
+      }
+    }
+
+    // Filter by date range
+    if (dateRange?.from) {
+      filtered = filtered.filter(transaction => {
+        const transactionDate = parseISO(transaction.date);
+        if (dateRange.to) {
+          return isWithinInterval(transactionDate, { start: dateRange.from!, end: dateRange.to });
+        } else {
+          return transactionDate >= dateRange.from!;
+        }
+      });
+    }
+
+    return filtered;
+  }, [transactionType, dateRange]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedTransactions = filteredTransactions.slice(startIndex, startIndex + itemsPerPage);
+
   // Calculate KPIs
   const availableBalance = 180;
-  const successfulTransactionsAmount = transactions
-    .filter(t => t.status === 'completed' && t.type === 'credit')
+  const successfulReceiptTransactions = allTransactions
+    .filter(t => t.status === 'completed' && t.type === 'receipt');
+  const successfulTransactionsAmount = successfulReceiptTransactions
     .reduce((sum, t) => sum + t.amount, 0);
   const cumulativeBalance = availableBalance + successfulTransactionsAmount;
-  const successfulTransactionsCount = transactions.filter(t => t.status === 'completed').length;
+  const successfulTransactionsCount = allTransactions.filter(t => t.status === 'completed').length;
   
   // Currency conversion (example rates)
   const gbpToEur = 1.159; // Example conversion rate
@@ -67,6 +131,16 @@ const Wallet = () => {
   const minWithdrawalEUR = Math.round(minWithdrawalGBP * gbpToEur * 100) / 100;
 
   const canWithdraw = cumulativeBalance >= minWithdrawalEUR;
+
+  const handleResetFilters = () => {
+    setDateRange(undefined);
+    setTransactionType('all');
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="space-y-6">
@@ -178,52 +252,60 @@ const Wallet = () => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold text-gray-900">Transactions récentes</h3>
-            <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-50">
-              <CreditCard className="h-4 w-4 mr-2" />
-              Voir tout
-            </Button>
           </div>
           
-          <div className="space-y-4">
-            {transactions.map((transaction) => (
-              <div key={transaction.id} className="group hover:bg-gray-50 transition-colors rounded-lg p-4 border border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-full transition-colors ${
-                      transaction.type === 'credit' 
-                        ? 'bg-green-100 text-green-600 group-hover:bg-green-200' 
-                        : 'bg-blue-100 text-blue-600 group-hover:bg-blue-200'
-                    }`}>
-                      {transaction.type === 'credit' ? 
-                        <ArrowDownLeft className="h-5 w-5" /> : 
-                        <ArrowUpRight className="h-5 w-5" />
-                      }
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900 mb-1">{transaction.description}</div>
-                      <div className="text-sm text-gray-500">{transaction.date}</div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className={`font-bold text-lg mb-1 ${
-                      transaction.type === 'credit' ? 'text-green-600' : 'text-blue-600'
-                    }`}>
-                      {transaction.type === 'credit' ? '+' : '-'}{transaction.amount}€
-                    </div>
-                    <Badge 
-                      variant={transaction.status === 'completed' ? 'default' : 'secondary'}
-                      className={transaction.status === 'completed' 
-                        ? 'bg-green-100 text-green-800 border-green-300' 
-                        : 'bg-orange-100 text-orange-800 border-orange-300'
-                      }
-                    >
-                      {transaction.status === 'completed' ? 'Terminé' : 'En attente'}
-                    </Badge>
-                  </div>
-                </div>
+          {/* Filters */}
+          <TransactionFilters
+            dateRange={dateRange}
+            onDateRangeChange={setDateRange}
+            transactionType={transactionType}
+            onTransactionTypeChange={setTransactionType}
+            onReset={handleResetFilters}
+          />
+          
+          {/* Transaction Cards */}
+          <div className="space-y-4 mb-6">
+            {paginatedTransactions.length > 0 ? (
+              paginatedTransactions.map((transaction) => (
+                <TransactionCard key={transaction.id} transaction={transaction} />
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                Aucune transaction trouvée pour les filtres sélectionnés.
               </div>
-            ))}
+            )}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  />
+                </PaginationItem>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      onClick={() => handlePageChange(page)}
+                      isActive={currentPage === page}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
         </CardContent>
       </Card>
     </div>
