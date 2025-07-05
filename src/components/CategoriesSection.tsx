@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Scissors, Hammer, Spray, Car, Music } from 'lucide-react';
+import { Scissors, Hammer, Droplets, Car, Music } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CategoriesSection = () => {
@@ -23,7 +23,7 @@ const CategoriesSection = () => {
     },
     {
       name: 'Nettoyage',
-      icon: Spray,
+      icon: Droplets,
       color: 'bg-blue-100 text-blue-700',
       image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
     },
