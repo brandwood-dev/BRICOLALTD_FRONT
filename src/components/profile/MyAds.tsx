@@ -7,6 +7,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Plus, Edit, Eye, Trash2, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -49,6 +50,83 @@ const MyAds = () => {
       rating: 4.5,
       totalRentals: 5,
       image: '/placeholder.svg'
+    },
+    {
+      id: '4',
+      title: 'Perceuse visseuse sans fil',
+      category: 'Bricolage',
+      price: 20,
+      published: true,
+      validationStatus: 'confirmed',
+      rating: 4.7,
+      totalRentals: 15,
+      image: '/placeholder.svg'
+    },
+    {
+      id: '5',
+      title: 'Scie sauteuse professionnelle',
+      category: 'Bricolage',
+      price: 35,
+      published: true,
+      validationStatus: 'confirmed',
+      rating: 4.6,
+      totalRentals: 9,
+      image: '/placeholder.svg'
+    },
+    {
+      id: '6',
+      title: 'Taille-haie électrique',
+      category: 'Jardinage',
+      price: 28,
+      published: false,
+      validationStatus: 'pending',
+      rating: 4.4,
+      totalRentals: 6,
+      image: '/placeholder.svg'
+    },
+    {
+      id: '7',
+      title: 'Aspirateur industriel',
+      category: 'Nettoyage',
+      price: 40,
+      published: true,
+      validationStatus: 'confirmed',
+      rating: 4.9,
+      totalRentals: 18,
+      image: '/placeholder.svg'
+    },
+    {
+      id: '8',
+      title: 'Ponceuse orbitale',
+      category: 'Bricolage',
+      price: 22,
+      published: true,
+      validationStatus: 'rejected',
+      rating: 4.3,
+      totalRentals: 4,
+      image: '/placeholder.svg'
+    },
+    {
+      id: '9',
+      title: 'Souffleur de feuilles',
+      category: 'Jardinage',
+      price: 18,
+      published: true,
+      validationStatus: 'confirmed',
+      rating: 4.5,
+      totalRentals: 11,
+      image: '/placeholder.svg'
+    },
+    {
+      id: '10',
+      title: 'Nettoyeur vapeur',
+      category: 'Nettoyage',
+      price: 32,
+      published: false,
+      validationStatus: 'pending',
+      rating: 4.2,
+      totalRentals: 7,
+      image: '/placeholder.svg'
     }
   ]);
 
@@ -58,6 +136,10 @@ const MyAds = () => {
   const [publicationFilter, setPublicationFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  
+  // États pour la pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Filtrage des annonces
   const filteredAds = useMemo(() => {
@@ -73,6 +155,97 @@ const MyAds = () => {
       return matchesSearch && matchesValidation && matchesPublication && matchesCategory;
     });
   }, [ads, searchTerm, validationFilter, publicationFilter, categoryFilter]);
+
+  // Calculs de pagination
+  const totalPages = Math.ceil(filteredAds.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentAds = filteredAds.slice(startIndex, endIndex);
+
+  // Reset page when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [searchTerm, validationFilter, publicationFilter, categoryFilter]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    return (
+      <Pagination className="mt-6">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious 
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            />
+          </PaginationItem>
+          
+          {startPage > 1 && (
+            <>
+              <PaginationItem>
+                <PaginationLink onClick={() => handlePageChange(1)} className="cursor-pointer">
+                  1
+                </PaginationLink>
+              </PaginationItem>
+              {startPage > 2 && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+            </>
+          )}
+          
+          {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                onClick={() => handlePageChange(page)}
+                isActive={currentPage === page}
+                className="cursor-pointer"
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          
+          {endPage < totalPages && (
+            <>
+              {endPage < totalPages - 1 && (
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )}
+              <PaginationItem>
+                <PaginationLink onClick={() => handlePageChange(totalPages)} className="cursor-pointer">
+                  {totalPages}
+                </PaginationLink>
+              </PaginationItem>
+            </>
+          )}
+          
+          <PaginationItem>
+            <PaginationNext 
+              onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+              className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    );
+  };
 
   const getValidationStatusColor = (status: string) => {
     switch (status) {
@@ -313,9 +486,17 @@ const MyAds = () => {
               Aucune annonce trouvée pour les critères sélectionnés.
             </div>
           ) : (
-            filteredAds.map(ad => viewMode === 'grid' ? renderAdCard(ad) : renderAdList(ad))
+            currentAds.map(ad => viewMode === 'grid' ? renderAdCard(ad) : renderAdList(ad))
           )}
         </div>
+        
+        {renderPagination()}
+
+        {filteredAds.length > 0 && (
+          <div className="mt-4 text-sm text-muted-foreground text-center">
+            Affichage de {startIndex + 1} à {Math.min(endIndex, filteredAds.length)} sur {filteredAds.length} annonces
+          </div>
+        )}
       </CardContent>
     </Card>
   );
