@@ -24,7 +24,7 @@ interface Reservation {
   ownerPhone: string;
   startDate: string;
   endDate: string;
-  status: 'pending' | 'accepted' | 'ongoing' | 'completed' | 'cancelled';
+  status: 'pending' | 'accepted' | 'ongoing' | 'completed' | 'cancelled' | 'rejected';
   price: number;
   dailyPrice: number;
   location: string;
@@ -33,6 +33,7 @@ interface Reservation {
   cancellationReason?: string;
   cancellationMessage?: string;
   renterHasReturned?: boolean;
+  hasUsedReturnButton?: boolean;
 }
 
 const Reservations = () => {
@@ -136,6 +137,22 @@ const Reservations = () => {
       price: 60,
       dailyPrice: 30,
       location: 'Paris 11ème'
+    },
+    {
+      id: '6',
+      referenceId: 'RES-2024-006',
+      toolName: 'Niveau laser',
+      toolDescription: 'Niveau laser rotatif avec trépied',
+      toolImage: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&h=300&fit=crop',
+      owner: 'Thomas Bernard',
+      ownerEmail: 'thomas.bernard@email.com',
+      ownerPhone: '+33 6 77 88 99 00',
+      startDate: '2024-01-08',
+      endDate: '2024-01-10',
+      status: 'rejected',
+      price: 45,
+      dailyPrice: 22.5,
+      location: 'Paris 18ème'
     }
   ]);
 
@@ -146,6 +163,7 @@ const Reservations = () => {
       case 'ongoing': return 'bg-blue-100 text-blue-800';
       case 'completed': return 'bg-emerald-100 text-emerald-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
+      case 'rejected': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -157,6 +175,7 @@ const Reservations = () => {
       case 'ongoing': return 'En cours';
       case 'completed': return 'Terminée';
       case 'cancelled': return 'Annulée';
+      case 'rejected': return 'Refusée';
       default: return status;
     }
   };
@@ -233,6 +252,11 @@ const Reservations = () => {
       return;
     }
     
+    // Marquer la réservation comme ayant une réclamation active
+    setReservations(prev => prev.map(res => 
+      res.id === reservationId ? { ...res, hasActiveClaim: true } : res
+    ));
+    
     toast({
       title: "Signalement envoyé",
       description: "Votre signalement a été transmis à l'administration.",
@@ -249,7 +273,11 @@ const Reservations = () => {
 
   const handleConfirmReturn = () => {
     setReservations(prev => prev.map(res => 
-      res.id === selectedReservationId ? { ...res, renterHasReturned: true } : res
+      res.id === selectedReservationId ? { 
+        ...res, 
+        renterHasReturned: true,
+        hasUsedReturnButton: true 
+      } : res
     ));
     
     toast({
@@ -277,7 +305,11 @@ const Reservations = () => {
     }
     
     setReservations(prev => prev.map(res => 
-      res.id === selectedReservationId ? { ...res, hasActiveClaim: true } : res
+      res.id === selectedReservationId ? { 
+        ...res, 
+        hasActiveClaim: true,
+        hasUsedReturnButton: true 
+      } : res
     ));
     
     toast({
@@ -363,7 +395,7 @@ const Reservations = () => {
                               En attente de confirmation de remise par le propriétaire
                             </Badge>
                           )}
-                          {reservation.status === 'ongoing' && reservation.hasActiveClaim && (
+                          {((reservation.status === 'ongoing' || reservation.status === 'accepted') && reservation.hasActiveClaim) && (
                             <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
                               Réclamation en cours
                             </Badge>
@@ -585,13 +617,108 @@ const Reservations = () => {
 
                       {/* Actions pour statut "En cours" */}
                       {reservation.status === 'ongoing' && (
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => handleToolReturn(reservation.id)}
-                        >
-                          J'ai rendu l'outil
-                        </Button>
+                        <>
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleToolReturn(reservation.id)}
+                            disabled={reservation.hasUsedReturnButton}
+                            className={reservation.hasUsedReturnButton ? 'opacity-50 cursor-not-allowed' : ''}
+                          >
+                            J'ai rendu l'outil
+                          </Button>
+
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => handleDownloadContract(reservation)}
+                            className="flex items-center gap-2"
+                          >
+                            <Download className="h-4 w-4" />
+                            Télécharger le contrat
+                          </Button>
+
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="outline" size="sm">
+                                Contacter
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Informations du propriétaire</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                  <Avatar className="h-12 w-12">
+                                    <AvatarImage src="" />
+                                    <AvatarFallback>
+                                      {reservation.owner.split(' ').map(n => n[0]).join('')}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                  <div>
+                                    <h3 className="font-semibold">{reservation.owner}</h3>
+                                    <p className="text-sm text-muted-foreground">{reservation.ownerEmail}</p>
+                                    <p className="text-sm text-muted-foreground">{reservation.ownerPhone}</p>
+                                  </div>
+                                </div>
+                                
+                                <div className="flex gap-2">
+                                  <Button 
+                                    onClick={() => handleCall(reservation.ownerPhone)}
+                                    className="flex-1 flex items-center gap-2"
+                                  >
+                                    <Phone className="h-4 w-4" />
+                                    Appeler
+                                  </Button>
+                                  <Button 
+                                    variant="outline"
+                                    onClick={() => handleEmail(reservation.ownerEmail)}
+                                    className="flex-1 flex items-center gap-2"
+                                  >
+                                    <Mail className="h-4 w-4" />
+                                    E-mail
+                                  </Button>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="outline" size="sm">
+                                <Flag className="h-4 w-4 mr-1" />
+                                Signaler
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Signaler un problème</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <Select value={reportReason} onValueChange={setReportReason}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Sélectionnez une raison" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="no-response">Ne répond pas</SelectItem>
+                                    <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
+                                    <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
+                                    <SelectItem value="other">Autre</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <Textarea
+                                  placeholder="Décrivez le problème"
+                                  value={reportMessage}
+                                  onChange={(e) => setReportMessage(e.target.value)}
+                                />
+                                <Button onClick={() => handleReport(reservation.id)} className="w-full">
+                                  Envoyer le signalement
+                                </Button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        </>
                       )}
 
                       {/* Bouton pour voir les détails d'annulation */}
