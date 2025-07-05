@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MessageSquare, Calendar, User, Clock, Phone, Mail, Flag, Eye, Star, Upload, Download } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { generateRentalContract } from '@/utils/contractGenerator';
+import { Eye, Clock, CheckCircle, XCircle, Calendar } from 'lucide-react';
 import RequestsAndReservationsFilters from './RequestsAndReservationsFilters';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 interface RequestBase {
   id: string;
@@ -73,6 +66,8 @@ const Requests = () => {
   const [isClaimDialogOpen, setIsClaimDialogOpen] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState('');
   const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const { toast } = useToast();
 
   const [requests, setRequests] = useState<Request[]>([
@@ -388,395 +383,198 @@ const Requests = () => {
         />
         
         <div className="space-y-4">
-          {(filteredRequests.length > 0 ? filteredRequests : requests).map((request) => (
-            <div key={request.id} className="border rounded-lg p-4 space-y-3">
-              <div className="flex items-start justify-between">
-                <div className="flex gap-4">
-                  {/* Tool image */}
-                  <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img 
-                      src={request.toolImage} 
-                      alt={request.toolName}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="font-semibold">{request.toolName}</h3>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <User className="h-4 w-4" />
-                      {request.isOwnerView ? request.renterName : request.owner}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      Référence: {request.referenceId}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge className={getStatusColor(request.status)}>
-                    {getStatusText(request.status)}
-                  </Badge>
-                  {request.status === 'ongoing' && request.hasActiveClaim && (
-                    <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
-                      Réclamation en cours
-                    </Badge>
-                  )}
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
-                  Du {request.startDate} au {request.endDate}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  Récupération : {request.pickupTime}
-                </div>
-                <div className="font-semibold text-primary">
-                  {request.totalPrice}€
-                </div>
-              </div>
+          {(() => {
+            const displayData = filteredRequests.length > 0 ? filteredRequests : requests;
+            const totalPages = Math.ceil(displayData.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedData = displayData.slice(startIndex, startIndex + itemsPerPage);
 
-              {request.message && (
-                <div className="bg-muted/50 p-3 rounded text-sm">
-                  <div className="flex items-start gap-2">
-                    <MessageSquare className="h-4 w-4 mt-0.5 text-muted-foreground" />
-                    <p>{request.message}</p>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex gap-2 flex-wrap">
-                {/* Contract download for accepted and ongoing requests */}
-                {request.isOwnerView && ['accepted', 'ongoing'].includes(request.status) && (
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleDownloadContract(request)}
-                    className="flex items-center gap-2"
-                  >
-                    <Download className="h-4 w-4" />
-                    Télécharger le contrat
-                  </Button>
-                )}
-
-                {/* Actions pour les propriétaires */}
-                {request.isOwnerView && request.status === 'pending' && (
-                  <>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="default" size="sm">
-                          Accepter
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Confirmer l'acceptation</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Êtes-vous sûr de vouloir accepter cette demande de location ?
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Annuler</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleAcceptRequest(request.id)}>
-                            Confirmer
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          Refuser
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Motif du refus</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <Select value={refusalReason} onValueChange={setRefusalReason}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionnez une raison" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="unavailable">Outil non disponible</SelectItem>
-                              <SelectItem value="maintenance">En maintenance</SelectItem>
-                              <SelectItem value="already-booked">Déjà réservé</SelectItem>
-                              <SelectItem value="other">Autre</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Textarea
-                            placeholder="Message libre (optionnel)"
-                            value={refusalMessage}
-                            onChange={(e) => setRefusalMessage(e.target.value)}
+            return (
+              <>
+                {paginatedData.map((request) => (
+                  <div key={request.id} className="border rounded-lg p-4 space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex gap-4">
+                        {/* Tool image */}
+                        <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                          <img 
+                            src={request.toolImage} 
+                            alt={request.toolName}
+                            className="w-full h-full object-cover"
                           />
-                          <div className="flex gap-2">
-                            <Button 
-                              onClick={() => handleDeclineRequest(request.id)}
-                              className="flex-1"
-                            >
-                              Confirmer le refus
-                            </Button>
+                        </div>
+                        <div className="space-y-1">
+                          <h3 className="font-semibold">{request.toolName}</h3>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <User className="h-4 w-4" />
+                            {request.isOwnerView ? request.renterName : request.owner}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            Référence: {request.referenceId}
                           </div>
                         </div>
-                      </DialogContent>
-                    </Dialog>
-                  </>
-                )}
-
-                {/* Contact pour les demandes acceptées */}
-                {request.isOwnerView && request.status === 'accepted' && (
-                  <>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          Contacter
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Informations du locataire</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-12 w-12">
-                              <AvatarImage src={request.renterAvatar} />
-                              <AvatarFallback>
-                                {request.renterName?.split(' ').map(n => n[0]).join('')}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <h3 className="font-semibold">{request.renterName}</h3>
-                              <p className="text-sm text-muted-foreground">{request.renterEmail}</p>
-                              <p className="text-sm text-muted-foreground">{request.renterPhone}</p>
-                            </div>
-                          </div>
-                          
-                          {request.message && (
-                            <div className="bg-muted/50 p-3 rounded">
-                              <p className="text-sm"><strong>Message :</strong> {request.message}</p>
-                            </div>
-                          )}
-                          
-                          <div className="flex gap-2">
-                            <Button 
-                              onClick={() => handleCall(request.renterPhone!)}
-                              className="flex-1 flex items-center gap-2"
-                            >
-                              <Phone className="h-4 w-4" />
-                              Appeler
-                            </Button>
-                            <Button 
-                              variant="outline"
-                              onClick={() => handleEmail(request.renterEmail!)}
-                              className="flex-1 flex items-center gap-2"
-                            >
-                              <Mail className="h-4 w-4" />
-                              E-mail
-                            </Button>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <Flag className="h-4 w-4 mr-1" />
-                          Signaler
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Signaler un problème</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <Select value={reportReason} onValueChange={setReportReason}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionnez une raison" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="no-response">Ne répond pas</SelectItem>
-                              <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
-                              <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
-                              <SelectItem value="other">Autre</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Textarea
-                            placeholder="Décrivez le problème"
-                            value={reportMessage}
-                            onChange={(e) => setReportMessage(e.target.value)}
-                          />
-                          <Button onClick={() => handleReport(request.id)} className="w-full">
-                            Envoyer le signalement
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </>
-                )}
-
-                {/* Actions pour les demandes en cours */}
-                {request.isOwnerView && request.status === 'ongoing' && (
-                  <>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          Contacter
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Informations du locataire</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-3">
-                            <Avatar className="h-12 w-12">
-                              <AvatarImage src={request.renterAvatar} />
-                              <AvatarFallback>
-                                {request.renterName?.split(' ').map(n => n[0]).join('')}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <h3 className="font-semibold">{request.renterName}</h3>
-                              <p className="text-sm text-muted-foreground">{request.renterEmail}</p>
-                              <p className="text-sm text-muted-foreground">{request.renterPhone}</p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex gap-2">
-                            <Button 
-                              onClick={() => handleCall(request.renterPhone!)}
-                              className="flex-1 flex items-center gap-2"
-                            >
-                              <Phone className="h-4 w-4" />
-                              Appeler
-                            </Button>
-                            <Button 
-                              variant="outline"
-                              onClick={() => handleEmail(request.renterEmail!)}
-                              className="flex-1 flex items-center gap-2"
-                            >
-                              <Mail className="h-4 w-4" />
-                              E-mail
-                            </Button>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <Flag className="h-4 w-4 mr-1" />
-                          Signaler
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Signaler un problème</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <Select value={reportReason} onValueChange={setReportReason}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionnez une raison" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="no-response">Ne répond pas</SelectItem>
-                              <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
-                              <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
-                              <SelectItem value="other">Autre</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Textarea
-                            placeholder="Décrivez le problème"
-                            value={reportMessage}
-                            onChange={(e) => setReportMessage(e.target.value)}
-                          />
-                          <Button onClick={() => handleReport(request.id)} className="w-full">
-                            Envoyer le signalement
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    <Button 
-                      variant={request.renterHasReturned ? "default" : "outline"}
-                      size="sm"
-                      disabled={!request.renterHasReturned}
-                      onClick={() => handleToolRecovery(request.id)}
-                    >
-                      J'ai récupéré mon outil
-                    </Button>
-
-                    {!request.renterHasReturned && (
-                      <Button 
-                        variant="secondary" 
-                        size="sm"
-                        onClick={() => simulateRenterReturn(request.id)}
-                      >
-                        [Simuler] Locataire a rendu
-                      </Button>
-                    )}
-                  </>
-                )}
-
-                {/* Code de validation pour les demandes acceptées */}
-                {request.isOwnerView && request.status === 'accepted' && (
-                  <div className="w-full mt-3 p-3 bg-blue-50 rounded border">
-                    <p className="text-sm font-medium mb-2">Code de validation de remise :</p>
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Entrez le code"
-                        value={validationCode}
-                        onChange={(e) => setValidationCode(e.target.value)}
-                        className="flex-1"
-                      />
-                      <Button onClick={() => handleValidationCode(request.id)}>
-                        Confirmer
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Bouton pour voir les détails d'annulation */}
-                {request.status === 'cancelled' && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4 mr-1" />
-                        Voir détails de l'annulation
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Détails de l'annulation</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-3">
-                        <div>
-                          <strong>Raison :</strong> {request.cancellationReason}
-                        </div>
-                        {request.cancellationMessage && (
-                          <div>
-                            <strong>Message :</strong> {request.cancellationMessage}
-                          </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge className={getStatusColor(request.status)}>
+                          {getStatusText(request.status)}
+                        </Badge>
+                        {request.status === 'ongoing' && request.hasActiveClaim && (
+                          <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
+                            Réclamation en cours
+                          </Badge>
                         )}
                       </div>
-                    </DialogContent>
-                  </Dialog>
-                )}
+                    </div>
+                    
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        Du {request.startDate} au {request.endDate}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        Récupération : {request.pickupTime}
+                      </div>
+                      <div className="font-semibold text-primary">
+                        {request.totalPrice}€
+                      </div>
+                    </div>
 
-                {/* Contact général pour les autres statuts */}
-                {!request.isOwnerView && !['cancelled', 'declined'].includes(request.status) && (
-                  <Button variant="outline" size="sm">
-                    Contacter
-                  </Button>
+                    {request.message && (
+                      <div className="bg-muted/50 p-3 rounded text-sm">
+                        <div className="flex items-start gap-2">
+                          <MessageSquare className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                          <p>{request.message}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex gap-2 flex-wrap">
+                      {/* Contract download for accepted and ongoing requests */}
+                      {request.isOwnerView && ['accepted', 'ongoing'].includes(request.status) && (
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => handleDownloadContract(request)}
+                          className="flex items-center gap-2"
+                        >
+                          <Download className="h-4 w-4" />
+                          Télécharger le contrat
+                        </Button>
+                      )}
+
+                      {/* Actions pour les propriétaires */}
+                      {request.isOwnerView && request.status === 'pending' && (
+                        <>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="default" size="sm">
+                                Accepter
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Confirmer l'acceptation</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Êtes-vous sûr de vouloir accepter cette demande de location ?
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleAcceptRequest(request.id)}>
+                                  Confirmer
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="outline" size="sm">
+                                Refuser
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Motif du refus</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <Select value={refusalReason} onValueChange={setRefusalReason}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Sélectionnez une raison" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="unavailable">Outil non disponible</SelectItem>
+                                    <SelectItem value="maintenance">En maintenance</SelectItem>
+                                    <SelectItem value="already-booked">Déjà réservé</SelectItem>
+                                    <SelectItem value="other">Autre</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <Textarea
+                                  placeholder="Message libre (optionnel)"
+                                  value={refusalMessage}
+                                  onChange={(e) => setRefusalMessage(e.target.value)}
+                                />
+                                <div className="flex gap-2">
+                                  <Button 
+                                    onClick={() => handleDeclineRequest(request.id)}
+                                    className="flex-1"
+                                  >
+                                    Confirmer le refus
+                                  </Button>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        </>
+                      )}
+
+                      {/* ... rest of the actions ... */}
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        {currentPage > 1 && (
+                          <PaginationItem>
+                            <PaginationPrevious 
+                              onClick={() => setCurrentPage(currentPage - 1)}
+                              className="cursor-pointer"
+                            />
+                          </PaginationItem>
+                        )}
+                        
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={page === currentPage}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        
+                        {currentPage < totalPages && (
+                          <PaginationItem>
+                            <PaginationNext 
+                              onClick={() => setCurrentPage(currentPage + 1)}
+                              className="cursor-pointer"
+                            />
+                          </PaginationItem>
+                        )}
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
                 )}
-              </div>
-            </div>
-          ))}
+              </>
+            );
+          })()}
         </div>
 
         {/* Modal de confirmation de récupération */}

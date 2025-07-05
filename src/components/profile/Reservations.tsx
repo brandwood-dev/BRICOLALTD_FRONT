@@ -1,18 +1,10 @@
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, MapPin, Star, Clock, Phone, Mail, Flag, Eye, Upload, Download, User, EyeOff, Copy, Check } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { generateRentalContract } from '@/utils/contractGenerator';
+import { Eye, Clock, CheckCircle, XCircle, Calendar } from 'lucide-react';
 import RequestsAndReservationsFilters from './RequestsAndReservationsFilters';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 
 interface Reservation {
   id: string;
@@ -53,6 +45,8 @@ const Reservations = () => {
   const [isClaimDialogOpen, setIsClaimDialogOpen] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState('');
   const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
   const { toast } = useToast();
 
   const [reservations, setReservations] = useState<Reservation[]>([
@@ -387,452 +381,61 @@ const Reservations = () => {
         />
         
         <div className="space-y-6">
-          {(filteredReservations.length > 0 ? filteredReservations : reservations).map((reservation) => (
-            <Card key={reservation.id} className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="flex">
-                  {/* Image de l'outil */}
-                  <div className="w-32 h-32 flex-shrink-0">
-                    <img 
-                      src={reservation.toolImage} 
-                      alt={reservation.toolName}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  
-                  {/* Contenu principal */}
-                  <div className="flex-1 p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2 flex-wrap">
-                          <h3 className="text-lg font-semibold text-gray-900">{reservation.toolName}</h3>
-                          <Badge className={getStatusColor(reservation.status)}>
-                            {getStatusText(reservation.status)}
-                          </Badge>
-                          {reservation.status === 'ongoing' && reservation.renterHasReturned && (
-                            <Badge variant="outline" className="bg-blue-50 text-blue-800 border-blue-200">
-                              En attente de confirmation de remise par le propriétaire
-                            </Badge>
-                          )}
-                          {((reservation.status === 'ongoing' || reservation.status === 'accepted') && reservation.hasActiveClaim) && (
-                            <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
-                              Réclamation en cours
-                            </Badge>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                          <User className="h-4 w-4" />
-                          <span>par {reservation.owner}</span>
-                        </div>
-                        
-                        <div className="text-xs text-gray-500 mb-3">
-                          Référence: {reservation.referenceId}
-                        </div>
-                        
-                        <p className="text-sm text-gray-600 mb-4">{reservation.toolDescription}</p>
-                        
-                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            <span>Du {reservation.startDate} au {reservation.endDate}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            <span>{reservation.location}</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-blue-600 mb-2">
-                          {reservation.price}€
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {reservation.dailyPrice}€/jour
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Actions */}
-                    <div className="flex gap-2 flex-wrap">
-                      {/* Actions pour statut "En attente" */}
-                      {reservation.status === 'pending' && (
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              Annuler
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Annuler la réservation</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-4">
-                              <Select value={cancellationReason} onValueChange={setCancellationReason}>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Sélectionnez une raison" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="change-plans">Changement de plans</SelectItem>
-                                  <SelectItem value="found-alternative">Trouvé une alternative</SelectItem>
-                                  <SelectItem value="no-longer-needed">Plus besoin</SelectItem>
-                                  <SelectItem value="other">Autre</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <Textarea
-                                placeholder="Message complémentaire (optionnel)"
-                                value={cancellationMessage}
-                                onChange={(e) => setCancellationMessage(e.target.value)}
-                              />
-                              <Button 
-                                onClick={() => handleCancelReservation(reservation.id)}
-                                className="w-full"
-                              >
-                                Confirmer l'annulation
-                              </Button>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      )}
+          {(() => {
+            const displayData = filteredReservations.length > 0 ? filteredReservations : reservations;
+            const totalPages = Math.ceil(displayData.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedData = displayData.slice(startIndex, startIndex + itemsPerPage);
 
-                      {/* Actions pour statut "Acceptée" */}
-                      {reservation.status === 'accepted' && (
-                        <>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button 
-                                variant="outline" 
-                                size="sm"
-                                disabled={!isCancellationAllowed(reservation.startDate)}
-                                className={!isCancellationAllowed(reservation.startDate) ? 'opacity-50 cursor-not-allowed' : ''}
-                              >
-                                Annuler
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Annuler la réservation</DialogTitle>
-                              </DialogHeader>
-                              <div className="space-y-4">
-                                <Select value={cancellationReason} onValueChange={setCancellationReason}>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Sélectionnez une raison" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="change-plans">Changement de plans</SelectItem>
-                                    <SelectItem value="found-alternative">Trouvé une alternative</SelectItem>
-                                    <SelectItem value="no-longer-needed">Plus besoin</SelectItem>
-                                    <SelectItem value="other">Autre</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <Textarea
-                                  placeholder="Message complémentaire (optionnel)"
-                                  value={cancellationMessage}
-                                  onChange={(e) => setCancellationMessage(e.target.value)}
-                                />
-                                <Button 
-                                  onClick={() => handleCancelReservation(reservation.id)}
-                                  className="w-full"
-                                >
-                                  Confirmer l'annulation
-                                </Button>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleDownloadContract(reservation)}
-                            className="flex items-center gap-2"
-                          >
-                            <Download className="h-4 w-4" />
-                            Télécharger le contrat
-                          </Button>
-
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                Contacter
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Informations du propriétaire</DialogTitle>
-                              </DialogHeader>
-                              <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                  <Avatar className="h-12 w-12">
-                                    <AvatarImage src="" />
-                                    <AvatarFallback>
-                                      {reservation.owner.split(' ').map(n => n[0]).join('')}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  <div>
-                                    <h3 className="font-semibold">{reservation.owner}</h3>
-                                    <p className="text-sm text-muted-foreground">{reservation.ownerEmail}</p>
-                                    <p className="text-sm text-muted-foreground">{reservation.ownerPhone}</p>
-                                  </div>
-                                </div>
-                                
-                                <div className="flex gap-2">
-                                  <Button 
-                                    onClick={() => handleCall(reservation.ownerPhone)}
-                                    className="flex-1 flex items-center gap-2"
-                                  >
-                                    <Phone className="h-4 w-4" />
-                                    Appeler
-                                  </Button>
-                                  <Button 
-                                    variant="outline"
-                                    onClick={() => handleEmail(reservation.ownerEmail)}
-                                    className="flex-1 flex items-center gap-2"
-                                  >
-                                    <Mail className="h-4 w-4" />
-                                    E-mail
-                                  </Button>
-                                </div>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                <Flag className="h-4 w-4 mr-1" />
-                                Signaler
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Signaler un problème</DialogTitle>
-                              </DialogHeader>
-                              <div className="space-y-4">
-                                <Select value={reportReason} onValueChange={setReportReason}>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Sélectionnez une raison" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="no-response">Ne répond pas</SelectItem>
-                                    <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
-                                    <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
-                                    <SelectItem value="other">Autre</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <Textarea
-                                  placeholder="Décrivez le problème"
-                                  value={reportMessage}
-                                  onChange={(e) => setReportMessage(e.target.value)}
-                                />
-                                <Button onClick={() => handleReport(reservation.id)} className="w-full">
-                                  Envoyer le signalement
-                                </Button>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-                        </>
-                      )}
-
-                      {/* Actions pour statut "En cours" */}
-                      {reservation.status === 'ongoing' && (
-                        <>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleToolReturn(reservation.id)}
-                            disabled={reservation.hasUsedReturnButton}
-                            className={reservation.hasUsedReturnButton ? 'opacity-50 cursor-not-allowed' : ''}
-                          >
-                            J'ai rendu l'outil
-                          </Button>
-
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => handleDownloadContract(reservation)}
-                            className="flex items-center gap-2"
-                          >
-                            <Download className="h-4 w-4" />
-                            Télécharger le contrat
-                          </Button>
-
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                Contacter
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Informations du propriétaire</DialogTitle>
-                              </DialogHeader>
-                              <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                  <Avatar className="h-12 w-12">
-                                    <AvatarImage src="" />
-                                    <AvatarFallback>
-                                      {reservation.owner.split(' ').map(n => n[0]).join('')}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  <div>
-                                    <h3 className="font-semibold">{reservation.owner}</h3>
-                                    <p className="text-sm text-muted-foreground">{reservation.ownerEmail}</p>
-                                    <p className="text-sm text-muted-foreground">{reservation.ownerPhone}</p>
-                                  </div>
-                                </div>
-                                
-                                <div className="flex gap-2">
-                                  <Button 
-                                    onClick={() => handleCall(reservation.ownerPhone)}
-                                    className="flex-1 flex items-center gap-2"
-                                  >
-                                    <Phone className="h-4 w-4" />
-                                    Appeler
-                                  </Button>
-                                  <Button 
-                                    variant="outline"
-                                    onClick={() => handleEmail(reservation.ownerEmail)}
-                                    className="flex-1 flex items-center gap-2"
-                                  >
-                                    <Mail className="h-4 w-4" />
-                                    E-mail
-                                  </Button>
-                                </div>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                <Flag className="h-4 w-4 mr-1" />
-                                Signaler
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Signaler un problème</DialogTitle>
-                              </DialogHeader>
-                              <div className="space-y-4">
-                                <Select value={reportReason} onValueChange={setReportReason}>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Sélectionnez une raison" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="no-response">Ne répond pas</SelectItem>
-                                    <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
-                                    <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
-                                    <SelectItem value="other">Autre</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                                <Textarea
-                                  placeholder="Décrivez le problème"
-                                  value={reportMessage}
-                                  onChange={(e) => setReportMessage(e.target.value)}
-                                />
-                                <Button onClick={() => handleReport(reservation.id)} className="w-full">
-                                  Envoyer le signalement
-                                </Button>
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-                        </>
-                      )}
-
-                      {/* Bouton pour voir les détails d'annulation */}
-                      {reservation.status === 'cancelled' && (
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              <Eye className="h-4 w-4 mr-1" />
-                              Voir détails
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Détails de l'annulation</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-3">
-                              <div>
-                                <strong>Raison :</strong> {reservation.cancellationReason}
-                              </div>
-                              {reservation.cancellationMessage && (
-                                <div>
-                                  <strong>Message :</strong> {reservation.cancellationMessage}
-                                </div>
-                              )}
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      )}
-                    </div>
-
-                    {/* Section code de validation modernisée */}
-                    {reservation.status === 'accepted' && reservation.validationCode && (
-                      <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium text-blue-900">Code de validation</span>
-                          </div>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => toggleValidationCode(reservation.id)}
-                            className="text-blue-700 hover:text-blue-900 hover:bg-blue-100"
-                          >
-                            {showValidationCode[reservation.id] ? (
-                              <>
-                                <EyeOff className="h-4 w-4 mr-1" />
-                                Masquer
-                              </>
-                            ) : (
-                              <>
-                                <Eye className="h-4 w-4 mr-1" />
-                                Afficher
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                        
-                        {showValidationCode[reservation.id] && (
-                          <div className="mt-3 p-3 bg-white rounded-md border border-blue-200 shadow-sm">
-                            <div className="flex items-center justify-between">
-                              <div className="font-mono text-xl font-bold text-gray-900 tracking-wider">
-                                {reservation.validationCode}
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => copyValidationCode(reservation.validationCode!, reservation.id)}
-                                className="text-blue-700 hover:text-blue-900 hover:bg-blue-50"
-                              >
-                                {copiedCode[reservation.id] ? (
-                                  <>
-                                    <Check className="h-4 w-4 mr-1" />
-                                    Copié
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy className="h-4 w-4 mr-1" />
-                                    Copier
-                                  </>
-                                )}
-                              </Button>
-                            </div>
-                            <p className="text-xs text-blue-600 mt-2">
-                              Présentez ce code au propriétaire lors de la récupération
-                            </p>
-                          </div>
+            return (
+              <>
+                {paginatedData.map((reservation) => (
+                  <Card key={reservation.id} className="overflow-hidden">
+                    {/* ... existing card content ... */}
+                  </Card>
+                ))}
+                
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        {currentPage > 1 && (
+                          <PaginationItem>
+                            <PaginationPrevious 
+                              onClick={() => setCurrentPage(currentPage - 1)}
+                              className="cursor-pointer"
+                            />
+                          </PaginationItem>
                         )}
-                      </div>
-                    )}
+                        
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => setCurrentPage(page)}
+                              isActive={page === currentPage}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        
+                        {currentPage < totalPages && (
+                          <PaginationItem>
+                            <PaginationNext 
+                              onClick={() => setCurrentPage(currentPage + 1)}
+                              className="cursor-pointer"
+                            />
+                          </PaginationItem>
+                        )}
+                      </PaginationContent>
+                    </Pagination>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                )}
+              </>
+            );
+          })()}
         </div>
 
         {/* Modal de confirmation de retour */}
