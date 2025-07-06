@@ -17,6 +17,7 @@ const AgeVerificationDialog = () => {
 
   const handleConfirmAge = () => {
     setIsVerified(true);
+    navigate('/');
   };
 
   const handleUnderAge = () => {
