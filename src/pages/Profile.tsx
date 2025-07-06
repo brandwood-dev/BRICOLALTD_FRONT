@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProfileInfo from '@/components/profile/ProfileInfo';
@@ -24,11 +26,14 @@ import {
   ArrowLeft,
   Shield,
   Building2,
-  UserCircle
+  UserCircle,
+  Trash2
 } from 'lucide-react';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('profile');
+  const [isAccountDeletionPending, setIsAccountDeletionPending] = useState(false);
+  const { toast } = useToast();
   
   const userInfo = {
     firstName: 'Jean',
@@ -46,6 +51,15 @@ const Profile = () => {
     rating: 4.8
   };
 
+  const handleAccountDeletion = () => {
+    setIsAccountDeletionPending(true);
+    toast({
+      title: "Demande de suppression enregistrée",
+      description: "Votre demande de suppression de compte a été enregistrée et sera traitée sous 72 heures.",
+      variant: "default",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -61,57 +75,95 @@ const Profile = () => {
 
           {/* Profile header */}
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src="" />
-                <AvatarFallback className="text-2xl">
-                  {userInfo.firstName[0]}{userInfo.lastName[0]}
-                </AvatarFallback>
-              </Avatar>
-              
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className="text-3xl font-bold">
-                    {userInfo.firstName} {userInfo.lastName}
-                  </h1>
-                  {userInfo.verified && (
-                    <Badge variant="default" className="flex items-center gap-1">
-                      <Shield className="h-3 w-3" />
-                      Vérifié
-                    </Badge>
-                  )}
-                  <Badge variant="secondary" className="flex items-center gap-1">
-                    {userInfo.accountType === 'Entreprise' ? (
-                      <Building2 className="h-3 w-3" />
-                    ) : (
-                      <UserCircle className="h-3 w-3" />
-                    )}
-                    {userInfo.accountType}
-                  </Badge>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  Membre depuis {userInfo.memberSince}
-                </p>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                <Avatar className="h-24 w-24">
+                  <AvatarImage src="" />
+                  <AvatarFallback className="text-2xl">
+                    {userInfo.firstName[0]}{userInfo.lastName[0]}
+                  </AvatarFallback>
+                </Avatar>
                 
-                {/* Quick stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.totalEarnings}€</div>
-                    <div className="text-sm text-muted-foreground">Gains totaux</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <h1 className="text-3xl font-bold">
+                      {userInfo.firstName} {userInfo.lastName}
+                    </h1>
+                    {userInfo.verified && (
+                      <Badge variant="default" className="flex items-center gap-1">
+                        <Shield className="h-3 w-3" />
+                        Vérifié
+                      </Badge>
+                    )}
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      {userInfo.accountType === 'Entreprise' ? (
+                        <Building2 className="h-3 w-3" />
+                      ) : (
+                        <UserCircle className="h-3 w-3" />
+                      )}
+                      {userInfo.accountType}
+                    </Badge>
+                    {isAccountDeletionPending && (
+                      <Badge variant="destructive" className="flex items-center gap-1">
+                        Compte en attente de suppression
+                      </Badge>
+                    )}
                   </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.activeAds}</div>
-                    <div className="text-sm text-muted-foreground">Annonces actives</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.totalRentals}</div>
-                    <div className="text-sm text-muted-foreground">Locations réalisées</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-xl font-bold text-primary">{stats.rating}</div>
-                    <div className="text-sm text-muted-foreground">Note moyenne</div>
+                  <p className="text-gray-600 mb-4">
+                    Membre depuis {userInfo.memberSince}
+                  </p>
+                  
+                  {/* Quick stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-primary">{stats.totalEarnings}€</div>
+                      <div className="text-sm text-muted-foreground">Gains totaux</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-primary">{stats.activeAds}</div>
+                      <div className="text-sm text-muted-foreground">Annonces actives</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-primary">{stats.totalRentals}</div>
+                      <div className="text-sm text-muted-foreground">Locations réalisées</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl font-bold text-primary">{stats.rating}</div>
+                      <div className="text-sm text-muted-foreground">Note moyenne</div>
+                    </div>
                   </div>
                 </div>
+              </div>
+              
+              {/* Delete account button */}
+              <div className="flex-shrink-0">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline" className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground">
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Supprimer mon compte
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Supprimer votre compte</AlertDialogTitle>
+                      <AlertDialogDescription className="text-left">
+                        La suppression de votre compte est irréversible.
+                        <br /><br />
+                        Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu'aucune réclamation ou litige en cours n'est rattaché à votre compte.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={handleAccountDeletion}
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      >
+                        Oui, je confirme la suppression
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           </div>
