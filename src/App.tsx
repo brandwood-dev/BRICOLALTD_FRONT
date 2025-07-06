@@ -45,8 +45,8 @@ const App = () => (
             <AgeVerificationProvider>
             <Toaster />
             <Sonner />
-            <AgeVerificationDialog />
             <BrowserRouter>
+              <AgeVerificationDialog />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/login" element={<Login />} />
