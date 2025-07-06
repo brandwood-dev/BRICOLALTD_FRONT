@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useAgeVerification } from '@/contexts/AgeVerificationContext';
 
 const AgeVerificationDialog = () => {
-  const { isVerified, setIsVerified, setIsUnderAge } = useAgeVerification();
+  const { isVerified, setIsVerified, setIsUnderAge, isUnderAge } = useAgeVerification();
   const navigate = useNavigate();
 
   const handleConfirmAge = () => {
@@ -25,7 +25,7 @@ const AgeVerificationDialog = () => {
   };
 
   return (
-    <AlertDialog open={!isVerified}>
+    <AlertDialog open={!isVerified && !isUnderAge}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center">Vérification d'âge</AlertDialogTitle>
