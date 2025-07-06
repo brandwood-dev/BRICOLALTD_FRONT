@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { FavoritesProvider } from '@/contexts/FavoritesContext';
 import { CurrencyProvider } from '@/contexts/CurrencyContext';
+import { AgeVerificationProvider } from '@/contexts/AgeVerificationContext';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
@@ -30,6 +31,8 @@ import FAQ from "./pages/FAQ";
 import CGU from "./pages/CGU";
 import ContratLocation from "./pages/ContratLocation";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import UnderAge from "./pages/UnderAge";
+import AgeVerificationDialog from "./components/AgeVerificationDialog";
 
 const queryClient = new QueryClient();
 
@@ -39,8 +42,10 @@ const App = () => (
       <LanguageProvider>
         <CurrencyProvider>
           <FavoritesProvider>
+            <AgeVerificationProvider>
             <Toaster />
             <Sonner />
+            <AgeVerificationDialog />
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
@@ -65,10 +70,12 @@ const App = () => (
                 <Route path="/cgu" element={<CGU />} />
                 <Route path="/contrat-location" element={<ContratLocation />} />
                 <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+                <Route path="/under-age" element={<UnderAge />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
+            </AgeVerificationProvider>
           </FavoritesProvider>
         </CurrencyProvider>
       </LanguageProvider>
