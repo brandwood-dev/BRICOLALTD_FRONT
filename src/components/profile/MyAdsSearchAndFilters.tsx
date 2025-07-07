@@ -43,11 +43,11 @@ const MyAdsSearchAndFilters = ({
         />
       </div>
       
-      {/* Filtres et mode d'affichage */}
-      <div className="flex flex-wrap gap-4 items-center justify-between">
-        <div className="flex flex-wrap gap-4">
+      {/* Filtres */}
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Select value={validationFilter} onValueChange={onValidationFilterChange}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Statut validation" />
             </SelectTrigger>
             <SelectContent>
@@ -59,7 +59,7 @@ const MyAdsSearchAndFilters = ({
           </Select>
           
           <Select value={publicationFilter} onValueChange={onPublicationFilterChange}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Statut publication" />
             </SelectTrigger>
             <SelectContent>
@@ -70,7 +70,7 @@ const MyAdsSearchAndFilters = ({
           </Select>
           
           <Select value={categoryFilter} onValueChange={onCategoryFilterChange}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Catégorie" />
             </SelectTrigger>
             <SelectContent>
@@ -85,20 +85,24 @@ const MyAdsSearchAndFilters = ({
         </div>
         
         {/* Mode d'affichage */}
-        <div className="flex gap-2">
+        <div className="flex justify-center sm:justify-end gap-2">
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
             size="sm"
             onClick={() => onViewModeChange('grid')}
+            className="flex items-center gap-2"
           >
             <Grid className="h-4 w-4" />
+            <span className="hidden sm:inline">Grille</span>
           </Button>
           <Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
             size="sm"
             onClick={() => onViewModeChange('list')}
+            className="flex items-center gap-2"
           >
             <List className="h-4 w-4" />
+            <span className="hidden sm:inline">Liste</span>
           </Button>
         </div>
       </div>

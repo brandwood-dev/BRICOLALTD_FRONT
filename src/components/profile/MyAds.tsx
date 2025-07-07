@@ -454,15 +454,16 @@ const MyAds = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <CardTitle className="flex items-center gap-2">
           <Edit className="h-5 w-5" />
           Mes Annonces
         </CardTitle>
         <Link to="/add-tool">
-          <Button>
+          <Button className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
-            Nouvelle annonce
+            <span className="hidden sm:inline">Nouvelle annonce</span>
+            <span className="sm:hidden">Ajouter</span>
           </Button>
         </Link>
       </CardHeader>

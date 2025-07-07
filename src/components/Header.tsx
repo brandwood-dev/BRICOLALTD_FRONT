@@ -132,36 +132,36 @@ const Header = () => {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 p-0 flex flex-col">
+              <SheetContent 
+                side="right" 
+                className={`w-80 p-0 flex flex-col ${language === 'ar' ? 'rtl' : 'ltr'}`}
+              >
                 {/* Fixed Header */}
-                <div className="flex items-center justify-between p-6 border-b flex-shrink-0">
+                <div className={`flex items-center justify-between p-6 border-b flex-shrink-0 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                   <img 
                     src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
                     alt="Bricola" 
                     className="h-8"
                   />
-                  <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(false)}>
-                    <X className="h-5 w-5" />
-                  </Button>
                 </div>
 
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto">
                   <div className="p-6 space-y-6">
-                    {/* Auth Buttons */}
-                    <div className="space-y-3">
+                     {/* Auth Buttons */}
+                    <div className="space-y-4">
                       <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full h-12">
                           {t('nav.login')}
                         </Button>
                       </Link>
                       <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                        <Button className="w-full">
+                        <Button className="w-full h-12">
                           {t('nav.signup')}
                         </Button>
                       </Link>
                       <Link to="/add-tool" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full h-12">
                           {t('nav.list')}
                         </Button>
                       </Link>
