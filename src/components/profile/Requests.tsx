@@ -124,6 +124,13 @@ const Requests = () => {
     setSelectedRequestId('');
   };
 
+  const handleReportSubmit = (requestId: string) => {
+    // Mark the request as having an active claim when reported
+    setRequests(prev => prev.map(req => 
+      req.id === requestId ? { ...req, hasActiveClaim: true } : req
+    ));
+  };
+
   const simulateRenterReturn = (requestId: string) => {
     setRequests(prev => prev.map(req => 
       req.id === requestId ? { ...req, renterHasReturned: true } : req
@@ -200,7 +207,7 @@ const Requests = () => {
                   <Badge className={getStatusColor(request.status)}>
                     {getStatusText(request.status)}
                   </Badge>
-                  {request.status === 'ongoing' && request.hasActiveClaim && (
+                  {(request.status === 'ongoing' || request.status === 'accepted') && request.hasActiveClaim && (
                     <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
                       Réclamation en cours
                     </Badge>
@@ -281,7 +288,7 @@ const Requests = () => {
                 {request.isOwnerView && request.status === 'accepted' && (
                   <>
                     <ContactDialog request={request as any} />
-                    <ReportDialog requestId={request.id} />
+                    <ReportDialog requestId={request.id} onReportSubmit={handleReportSubmit} />
                   </>
                 )}
 
@@ -289,7 +296,7 @@ const Requests = () => {
                 {request.isOwnerView && request.status === 'ongoing' && (
                   <>
                     <ContactDialog request={request as any} />
-                    <ReportDialog requestId={request.id} />
+                    <ReportDialog requestId={request.id} onReportSubmit={handleReportSubmit} />
 
                     <Button 
                       variant={request.renterHasReturned ? "default" : "outline"}

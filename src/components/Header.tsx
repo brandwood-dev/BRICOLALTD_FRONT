@@ -29,7 +29,7 @@ const Header = () => {
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-700 hover:text-accent font-medium transition-colors">
               {t('nav.home')}
             </Link>
@@ -48,7 +48,7 @@ const Header = () => {
           </nav>
 
           {/* Desktop Right side */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-6">
             {/* Currency selector */}
             <Select value={currency.code} onValueChange={(value) => {
               const selectedCurrency = currencies.find(c => c.code === value);

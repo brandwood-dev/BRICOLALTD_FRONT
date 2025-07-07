@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
 import { Star, MapPin, Calendar, Heart } from 'lucide-react';
@@ -105,11 +106,19 @@ const FeaturedToolsSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {tools.map((tool) => {
-            const displayPrice = calculateDisplayPrice(tool.price);
-            return (
-              <div key={tool.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {tools.map((tool) => {
+              const displayPrice = calculateDisplayPrice(tool.price);
+              return (
+                <CarouselItem key={tool.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/4">
+                  <div className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover h-full">
                 {/* Image */}
                 <div className="relative h-48 bg-gray-100">
                   <img
@@ -168,12 +177,16 @@ const FeaturedToolsSection = () => {
                     <Button size="sm" className="w-full">
                       {t('tools.rent')}
                     </Button>
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                    </Link>
+                  </div>
+                  </div>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:flex" />
+          <CarouselNext className="hidden md:flex" />
+        </Carousel>
 
         <div className="text-center mt-10">
           <Link to="/search">

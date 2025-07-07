@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Star } from 'lucide-react';
 
 const CustomerReviews = () => {
@@ -57,9 +58,17 @@ const CustomerReviews = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {reviews.map((review) => (
-            <div key={review.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {reviews.map((review) => (
+              <CarouselItem key={review.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/4">
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 h-full">
               <div className="flex items-center mb-4">
                 <img
                   src={review.avatar}
@@ -73,12 +82,16 @@ const CustomerReviews = () => {
                   </div>
                 </div>
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                "{review.comment}"
-              </p>
-            </div>
-          ))}
-        </div>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  "{review.comment}"
+                </p>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:flex" />
+          <CarouselNext className="hidden md:flex" />
+        </Carousel>
       </div>
     </section>
   );

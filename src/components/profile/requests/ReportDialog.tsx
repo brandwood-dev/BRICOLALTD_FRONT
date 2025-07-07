@@ -8,9 +8,10 @@ import { useToast } from '@/hooks/use-toast';
 
 interface ReportDialogProps {
   requestId: string;
+  onReportSubmit?: (requestId: string) => void;
 }
 
-const ReportDialog: React.FC<ReportDialogProps> = ({ requestId }) => {
+const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }) => {
   const [reportReason, setReportReason] = useState('');
   const [reportMessage, setReportMessage] = useState('');
   const { toast } = useToast();
@@ -29,6 +30,11 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId }) => {
       title: "Signalement envoyé",
       description: "Votre signalement a été transmis à l'administration.",
     });
+    
+    // Call the callback to update the request status
+    if (onReportSubmit) {
+      onReportSubmit(requestId);
+    }
     
     setReportReason('');
     setReportMessage('');

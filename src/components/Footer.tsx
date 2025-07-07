@@ -38,11 +38,11 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Liens utiles</h3>
             <ul className="space-y-2 text-gray-400">
+              <li><Link to="/" className="hover:text-white transition-colors">Accueil</Link></li>
+              <li><Link to="/search" className="hover:text-white transition-colors">Catalogue</Link></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">À propos</Link></li>
               <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-              <li><Link to="/about" className="hover:text-white transition-colors">{t('footer.about')}</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('footer.help')}</a></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">{t('footer.contact')}</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t('footer.legal')}</a></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
 

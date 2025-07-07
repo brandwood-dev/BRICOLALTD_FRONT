@@ -178,40 +178,42 @@ const ProfileInfo = () => {
           </div>
         </div>
         
-        <div className="space-y-2">
-          <Label htmlFor="address">Adresse</Label>
-          <Input 
-            id="address" 
-            value={userInfo.address}
-            disabled={!isEditing}
-            onChange={(e) => setUserInfo({...userInfo, address: e.target.value})}
-            placeholder="Saisissez votre adresse complète"
-          />
-          {isEditing && (
-            <p className="text-xs text-muted-foreground">
-              Saisissez une adresse valide compatible avec Google Maps
-            </p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="country">Pays</Label>
-          <Select 
-            value={userInfo.country} 
-            onValueChange={(value) => setUserInfo({...userInfo, country: value})}
-            disabled={!isEditing}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Sélectionnez un pays" />
-            </SelectTrigger>
-            <SelectContent>
-              {countries.map((country) => (
-                <SelectItem key={country} value={country}>
-                  {country}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="country">Pays</Label>
+            <Select 
+              value={userInfo.country} 
+              onValueChange={(value) => setUserInfo({...userInfo, country: value})}
+              disabled={!isEditing}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Sélectionnez un pays" />
+              </SelectTrigger>
+              <SelectContent>
+                {countries.map((country) => (
+                  <SelectItem key={country} value={country}>
+                    {country}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="address">Adresse</Label>
+            <Input 
+              id="address" 
+              value={userInfo.address}
+              disabled={!isEditing}
+              onChange={(e) => setUserInfo({...userInfo, address: e.target.value})}
+              placeholder="Saisissez votre adresse complète"
+            />
+            {isEditing && (
+              <p className="text-xs text-muted-foreground">
+                Saisissez une adresse valide compatible avec Google Maps
+              </p>
+            )}
+          </div>
         </div>
         
         {!isEditing && (

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { mockBlogPosts } from '@/data/mockData';
 import { Calendar, User, Clock, ArrowRight } from 'lucide-react';
 
@@ -23,9 +24,17 @@ const BlogSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {latestPosts.map((post) => (
-            <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow card-hover">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full mb-12"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {latestPosts.map((post) => (
+              <CarouselItem key={post.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                <Card className="overflow-hidden hover:shadow-lg transition-shadow card-hover h-full">
               <img 
                 src={post.image} 
                 alt={post.title}
@@ -54,11 +63,15 @@ const BlogSection = () => {
                     Lire l'article
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  </Link>
+                </CardContent>
+              </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden md:flex" />
+          <CarouselNext className="hidden md:flex" />
+        </Carousel>
 
         <div className="text-center">
           <Link to="/blog">
