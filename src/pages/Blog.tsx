@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockBlogPosts } from '@/data/mockData';
@@ -11,6 +12,15 @@ import { Calendar, User, Clock } from 'lucide-react';
 
 const Blog = () => {
   const { t } = useLanguage();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // 1 featured + 5 in grid
+
+  // Calculate pagination for the remaining posts (excluding the featured one)
+  const remainingPosts = mockBlogPosts.slice(1);
+  const totalPages = Math.ceil(remainingPosts.length / (itemsPerPage - 1));
+  const startIndex = (currentPage - 1) * (itemsPerPage - 1);
+  const endIndex = startIndex + (itemsPerPage - 1);
+  const currentPosts = remainingPosts.slice(startIndex, endIndex);
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,8 +71,8 @@ const Blog = () => {
           </div>
 
           {/* Grille d'articles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mockBlogPosts.slice(1).map((post) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {currentPosts.map((post) => (
               <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <img 
                   src={post.image} 
@@ -91,6 +101,48 @@ const Blog = () => {
               </Card>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mb-16">
+              <Pagination>
+                <PaginationContent>
+                  {currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        className="cursor-pointer"
+                      />
+                    </PaginationItem>
+                  )}
+                  
+                  {[...Array(totalPages)].map((_, index) => {
+                    const page = index + 1;
+                    return (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(page)}
+                          isActive={currentPage === page}
+                          className="cursor-pointer"
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+                  
+                  {currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        className="cursor-pointer"
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
 
           {/* Section catégories */}
           <div className="mt-16">

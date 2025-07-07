@@ -338,6 +338,138 @@ export const mockBlogPosts = [
     category: 'Entretien',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     readTime: '4 min'
+  },
+  {
+    id: '4',
+    title: 'Sécurité sur chantier : les équipements indispensables',
+    excerpt: 'Découvrez les équipements de protection individuelle essentiels pour travailler en toute sécurité.',
+    content: 'La sécurité sur un chantier ne doit jamais être négligée...',
+    author: 'Sécurité Pro',
+    date: '2024-01-12',
+    category: 'Sécurité',
+    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '6 min'
+  },
+  {
+    id: '5',
+    title: 'Les tendances jardinage 2024',
+    excerpt: 'Explorez les nouvelles tendances qui transforment nos jardins cette année.',
+    content: 'Le jardinage évolue constamment avec de nouvelles tendances...',
+    author: 'Tendance Verte',
+    date: '2024-01-08',
+    category: 'Jardinage',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '5 min'
+  },
+  {
+    id: '6',
+    title: 'DIY : Construire un abri de jardin',
+    excerpt: 'Tutoriel complet pour construire votre propre abri de jardin étape par étape.',
+    content: 'Construire un abri de jardin est un projet accessible...',
+    author: 'DIY Expert',
+    date: '2024-01-03',
+    category: 'Tutoriels',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '12 min'
+  },
+  {
+    id: '7',
+    title: 'Électricité domestique : bases et sécurité',
+    excerpt: 'Apprenez les fondamentaux de l\'électricité domestique et les règles de sécurité à respecter.',
+    content: 'Comprendre l\'électricité domestique est essentiel pour tout bricoleur...',
+    author: 'Électro Sécurité',
+    date: '2024-01-01',
+    category: 'Électricité',
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '8 min'
+  },
+  {
+    id: '8',
+    title: 'Transport d\'outils : bien organiser son véhicule',
+    excerpt: 'Conseils pour optimiser le transport de vos outils en toute sécurité.',
+    content: 'Le transport d\'outils nécessite une organisation méthodique...',
+    author: 'Transport Pro',
+    date: '2023-12-28',
+    category: 'Transport',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '4 min'
+  },
+  {
+    id: '9',
+    title: 'Nettoyage écologique : alternatives naturelles',
+    excerpt: 'Découvrez des méthodes de nettoyage respectueuses de l\'environnement.',
+    content: 'Le nettoyage écologique gagne en popularité...',
+    author: 'Éco Nettoyage',
+    date: '2023-12-25',
+    category: 'Nettoyage',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '6 min'
+  },
+  {
+    id: '10',
+    title: 'Organiser un événement en extérieur',
+    excerpt: 'Guide pratique pour réussir l\'organisation de votre événement outdoor.',
+    content: 'Organiser un événement en extérieur demande une préparation minutieuse...',
+    author: 'Event Planner',
+    date: '2023-12-22',
+    category: 'Événementiel',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '9 min'
+  },
+  {
+    id: '11',
+    title: 'Les erreurs courantes en bricolage',
+    excerpt: 'Évitez les pièges les plus fréquents grâce à nos conseils d\'experts.',
+    content: 'Tout bricoleur, débutant ou confirmé, peut commettre des erreurs...',
+    author: 'Expert Bricolage',
+    date: '2023-12-20',
+    category: 'Guides',
+    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '7 min'
+  },
+  {
+    id: '12',
+    title: 'Jardinage d\'hiver : que faire en saison froide',
+    excerpt: 'Découvrez comment prendre soin de votre jardin pendant les mois d\'hiver.',
+    content: 'L\'hiver n\'est pas une période d\'inactivité pour le jardinier...',
+    author: 'Jardin Hiver',
+    date: '2023-12-18',
+    category: 'Jardinage',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '5 min'
+  },
+  {
+    id: '13',
+    title: 'Rénovation de salle de bain : étapes clés',
+    excerpt: 'Planifiez votre rénovation de salle de bain avec notre guide détaillé.',
+    content: 'Rénover une salle de bain est un projet complexe qui nécessite une bonne planification...',
+    author: 'Rénovation Expert',
+    date: '2023-12-15',
+    category: 'Rénovation',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '11 min'
+  },
+  {
+    id: '14',
+    title: 'Choisir ses outils de mesure',
+    excerpt: 'Guide pour sélectionner les instruments de mesure adaptés à vos projets.',
+    content: 'La précision en bricolage passe par de bons outils de mesure...',
+    author: 'Mesure Précision',
+    date: '2023-12-12',
+    category: 'Guides',
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '4 min'
+  },
+  {
+    id: '15',
+    title: 'Isolation thermique : techniques et matériaux',
+    excerpt: 'Améliorez l\'efficacité énergétique de votre habitat avec nos conseils d\'isolation.',
+    content: 'Une bonne isolation est la clé d\'un habitat confortable et économe...',
+    author: 'Isolation Pro',
+    date: '2023-12-10',
+    category: 'Isolation',
+    image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    readTime: '10 min'
   }
 ];
 
