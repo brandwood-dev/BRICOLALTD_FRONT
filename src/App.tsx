@@ -33,6 +33,7 @@ import ContratLocation from "./pages/ContratLocation";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import UnderAge from "./pages/UnderAge";
 import AgeVerificationDialog from "./components/AgeVerificationDialog";
+import FloatingActionButton from "./components/FloatingActionButton";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,7 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <FloatingActionButton />
             </BrowserRouter>
             </AgeVerificationProvider>
           </FavoritesProvider>

@@ -68,8 +68,8 @@ const Contact = () => {
                     <Mail className="h-6 w-6 text-accent mt-1" />
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Email</h3>
-                      <p className="text-gray-600 mb-1">contact@bricola.com</p>
-                      <p className="text-gray-600">support@bricola.com</p>
+                      <p className="text-gray-600 mb-1">contact@bricolaltd.com</p>
+                      <p className="text-gray-600">support@bricolaltd.com</p>
                     </div>
                   </div>
                 </CardContent>

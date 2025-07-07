@@ -283,19 +283,19 @@ const MyAds = () => {
 
   const renderAdCard = (ad: any) => (
     <div key={ad.id} className="border rounded-lg p-4">
-      <div className="flex items-start gap-4">
+      <div className="flex flex-col sm:flex-row items-start gap-4">
         <img 
           src={ad.image} 
           alt={ad.title}
-          className="w-20 h-20 rounded-lg object-cover"
+          className="w-full sm:w-20 h-48 sm:h-20 rounded-lg object-cover"
         />
-        <div className="flex-1 space-y-3">
-          <div className="flex items-start justify-between">
-            <div>
+        <div className="flex-1 space-y-3 w-full sm:w-auto">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+            <div className="flex-1">
               <h3 className="font-semibold">{ad.title}</h3>
               <p className="text-sm text-muted-foreground">{ad.category}</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
               <Badge className={getValidationStatusColor(ad.validationStatus)}>
                 {getValidationStatusText(ad.validationStatus)}
               </Badge>
@@ -322,11 +322,11 @@ const MyAds = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="font-semibold text-primary">
               {ad.price}€/jour
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" size="sm">

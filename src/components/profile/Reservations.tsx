@@ -479,9 +479,9 @@ const Reservations = () => {
           {paginatedReservations.map((reservation) => (
             <Card key={reservation.id} className="overflow-hidden">
               <CardContent className="p-0">
-                <div className="flex">
+                <div className="flex flex-col md:flex-row">
                   {/* Image de l'outil */}
-                  <div className="w-32 h-32 flex-shrink-0">
+                  <div className="w-full md:w-32 h-48 md:h-32 flex-shrink-0">
                     <img 
                       src={reservation.toolImage} 
                       alt={reservation.toolName}
@@ -490,10 +490,10 @@ const Reservations = () => {
                   </div>
                   
                   {/* Contenu principal */}
-                  <div className="flex-1 p-6">
-                    <div className="flex justify-between items-start mb-4">
+                  <div className="flex-1 p-4 md:p-6">
+                    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-4">
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2 flex-wrap">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                           <h3 className="text-lg font-semibold text-gray-900">{reservation.toolName}</h3>
                           <Badge className={getStatusColor(reservation.status)}>
                             {getStatusText(reservation.status)}
@@ -521,7 +521,7 @@ const Reservations = () => {
                         
                         <p className="text-sm text-gray-600 mb-4">{reservation.toolDescription}</p>
                         
-                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600 mb-4">
                           <div className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
                             <span>Du {reservation.startDate} au {reservation.endDate}</span>
@@ -533,7 +533,7 @@ const Reservations = () => {
                         </div>
                       </div>
                       
-                      <div className="text-right">
+                      <div className="text-left lg:text-right mt-4 lg:mt-0">
                         <div className="text-2xl font-bold text-blue-600 mb-2">
                           {reservation.price}€
                         </div>
