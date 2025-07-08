@@ -17,6 +17,7 @@ const translations = {
     'nav.list': 'Proposer un outil',
     'nav.login': 'Connexion',
     'nav.signup': 'Inscription',
+    'nav.logout': 'Déconnexion',
     
     // Hero section
     'hero.title': 'Louez et partagez vos outils en toute simplicité',
@@ -121,13 +122,14 @@ const translations = {
     'footer.cgu': 'CGU',
     'footer.privacy': 'Politique de confidentialité',
     'footer.faq': 'FAQ',
-    
+
     // Login
     'login.title': 'Connexion',
     'login.subtitle': 'Connectez-vous à votre compte ToolShare',
     'login.email': 'Email',
     'login.password': 'Mot de passe',
     'login.signin': 'Se connecter',
+    'login.signing_in': 'Connexion en cours...',
     'login.no_account': 'Pas encore de compte ? S\'inscrire',
     'login.forgot_password': 'Mot de passe oublié ?',
 
@@ -259,6 +261,7 @@ const translations = {
     'nav.list': 'List a tool',
     'nav.login': 'Login',
     'nav.signup': 'Sign up',
+    'nav.logout': 'Logout',
     
     // Hero section
     'hero.title': 'Rent and share your tools with ease',
@@ -370,6 +373,7 @@ const translations = {
     'login.email': 'Email',
     'login.password': 'Password',
     'login.signin': 'Sign in',
+    'login.signing_in': 'Signing in...',
     'login.no_account': 'No account yet? Sign up',
     'login.forgot_password': 'Forgot password?',
 
@@ -501,6 +505,7 @@ const translations = {
     'nav.list': 'إضافة أداة',
     'nav.login': 'تسجيل الدخول',
     'nav.signup': 'إنشاء حساب',
+    'nav.logout': 'تسجيل الخروج',
     
     // Hero section
     'hero.title': 'استأجر وشارك أدواتك بسهولة',
@@ -612,6 +617,7 @@ const translations = {
     'login.email': 'البريد الإلكتروني',
     'login.password': 'كلمة المرور',
     'login.signin': 'تسجيل الدخول',
+    'login.signing_in': 'جارٍ تسجيل الدخول...',
     'login.no_account': 'ليس لديك حساب؟ إنشاء حساب',
     'login.forgot_password': 'نسيت كلمة المرور؟',
 

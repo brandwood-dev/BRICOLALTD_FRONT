@@ -9,6 +9,14 @@ import { useToast } from '@/hooks/use-toast';
 import { CheckIcon, XIcon } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { authService } from '@/services/authService';
+
+const ValidationIndicator = ({ isValid, text }: { isValid: boolean; text: string }) => (
+  <div className={`flex items-center space-x-2 text-sm ${isValid ? 'text-green-600' : 'text-red-600'}`}>
+    {isValid ? <CheckIcon className="h-4 w-4" /> : <XIcon className="h-4 w-4" />}
+    <span>{text}</span>
+  </div>
+);
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -18,14 +26,19 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
+  // Get reset token from location state
+  const resetToken = location.state?.resetToken;
+  
   // Vérifier si l'utilisateur est arrivé via le processus de vérification
-  const isVerified = location.state?.verified || false;
+  const isVerified = location.state?.verified ?? !!resetToken;
+
+  const email = location.state?.email ?? '';
   
   React.useEffect(() => {
-    if (!isVerified) {
+    if (!isVerified || !resetToken) {
       navigate('/forgot-password');
     }
-  }, [isVerified, navigate]);
+  }, [isVerified, resetToken, navigate]);
 
   const passwordValidation = {
     minLength: password.length >= 8,
@@ -61,23 +74,33 @@ const ResetPassword = () => {
 
     setIsLoading(true);
     
-    // Simulation de la réinitialisation du mot de passe
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const response = await authService.resetPassword(resetToken, password, email);
+      
+      if (response.success) {
+        toast({
+          title: "Mot de passe modifié",
+          description: response.message || "Votre mot de passe a été modifié avec succès",
+        });
+        navigate('/login');
+      } else {
+        toast({
+          title: "Erreur",
+          description: response.error || "Une erreur est survenue lors de la modification du mot de passe",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Reset password error:', error);
       toast({
-        title: "Mot de passe modifié",
-        description: "Votre mot de passe a été modifié avec succès",
+        title: "Erreur",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+        variant: "destructive",
       });
-      navigate('/login');
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  const ValidationIndicator = ({ isValid, text }: { isValid: boolean; text: string }) => (
-    <div className={`flex items-center space-x-2 text-sm ${isValid ? 'text-green-600' : 'text-red-600'}`}>
-      {isValid ? <CheckIcon className="h-4 w-4" /> : <XIcon className="h-4 w-4" />}
-      <span>{text}</span>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-background">

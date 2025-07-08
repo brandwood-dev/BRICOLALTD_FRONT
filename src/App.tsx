@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,7 @@ import { LanguageProvider } from '@/contexts/LanguageContext';
 import { FavoritesProvider } from '@/contexts/FavoritesContext';
 import { CurrencyProvider } from '@/contexts/CurrencyContext';
 import { AgeVerificationProvider } from '@/contexts/AgeVerificationContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
@@ -34,6 +34,8 @@ import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import UnderAge from "./pages/UnderAge";
 import AgeVerificationDialog from "./components/AgeVerificationDialog";
 import FloatingActionButton from "./components/FloatingActionButton";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthRedirect from "./components/AuthRedirect";
 
 const queryClient = new QueryClient();
 
@@ -42,29 +44,30 @@ const App = () => (
     <TooltipProvider>
       <LanguageProvider>
         <CurrencyProvider>
-          <FavoritesProvider>
-            <AgeVerificationProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+          <AuthProvider>
+            <FavoritesProvider>
+              <AgeVerificationProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
               <AgeVerificationDialog />
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/verify-code" element={<VerifyCode />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/add-tool" element={<AddTool />} />
+                <Route path="/login" element={<AuthRedirect><Login /></AuthRedirect>} />
+                <Route path="/register" element={<AuthRedirect><Register /></AuthRedirect>} />
+                <Route path="/forgot-password" element={<AuthRedirect><ForgotPassword /></AuthRedirect>} />
+                <Route path="/verify-code" element={<AuthRedirect><VerifyCode /></AuthRedirect>} />
+                <Route path="/reset-password" element={<AuthRedirect><ResetPassword /></AuthRedirect>} />
+                <Route path="/add-tool" element={<ProtectedRoute><AddTool /></ProtectedRoute>} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/tool/:id" element={<ToolDetails />} />
-                <Route path="/rent/:id" element={<Rent />} />
+                <Route path="/rent/:id" element={<ProtectedRoute><Rent /></ProtectedRoute>} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<BlogPost />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/favorites" element={<Favorites />} />
-                <Route path="/profile" element={<Profile />} />
+                <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/guide-loueur" element={<GuideLoueur />} />
                 <Route path="/guide-locataire" element={<GuideLocataire />} />
                 <Route path="/faq" element={<FAQ />} />
@@ -79,6 +82,7 @@ const App = () => (
             </BrowserRouter>
             </AgeVerificationProvider>
           </FavoritesProvider>
+          </AuthProvider>
         </CurrencyProvider>
       </LanguageProvider>
     </TooltipProvider>

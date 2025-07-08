@@ -39,7 +39,7 @@ export interface LoginResponse {
     lastName: string;
     userType: string;
   };
-  token: string;
+  access_token: string;
   message: string;
 }
 
@@ -68,13 +68,19 @@ class AuthService {
     return apiClient.post<{ message: string }>('/auth/forgot-password', { email });
   }
 
+  async verifyForgotPasswordCode(email: string, token: string): Promise<ApiResponse<{ message: string; resetToken?: string }>> {
+    return apiClient.post<{ message: string; resetToken?: string }>('/auth/verify-forgot-password-token', { email, token });
+  }
+
   async resetPassword(
     token: string, 
-    password: string
+    password: string,
+    email: string
   ): Promise<ApiResponse<{ message: string }>> {
-    return apiClient.post<{ message: string }>('/auth/reset-password', {
+    return apiClient.patch<{ message: string }>('/auth/reset-password', {
       token,
-      password
+      password,
+      email
     });
   }
 }

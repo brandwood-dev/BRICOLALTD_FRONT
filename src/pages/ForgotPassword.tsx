@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { authService } from '@/services/authService';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -34,15 +35,31 @@ const ForgotPassword = () => {
 
     setIsLoading(true);
     
-    // Simulation de l'envoi d'email
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const response = await authService.forgotPassword(email);
+      
+      if (response.success) {
+        toast({
+          title: "Email envoyé",
+          description: response.message || "Un code de vérification a été envoyé à votre adresse email",
+        });
+        navigate('/verify-code', { state: { email, from: 'forgot-password' }});
+      } else {
+        toast({
+          title: "Erreur",
+          description: response.error || "Une erreur s'est produite lors de l'envoi de l'email",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Email envoyé",
-        description: "Un code de vérification a été envoyé à votre adresse email",
+        title: "Erreur",
+        description: "Une erreur inattendue s'est produite",
+        variant: "destructive",
       });
-      navigate('/verify-code', { state: { email } });
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

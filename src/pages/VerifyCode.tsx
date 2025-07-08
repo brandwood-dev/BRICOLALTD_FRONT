@@ -19,6 +19,7 @@ const VerifyCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email ?? '';
+  const from = location.state?.from ?? '';
 
   useEffect(() => {
     if (countdown > 0) {
@@ -53,22 +54,47 @@ const VerifyCode = () => {
     setIsLoading(true);
     
     try {
-      console.log("token:", code);
-      console.log("email:", email);
-      const response = await authService.verifyEmailWithCode(email, code);
       
-      if (response.success) {
-        toast({
-          title: "Code vérifié",
-          description: response.message ?? "Code correct, redirection vers la réinitialisation du mot de passe",
-        });
-        navigate('/login');
+      if (from === 'forgot-password') {
+        // Handle forgot password verification
+        const response = await authService.verifyForgotPasswordCode(email, code);
+        
+        if (response.success) {
+          toast({
+            title: "Code vérifié",
+            description: response.message ?? "Code correct, redirection vers la réinitialisation du mot de passe",
+          });
+          // Navigate to reset password page with the reset token if available
+          navigate('/reset-password', { 
+            state: { 
+              email, 
+              resetToken: response.data?.resetToken || code 
+            }
+          });
+        } else {
+          toast({
+            title: "Erreur",
+            description: response.error ?? "Code incorrect",
+            variant: "destructive",
+          });
+        }
       } else {
-        toast({
-          title: "Erreur",
-          description: response.error ?? "Code incorrect",
-          variant: "destructive",
-        });
+        // Handle regular email verification
+        const response = await authService.verifyEmailWithCode(email, code);
+        
+        if (response.success) {
+          toast({
+            title: "Code vérifié",
+            description: response.message ?? "Email vérifié avec succès",
+          });
+          navigate('/login');
+        } else {
+          toast({
+            title: "Erreur",
+            description: response.error ?? "Code incorrect",
+            variant: "destructive",
+          });
+        }
       }
     } catch (error) {
       console.error('Verification error:', error);
@@ -93,7 +119,15 @@ const VerifyCode = () => {
     }
 
     try {
-      const response = await authService.resendVerificationCode(email);
+      let response;
+      
+      if (from === 'forgot-password') {
+        // Resend forgot password code
+        response = await authService.forgotPassword(email);
+      } else {
+        // Resend regular verification code
+        response = await authService.resendVerificationCode(email);
+      }
       
       if (response.success) {
         setCountdown(60);
@@ -128,7 +162,7 @@ const VerifyCode = () => {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">Vérification</CardTitle>
               <CardDescription>
-                Entrez le code de vérification envoyé à {email}
+                Entrez le code de {from === 'forgot-password' ? 'réinitialisation' : 'vérification'} envoyé à {email}
               </CardDescription>
             </CardHeader>
             <CardContent>

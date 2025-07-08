@@ -6,7 +6,7 @@ interface ApiResponse<T = any> {
 }
 
 class ApiClient {
-  private baseURL: string;
+  private readonly baseURL: string;
 
   constructor(baseURL: string = 'http://localhost:3001') {
     this.baseURL = baseURL;
@@ -43,7 +43,7 @@ class ApiClient {
       if (!response.ok) {
         return {
           success: false,
-          error: data?.message || data?.error || `HTTP error! status: ${response.status}`,
+          error: data?.message ?? data?.error ?? `HTTP error! status: ${response.status}`,
           data: data
         };
       }
@@ -87,6 +87,18 @@ class ApiClient {
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(endpoint, {
       method: 'PUT',
+      headers,
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
+  async patch<T>(
+    endpoint: string,
+    data?: any,
+    headers?: HeadersInit
+  ): Promise<ApiResponse<T>> {
+    return this.makeRequest<T>(endpoint, {
+      method: 'PATCH',
       headers,
       body: data ? JSON.stringify(data) : undefined,
     });

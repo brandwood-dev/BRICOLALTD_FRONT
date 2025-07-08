@@ -6,13 +6,15 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
-import { Search, User, Menu, Wrench, Heart, X } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { User, Menu, Heart, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const { favoritesCount } = useFavorites();
   const { currency, setCurrency, currencies } = useCurrency();
+  const { isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -78,52 +80,72 @@ const Header = () => {
               </SelectContent>
             </Select>
 
-            {/* Favorites */}
-            <Link to="/favorites" className="relative">
-              <Button variant="ghost" size="sm">
-                <Heart className="h-5 w-5" />
-                {favoritesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {favoritesCount}
-                  </span>
-                )}
-              </Button>
-            </Link>
+            {/* Favorites - Only show when authenticated */}
+            {isAuthenticated && (
+              <Link to="/favorites" className="relative">
+                <Button variant="ghost" size="sm">
+                  <Heart className="h-5 w-5" />
+                  {favoritesCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {favoritesCount}
+                    </span>
+                  )}
+                </Button>
+              </Link>
+            )}
 
-            {/* List tool button */}
-            <Link to="/add-tool">
-              <Button variant="outline">
-                {t('nav.list')}
-              </Button>
-            </Link>
+            {/* List tool button - Only show when authenticated */}
+            {isAuthenticated && (
+              <Link to="/add-tool">
+                <Button variant="outline">
+                  {t('nav.list')}
+                </Button>
+              </Link>
+            )}
 
-            {/* User menu - Improved spacing */}
-            <div className="flex items-center gap-2">
-              <Link to="/login">
-                <Button variant="outline" size="sm" className="px-3 py-2">
-                  {t('nav.login')}
+            {/* Authentication buttons */}
+            {!isAuthenticated ? (
+              <div className="flex items-center gap-2">
+                <Link to="/login">
+                  <Button variant="outline" size="sm" className="px-3 py-2">
+                    {t('nav.login')}
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button size="sm" className="px-3 py-2">
+                    {t('nav.signup')}
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={logout}
+                  className="px-3 py-2"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  {t('nav.logout')}
                 </Button>
-              </Link>
-              <Link to="/register">
-                <Button size="sm" className="px-3 py-2">
-                  {t('nav.signup')}
-                </Button>
-              </Link>
-              <Link to="/profile">
-                <Button variant="ghost" size="sm" className="p-2">
-                  <User className="h-5 w-5" />
-                </Button>
-              </Link>
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Mobile Right side */}
           <div className="md:hidden flex items-center space-x-2">
-            <Link to="/profile">
-              <Button variant="ghost" size="sm">
-                <User className="h-5 w-5" />
-              </Button>
-            </Link>
+            {isAuthenticated && (
+              <Link to="/profile">
+                <Button variant="ghost" size="sm">
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
 
             {/* Mobile Burger Menu */}
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
@@ -148,23 +170,41 @@ const Header = () => {
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto">
                   <div className="p-6 space-y-6">
-                     {/* Auth Buttons - Better spacing */}
+                     {/* Auth Buttons - Show login/signup when not authenticated, or "Proposer un outil" and logout when authenticated */}
                     <div className="space-y-4">
-                      <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-12 text-sm">
-                          {t('nav.login')}
-                        </Button>
-                      </Link>
-                      <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                        <Button className="w-full h-12 text-sm">
-                          {t('nav.signup')}
-                        </Button>
-                      </Link>
-                      <Link to="/add-tool" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-12 text-sm">
-                          {t('nav.list')}
-                        </Button>
-                      </Link>
+                      {!isAuthenticated ? (
+                        <>
+                          <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                            <Button variant="outline" className="w-full h-12 text-sm">
+                              {t('nav.login')}
+                            </Button>
+                          </Link>
+                          <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                            <Button className="w-full h-12 text-sm">
+                              {t('nav.signup')}
+                            </Button>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link to="/add-tool" onClick={() => setIsMenuOpen(false)}>
+                            <Button variant="outline" className="w-full h-12 text-sm">
+                              {t('nav.list')}
+                            </Button>
+                          </Link>
+                          <Button 
+                            variant="outline" 
+                            onClick={() => {
+                              logout();
+                              setIsMenuOpen(false);
+                            }}
+                            className="w-full h-12 text-sm"
+                          >
+                            <LogOut className="h-4 w-4 mr-2" />
+                            {language === 'ar' ? 'تسجيل الخروج' : 'Se déconnecter'}
+                          </Button>
+                        </>
+                      )}
                     </div>
 
                     {/* Navigation Links - RTL optimized */}
@@ -185,6 +225,21 @@ const Header = () => {
                         >
                           Catalogue
                         </Link>
+                        {/* Favorites - Only show when authenticated */}
+                        {isAuthenticated && (
+                          <Link 
+                            to="/favorites" 
+                            className={`flex items-center justify-between py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right flex-row-reverse' : 'text-left'}`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <span>Favoris</span>
+                            {favoritesCount > 0 && (
+                              <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                {favoritesCount}
+                              </span>
+                            )}
+                          </Link>
+                        )}
                         <Link 
                           to="/about" 
                           className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
