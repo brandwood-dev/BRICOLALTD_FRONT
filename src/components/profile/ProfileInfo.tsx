@@ -58,63 +58,78 @@ const ProfileInfo = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={userInfo.profileImage} />
-              <AvatarFallback className="text-lg">{userInfo.firstName[0]}{userInfo.lastName[0]}</AvatarFallback>
-            </Avatar>
-            {isEditing && (
-              <div className="absolute -bottom-2 -right-2">
-                <label htmlFor="profile-image-upload" className="cursor-pointer">
-                  <div className="bg-primary text-primary-foreground rounded-full p-1.5 shadow-lg hover:bg-primary/90 transition-colors">
-                    <Camera className="h-3 w-3" />
-                  </div>
-                </label>
-                <input
-                  id="profile-image-upload"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageUpload}
-                />
+      <CardHeader className="p-4 sm:p-6">
+        {/* Mobile-optimized layout */}
+        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          {/* Profile info section - mobile friendly */}
+          <div className="flex flex-col items-center space-y-3 sm:flex-row sm:items-start sm:space-y-0 sm:space-x-4">
+            {/* Avatar section */}
+            <div className="relative flex-shrink-0">
+              <Avatar className="h-16 w-16 sm:h-20 sm:w-20">
+                <AvatarImage src={userInfo.profileImage} />
+                <AvatarFallback className="text-lg sm:text-xl">{userInfo.firstName[0]}{userInfo.lastName[0]}</AvatarFallback>
+              </Avatar>
+              {isEditing && (
+                <div className="absolute -bottom-2 -right-2">
+                  <label htmlFor="profile-image-upload" className="cursor-pointer">
+                    <div className="bg-primary text-primary-foreground rounded-full p-1.5 shadow-lg hover:bg-primary/90 transition-colors">
+                      <Camera className="h-3 w-3" />
+                    </div>
+                  </label>
+                  <input
+                    id="profile-image-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                  />
+                </div>
+              )}
+            </div>
+            
+            {/* User info section - centered on mobile */}
+            <div className="text-center sm:text-left">
+              <CardTitle className="text-lg sm:text-xl">
+                {userInfo.firstName} {userInfo.lastName}
+              </CardTitle>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                {userInfo.verified && (
+                  <Badge variant="default" className="flex items-center gap-1 text-xs">
+                    <Shield className="h-3 w-3" />
+                    Vérifié
+                  </Badge>
+                )}
+                <Badge variant="secondary" className="text-xs">
+                  {userInfo.accountType}
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">Membre depuis janvier 2024</p>
+            </div>
+          </div>
+          
+          {/* Action buttons - full width on mobile */}
+          <div className="w-full sm:w-auto sm:flex-shrink-0">
+            {!isEditing ? (
+              <Button 
+                variant="outline" 
+                onClick={() => setIsEditing(true)}
+                className="w-full sm:w-auto"
+              >
+                <Edit3 className="h-4 w-4 mr-2" />
+                Modifier
+              </Button>
+            ) : (
+              <div className="flex gap-2 w-full sm:w-auto">
+                <Button size="sm" onClick={handleSave} className="flex-1 sm:flex-none">
+                  <Check className="h-4 w-4" />
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setIsEditing(false)} className="flex-1 sm:flex-none">
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
             )}
           </div>
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              {userInfo.firstName} {userInfo.lastName}
-              {userInfo.verified && (
-                <Badge variant="default" className="flex items-center gap-1">
-                  <Shield className="h-3 w-3" />
-                  Vérifié
-                </Badge>
-              )}
-            </CardTitle>
-            <div className="flex items-center gap-2 mt-1">
-              <p className="text-sm text-muted-foreground">Membre depuis janvier 2024</p>
-              <Badge variant="secondary" className="text-xs">
-                {userInfo.accountType}
-              </Badge>
-            </div>
-          </div>
         </div>
-        {!isEditing ? (
-          <Button variant="outline" onClick={() => setIsEditing(true)}>
-            <Edit3 className="h-4 w-4 mr-2" />
-            Modifier
-          </Button>
-        ) : (
-          <div className="flex gap-2">
-            <Button size="sm" onClick={handleSave}>
-              <Check className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => setIsEditing(false)}>
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-        )}
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

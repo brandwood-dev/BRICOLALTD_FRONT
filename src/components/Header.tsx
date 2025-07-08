@@ -97,20 +97,20 @@ const Header = () => {
               </Button>
             </Link>
 
-            {/* User menu */}
-            <div className="flex items-center space-x-2">
+            {/* User menu - Improved spacing */}
+            <div className="flex items-center gap-2">
               <Link to="/login">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="px-3 py-2">
                   {t('nav.login')}
                 </Button>
               </Link>
               <Link to="/register">
-                <Button size="sm">
+                <Button size="sm" className="px-3 py-2">
                   {t('nav.signup')}
                 </Button>
               </Link>
               <Link to="/profile">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="p-2">
                   <User className="h-5 w-5" />
                 </Button>
               </Link>
@@ -133,8 +133,8 @@ const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent 
-                side="right" 
-                className={`w-80 p-0 flex flex-col ${language === 'ar' ? 'rtl' : 'ltr'}`}
+                side={language === 'ar' ? 'left' : 'right'}
+                className={`w-80 p-0 flex flex-col ${language === 'ar' ? 'rtl text-right' : 'ltr text-left'}`}
               >
                 {/* Fixed Header */}
                 <div className={`flex items-center justify-between p-6 border-b flex-shrink-0 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
@@ -148,60 +148,60 @@ const Header = () => {
                 {/* Scrollable Content */}
                 <div className="flex-1 overflow-y-auto">
                   <div className="p-6 space-y-6">
-                     {/* Auth Buttons */}
+                     {/* Auth Buttons - Better spacing */}
                     <div className="space-y-4">
                       <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-12">
+                        <Button variant="outline" className="w-full h-12 text-sm">
                           {t('nav.login')}
                         </Button>
                       </Link>
                       <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                        <Button className="w-full h-12">
+                        <Button className="w-full h-12 text-sm">
                           {t('nav.signup')}
                         </Button>
                       </Link>
                       <Link to="/add-tool" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-12">
+                        <Button variant="outline" className="w-full h-12 text-sm">
                           {t('nav.list')}
                         </Button>
                       </Link>
                     </div>
 
-                    {/* Navigation Links */}
+                    {/* Navigation Links - RTL optimized */}
                     <div className="space-y-4 border-t pt-6">
-                      <h3 className="font-semibold text-lg">Navigation</h3>
+                      <h3 className={`font-semibold text-lg ${language === 'ar' ? 'text-right' : 'text-left'}`}>Navigation</h3>
                       <div className="space-y-2">
                         <Link 
                           to="/" 
-                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {t('nav.home')}
                         </Link>
                         <Link 
                           to="/search" 
-                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           Catalogue
                         </Link>
                         <Link 
                           to="/about" 
-                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           À propos
                         </Link>
                         <Link 
                           to="/blog" 
-                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           Blog
                         </Link>
                         <Link 
                           to="/contact" 
-                          className="block py-2 text-gray-700 hover:text-accent transition-colors" 
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           Contact
@@ -209,11 +209,13 @@ const Header = () => {
                       </div>
                     </div>
 
-                    {/* Language selector */}
+                    {/* Language selector - RTL optimized */}
                     <div className="space-y-3 border-t pt-6">
-                      <h3 className="font-semibold text-lg">Langue</h3>
+                      <h3 className={`font-semibold text-lg ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                        {language === 'ar' ? 'اللغة' : 'Langue'}
+                      </h3>
                       <Select value={language} onValueChange={(value: 'fr' | 'en' | 'ar') => setLanguage(value)}>
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className={`w-full ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                           <SelectValue placeholder="Langue" />
                         </SelectTrigger>
                         <SelectContent>
@@ -224,14 +226,16 @@ const Header = () => {
                       </Select>
                     </div>
 
-                    {/* Currency selector */}
+                    {/* Currency selector - RTL optimized */}
                     <div className="space-y-3 border-t pt-6">
-                      <h3 className="font-semibold text-lg">Devise</h3>
+                      <h3 className={`font-semibold text-lg ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                        {language === 'ar' ? 'العملة' : 'Devise'}
+                      </h3>
                       <Select value={currency.code} onValueChange={(value) => {
                         const selectedCurrency = currencies.find(c => c.code === value);
                         if (selectedCurrency) setCurrency(selectedCurrency);
                       }}>
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className={`w-full ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
