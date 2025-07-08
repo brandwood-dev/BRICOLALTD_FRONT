@@ -52,8 +52,16 @@ class AuthService {
     return apiClient.post<LoginResponse>('/auth/login', data);
   }
 
-  async verifyEmail(token: string): Promise<ApiResponse<{ message: string }>> {
+  /* async verifyEmail(token: string): Promise<ApiResponse<{ message: string }>> {
     return apiClient.post<{ message: string }>('/auth/verify-email', { token });
+  } */
+
+  async verifyEmailWithCode(email: string, token: string): Promise<ApiResponse<{ message: string }>> {
+    return apiClient.post<{ message: string }>('/auth/verify-email', { email, token });
+  }
+
+  async resendVerificationCode(email: string): Promise<ApiResponse<{ message: string }>> {
+    return apiClient.post<{ message: string }>('/auth/resend-verification', { email });
   }
 
   async forgotPassword(email: string): Promise<ApiResponse<{ message: string }>> {

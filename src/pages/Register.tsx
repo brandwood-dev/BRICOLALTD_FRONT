@@ -138,7 +138,7 @@ const Register = () => {
         });
         
         setTimeout(() => {
-          navigate('/verify-code');
+          navigate('/verify-code', {state: { email: formData.email } });
         }, 2000);
       } else {
         setSubmitError(response.error || 'Une erreur est survenue lors de l\'inscription');

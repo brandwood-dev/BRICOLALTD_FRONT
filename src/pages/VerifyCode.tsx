@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { useToast } from '@/hooks/use-toast';
+import { authService } from '@/services/authService';
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -16,7 +18,7 @@ const VerifyCode = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || '';
+  const email = location.state?.email ?? '';
 
   useEffect(() => {
     if (countdown > 0) {
@@ -39,35 +41,82 @@ const VerifyCode = () => {
       return;
     }
 
+    if (!email) {
+      toast({
+        title: "Erreur",
+        description: "Adresse email manquante",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     
-    // Simulation de la vérification du code
-    setTimeout(() => {
-      setIsLoading(false);
-      // Pour la démo, on accepte "123456" comme code valide
-      if (code === '123456') {
+    try {
+      console.log("token:", code);
+      console.log("email:", email);
+      const response = await authService.verifyEmailWithCode(email, code);
+      
+      if (response.success) {
         toast({
           title: "Code vérifié",
-          description: "Code correct, redirection vers la réinitialisation du mot de passe",
+          description: response.message ?? "Code correct, redirection vers la réinitialisation du mot de passe",
         });
-        navigate('/reset-password', { state: { email, verified: true } });
+        navigate('/login');
       } else {
         toast({
           title: "Erreur",
-          description: "Code incorrect",
+          description: response.error ?? "Code incorrect",
           variant: "destructive",
         });
       }
-    }, 1000);
+    } catch (error) {
+      console.error('Verification error:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de la vérification",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleResendCode = () => {
-    setCountdown(60);
-    setCanResend(false);
-    toast({
-      title: "Code renvoyé",
-      description: "Un nouveau code a été envoyé à votre adresse email",
-    });
+  const handleResendCode = async () => {
+    if (!email) {
+      toast({
+        title: "Erreur",
+        description: "Adresse email manquante",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await authService.resendVerificationCode(email);
+      
+      if (response.success) {
+        setCountdown(60);
+        setCanResend(false);
+        toast({
+          title: "Code renvoyé",
+          description: response.message ?? "Un nouveau code a été envoyé à votre adresse email",
+        });
+      } else {
+        toast({
+          title: "Erreur",
+          description: response.error ?? "Impossible de renvoyer le code",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Resend code error:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de l'envoi du code",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -89,6 +138,7 @@ const VerifyCode = () => {
                     maxLength={6}
                     value={code}
                     onChange={(value) => setCode(value)}
+                    pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
                   >
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
