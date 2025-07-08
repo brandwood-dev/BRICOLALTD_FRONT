@@ -2,18 +2,13 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Plus, Edit, Eye, Trash2, Star } from 'lucide-react';
+import { Plus, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
-import AdEditDialog from './AdEditDialog';
-import AdViewDialog from './AdViewDialog';
 import MyAdsSearchAndFilters from './MyAdsSearchAndFilters';
+import AdCard from './ads/AdCard';
+import AdListItem from './ads/AdListItem';
+import AdsPagination from './ads/AdsPagination';
 
 const MyAds = () => {
   const { toast } = useToast();
@@ -171,82 +166,6 @@ const MyAds = () => {
     setCurrentPage(page);
   };
 
-  const renderPagination = () => {
-    if (totalPages <= 1) return null;
-
-    const pages = [];
-    const maxVisiblePages = 5;
-    
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    return (
-      <Pagination className="mt-6">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious 
-              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-              className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-          
-          {startPage > 1 && (
-            <>
-              <PaginationItem>
-                <PaginationLink onClick={() => handlePageChange(1)} className="cursor-pointer">
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              {startPage > 2 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-            </>
-          )}
-          
-          {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map((page) => (
-            <PaginationItem key={page}>
-              <PaginationLink
-                onClick={() => handlePageChange(page)}
-                isActive={currentPage === page}
-                className="cursor-pointer"
-              >
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          
-          {endPage < totalPages && (
-            <>
-              {endPage < totalPages - 1 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-              <PaginationItem>
-                <PaginationLink onClick={() => handlePageChange(totalPages)} className="cursor-pointer">
-                  {totalPages}
-                </PaginationLink>
-              </PaginationItem>
-            </>
-          )}
-          
-          <PaginationItem>
-            <PaginationNext 
-              onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-              className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    );
-  };
-
   const getValidationStatusColor = (status: string) => {
     switch (status) {
       case 'confirmed': return 'bg-green-100 text-green-800';
@@ -280,177 +199,6 @@ const MyAds = () => {
       description: "Votre annonce a été bien supprimée.",
     });
   };
-
-  const renderAdCard = (ad: any) => (
-    <div key={ad.id} className="border rounded-lg p-4">
-      <div className="flex flex-col sm:flex-row items-start gap-4">
-        <img 
-          src={ad.image} 
-          alt={ad.title}
-          className="w-full sm:w-20 h-48 sm:h-20 rounded-lg object-cover"
-        />
-        <div className="flex-1 space-y-3 w-full sm:w-auto">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
-            <div className="flex-1">
-              <h3 className="font-semibold">{ad.title}</h3>
-              <p className="text-sm text-muted-foreground">{ad.category}</p>
-            </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-              <Badge className={getValidationStatusColor(ad.validationStatus)}>
-                {getValidationStatusText(ad.validationStatus)}
-              </Badge>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id={`published-${ad.id}`}
-                  checked={ad.published}
-                  onCheckedChange={(checked) => handlePublishToggle(ad.id, checked)}
-                />
-                <Label htmlFor={`published-${ad.id}`} className="text-sm">
-                  {ad.published ? 'Publié' : 'Non publié'}
-                </Label>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              {ad.rating}
-            </div>
-            <div>
-              {ad.totalRentals} locations
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="font-semibold text-primary">
-              {ad.price}€/jour
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <Edit className="h-4 w-4 mr-1" />
-                    Modifier
-                  </Button>
-                </DialogTrigger>
-                <AdEditDialog ad={ad} />
-              </Dialog>
-              
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <Eye className="h-4 w-4 mr-1" />
-                    Voir
-                  </Button>
-                </DialogTrigger>
-                <AdViewDialog ad={ad} />
-              </Dialog>
-              
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Êtes-vous sûr de vouloir supprimer cette annonce ? Cette action est irréversible.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Annuler</AlertDialogCancel>
-                    <AlertDialogAction 
-                      onClick={() => handleDeleteAd(ad.id)}
-                      className="bg-red-600 hover:bg-red-700"
-                    >
-                      Oui, je veux supprimer
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderAdList = (ad: any) => (
-    <div key={ad.id} className="border rounded-lg p-3 flex items-center gap-4">
-      <img 
-        src={ad.image} 
-        alt={ad.title}
-        className="w-12 h-12 rounded object-cover"
-      />
-      <div className="flex-1">
-        <h3 className="font-semibold text-sm">{ad.title}</h3>
-        <p className="text-xs text-muted-foreground">{ad.category}</p>
-      </div>
-      <Badge className={getValidationStatusColor(ad.validationStatus)} variant="outline">
-        {getValidationStatusText(ad.validationStatus)}
-      </Badge>
-      <div className="flex items-center space-x-2">
-        <Switch
-          id={`list-published-${ad.id}`}
-          checked={ad.published}
-          onCheckedChange={(checked) => handlePublishToggle(ad.id, checked)}
-        />
-        <Label htmlFor={`list-published-${ad.id}`} className="text-xs">
-          {ad.published ? 'Publié' : 'Non publié'}
-        </Label>
-      </div>
-      <div className="font-semibold text-sm text-primary">
-        {ad.price}€/jour
-      </div>
-      <div className="flex gap-1">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm">
-              <Edit className="h-3 w-3" />
-            </Button>
-          </DialogTrigger>
-          <AdEditDialog ad={ad} />
-        </Dialog>
-        
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm">
-              <Eye className="h-3 w-3" />
-            </Button>
-          </DialogTrigger>
-          <AdViewDialog ad={ad} />
-        </Dialog>
-        
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-              <Trash2 className="h-3 w-3" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
-              <AlertDialogDescription>
-                Êtes-vous sûr de vouloir supprimer cette annonce ? Cette action est irréversible.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Annuler</AlertDialogCancel>
-              <AlertDialogAction 
-                onClick={() => handleDeleteAd(ad.id)}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                Oui, je veux supprimer
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-    </div>
-  );
 
   return (
     <Card>
@@ -487,17 +235,36 @@ const MyAds = () => {
               Aucune annonce trouvée pour les critères sélectionnés.
             </div>
           ) : (
-            currentAds.map(ad => viewMode === 'grid' ? renderAdCard(ad) : renderAdList(ad))
+            currentAds.map(ad => viewMode === 'grid' ? (
+              <AdCard 
+                key={ad.id}
+                ad={ad}
+                onPublishToggle={handlePublishToggle}
+                onDeleteAd={handleDeleteAd}
+                getValidationStatusColor={getValidationStatusColor}
+                getValidationStatusText={getValidationStatusText}
+              />
+            ) : (
+              <AdListItem 
+                key={ad.id}
+                ad={ad}
+                onPublishToggle={handlePublishToggle}
+                onDeleteAd={handleDeleteAd}
+                getValidationStatusColor={getValidationStatusColor}
+                getValidationStatusText={getValidationStatusText}
+              />
+            ))
           )}
         </div>
         
-        {renderPagination()}
-
-        {filteredAds.length > 0 && (
-          <div className="mt-4 text-sm text-muted-foreground text-center">
-            Affichage de {startIndex + 1} à {Math.min(endIndex, filteredAds.length)} sur {filteredAds.length} annonces
-          </div>
-        )}
+        <AdsPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          totalItems={filteredAds.length}
+        />
       </CardContent>
     </Card>
   );
