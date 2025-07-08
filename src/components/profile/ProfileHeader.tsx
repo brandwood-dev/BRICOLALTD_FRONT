@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { ArrowLeft, Shield, Building2, UserCircle, Trash2 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProfileHeaderProps {
   userInfo: {
@@ -26,13 +27,14 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDeletion }: ProfileHeaderProps) => {
+  const { t } = useLanguage();
   return (
     <>
       {/* Back button */}
       <div className="mb-6">
         <Link to="/" className="inline-flex items-center gap-2 text-accent hover:underline">
           <ArrowLeft className="h-4 w-4" />
-          Retour à l'accueil
+          {t('profile.back_home')}
         </Link>
       </div>
 
@@ -57,7 +59,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                   {userInfo.verified && (
                     <Badge variant="default" className="flex items-center gap-1 text-xs">
                       <Shield className="h-3 w-3" />
-                      Vérifié
+                      {t('profile.verified')}
                     </Badge>
                   )}
                   <Badge variant="secondary" className="flex items-center gap-1 text-xs">
@@ -76,7 +78,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                 </Badge>
               )}
               <p className="text-gray-600 mb-4 text-sm sm:text-base">
-                Membre depuis {userInfo.memberSince}
+                {t('profile.member_since')} {userInfo.memberSince}
               </p>
             </div>
           </div>
@@ -111,26 +113,26 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                   className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground w-full sm:w-auto"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
-                  <span className="sm:hidden">Supprimer compte</span>
-                  <span className="hidden sm:inline">Supprimer mon compte</span>
+                  <span className="sm:hidden">{t('profile.delete_account')}</span>
+                  <span className="hidden sm:inline">{t('profile.delete_account')}</span>
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Supprimer votre compte</AlertDialogTitle>
+                  <AlertDialogTitle>{t('profile.delete_confirm')}</AlertDialogTitle>
                   <AlertDialogDescription className="text-left">
-                    La suppression de votre compte est irréversible.
+                    {t('profile.delete_description')}
                     <br /><br />
                     Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu'aucune réclamation ou litige en cours n'est rattaché à votre compte.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Annuler</AlertDialogCancel>
+                  <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
                   <AlertDialogAction 
                     onClick={onAccountDeletion}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   >
-                    Oui, je confirme la suppression
+                    {t('action.confirm')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

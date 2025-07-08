@@ -8,8 +8,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Edit3, Check, X, Shield, Camera, Upload } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const ProfileInfo = () => {
+  const { t } = useLanguage();
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState({
     firstName: 'Jean',

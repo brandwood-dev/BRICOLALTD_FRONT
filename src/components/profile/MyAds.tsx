@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Plus, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 import MyAdsSearchAndFilters from './MyAdsSearchAndFilters';
 import AdCard from './ads/AdCard';
 import AdListItem from './ads/AdListItem';
 import AdsPagination from './ads/AdsPagination';
 
 const MyAds = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [ads, setAds] = useState([
     {
@@ -177,9 +179,9 @@ const MyAds = () => {
 
   const getValidationStatusText = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'Confirmée';
-      case 'pending': return 'En attente';
-      case 'rejected': return 'Rejetée';
+      case 'confirmed': return t('tools.approved');
+      case 'pending': return t('tools.pending');
+      case 'rejected': return t('tools.rejected');
       default: return status;
     }
   };
@@ -205,13 +207,13 @@ const MyAds = () => {
       <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <CardTitle className="flex items-center gap-2">
           <Edit className="h-5 w-5" />
-          Mes Annonces
+          {t('tools.my_ads')}
         </CardTitle>
         <Link to="/add-tool">
           <Button className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
-            <span className="hidden sm:inline">Nouvelle annonce</span>
-            <span className="sm:hidden">Ajouter</span>
+            <span className="hidden sm:inline">{t('tools.new_ad')}</span>
+            <span className="sm:hidden">{t('tools.new_ad')}</span>
           </Button>
         </Link>
       </CardHeader>

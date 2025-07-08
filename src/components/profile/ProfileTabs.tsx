@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, Wallet as WalletIcon, MessageSquare, Calendar, Edit, Heart } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import ProfileInfo from './ProfileInfo';
 import Wallet from './Wallet';
 import Requests from './Requests';
@@ -14,6 +15,7 @@ interface ProfileTabsProps {
 }
 
 const ProfileTabs = ({ activeTab, setActiveTab }: ProfileTabsProps) => {
+  const { t } = useLanguage();
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
@@ -24,42 +26,42 @@ const ProfileTabs = ({ activeTab, setActiveTab }: ProfileTabsProps) => {
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"
             >
               <User className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-xs sm:text-sm font-medium">Profil</span>
+              <span className="text-xs sm:text-sm font-medium">{t('profile.profile')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="wallet" 
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"
             >
               <WalletIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-xs sm:text-sm font-medium">Portefeuille</span>
+              <span className="text-xs sm:text-sm font-medium">{t('profile.wallet')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="requests" 
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"
             >
               <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-xs sm:text-sm font-medium">Demandes</span>
+              <span className="text-xs sm:text-sm font-medium">{t('profile.requests')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="reservations" 
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"
             >
               <Calendar className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-xs sm:text-sm font-medium">Réservations</span>
+              <span className="text-xs sm:text-sm font-medium">{t('profile.reservations')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="ads" 
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"
             >
               <Edit className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-xs sm:text-sm font-medium">Annonces</span>
+              <span className="text-xs sm:text-sm font-medium">{t('profile.ads')}</span>
             </TabsTrigger>
             <TabsTrigger 
               value="favorites" 
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"
             >
               <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="text-xs sm:text-sm font-medium">Favoris</span>
+              <span className="text-xs sm:text-sm font-medium">{t('profile.favorites')}</span>
             </TabsTrigger>
           </div>
         </TabsList>

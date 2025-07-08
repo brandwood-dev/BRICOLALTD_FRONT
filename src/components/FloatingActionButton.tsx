@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus, MessageSquare, Edit, Search, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const FloatingActionButton = () => {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
   const actions = [
     {
       icon: MessageSquare,
-      label: 'Contacter le support',
+      label: t('fab.contact_support'),
       action: () => window.location.href = 'mailto:contact@bricolaltd.com',
       color: 'bg-blue-500 hover:bg-blue-600'
     },
     {
       icon: Edit,
-      label: 'Publier une annonce',
+      label: t('fab.publish_ad'),
       href: '/add-tool',
       color: 'bg-green-500 hover:bg-green-600'
     },
     {
       icon: Search,
-      label: 'Trouver mon outil',
+      label: t('fab.find_tool'),
       href: '/search',
       color: 'bg-purple-500 hover:bg-purple-600'
     }
