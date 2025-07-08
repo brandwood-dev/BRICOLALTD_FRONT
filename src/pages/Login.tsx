@@ -19,28 +19,28 @@ const Login = () => {
         <div className="max-w-md mx-auto px-4">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Connexion</CardTitle>
+              <CardTitle className="text-2xl">{t('login.title')}</CardTitle>
               <CardDescription>
-                Connectez-vous à votre compte ToolShare
+                {t('login.subtitle')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('login.email')}</Label>
                 <Input id="email" type="email" placeholder="votre@email.com" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Mot de passe</Label>
+                <Label htmlFor="password">{t('login.password')}</Label>
                 <Input id="password" type="password" placeholder="••••••••" />
               </div>
-              <Button className="w-full">Se connecter</Button>
+              <Button className="w-full">{t('login.signin')}</Button>
               <div className="text-center space-y-2">
                 <Link to="/register" className="text-sm text-accent hover:underline">
-                  Pas encore de compte ? S'inscrire
+                  {t('login.no_account')}
                 </Link>
                 <div>
                   <Link to="/forgot-password" className="text-sm text-muted-foreground hover:underline">
-                    Mot de passe oublié ?
+                    {t('login.forgot_password')}
                   </Link>
                 </div>
               </div>

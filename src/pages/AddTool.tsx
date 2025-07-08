@@ -60,10 +60,10 @@ const AddTool = () => {
               <Tag className="h-8 w-8 text-accent" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-4">
-              Proposer un outil
+              {t('add_tool.title')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Partagez vos outils avec la communauté et générez des revenus en les louant facilement
+              {t('add_tool.subtitle')}
             </p>
           </div>
 
@@ -72,7 +72,7 @@ const AddTool = () => {
             <CardHeader className="bg-gradient-to-r from-accent/10 to-accent/5 border-b">
               <CardTitle className="text-2xl flex items-center text-foreground">
                 <Settings className="h-6 w-6 mr-3 text-accent" />
-                Informations de l'outil
+                {t('add_tool.info_title')}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8">
@@ -81,13 +81,13 @@ const AddTool = () => {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground flex items-center">
                     <FileText className="h-5 w-5 mr-2 text-accent" />
-                    Informations générales
+                    {t('add_tool.general_info')}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
                       <Label htmlFor="title" className="text-sm font-medium text-foreground">
-                        Titre de l'annonce *
+                        {t('add_tool.ad_title')} *
                       </Label>
                       <Input 
                         id="title" 
@@ -98,7 +98,7 @@ const AddTool = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="brand" className="text-sm font-medium text-foreground">
-                        Marque
+                        {t('add_tool.brand')}
                       </Label>
                       <Input 
                         id="brand" 
@@ -111,7 +111,7 @@ const AddTool = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
                       <Label htmlFor="model" className="text-sm font-medium text-foreground">
-                        Modèle
+                        {t('add_tool.model')}
                       </Label>
                       <Input 
                         id="model" 
@@ -122,7 +122,7 @@ const AddTool = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="year" className="text-sm font-medium text-foreground">
-                        Année d'achat
+                        {t('add_tool.year')}
                       </Label>
                       <Input 
                         id="year" 
@@ -135,7 +135,7 @@ const AddTool = () => {
                   
                   <div className="space-y-3">
                     <Label htmlFor="description" className="text-sm font-medium text-foreground">
-                      Description
+                      {t('add_tool.description')}
                     </Label>
                     <Textarea 
                       id="description" 
@@ -148,15 +148,15 @@ const AddTool = () => {
                 {/* Category Section */}
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground">
-                    Catégorisation
+                    {t('add_tool.categorization')}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
-                      <Label className="text-sm font-medium text-foreground">Catégorie *</Label>
+                      <Label className="text-sm font-medium text-foreground">{t('add_tool.category')} *</Label>
                       <Select onValueChange={setSelectedCategory}>
                         <SelectTrigger className="h-12 text-base">
-                          <SelectValue placeholder="Choisir une catégorie" />
+                          <SelectValue placeholder={t('add_tool.choose_category')} />
                         </SelectTrigger>
                         <SelectContent>
                           {Object.entries(categories).map(([key, value]) => (
@@ -167,10 +167,10 @@ const AddTool = () => {
                     </div>
                     
                     <div className="space-y-3">
-                      <Label className="text-sm font-medium text-foreground">Sous-catégorie</Label>
+                      <Label className="text-sm font-medium text-foreground">{t('add_tool.subcategory')}</Label>
                       <Select disabled={!selectedCategory}>
                         <SelectTrigger className="h-12 text-base">
-                          <SelectValue placeholder="Choisir une sous-catégorie" />
+                          <SelectValue placeholder={t('add_tool.choose_subcategory')} />
                         </SelectTrigger>
                         <SelectContent>
                           {selectedCategory && subcategories[selectedCategory as keyof typeof subcategories]?.map((sub) => (
@@ -182,16 +182,16 @@ const AddTool = () => {
                   </div>
 
                   <div className="space-y-3">
-                    <Label className="text-sm font-medium text-foreground">État de l'outil *</Label>
+                    <Label className="text-sm font-medium text-foreground">{t('add_tool.condition')} *</Label>
                     <Select>
                       <SelectTrigger className="h-12 text-base">
-                        <SelectValue placeholder="État de l'outil" />
+                        <SelectValue placeholder={t('add_tool.condition')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="new">✨ Neuf</SelectItem>
-                        <SelectItem value="excellent">🌟 Excellent</SelectItem>
-                        <SelectItem value="good">👍 Bon</SelectItem>
-                        <SelectItem value="fair">👌 Correct</SelectItem>
+                        <SelectItem value="new">{t('add_tool.condition_new')}</SelectItem>
+                        <SelectItem value="excellent">{t('add_tool.condition_excellent')}</SelectItem>
+                        <SelectItem value="good">{t('add_tool.condition_good')}</SelectItem>
+                        <SelectItem value="fair">{t('add_tool.condition_fair')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -201,13 +201,13 @@ const AddTool = () => {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground flex items-center">
                     <Euro className="h-5 w-5 mr-2 text-accent" />
-                    Tarification
+                    {t('add_tool.pricing')}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
                       <Label htmlFor="price" className="text-sm font-medium text-foreground">
-                        Prix par jour (€) *
+                        {t('add_tool.price_per_day')} *
                       </Label>
                       <div className="relative">
                         <Input 
@@ -222,7 +222,7 @@ const AddTool = () => {
                     
                     <div className="space-y-3">
                       <Label htmlFor="deposit" className="text-sm font-medium text-foreground">
-                        Caution (€)
+                        {t('add_tool.deposit')}
                       </Label>
                       <div className="relative">
                         <Input 
@@ -241,12 +241,12 @@ const AddTool = () => {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground flex items-center">
                     <MapPin className="h-5 w-5 mr-2 text-accent" />
-                    Localisation
+                    {t('add_tool.location_title')}
                   </h3>
                   
                   <div className="space-y-3">
                     <Label htmlFor="location" className="text-sm font-medium text-foreground">
-                      Adresse ou ville *
+                      {t('add_tool.address')} *
                     </Label>
                     <Input 
                       id="location" 
@@ -260,7 +260,7 @@ const AddTool = () => {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground flex items-center">
                     <Camera className="h-5 w-5 mr-2 text-accent" />
-                    Photos
+                    {t('add_tool.photos_title')}
                   </h3>
                   
                   <div 
@@ -279,16 +279,16 @@ const AddTool = () => {
                         <Upload className="h-8 w-8 text-accent" />
                       </div>
                       <p className="text-lg font-medium text-foreground mb-2">
-                        Ajoutez vos photos
+                        {t('add_tool.add_photos')}
                       </p>
                       <p className="text-sm text-muted-foreground mb-6">
-                        Glissez vos images ici ou cliquez pour parcourir
+                        {t('add_tool.drop_images')}
                       </p>
                       <Button variant="outline" size="lg" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-                        Parcourir les fichiers
+                        {t('add_tool.browse_files')}
                       </Button>
                       <p className="text-xs text-muted-foreground mt-3">
-                        PNG, JPG jusqu'à 10MB • 5 photos maximum
+                        {t('add_tool.file_format')}
                       </p>
                     </div>
                   </div>
@@ -298,12 +298,12 @@ const AddTool = () => {
                 <div className="space-y-6">
                   <h3 className="text-lg font-semibold text-foreground flex items-center">
                     <FileText className="h-5 w-5 mr-2 text-accent" />
-                    Consignes d'utilisation
+                    {t('add_tool.instructions_title')}
                   </h3>
                   
                   <div className="space-y-3">
                     <Label htmlFor="instructions" className="text-sm font-medium text-foreground">
-                      Consignes du propriétaire
+                      {t('add_tool.owner_instructions')}
                     </Label>
                     <Textarea 
                       id="instructions" 
@@ -320,7 +320,7 @@ const AddTool = () => {
                     className="w-full h-14 text-base font-semibold bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-200"
                   >
                     <Upload className="h-5 w-5 mr-2" />
-                    Publier l'annonce
+                    {t('add_tool.publish')}
                   </Button>
                 </div>
               </div>

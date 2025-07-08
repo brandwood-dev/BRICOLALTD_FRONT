@@ -72,16 +72,16 @@ const Register = () => {
         <div className="max-w-md mx-auto px-4">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Inscription</CardTitle>
+              <CardTitle className="text-2xl">{t('register.title')}</CardTitle>
               <CardDescription>
-                Créez votre compte ToolShare
+                {t('register.subtitle')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Type d'utilisateur */}
                 <div className="space-y-3">
-                  <Label>Type d'utilisateur</Label>
+                  <Label>{t('register.user_type')}</Label>
                   <RadioGroup 
                     value={formData.userType} 
                     onValueChange={(value) => setFormData({...formData, userType: value})}
@@ -89,18 +89,18 @@ const Register = () => {
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="individual" id="individual" />
-                      <Label htmlFor="individual">Particulier</Label>
+                      <Label htmlFor="individual">{t('register.individual')}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="business" id="business" />
-                      <Label htmlFor="business">Entreprise</Label>
+                      <Label htmlFor="business">{t('register.business')}</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">Prénom</Label>
+                    <Label htmlFor="firstName">{t('register.first_name')}</Label>
                     <Input 
                       id="firstName" 
                       placeholder="Jean"
@@ -109,7 +109,7 @@ const Register = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Nom</Label>
+                    <Label htmlFor="lastName">{t('register.last_name')}</Label>
                     <Input 
                       id="lastName" 
                       placeholder="Dupont"
@@ -120,7 +120,7 @@ const Register = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('login.email')}</Label>
                   <Input 
                     id="email" 
                     type="email" 
@@ -132,7 +132,7 @@ const Register = () => {
                 
                 {/* Téléphone avec préfixe */}
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Téléphone</Label>
+                  <Label htmlFor="phone">{t('register.phone')}</Label>
                   <div className="flex space-x-2">
                     <Select value={formData.phonePrefix} onValueChange={(value) => setFormData({...formData, phonePrefix: value})}>
                       <SelectTrigger className="w-32">
@@ -159,10 +159,10 @@ const Register = () => {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="country">Pays</Label>
+                    <Label htmlFor="country">{t('register.country')}</Label>
                     <Select value={formData.country} onValueChange={(value) => setFormData({...formData, country: value})}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Sélectionnez un pays" />
+                        <SelectValue placeholder={t('register.select_country')} />
                       </SelectTrigger>
                       <SelectContent>
                         {countries.map((country) => (
@@ -174,7 +174,7 @@ const Register = () => {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="address">Adresse</Label>
+                    <Label htmlFor="address">{t('register.address')}</Label>
                     <Input 
                       id="address" 
                       placeholder="123 Rue de la Paix, Paris"
@@ -182,13 +182,13 @@ const Register = () => {
                       onChange={(e) => setFormData({...formData, address: e.target.value})}
                     />
                     <p className="text-xs text-muted-foreground">
-                      Adresse complète avec code postal et ville
+                      {t('register.address_help')}
                     </p>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Mot de passe</Label>
+                  <Label htmlFor="password">{t('register.password')}</Label>
                   <Input 
                     id="password" 
                     type="password" 
@@ -199,7 +199,7 @@ const Register = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
+                  <Label htmlFor="confirmPassword">{t('register.confirm_password')}</Label>
                   <Input 
                     id="confirmPassword" 
                     type="password" 
@@ -218,7 +218,7 @@ const Register = () => {
                       onCheckedChange={handleTermsChange}
                     />
                     <Label htmlFor="terms" className="text-sm">
-                      J'accepte les <Link to="#" className="text-accent hover:underline">conditions d'utilisation</Link>
+                      {t('register.terms')}
                     </Label>
                   </div>
                   
@@ -229,7 +229,7 @@ const Register = () => {
                       onCheckedChange={handleSalesConditionsChange}
                     />
                     <Label htmlFor="sales" className="text-sm">
-                      J'accepte les <Link to="#" className="text-accent hover:underline">termes et conditions</Link> et les <Link to="#" className="text-accent hover:underline">conditions de vente</Link>
+                      {t('register.sales_conditions')}
                     </Label>
                   </div>
                 </div>
@@ -239,12 +239,12 @@ const Register = () => {
                   className="w-full"
                   disabled={!termsAccepted || !salesConditionsAccepted}
                 >
-                  Créer mon compte
+                  {t('register.create_account')}
                 </Button>
                 
                 <div className="text-center">
                   <Link to="/login" className="text-sm text-accent hover:underline">
-                    Déjà un compte ? Se connecter
+                    {t('register.have_account')}
                   </Link>
                 </div>
               </form>

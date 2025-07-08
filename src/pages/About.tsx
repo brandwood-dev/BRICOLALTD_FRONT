@@ -1,11 +1,14 @@
 
 import React from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, Shield, Award, Clock } from 'lucide-react';
 
 const About = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -13,9 +16,9 @@ const About = () => {
         <div className="max-w-6xl mx-auto px-4">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">À propos de Bricola</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('about.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              La plateforme de location d'outils qui révolutionne le bricolage en connectant les propriétaires d'outils avec ceux qui en ont besoin.
+              {t('about.subtitle')}
             </p>
           </div>
 
@@ -23,15 +26,15 @@ const About = () => {
           <div className="mb-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-6">Notre Mission</h2>
+                <h2 className="text-3xl font-bold mb-6">{t('about.mission_title')}</h2>
                 <p className="text-gray-600 mb-4">
-                  Chez Bricola, nous croyons que chaque projet de bricolage mérite d'avoir accès aux meilleurs outils, sans pour autant devoir les acheter.
+                  {t('about.mission_1')}
                 </p>
                 <p className="text-gray-600 mb-4">
-                  Notre plateforme permet aux particuliers et professionnels de partager leurs outils inutilisés avec leur communauté locale, créant ainsi un écosystème durable et économique.
+                  {t('about.mission_2')}
                 </p>
                 <p className="text-gray-600">
-                  Nous facilitons l'accès aux outils de qualité tout en favorisant l'économie circulaire et les liens sociaux de proximité.
+                  {t('about.mission_3')}
                 </p>
               </div>
               <img 
@@ -44,34 +47,34 @@ const About = () => {
 
           {/* Values Section */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-12">Nos Valeurs</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">{t('about.values_title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <Card className="text-center">
                 <CardContent className="p-6">
                   <Users className="h-12 w-12 text-accent mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Communauté</h3>
-                  <p className="text-gray-600">Créer des liens entre voisins et favoriser l'entraide locale</p>
+                  <h3 className="text-xl font-semibold mb-2">{t('about.community')}</h3>
+                  <p className="text-gray-600">{t('about.community_desc')}</p>
                 </CardContent>
               </Card>
               <Card className="text-center">
                 <CardContent className="p-6">
                   <Shield className="h-12 w-12 text-accent mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Sécurité</h3>
-                  <p className="text-gray-600">Garantir des transactions sécurisées et une assurance complète</p>
+                  <h3 className="text-xl font-semibold mb-2">{t('about.security')}</h3>
+                  <p className="text-gray-600">{t('about.security_desc')}</p>
                 </CardContent>
               </Card>
               <Card className="text-center">
                 <CardContent className="p-6">
                   <Award className="h-12 w-12 text-accent mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Qualité</h3>
-                  <p className="text-gray-600">S'assurer que tous les outils respectent nos standards de qualité</p>
+                  <h3 className="text-xl font-semibold mb-2">{t('about.quality')}</h3>
+                  <p className="text-gray-600">{t('about.quality_desc')}</p>
                 </CardContent>
               </Card>
               <Card className="text-center">
                 <CardContent className="p-6">
                   <Clock className="h-12 w-12 text-accent mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Simplicité</h3>
-                  <p className="text-gray-600">Rendre la location d'outils aussi simple qu'un clic</p>
+                  <h3 className="text-xl font-semibold mb-2">{t('about.simplicity')}</h3>
+                  <p className="text-gray-600">{t('about.simplicity_desc')}</p>
                 </CardContent>
               </Card>
             </div>
@@ -79,30 +82,30 @@ const About = () => {
 
           {/* Stats Section */}
           <div className="bg-accent/10 rounded-2xl p-8 mb-16">
-            <h2 className="text-3xl font-bold text-center mb-12">Bricola en chiffres</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">{t('about.stats_title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
               <div>
                 <div className="text-4xl font-bold text-accent mb-2">5000+</div>
-                <div className="text-gray-600">Outils disponibles</div>
+                <div className="text-gray-600">{t('about.tools_available')}</div>
               </div>
               <div>
                 <div className="text-4xl font-bold text-accent mb-2">2000+</div>
-                <div className="text-gray-600">Utilisateurs actifs</div>
+                <div className="text-gray-600">{t('about.active_users')}</div>
               </div>
               <div>
                 <div className="text-4xl font-bold text-accent mb-2">50+</div>
-                <div className="text-gray-600">Villes couvertes</div>
+                <div className="text-gray-600">{t('about.cities_covered')}</div>
               </div>
               <div>
                 <div className="text-4xl font-bold text-accent mb-2">98%</div>
-                <div className="text-gray-600">Satisfaction client</div>
+                <div className="text-gray-600">{t('about.satisfaction')}</div>
               </div>
             </div>
           </div>
 
           {/* Team Section */}
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-12">Notre Équipe</h2>
+            <h2 className="text-3xl font-bold mb-12">{t('about.team_title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card>
                 <CardContent className="p-6 text-center">
