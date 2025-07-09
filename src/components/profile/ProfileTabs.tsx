@@ -12,9 +12,10 @@ import MyFavorites from './MyFavorites';
 interface ProfileTabsProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onUserInfoUpdate?: () => void;
 }
 
-const ProfileTabs = ({ activeTab, setActiveTab }: ProfileTabsProps) => {
+const ProfileTabs = ({ activeTab, setActiveTab, onUserInfoUpdate }: ProfileTabsProps) => {
   const { t } = useLanguage();
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -69,7 +70,7 @@ const ProfileTabs = ({ activeTab, setActiveTab }: ProfileTabsProps) => {
 
       {/* Tab contents */}
       <TabsContent value="profile" className="space-y-6">
-        <ProfileInfo />
+        <ProfileInfo onUserInfoUpdate={onUserInfoUpdate} />
       </TabsContent>
 
       <TabsContent value="wallet" className="space-y-6">

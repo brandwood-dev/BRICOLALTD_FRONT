@@ -15,6 +15,7 @@ interface ProfileHeaderProps {
     verified: boolean;
     memberSince: string;
     accountType: string;
+    profileImage?: string;
   };
   stats: {
     totalEarnings: number;
@@ -44,7 +45,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
           {/* Profile info section */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
             <Avatar className="h-20 w-20 sm:h-24 sm:w-24 flex-shrink-0">
-              <AvatarImage src="" />
+              <AvatarImage src={userInfo.profileImage || ""} />
               <AvatarFallback className="text-xl sm:text-2xl">
                 {userInfo.firstName[0]}{userInfo.lastName[0]}
               </AvatarFallback>

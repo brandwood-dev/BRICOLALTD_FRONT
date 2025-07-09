@@ -19,9 +19,12 @@ class ApiClient {
     try {
       const url = `${this.baseURL}${endpoint}`;
       
-      const defaultHeaders: HeadersInit = {
-        'Content-Type': 'application/json',
-      };
+      const defaultHeaders: HeadersInit = {};
+      
+      // Only add Content-Type for non-FormData requests
+      if (!(options.body instanceof FormData)) {
+        defaultHeaders['Content-Type'] = 'application/json';
+      }
 
       const config: RequestInit = {
         ...options,
@@ -73,11 +76,18 @@ class ApiClient {
     data?: any,
     headers?: HeadersInit
   ): Promise<ApiResponse<T>> {
-    return this.makeRequest<T>(endpoint, {
+    const config: RequestInit = {
       method: 'POST',
       headers,
-      body: data ? JSON.stringify(data) : undefined,
-    });
+    };
+
+    if (data instanceof FormData) {
+      config.body = data;
+    } else {
+      config.body = data ? JSON.stringify(data) : undefined;
+    }
+
+    return this.makeRequest<T>(endpoint, config);
   }
 
   async put<T>(
@@ -97,11 +107,18 @@ class ApiClient {
     data?: any,
     headers?: HeadersInit
   ): Promise<ApiResponse<T>> {
-    return this.makeRequest<T>(endpoint, {
+    const config: RequestInit = {
       method: 'PATCH',
       headers,
-      body: data ? JSON.stringify(data) : undefined,
-    });
+    };
+
+    if (data instanceof FormData) {
+      config.body = data;
+    } else {
+      config.body = data ? JSON.stringify(data) : undefined;
+    }
+
+    return this.makeRequest<T>(endpoint, config);
   }
 
   async delete<T>(
@@ -115,8 +132,8 @@ class ApiClient {
   }
 }
 
-// Create and export a default instance
+
 export const apiClient = new ApiClient();
 
-// Export types for use in components
+
 export type { ApiResponse };
