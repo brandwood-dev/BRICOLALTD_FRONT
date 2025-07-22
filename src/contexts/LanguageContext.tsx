@@ -10,6 +10,8 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    
+    'faq.title': 'Questions générales',
     // Navigation
     'nav.home': 'Accueil',
     'nav.catalog': 'Catalogue',
@@ -259,6 +261,8 @@ const translations = {
     'common.home': 'Accueil'
   },
   en: {
+    
+    'faq.title': 'General questions',
     // Navigation
     'nav.home': 'Home',
     'nav.catalog': 'Catalogue',
@@ -527,6 +531,8 @@ const translations = {
     'hero.search.placeholder': 'البحث عن أداة...',
     'hero.search.location': 'الموقع',
     'hero.search.button': 'بحث',
+
+    'faq.title': 'أسئلة عامة',
     
     // Categories
     'categories.title': 'الفئات الشائعة',

@@ -3,8 +3,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const FAQ = () => {
+    const { t, language } = useLanguage();
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -21,7 +24,7 @@ const FAQ = () => {
           {/* General Questions */}
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle>Questions générales</CardTitle>
+              <CardTitle >{t('faq.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className="w-full">
