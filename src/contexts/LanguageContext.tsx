@@ -13,6 +13,10 @@ const translations = {
     // Navigation
     'nav.home': 'Accueil',
     'nav.catalog': 'Catalogue',
+    'nav.navigation': 'navigation',
+    'nav.propos': 'À propos',
+    'nav.blog': 'Blog',
+    'nav.contact': 'Contact',
     'nav.rent': 'Louer',
     'nav.list': 'Proposer un outil',
     'nav.login': 'Connexion',
@@ -121,10 +125,11 @@ const translations = {
     'footer.cgu': 'CGU',
     'footer.privacy': 'Politique de confidentialité',
     'footer.faq': 'FAQ',
+    'footer.description': 'La plateforme de location d`\'outils qui connecte les propriétaires avec ceux qui en ont besoin. Simple, sécurisé et local.',
     
     // Login
     'login.title': 'Connexion',
-    'login.subtitle': 'Connectez-vous à votre compte ToolShare',
+    'login.subtitle': 'Connectez-vous à votre compte Bricola LTD',
     'login.email': 'Email',
     'login.password': 'Mot de passe',
     'login.signin': 'Se connecter',
@@ -133,7 +138,7 @@ const translations = {
 
     // Register
     'register.title': 'Inscription',
-    'register.subtitle': 'Créez votre compte ToolShare',
+    'register.subtitle': 'Créez votre compte Bricola LTD',
     'register.user_type': 'Type d\'utilisateur',
     'register.individual': 'Particulier',
     'register.business': 'Entreprise',
@@ -152,12 +157,14 @@ const translations = {
     'register.select_country': 'Sélectionnez un pays',
 
     // About
-    'about.title': 'À propos de Bricola',
-    'about.subtitle': 'La plateforme de location d\'outils qui révolutionne le bricolage en connectant les propriétaires d\'outils avec ceux qui en ont besoin.',
+    'about.title': 'Bienvenue chez Bricola LTD',
+    'about.subtitle': 'Votre plateforme de confiance pour la location d’outils entre particuliers dans toute la région du Golfe.',
     'about.mission_title': 'Notre Mission',
-    'about.mission_1': 'Chez Bricola, nous croyons que chaque projet de bricolage mérite d\'avoir accès aux meilleurs outils, sans pour autant devoir les acheter.',
-    'about.mission_2': 'Notre plateforme permet aux particuliers et professionnels de partager leurs outils inutilisés avec leur communauté locale, créant ainsi un écosystème durable et économique.',
-    'about.mission_3': 'Nous facilitons l\'accès aux outils de qualité tout en favorisant l\'économie circulaire et les liens sociaux de proximité.',
+    'about.mission_1': 'Fondée en 2025 et enregistrée au Royaume-Uni, Bricola LTD est née d’un constat simple mais essentiel : beaucoup de personnes possèdent des outils qu’elles utilisent rarement, tandis que d’autres en ont régulièrement besoin sans vouloir les acheter. Notre plateforme répond à ce besoin en permettant aux particuliers de louer des outils entre eux de manière sécurisée, économique et pratique.',
+    'about.mission_2': 'Nous mettons en relation les personnes à la recherche d’outils pour des travaux domestiques, du jardinage, du nettoyage ou des événements, avec des propriétaires locaux d’outils. Grâce à notre application et notre site web intuitifs, il est possible de proposer, rechercher et louer des outils en quelques minutes.',
+    'about.mission_3': 'Chez Bricola, nous croyons au potentiel de l’économie du partage pour réduire le gaspillage, encourager la durabilité et renforcer les liens communautaires. Notre service est conçu pour être sûr, transparent et centré sur la confiance des utilisateurs. Avec un système de paiement numérique fiable et des fonctionnalités de sécurité intégrées, Bricola garantit des transactions fluides et protégées.',
+    'about.mission_4': 'En choisissant Bricola LTD, vous gagnez du temps et de l’argent, tout en adoptant une approche plus intelligente et écologique pour accéder aux outils dont vous avez besoin. Nous sommes fiers de construire l’avenir de la location d’outils dans la région du Golfe.',
+    'about.mission_5': 'Merci de faire partie de la communauté Bricola.',
     'about.values_title': 'Nos Valeurs',
     'about.community': 'Communauté',
     'about.community_desc': 'Créer des liens entre voisins et favoriser l\'entraide locale',
@@ -254,7 +261,11 @@ const translations = {
   en: {
     // Navigation
     'nav.home': 'Home',
-    'nav.catalog': 'Catalog',
+    'nav.catalog': 'Catalogue',
+    'nav.navigation': 'navigation',
+    'nav.propos': 'About Us',
+    'nav.blog': 'Blog',
+    'nav.contact': 'Contact Us',
     'nav.rent': 'Rent',
     'nav.list': 'List a tool',
     'nav.login': 'Login',
@@ -363,10 +374,12 @@ const translations = {
     'footer.cgu': 'Terms',
     'footer.privacy': 'Privacy policy',
     'footer.faq': 'FAQ',
+    'footer.description': 'The tool rental platform that connects owners with those who need them. Simple, secure, and local.“www.bricolaltd.com” is a trademark of BRICOLA LTD.Registered in England and Wales under number: 16401372',
+
     
     // Login
     'login.title': 'Login',
-    'login.subtitle': 'Connect to your ToolShare account',
+    'login.subtitle': 'Connect to your Bricola LTD account',
     'login.email': 'Email',
     'login.password': 'Password',
     'login.signin': 'Sign in',
@@ -375,7 +388,7 @@ const translations = {
 
     // Register
     'register.title': 'Sign up',
-    'register.subtitle': 'Create your ToolShare account',
+    'register.subtitle': 'Create your Bricola LTD account',
     'register.user_type': 'User type',
     'register.individual': 'Individual',
     'register.business': 'Business',
@@ -394,12 +407,14 @@ const translations = {
     'register.select_country': 'Select a country',
 
     // About
-    'about.title': 'About Bricola',
-    'about.subtitle': 'The tool rental platform that revolutionizes DIY by connecting tool owners with those who need them.',
+    'about.title': 'Welcome to Bricola LTD ',
+    'about.subtitle': 'Your trusted platform for peer-to-peer tool rentals across the Gulf region',
     'about.mission_title': 'Our Mission',
-    'about.mission_1': 'At Bricola, we believe that every DIY project deserves access to the best tools, without having to buy them.',
-    'about.mission_2': 'Our platform allows individuals and professionals to share their unused tools with their local community, creating a sustainable and economic ecosystem.',
-    'about.mission_3': 'We facilitate access to quality tools while promoting the circular economy and local social connections.',
+    'about.mission_1': 'Bricola LTD was founded in 2025 and is registered in the United Kingdom. The idea was born out of a simple but powerful need: many people own tools they rarely use, while others constantly need access to quality equipment without the burden of buying. Our platform bridges this gap by enabling individuals to rent tools from one another safely, affordably, and efficiently.',
+    'about.mission_2': 'We specialize in connecting people who need tools for home improvement, gardening, cleaning, and events with local tool owners. Through our easy-to-use app and website, users can list, search, and rent tools within minutes.',
+    'about.mission_3': 'At Bricola, we believe in the power of the sharing economy to reduce waste, encourage sustainability, and empower communities. Our service is secure, transparent, and built with user trust at its core. With a robust digital payment system and built-in security features, Bricola ensures that every transaction is smooth and protected.',
+    'about.mission_4': 'By choosing Bricola LTD, you’re not only saving money and time – you’re also joining a smarter, greener way to access what you need. We’re proud to be building the future of tool rental in the Gulf.',
+    'about.mission_5': ' Thank you for being part of the Bricola community.',
     'about.values_title': 'Our Values',
     'about.community': 'Community',
     'about.community_desc': 'Create connections between neighbors and promote local mutual aid',
@@ -497,6 +512,10 @@ const translations = {
     // Navigation
     'nav.home': 'الرئيسية',
     'nav.catalog': 'الكتالوج',
+    'nav.navigation': 'التصفح',
+    'nav.propos': 'من نحن',
+    'nav.blog': 'المدونة',
+    'nav.contact': 'تواصل معنا',
     'nav.rent': 'استئجار',
     'nav.list': 'إضافة أداة',
     'nav.login': 'تسجيل الدخول',
@@ -605,10 +624,11 @@ const translations = {
     'footer.cgu': 'الشروط',
     'footer.privacy': 'سياسة الخصوصية',
     'footer.faq': 'الأسئلة الشائعة',
+    'footer.description': 'المنصة التي تربط أصحاب الأدوات بمن يحتاجون إليها. بسيطة، آمنة، ومحلية« www.bricolaltd.com » هي علامة تجارية تابعة لشركة « BRICOLA LTD »مسجلة في إنجلترا وويلز تحت الرقم: 16401372',
     
     // Login
     'login.title': 'تسجيل الدخول',
-    'login.subtitle': 'اتصل بحسابك في ToolShare',
+    'login.subtitle': 'اتصل بحسابك في Bricola LTD',
     'login.email': 'البريد الإلكتروني',
     'login.password': 'كلمة المرور',
     'login.signin': 'تسجيل الدخول',
@@ -617,7 +637,7 @@ const translations = {
 
     // Register
     'register.title': 'إنشاء حساب',
-    'register.subtitle': 'أنشئ حسابك في ToolShare',
+    'register.subtitle': 'أنشئ حسابك في Bricola LTD',
     'register.user_type': 'نوع المستخدم',
     'register.individual': 'فرد',
     'register.business': 'شركة',
@@ -636,12 +656,14 @@ const translations = {
     'register.select_country': 'اختر بلداً',
 
     // About
-    'about.title': 'حول Bricola',
-    'about.subtitle': 'منصة تأجير الأدوات التي تثور في مجال الأعمال اليدوية من خلال ربط أصحاب الأدوات مع من يحتاجونها.',
+    'about.title': 'مرحبًا بكم في Bricola LTD',
+    'about.subtitle': ' منصتكم الموثوقة لتأجير الأدوات بين الأفراد في منطقة الخليج',
     'about.mission_title': 'مهمتنا',
-    'about.mission_1': 'في Bricola، نؤمن أن كل مشروع يدوي يستحق الوصول إلى أفضل الأدوات، دون الحاجة لشرائها.',
-    'about.mission_2': 'تسمح منصتنا للأفراد والمحترفين بمشاركة أدواتهم غير المستخدمة مع مجتمعهم المحلي، مما يخلق نظاماً بيئياً مستداماً واقتصادياً.',
-    'about.mission_3': 'نسهل الوصول إلى الأدوات عالية الجودة مع تعزيز الاقتصاد الدائري والروابط الاجتماعية المحلية.',
+    'about.mission_1': 'تأسست شركة Bricola LTD في عام 2025 ومسجلة في المملكة المتحدة. وُلدت فكرتها من حاجة بسيطة لكنها جوهرية: كثير من الأشخاص يمتلكون أدوات نادرًا ما يستخدمونها، بينما يحتاج آخرون إلى أدوات عالية الجودة بشكل متكرر دون الرغبة في شرائها. منصتنا تسد هذه الفجوة من خلال تمكين الأفراد من تأجير الأدوات فيما بينهم بطريقة آمنة، واقتصادية، وفعّالة.',
+    'about.mission_2': 'نحن نُخصص خدماتنا لربط الأشخاص الذين يحتاجون أدوات لأعمال الصيانة المنزلية، أو البستنة، أو التنظيف، أو المناسبات، بأصحاب الأدوات المحليين. من خلال تطبيقنا وموقعنا الإلكتروني السهل الاستخدام، يمكن للمستخدمين عرض الأدوات أو البحث عنها وتأجيرها خلال دقائق.',
+    'about.mission_3': 'في Bricola، نؤمن بقوة الاقتصاد التشاركي في الحد من الهدر، وتشجيع الاستدامة، وتمكين المجتمعات. خدماتنا آمنة وشفافة، ومبنية على ثقة المستخدمين. ومع نظام دفع رقمي متكامل وميزات أمان مدمجة، تضمن Bricola أن تكون كل معاملة سلسة ومحمية.',
+    'about.mission_4': 'عند اختيارك لـ Bricola LTD، فأنت لا توفر المال والوقت فحسب، بل تنضم أيضًا إلى طريقة أذكى وأكثر استدامة للحصول على ما تحتاجه. نفخر بأننا نُسهم في بناء مستقبل تأجير الأدوات في منطقة الخليج.',
+    'about.mission_5': 'شكرًا لكونك جزءًا من مجتمع Bricola.',
     'about.values_title': 'قيمنا',
     'about.community': 'المجتمع',
     'about.community_desc': 'إنشاء روابط بين الجيران وتعزيز التعاون المحلي',

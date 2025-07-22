@@ -8,6 +8,7 @@ import { useFavorites } from '@/contexts/FavoritesContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { Search, User, Menu, Wrench, Heart, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 const Header = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -17,7 +18,7 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
@@ -29,21 +30,21 @@ const Header = () => {
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 gap-7">
             <Link to="/" className="text-gray-700 hover:text-accent font-medium transition-colors">
               {t('nav.home')}
             </Link>
             <Link to="/search" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Catalogue
+              {t('nav.catalog')}
             </Link>
             <Link to="/about" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              À propos
+              {t('nav.propos')}
             </Link>
             <Link to="/blog" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Blog
+              {t('nav.blog')}
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Contact
+              {t('nav.contact')}
             </Link>
           </nav>
 
@@ -60,7 +61,8 @@ const Header = () => {
               <SelectContent>
                 {currencies.map((curr) => (
                   <SelectItem key={curr.code} value={curr.code}>
-                    {curr.flag} {curr.code}
+                    <span className='mx-2' dangerouslySetInnerHTML={{ __html: curr.flag }} />
+                    {curr.code} 
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -83,7 +85,7 @@ const Header = () => {
               <Button variant="ghost" size="sm">
                 <Heart className="h-5 w-5" />
                 {favoritesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {favoritesCount}
                   </span>
                 )}
@@ -134,7 +136,7 @@ const Header = () => {
               </SheetTrigger>
               <SheetContent 
                 side={language === 'ar' ? 'left' : 'right'}
-                className={`w-80 p-0 flex flex-col ${language === 'ar' ? 'rtl text-right' : 'ltr text-left'}`}
+                className={`w-80 p-0 flex !flex-col ${language === 'ar' ? 'rtl text-right' : 'ltr text-left'}`}
               >
                 {/* Fixed Header */}
                 <div className={`flex items-center justify-between p-6 border-b flex-shrink-0 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
@@ -169,42 +171,42 @@ const Header = () => {
 
                     {/* Navigation Links - RTL optimized */}
                     <div className="space-y-4 border-t pt-6">
-                      <h3 className={`font-semibold text-lg ${language === 'ar' ? 'text-right' : 'text-left'}`}>Navigation</h3>
+                      <h3 className={`font-semibold text-lg `}>{t('nav.navigation')}</h3>
                       <div className="space-y-2">
                         <Link 
                           to="/" 
-                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors `}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {t('nav.home')}
                         </Link>
                         <Link 
                           to="/search" 
-                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors `}
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          Catalogue
+                          {t('nav.catalog')}
                         </Link>
                         <Link 
                           to="/about" 
-                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors `}
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          À propos
+                          {t('nav.propos')}
                         </Link>
                         <Link 
                           to="/blog" 
-                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors `}
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          Blog
+                          {t('nav.blog')}
                         </Link>
                         <Link 
                           to="/contact" 
-                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors `}
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          Contact
+                          {t('nav.contact')}
                         </Link>
                       </div>
                     </div>
@@ -235,13 +237,13 @@ const Header = () => {
                         const selectedCurrency = currencies.find(c => c.code === value);
                         if (selectedCurrency) setCurrency(selectedCurrency);
                       }}>
-                        <SelectTrigger className={`w-full ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                        <SelectTrigger className={`w-full text-left`}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           {currencies.map((curr) => (
                             <SelectItem key={curr.code} value={curr.code}>
-                              {curr.flag} {curr.code} - {curr.name}
+                              <span className='mx-2' dangerouslySetInnerHTML={{ __html: curr.flag }} /> {curr.code} - {curr.name}
                             </SelectItem>
                           ))}
                         </SelectContent>

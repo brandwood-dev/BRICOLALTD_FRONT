@@ -84,7 +84,7 @@ const Contact = () => {
                     <Phone className="h-6 w-6 text-accent mt-1" />
                     <div>
                       <h3 className="text-lg font-semibold mb-2">{t('contact.phone_title')}</h3>
-                      <p className="text-gray-600 mb-1">+33 1 23 45 67 89</p>
+                      <p className="text-gray-600 mb-1">+44 203 996 0821</p>
                       <p className="text-sm text-gray-500">{t('contact.hours_weekdays')}</p>
                     </div>
                   </div>
@@ -96,68 +96,16 @@ const Contact = () => {
                   <div className="flex items-start space-x-4">
                     <MapPin className="h-6 w-6 text-accent mt-1" />
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">{t('contact.address_title')}</h3>
-                      <p className="text-gray-600 mb-1">123 Rue de l'Innovation</p>
-                      <p className="text-gray-600 mb-1">75001 Paris, France</p>
+                      <h3 className="text-lg font-semibold mb-2">BRICOLA LTD</h3>
+                      <p className="text-gray-600 mb-1">Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <Clock className="h-6 w-6 text-accent mt-1" />
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">{t('contact.hours_title')}</h3>
-                      <p className="text-gray-600 mb-1">{t('contact.hours_weekdays')}</p>
-                      <p className="text-gray-600 mb-1">{t('contact.hours_saturday')}</p>
-                      <p className="text-gray-600">{t('contact.hours_sunday')}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
 
-          {/* FAQ Section */}
-          <div className="mt-20">
-            <h2 className="text-3xl font-bold text-center mb-12">{t('contact.faq_title')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-3">{t('contact.how_to_rent')}</h3>
-                  <p className="text-gray-600">
-                    {t('contact.how_to_rent_answer')}
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-3">{t('contact.problem')}</h3>
-                  <p className="text-gray-600">
-                    {t('contact.problem_answer')}
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-3">{t('contact.how_to_list')}</h3>
-                  <p className="text-gray-600">
-                    {t('contact.how_to_list_answer')}
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-3">{t('contact.insurance')}</h3>
-                  <p className="text-gray-600">
-                    {t('contact.insurance_answer')}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
         </div>
       </main>
       <Footer />

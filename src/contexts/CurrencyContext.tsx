@@ -9,11 +9,12 @@ interface Currency {
 }
 
 const currencies: Currency[] = [
-  { code: 'GBP', symbol: '£', name: 'Livre Sterling', flag: '🇬🇧' },
-  { code: 'EUR', symbol: '€', name: 'Euro', flag: '🇪🇺' },
-  { code: 'USD', symbol: '$', name: 'Dollar US', flag: '🇺🇸' },
-  { code: 'KWD', symbol: 'د.ك', name: 'Dinar Koweïtien', flag: '🇰🇼' },
-  { code: 'SAR', symbol: 'ر.س', name: 'Rial Saoudien', flag: '🇸🇦' },
+  { code: 'KWD', symbol: 'د.ك', name: 'Kuwaiti Dinar', flag: '<span class="fi fi-kw"></span>' },
+  { code: 'SAR', symbol: '﷼', name: 'Saudi Riyal', flag: '<span class="fi fi-sa"></span>' },
+  { code: 'BHD', symbol: '.د.ب', name: 'Bahraini Dinar', flag: '<span class="fi fi-bh"></span>' },
+  { code: 'OMR', symbol: '﷼', name: 'Omani Rial', flag: '<span class="fi fi-om"></span>' },
+  { code: 'QAR', symbol: '﷼', name: 'Qatari Riyal', flag: '<span class="fi fi-qa"></span>' },
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', flag: '<span class="fi fi-ae"></span>' },
 ];
 
 interface CurrencyContextType {

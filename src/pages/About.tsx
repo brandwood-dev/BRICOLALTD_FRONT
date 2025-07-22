@@ -33,8 +33,14 @@ const About = () => {
                 <p className="text-gray-600 mb-4">
                   {t('about.mission_2')}
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 mb-4">
                   {t('about.mission_3')}
+                </p>
+                <p className="text-gray-600 mb-4">
+                  {t('about.mission_4')}
+                </p>
+                <p className="text-gray-600 ">
+                  {t('about.mission_5')}
                 </p>
               </div>
               <img 
@@ -106,23 +112,12 @@ const About = () => {
           {/* Team Section */}
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-12">{t('about.team_title')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex justify-center items-center">
+              
               <Card>
                 <CardContent className="p-6 text-center">
                   <img 
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                    alt="CEO"
-                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                  />
-                  <h3 className="text-xl font-semibold mb-2">Jean Dupont</h3>
-                  <p className="text-accent font-medium mb-2">CEO & Fondateur</p>
-                  <p className="text-gray-600">Passionné de bricolage et d'innovation technologique</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6 text-center">
-                  <img 
-                    src="https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
+                    src="/lovable-uploads/cto.jpeg"
                     alt="CTO"
                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                   />
@@ -131,18 +126,7 @@ const About = () => {
                   <p className="text-gray-600">Experte en développement et architecture technique</p>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-6 text-center">
-                  <img 
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                    alt="CMO"
-                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                  />
-                  <h3 className="text-xl font-semibold mb-2">Pierre Durand</h3>
-                  <p className="text-accent font-medium mb-2">Responsable Marketing</p>
-                  <p className="text-gray-600">Spécialiste en stratégie digitale et croissance</p>
-                </CardContent>
-              </Card>
+              
             </div>
           </div>
         </div>

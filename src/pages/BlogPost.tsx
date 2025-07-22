@@ -111,7 +111,7 @@ const BlogPost = () => {
                 </p>
 
                 <p>
-                  N'hésitez pas à louer différents modèles sur ToolShare pour tester 
+                  N'hésitez pas à louer différents modèles sur Bricola LTD pour tester 
                   et trouver la perceuse qui correspond le mieux à vos besoins avant 
                   de faire un achat.
                 </p>

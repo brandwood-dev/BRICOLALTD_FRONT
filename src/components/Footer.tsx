@@ -6,7 +6,7 @@ import visaLogo from '@/assets/visa-logo.png';
 import mastercardLogo from '@/assets/mastercard-logo.png';
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t,language } = useLanguage();
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -14,18 +14,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
+            <div className={`flex items-center space-x-2 mb-4 ${language === 'ar' ? 'justify-end' : 'ltr text-left'}`}
+            >
               <img 
-                src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+                src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e42.png" 
                 alt="Bricola" 
-                className="h-8"
+                className={`h-8 ${language === 'ar' ? 'rtl text-right' : 'ltr text-left'}`}
+
               />
             </div>
-            <p className="text-gray-400 mb-4 max-w-md">
-              La plateforme de location d'outils qui connecte les propriétaires avec ceux qui en ont besoin. Simple, sécurisé et local.
-            </p>
-            <p className="text-xs text-gray-500 mb-6 max-w-md">
-              « www.bricolaltd.com » est une marque de « BRICOLA LTD ». Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372
+            <p className="text-gray-400 mb-4 max-w-md md:mb-10">
+              {t('footer.description')}.
             </p>
             <div className="flex space-x-4">
               <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
@@ -85,9 +84,9 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 pt-8 mt-8">
-          <div className="flex flex-col items-center text-center text-gray-400 space-y-2">
+          <div className="flex !flex-col items-center text-center text-gray-400 space-y-2">
             <p>&copy; 2025 Bricola LTD. {t('footer.rights')}.</p>
-            <p className="text-sm">
+            <p className="text-sm ">
               designed by{' '}
               <a 
                 href="https://www.brandwoodandco.com/" 

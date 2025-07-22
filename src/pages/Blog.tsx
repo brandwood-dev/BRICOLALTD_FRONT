@@ -28,7 +28,7 @@ const Blog = () => {
       <main className="py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Blog ToolShare</h1>
+            <h1 className="text-4xl font-bold mb-4">Blog Bricola LTD</h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Découvrez nos conseils, guides et actualités sur l'univers des outils et du bricolage
             </p>

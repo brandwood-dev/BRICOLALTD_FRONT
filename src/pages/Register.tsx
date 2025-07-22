@@ -30,13 +30,12 @@ const Register = () => {
   const [salesConditionsAccepted, setSalesConditionsAccepted] = useState(false);
 
   const countries = [
-    { value: 'fr', label: 'France' },
-    { value: 'be', label: 'Belgique' },
-    { value: 'ch', label: 'Suisse' },
-    { value: 'ca', label: 'Canada' },
-    { value: 'ma', label: 'Maroc' },
-    { value: 'tn', label: 'Tunisie' },
-    { value: 'dz', label: 'Algérie' }
+    { value: 'KWD', label: 'Koweït' },
+    { value: 'SAR', label: 'Arabie Saoudite' },
+    { value: 'BHD', label: 'Bahreïn' },
+    { value: 'OMR', label: 'Oman' },
+    { value: 'QAR', label: 'Qatar' },
+    { value: 'AED', label: 'Émirats Arabes Unis.' },
   ];
 
   const phonePrefixes = [

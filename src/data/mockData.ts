@@ -311,7 +311,7 @@ export const mockBlogPosts = [
     title: 'Guide complet : Comment choisir sa perceuse',
     excerpt: 'Découvrez tous nos conseils pour bien choisir votre perceuse selon vos besoins et votre budget.',
     content: 'Le choix d\'une perceuse dépend de plusieurs facteurs importants...',
-    author: 'Expert ToolShare',
+    author: 'Expert Bricola LTD',
     date: '2024-01-15',
     category: 'Guides',
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
