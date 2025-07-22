@@ -121,9 +121,9 @@ const About = () => {
                     alt="CTO"
                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                   />
-                  <h3 className="text-xl font-semibold mb-2">Marie Martin</h3>
-                  <p className="text-accent font-medium mb-2">CTO</p>
-                  <p className="text-gray-600">Experte en développement et architecture technique</p>
+                  <h3 className="text-xl font-semibold mb-2">Adel Jebbali</h3>
+                  <p className="text-accent font-medium mb-2">CEO & Fondateur</p>
+                  <p className="text-gray-600">Ph.D in Computer Science | Cybersecurity & Resiliency Consultant</p>
                 </CardContent>
               </Card>
               

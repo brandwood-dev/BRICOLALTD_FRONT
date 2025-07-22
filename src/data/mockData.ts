@@ -26,7 +26,7 @@ export const mockTools = [
     period: 'jour',
     category: 'Jardinage',
     location: 'Lyon 6ème',
-    owner: 'Marie Martin',
+    owner: 'Adel Jebbali',
     rating: 4.6,
     reviews: 15,
     images: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
