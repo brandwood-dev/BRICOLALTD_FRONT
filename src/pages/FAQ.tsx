@@ -6,47 +6,73 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const FAQ = () => {
-    const { t, language } = useLanguage();
-  
+  const { t, language } = useLanguage();
+
+  // Determine the direction based on the language
+  const direction = language === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className="min-h-screen  bg-background"
+      dir={direction} // Enforce direction at the root level
+      style={{
+        textAlign: direction === 'rtl' ? 'right' : 'left', // Align text with direction
+      }}
+    >
       <Header />
       <main className="py-20">
         <div className="max-w-4xl mx-auto px-4">
           {/* Hero Section */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Questions Fréquentes</h1>
+          <div
+            className="text-center mb-16"
+            style={{
+              textAlign: 'center', // Keep hero text centered regardless of direction
+            }}
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('faq.hero.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Trouvez rapidement les réponses à vos questions les plus courantes
+              {t('faq.hero.subtitle')}
             </p>
           </div>
 
           {/* General Questions */}
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle >{t('faq.title')}</CardTitle>
+              <CardTitle>{t('faq.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>Qu'est-ce que Bricola ?</AccordionTrigger>
-                  <AccordionContent>
-                    Bricola est une plateforme de location d'outils entre particuliers et professionnels. Nous connectons les propriétaires d'outils avec ceux qui en ont besoin pour leurs projets, permettant un accès facile et économique à tous types d'équipements.
-                  </AccordionContent>
+              <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
+                <AccordionItem value="general-1">
+                  <AccordionTrigger>{t('faq.general.q1')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a1')}</AccordionContent>
                 </AccordionItem>
-
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>Comment fonctionne Bricola ?</AccordionTrigger>
-                  <AccordionContent>
-                    C'est simple : les propriétaires d'outils créent des annonces avec photos, descriptions et tarifs. Les locataires recherchent les outils dont ils ont besoin, font une réservation en ligne, et organisent la remise directement avec le propriétaire.
-                  </AccordionContent>
+                <AccordionItem value="general-2">
+                  <AccordionTrigger>{t('faq.general.q2')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a2')}</AccordionContent>
                 </AccordionItem>
-
-                <AccordionItem value="item-3">
-                  <AccordionTrigger>L'inscription est-elle gratuite ?</AccordionTrigger>
-                  <AccordionContent>
-                    Oui, l'inscription sur Bricola est entièrement gratuite. Nous ne prélevons qu'une commission de 5,4% sur les locations réussies pour couvrir les frais de fonctionnement, d'assurance et de sécurité de la plateforme.
-                  </AccordionContent>
+                <AccordionItem value="general-3">
+                  <AccordionTrigger>{t('faq.general.q3')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a3')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="general-4">
+                  <AccordionTrigger>{t('faq.general.q4')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a4')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="general-5">
+                  <AccordionTrigger>{t('faq.general.q5')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a5')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="general-6">
+                  <AccordionTrigger>{t('faq.general.q6')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a6')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="general-7">
+                  <AccordionTrigger>{t('faq.general.q7')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a7')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="general-8">
+                  <AccordionTrigger>{t('faq.general.q8')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.general.a8')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CardContent>
@@ -55,36 +81,25 @@ const FAQ = () => {
           {/* For Renters */}
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle>Pour les locataires</CardTitle>
+              <CardTitle>{t('faq.renters.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
                 <AccordionItem value="renter-1">
-                  <AccordionTrigger>Comment rechercher un outil ?</AccordionTrigger>
-                  <AccordionContent>
-                    Utilisez notre moteur de recherche en tapant le nom de l'outil ou en naviguant par catégories. Vous pouvez filtrer les résultats par localisation, prix, et disponibilité pour trouver exactement ce dont vous avez besoin.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.renters.q1')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.renters.a1')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="renter-2">
-                  <AccordionTrigger>Comment effectuer une réservation ?</AccordionTrigger>
-                  <AccordionContent>
-                    Sélectionnez l'outil souhaité, choisissez vos dates de location, et cliquez sur "Louer maintenant". Vous serez dirigé vers un formulaire de réservation sécurisé où vous pourrez finaliser votre demande.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.renters.q2')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.renters.a2')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="renter-3">
-                  <AccordionTrigger>Que faire si l'outil ne fonctionne pas ?</AccordionTrigger>
-                  <AccordionContent>
-                    Contactez immédiatement le propriétaire et notre service client. Si le problème ne peut être résolu, nous vous proposerons un remboursement complet ou vous aiderons à trouver un outil de remplacement.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.renters.q3')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.renters.a3')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="renter-4">
-                  <AccordionTrigger>Puis-je annuler ma réservation ?</AccordionTrigger>
-                  <AccordionContent>
-                    Oui, vous pouvez annuler votre réservation jusqu'à 24h avant le début de la location pour un remboursement complet. Les annulations de dernière minute peuvent être soumises à des frais selon la politique du propriétaire.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.renters.q4')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.renters.a4')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CardContent>
@@ -93,36 +108,33 @@ const FAQ = () => {
           {/* For Owners */}
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle>Pour les propriétaires</CardTitle>
+              <CardTitle>{t('faq.owners.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
                 <AccordionItem value="owner-1">
-                  <AccordionTrigger>Comment créer une annonce ?</AccordionTrigger>
-                  <AccordionContent>
-                    Cliquez sur "Proposer un outil" dans la navigation, remplissez le formulaire avec les détails de votre outil (titre, description, catégorie, prix), ajoutez des photos de qualité, et publiez votre annonce.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.owners.q1')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.owners.a1')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="owner-2">
-                  <AccordionTrigger>Comment fixer le prix de location ?</AccordionTrigger>
-                  <AccordionContent>
-                    Étudiez les prix d'outils similaires sur la plateforme, considérez la valeur neuve de votre outil, son état, et la demande locale. Vous pouvez ajuster vos tarifs à tout moment.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.owners.q2')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.owners.a2')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="owner-3">
-                  <AccordionTrigger>Quand suis-je payé ?</AccordionTrigger>
-                  <AccordionContent>
-                    Le paiement est effectué automatiquement dans les 48h suivant la fin de la location, après déduction de notre commission de 5,4%. L'argent est versé directement sur votre compte bancaire.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.owners.q3')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.owners.a3')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="owner-4">
-                  <AccordionTrigger>Que se passe-t-il en cas de dommage ?</AccordionTrigger>
-                  <AccordionContent>
-                    Tous les outils sont couverts par notre assurance. En cas de dommage, contactez-nous immédiatement avec des photos. Nous évaluerons la situation et organiserons la réparation ou le dédommagement selon notre police d'assurance.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.owners.q4')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.owners.a4')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="owner-5">
+                  <AccordionTrigger>{t('faq.owners.q5')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.owners.a5')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="owner-6">
+                  <AccordionTrigger>{t('faq.owners.q6')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.owners.a6')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CardContent>
@@ -131,29 +143,33 @@ const FAQ = () => {
           {/* Payment and Security */}
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle>Paiement et sécurité</CardTitle>
+              <CardTitle>{t('faq.payment.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
                 <AccordionItem value="payment-1">
-                  <AccordionTrigger>Quels modes de paiement acceptez-vous ?</AccordionTrigger>
-                  <AccordionContent>
-                    Nous acceptons toutes les cartes bancaires principales (Visa, Mastercard) ainsi que les virements bancaires. Tous les paiements sont sécurisés et cryptés.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.payment.q1')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.payment.a1')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="payment-2">
-                  <AccordionTrigger>Mes données personnelles sont-elles protégées ?</AccordionTrigger>
-                  <AccordionContent>
-                    Absolument. Nous utilisons un cryptage SSL de niveau bancaire et respectons le RGPD. Vos données ne sont jamais vendues à des tiers et sont utilisées uniquement pour le fonctionnement de la plateforme.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.payment.q2')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.payment.a2')}</AccordionContent>
                 </AccordionItem>
-
                 <AccordionItem value="payment-3">
-                  <AccordionTrigger>Comment fonctionne le système de caution ?</AccordionTrigger>
-                  <AccordionContent>
-                    Une caution peut être demandée par le propriétaire pour se protéger contre les dommages. Elle est bloquée sur votre carte au moment de la réservation et libérée automatiquement après le retour de l'outil en bon état.
-                  </AccordionContent>
+                  <AccordionTrigger>{t('faq.payment.q3')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.payment.a3')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="payment-4">
+                  <AccordionTrigger>{t('faq.payment.q4')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.payment.a4')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="payment-5">
+                  <AccordionTrigger>{t('faq.payment.q5')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.payment.a5')}</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="payment-6">
+                  <AccordionTrigger>{t('faq.payment.q6')}</AccordionTrigger>
+                  <AccordionContent>{t('faq.payment.a6')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CardContent>
