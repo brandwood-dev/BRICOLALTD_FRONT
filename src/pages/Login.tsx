@@ -18,7 +18,7 @@ const Login = () => {
       <main className="py-20">
         <div className="max-w-md mx-auto px-4">
           <Card>
-            <CardHeader className="text-center">
+            <CardHeader className="text-center flex !flex-col">
               <CardTitle className="text-2xl">{t('login.title')}</CardTitle>
               <CardDescription>
                 {t('login.subtitle')}

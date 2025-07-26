@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 const Contact = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   return (
     <div className="min-h-screen bg-background">
@@ -66,7 +66,7 @@ const Contact = () => {
             {/* Contact Info */}
             <div className="space-y-8">
               <Card>
-                <CardContent className="p-6">
+                <CardContent className={`p-6 ${language == "ar" ? "[direction:ltr]": ''}`}>
                   <div className="flex items-start space-x-4">
                     <Mail className="h-6 w-6 text-accent mt-1" />
                     <div>
@@ -79,7 +79,7 @@ const Contact = () => {
               </Card>
 
               <Card>
-                <CardContent className="p-6">
+                <CardContent  className={`p-6 ${language == "ar" ? "[direction:ltr]": ''}`}>
                   <div className="flex items-start space-x-4">
                     <Phone className="h-6 w-6 text-accent mt-1" />
                     <div>
@@ -92,7 +92,7 @@ const Contact = () => {
               </Card>
 
               <Card>
-                <CardContent className="p-6">
+                <CardContent  className={`p-6 ${language == "ar" ? "[direction:ltr]": ''}`}>
                   <div className="flex items-start space-x-4">
                     <MapPin className="h-6 w-6 text-accent mt-1" />
                     <div>

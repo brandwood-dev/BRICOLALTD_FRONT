@@ -18,8 +18,10 @@ import { isWithinInterval, parseISO } from 'date-fns';
 import TransactionFilters from './TransactionFilters';
 import TransactionCard from './TransactionCard';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Wallet = () => {
+  const { t } = useLanguage(); // Access the translation function
   const [showWithdrawDialog, setShowWithdrawDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -31,7 +33,7 @@ const Wallet = () => {
       id: '1',
       type: 'receipt' as const,
       amount: 45,
-      toolName: 'Tondeuse à gazon électrique',
+      toolName: 'Tondeuse à gazon électrique', // Consider translating tool names if needed
       userName: 'Jean Martin',
       reference: 'REF-2024-001',
       date: '2024-01-15',
@@ -150,7 +152,7 @@ const Wallet = () => {
             <div className="p-2 bg-primary/10 rounded-lg">
               <WalletIcon className="h-6 w-6 text-primary" />
             </div>
-            Mon Portefeuille
+            {t('wallet.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -162,10 +164,10 @@ const Wallet = () => {
                   <TrendingUp className="h-5 w-5 text-white" />
                 </div>
                 <Badge variant="secondary" className="bg-blue-200 text-blue-800">
-                  Total
+                  {t('wallet.total')}
                 </Badge>
               </div>
-              <div className="text-sm text-blue-700 font-medium mb-1">Solde cumulé</div>
+              <div className="text-sm text-blue-700 font-medium mb-1">{t('wallet.cumulative_balance')}</div>
               <div className="text-3xl font-bold text-blue-900">{cumulativeBalance}€</div>
             </div>
             
@@ -175,10 +177,10 @@ const Wallet = () => {
                   <Banknote className="h-5 w-5 text-white" />
                 </div>
                 <Badge variant="secondary" className="bg-green-200 text-green-800">
-                  Disponible
+                  {t('wallet.available')}
                 </Badge>
               </div>
-              <div className="text-sm text-green-700 font-medium mb-1">Solde disponible</div>
+              <div className="text-sm text-green-700 font-medium mb-1">{t('wallet.available_balance')}</div>
               <div className="text-3xl font-bold text-green-900">{availableBalance}€</div>
             </div>
             
@@ -188,10 +190,10 @@ const Wallet = () => {
                   <CheckCircle className="h-5 w-5 text-white" />
                 </div>
                 <Badge variant="secondary" className="bg-purple-200 text-purple-800">
-                  Réussies
+                  {t('wallet.successful')}
                 </Badge>
               </div>
-              <div className="text-sm text-purple-700 font-medium mb-1">Transactions réussies</div>
+              <div className="text-sm text-purple-700 font-medium mb-1">{t('wallet.successful_transactions')}</div>
               <div className="text-3xl font-bold text-purple-900">{successfulTransactionsCount}</div>
             </div>
           </div>
@@ -210,17 +212,17 @@ const Wallet = () => {
                   disabled={!canWithdraw}
                 >
                   <Banknote className="h-5 w-5 mr-2" />
-                  Retirer mon argent
+                  {t('wallet.withdraw_money')}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Retrait d'argent</DialogTitle>
+                  <DialogTitle>{t('wallet.withdraw_money')}</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
-                  <p>Fonctionnalité de retrait en cours de développement.</p>
+                  <p>{t('message.loading')}</p> {/* Adjust if a specific translation is needed */}
                   <p className="text-sm text-muted-foreground">
-                    Vous pourrez bientôt retirer vos gains directement depuis cette interface.
+                    {t('message.loading')} {/* Placeholder; replace with actual translation if available */}
                   </p>
                 </div>
               </DialogContent>
@@ -233,13 +235,13 @@ const Wallet = () => {
               <Info className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
               <div className="space-y-2">
                 <p className="text-sm text-amber-800 font-medium">
-                  Vous pouvez retirer votre argent à partir du moment où votre solde cumulé atteint 20 GBP.
+                  {t('wallet.withdrawal_note')}
                 </p>
                 <p className="text-xs text-amber-700">
-                  20 GBP = {minWithdrawalEUR} EUR
+                  {t('wallet.conversion_rate').replace('{minWithdrawalEUR}', minWithdrawalEUR.toString())}
                 </p>
                 <p className="text-xs text-amber-600">
-                  Le taux de conversion s'actualise dynamiquement en fonction de la devise choisie dans le compte.
+                  {t('wallet.dynamic_conversion')}
                 </p>
               </div>
             </div>
@@ -251,7 +253,7 @@ const Wallet = () => {
       <Card className="border-0 shadow-lg">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-gray-900">Transactions récentes</h3>
+            <h3 className="text-xl font-semibold text-gray-900">{t('tools.recent_transactions')}</h3>
           </div>
           
           {/* Filters */}
@@ -271,7 +273,7 @@ const Wallet = () => {
               ))
             ) : (
               <div className="text-center py-8 text-gray-500">
-                Aucune transaction trouvée pour les filtres sélectionnés.
+                {t('message.no_results')} {/* Assuming this fits the context */}
               </div>
             )}
           </div>

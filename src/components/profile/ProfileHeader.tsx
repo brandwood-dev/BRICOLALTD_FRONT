@@ -27,7 +27,16 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDeletion }: ProfileHeaderProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+
+  // Map accountType to translation key
+  const accountTypeLabel = userInfo.accountType === 'Entreprise' || userInfo.accountType === t('profile.account_type_company')
+    ? t('profile.account_type_company')
+    : t('profile.account_type_individual');
+
+  // Format memberSince date based on language
+  const formattedMemberSince = language === 'fr' ? 'janvier 2024' : language === 'ar' ? 'يناير 2024' : 'January 2024';
+
   return (
     <>
       {/* Back button */}
@@ -40,9 +49,9 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
 
       {/* Profile header */}
       <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6 mb-8">
-        <div className="flex flex-col gap-6">
+        <div className="flex !flex-col gap-6">
           {/* Profile info section */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+          <div className={`flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 ${language == "ar" ? "[direction:ltr]": ''}`}>
             <Avatar className="h-20 w-20 sm:h-24 sm:w-24 flex-shrink-0">
               <AvatarImage src="" />
               <AvatarFallback className="text-xl sm:text-2xl">
@@ -63,22 +72,22 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                     </Badge>
                   )}
                   <Badge variant="secondary" className="flex items-center gap-1 text-xs">
-                    {userInfo.accountType === 'Entreprise' ? (
+                    {accountTypeLabel === t('profile.account_type_company') ? (
                       <Building2 className="h-3 w-3" />
                     ) : (
                       <UserCircle className="h-3 w-3" />
                     )}
-                    {userInfo.accountType}
+                    {accountTypeLabel}
                   </Badge>
                 </div>
               </div>
               {isAccountDeletionPending && (
                 <Badge variant="destructive" className="mb-2 text-xs">
-                  Compte en attente de suppression
+                  {t('profile.account_deletion_pending')}
                 </Badge>
               )}
               <p className="text-gray-600 mb-4 text-sm sm:text-base">
-                {t('profile.member_since')} {userInfo.memberSince}
+                {t('profile.member_since').replace('{date}', formattedMemberSince)}
               </p>
             </div>
           </div>
@@ -87,19 +96,19 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="text-center p-3 bg-gray-50 rounded-lg">
               <div className="text-lg sm:text-xl font-bold text-primary">{stats.totalEarnings}€</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Gains totaux</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">{t('profile.total_earnings')}</div>
             </div>
             <div className="text-center p-3 bg-gray-50 rounded-lg">
               <div className="text-lg sm:text-xl font-bold text-primary">{stats.activeAds}</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Annonces actives</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">{t('profile.active_ads')}</div>
             </div>
             <div className="text-center p-3 bg-gray-50 rounded-lg">
               <div className="text-lg sm:text-xl font-bold text-primary">{stats.totalRentals}</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Locations réalisées</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">{t('profile.rentals_completed')}</div>
             </div>
             <div className="text-center p-3 bg-gray-50 rounded-lg">
               <div className="text-lg sm:text-xl font-bold text-primary">{stats.rating}</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Note moyenne</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">{t('profile.average_rating')}</div>
             </div>
           </div>
 
@@ -123,7 +132,11 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                   <AlertDialogDescription className="text-left">
                     {t('profile.delete_description')}
                     <br /><br />
-                    Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu'aucune réclamation ou litige en cours n'est rattaché à votre compte.
+                    {language === 'fr' 
+                      ? 'Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu\'aucune réclamation ou litige en cours n\'est rattaché à votre compte.'
+                      : language === 'ar'
+                      ? 'سيتم معالجة طلبك خلال 72 ساعة، وهو الوقت اللازم لفريقنا للتحقق من عدم وجود شكاوى أو نزاعات مرتبطة بحسابك.'
+                      : 'Your request will be processed within 72 hours, allowing our team to verify that no ongoing claims or disputes are linked to your account.'}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

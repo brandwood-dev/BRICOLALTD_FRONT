@@ -12,7 +12,7 @@ import Footer from '@/components/Footer';
 import { Upload, Camera, Euro, Shield, MapPin, Tag, FileText, Settings, Calendar } from 'lucide-react';
 
 const AddTool = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [dragActive, setDragActive] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -69,8 +69,8 @@ const AddTool = () => {
 
           {/* Main Form Card */}
           <Card className="shadow-xl border-0 bg-card/80 backdrop-blur-sm">
-            <CardHeader className="bg-gradient-to-r from-accent/10 to-accent/5 border-b">
-              <CardTitle className="text-2xl flex items-center text-foreground">
+            <CardHeader className="bg-gradient-to-r flex items-center justify-center from-accent/10 to-accent/5 border-b">
+              <CardTitle className="text-2xl flex !items-center text-foreground">
                 <Settings className="h-6 w-6 mr-3 text-accent" />
                 {t('add_tool.info_title')}
               </CardTitle>
@@ -79,7 +79,7 @@ const AddTool = () => {
               <div className="space-y-8">
                 {/* Basic Information Section */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                  <h3 className={`text-lg font-semibold text-foreground flex items-center ${language === 'ar' ? 'justify-end' : ''}`} >
                     <FileText className="h-5 w-5 mr-2 text-accent" />
                     {t('add_tool.general_info')}
                   </h3>
@@ -199,7 +199,7 @@ const AddTool = () => {
 
                 {/* Pricing Section */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                  <h3 className={`text-lg font-semibold text-foreground flex items-center ${language === 'ar' ? 'justify-end' : ''}`}>
                     <Euro className="h-5 w-5 mr-2 text-accent" />
                     {t('add_tool.pricing')}
                   </h3>
@@ -239,7 +239,7 @@ const AddTool = () => {
 
                 {/* Location Section */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                  <h3 className={`text-lg font-semibold text-foreground flex items-center ${language === 'ar' ? 'justify-end' : ''}`}>
                     <MapPin className="h-5 w-5 mr-2 text-accent" />
                     {t('add_tool.location_title')}
                   </h3>
@@ -258,7 +258,7 @@ const AddTool = () => {
 
                 {/* Photos Section */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                  <h3 className={`text-lg font-semibold text-foreground flex items-center ${language === 'ar' ? 'justify-end' : ''}`}>
                     <Camera className="h-5 w-5 mr-2 text-accent" />
                     {t('add_tool.photos_title')}
                   </h3>
@@ -274,7 +274,7 @@ const AddTool = () => {
                     onDragOver={handleDrag}
                     onDrop={handleDrop}
                   >
-                    <div className="flex flex-col items-center">
+                    <div className="flex !flex-col items-center">
                       <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mb-4">
                         <Upload className="h-8 w-8 text-accent" />
                       </div>
@@ -296,7 +296,7 @@ const AddTool = () => {
 
                 {/* Instructions Section */}
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-foreground flex items-center">
+                  <h3 className={`text-lg font-semibold text-foreground flex items-center ${language === 'ar' ? 'justify-end' : ''}`}>
                     <FileText className="h-5 w-5 mr-2 text-accent" />
                     {t('add_tool.instructions_title')}
                   </h3>

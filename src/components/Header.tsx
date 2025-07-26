@@ -140,11 +140,14 @@ const Header = () => {
               >
                 {/* Fixed Header */}
                 <div className={`flex items-center justify-between p-6 border-b flex-shrink-0 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <Link to="/" className="flex items-center space-x-2">
+
                   <img 
                     src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
                     alt="Bricola" 
                     className="h-8"
                   />
+                  </Link>
                 </div>
 
                 {/* Scrollable Content */}
@@ -158,12 +161,12 @@ const Header = () => {
                         </Button>
                       </Link>
                       <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                        <Button className="w-full h-12 text-sm">
+                        <Button className="w-full h-12 my-4 text-sm">
                           {t('nav.signup')}
                         </Button>
                       </Link>
                       <Link to="/add-tool" onClick={() => setIsMenuOpen(false)}>
-                        <Button variant="outline" className="w-full h-12 text-sm">
+                        <Button variant="outline" className="w-full  h-12 text-sm">
                           {t('nav.list')}
                         </Button>
                       </Link>

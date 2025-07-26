@@ -44,7 +44,7 @@ const About = () => {
                 </p>
               </div>
               <img 
-                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/lovable-uploads/about.png"
                 alt="Outils de bricolage"
                 className="rounded-lg shadow-lg"
               />

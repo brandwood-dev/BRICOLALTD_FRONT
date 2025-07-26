@@ -46,7 +46,8 @@ const HeroSection = () => {
     <section 
       className="hero-gradient py-20 px-4 relative bg-cover bg-center"
       style={{ 
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")'
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("/lovable-uploads/hero.png")',
+        backgroundPosition: "50% center"
       }}
     >
       <div className="max-w-4xl mx-auto text-center">

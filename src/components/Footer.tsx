@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Facebook, Twitter, Instagram, Mail, Phone } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, Route, useNavigate, useNavigation, useRoutes } from 'react-router-dom';
 import visaLogo from '@/assets/visa-logo.png';
 import mastercardLogo from '@/assets/mastercard-logo.png';
 
 const Footer = () => {
   const { t, language } = useLanguage();
-
+  const navigate =  useNavigate()
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -16,6 +16,11 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className={`flex items-center space-x-2 mb-4 ${language === 'ar' ? 'justify-end' : 'ltr text-left'}`}>
               <img
+                onClick={() => {
+                  navigate('/')
+                  window.scroll({top: 0, behavior: 'smooth'})
+
+                }}
                 src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e42.png"
                 alt="Bricola"
                 className={`h-8 ${language === 'ar' ? 'rtl text-right' : 'ltr text-left'}`}

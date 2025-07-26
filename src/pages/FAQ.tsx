@@ -37,41 +37,41 @@ const FAQ = () => {
 
           {/* General Questions */}
           <Card className="mb-8">
-            <CardHeader>
+            <CardHeader className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>
               <CardTitle>{t('faq.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
-                <AccordionItem value="general-1">
-                  <AccordionTrigger>{t('faq.general.q1')}</AccordionTrigger>
+              <Accordion type="single" collapsible >
+                <AccordionItem value="general-1"  >
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q1')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a1')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-2">
-                  <AccordionTrigger>{t('faq.general.q2')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q2')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a2')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-3">
-                  <AccordionTrigger>{t('faq.general.q3')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q3')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a3')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-4">
-                  <AccordionTrigger>{t('faq.general.q4')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q4')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a4')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-5">
-                  <AccordionTrigger>{t('faq.general.q5')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q5')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a5')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-6">
-                  <AccordionTrigger>{t('faq.general.q6')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q6')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a6')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-7">
-                  <AccordionTrigger>{t('faq.general.q7')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q7')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a7')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="general-8">
-                  <AccordionTrigger>{t('faq.general.q8')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.general.q8')}</AccordionTrigger>
                   <AccordionContent>{t('faq.general.a8')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -80,25 +80,25 @@ const FAQ = () => {
 
           {/* For Renters */}
           <Card className="mb-8">
-            <CardHeader>
+            <CardHeader className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>
               <CardTitle>{t('faq.renters.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
                 <AccordionItem value="renter-1">
-                  <AccordionTrigger>{t('faq.renters.q1')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.renters.q1')}</AccordionTrigger>
                   <AccordionContent>{t('faq.renters.a1')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="renter-2">
-                  <AccordionTrigger>{t('faq.renters.q2')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.renters.q2')}</AccordionTrigger>
                   <AccordionContent>{t('faq.renters.a2')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="renter-3">
-                  <AccordionTrigger>{t('faq.renters.q3')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.renters.q3')}</AccordionTrigger>
                   <AccordionContent>{t('faq.renters.a3')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="renter-4">
-                  <AccordionTrigger>{t('faq.renters.q4')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.renters.q4')}</AccordionTrigger>
                   <AccordionContent>{t('faq.renters.a4')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -107,33 +107,33 @@ const FAQ = () => {
 
           {/* For Owners */}
           <Card className="mb-8">
-            <CardHeader>
+            <CardHeader className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>
               <CardTitle>{t('faq.owners.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
                 <AccordionItem value="owner-1">
-                  <AccordionTrigger>{t('faq.owners.q1')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.owners.q1')}</AccordionTrigger>
                   <AccordionContent>{t('faq.owners.a1')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="owner-2">
-                  <AccordionTrigger>{t('faq.owners.q2')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.owners.q2')}</AccordionTrigger>
                   <AccordionContent>{t('faq.owners.a2')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="owner-3">
-                  <AccordionTrigger>{t('faq.owners.q3')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.owners.q3')}</AccordionTrigger>
                   <AccordionContent>{t('faq.owners.a3')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="owner-4">
-                  <AccordionTrigger>{t('faq.owners.q4')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.owners.q4')}</AccordionTrigger>
                   <AccordionContent>{t('faq.owners.a4')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="owner-5">
-                  <AccordionTrigger>{t('faq.owners.q5')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.owners.q5')}</AccordionTrigger>
                   <AccordionContent>{t('faq.owners.a5')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="owner-6">
-                  <AccordionTrigger>{t('faq.owners.q6')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.owners.q6')}</AccordionTrigger>
                   <AccordionContent>{t('faq.owners.a6')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -142,33 +142,33 @@ const FAQ = () => {
 
           {/* Payment and Security */}
           <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>{t('faq.payment.title')}</CardTitle>
+            <CardHeader className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>
+              <CardTitle >{t('faq.payment.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className={`w-full ${direction === 'rtl' ? 'rtl-accordion' : ''}`}>
                 <AccordionItem value="payment-1">
-                  <AccordionTrigger>{t('faq.payment.q1')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.payment.q1')}</AccordionTrigger>
                   <AccordionContent>{t('faq.payment.a1')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="payment-2">
-                  <AccordionTrigger>{t('faq.payment.q2')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.payment.q2')}</AccordionTrigger>
                   <AccordionContent>{t('faq.payment.a2')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="payment-3">
-                  <AccordionTrigger>{t('faq.payment.q3')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.payment.q3')}</AccordionTrigger>
                   <AccordionContent>{t('faq.payment.a3')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="payment-4">
-                  <AccordionTrigger>{t('faq.payment.q4')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.payment.q4')}</AccordionTrigger>
                   <AccordionContent>{t('faq.payment.a4')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="payment-5">
-                  <AccordionTrigger>{t('faq.payment.q5')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.payment.q5')}</AccordionTrigger>
                   <AccordionContent>{t('faq.payment.a5')}</AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="payment-6">
-                  <AccordionTrigger>{t('faq.payment.q6')}</AccordionTrigger>
+                  <AccordionTrigger className={`${language === 'ar' ? 'flex !flex-row' : ''}`}>{t('faq.payment.q6')}</AccordionTrigger>
                   <AccordionContent>{t('faq.payment.a6')}</AccordionContent>
                 </AccordionItem>
               </Accordion>

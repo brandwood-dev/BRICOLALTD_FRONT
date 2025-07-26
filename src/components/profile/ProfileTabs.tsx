@@ -15,12 +15,12 @@ interface ProfileTabsProps {
 }
 
 const ProfileTabs = ({ activeTab, setActiveTab }: ProfileTabsProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
         <TabsList className="w-full h-auto p-0 bg-transparent">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 w-full">
+          <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 w-full ${language === 'ar' ? '[direction:rtl]' : ''}`}>
             <TabsTrigger 
               value="profile" 
               className="flex flex-col items-center gap-1 sm:gap-2 py-3 sm:py-4 px-2 sm:px-3 border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-primary/5"

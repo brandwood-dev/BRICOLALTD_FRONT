@@ -30,14 +30,14 @@ const Register = () => {
   const [salesConditionsAccepted, setSalesConditionsAccepted] = useState(false);
 
   const countries = [
-    { value: 'KWD', label: 'Koweït' },
-    { value: 'SAR', label: 'Arabie Saoudite' },
-    { value: 'BHD', label: 'Bahreïn' },
-    { value: 'OMR', label: 'Oman' },
-    { value: 'QAR', label: 'Qatar' },
-    { value: 'AED', label: 'Émirats Arabes Unis.' },
+    { value: 'KWD', label: 'Koweït', flag: '<span class="fi fi-kw"></span>' },
+    { value: 'SAR', label: 'Arabie Saoudite', flag: '<span class="fi fi-sa"></span>' },
+    { value: 'BHD', label: 'Bahreïn', flag: '<span class="fi fi-bh"></span>' },
+    { value: 'OMR', label: 'Oman', flag: '<span class="fi fi-om"></span>' },
+    { value: 'QAR', label: 'Qatar', flag: '<span class="fi fi-qa"></span>'  },
+    { value: 'AED', label: 'Émirats Arabes Unis.', flag: '<span class="fi fi-ae"></span>' },
   ];
-
+  
   const phonePrefixes = [
     { value: '+33', label: '+33 (France)' },
     { value: '+32', label: '+32 (Belgique)' },
@@ -70,7 +70,7 @@ const Register = () => {
       <main className="py-20">
         <div className="max-w-md mx-auto px-4">
           <Card>
-            <CardHeader className="text-center">
+            <CardHeader className="text-center flex !flex-col">
               <CardTitle className="text-2xl">{t('register.title')}</CardTitle>
               <CardDescription>
                 {t('register.subtitle')}
@@ -166,7 +166,9 @@ const Register = () => {
                       <SelectContent>
                         {countries.map((country) => (
                           <SelectItem key={country.value} value={country.value}>
+                              <span className='mx-2' dangerouslySetInnerHTML={{ __html: country.flag }} />
                             {country.label}
+
                           </SelectItem>
                         ))}
                       </SelectContent>
