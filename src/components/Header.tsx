@@ -74,9 +74,9 @@ const Header = () => {
                 <SelectValue placeholder="Langue" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="fr">🇫🇷 Français</SelectItem>
-                <SelectItem value="en">🇬🇧 English</SelectItem>
-                <SelectItem value="ar">🇸🇦 العربية</SelectItem>
+                <SelectItem value="fr"><span class="fi fi-fr"></span> Français</SelectItem>
+                <SelectItem value="en"><span class="fi fi-gb-eng"></span>  English</SelectItem>
+                <SelectItem value="ar"><span class="fi fi-sa"></span> العربية</SelectItem>
               </SelectContent>
             </Select>
 
@@ -221,9 +221,9 @@ const Header = () => {
                           <SelectValue placeholder="Langue" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="fr">🇫🇷 Français</SelectItem>
-                          <SelectItem value="en">🇬🇧 English</SelectItem>
-                          <SelectItem value="ar">🇸🇦 العربية</SelectItem>
+                          <SelectItem value="fr"><span class="fi fi-fr"></span> Français</SelectItem>
+                          <SelectItem value="en"><span class="fi fi-gb-eng"></span>  English</SelectItem>
+                          <SelectItem value="ar"><span class="fi fi-sa"></span> العربية</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

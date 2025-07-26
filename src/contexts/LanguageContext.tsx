@@ -184,7 +184,13 @@ const translations = {
     'footer.privacy': 'Politique de confidentialité',
     'footer.faq': 'FAQ',
     'footer.description': 'La plateforme de location d`\'outils qui connecte les propriétaires avec ceux qui en ont besoin. Simple, sécurisé et local.',
-    
+    'footer.contrat': 'Contrat de location', // Added
+    'footer.payment': 'Modes de paiement', // Added
+    'footer.useful_links': 'Liens utiles', // Added
+    'footer.help_center': 'Centre d\'assistance', // Added
+    'footer.owner_guide': 'Guide du loueur', // Added
+    'footer.renter_guide': 'Guide du locataire', // Added
+    'footer.terms_conditions': 'CGU', // Added (synonym for footer.cgu)
     // Login
     'login.title': 'Connexion',
     'login.subtitle': 'Connectez-vous à votre compte Bricola LTD',
@@ -489,7 +495,13 @@ const translations = {
     'footer.privacy': 'Privacy policy',
     'footer.faq': 'FAQ',
     'footer.description': 'The tool rental platform that connects owners with those who need them. Simple, secure, and local.“www.bricolaltd.com” is a trademark of BRICOLA LTD.Registered in England and Wales under number: 16401372',
-
+    'footer.contrat': 'Rental Agreement', // Added
+    'footer.payment': 'Payment Methods', // Added
+    'footer.useful_links': 'Useful Links', // Added
+    'footer.help_center': 'Help Center', // Added
+    'footer.owner_guide': 'Owner’s Guide', // Added
+    'footer.renter_guide': 'Renter’s Guide', // Added
+    'footer.terms_conditions': 'Terms & Conditions', // Added
     
     // Login
     'login.title': 'Login',
@@ -794,7 +806,13 @@ const translations = {
     'footer.privacy': 'سياسة الخصوصية',
     'footer.faq': 'الأسئلة الشائعة',
     'footer.description': 'المنصة التي تربط أصحاب الأدوات بمن يحتاجون إليها. بسيطة، آمنة، ومحلية« www.bricolaltd.com » هي علامة تجارية تابعة لشركة « BRICOLA LTD »مسجلة في إنجلترا وويلز تحت الرقم: 16401372',
-    
+    'footer.contrat': 'عقد الإيجار', // Added
+    'footer.payment': 'وسائل الدفع', // Added
+    'footer.useful_links': 'روابط مفيدة', // Added
+    'footer.help_center': 'مركز المساعدة', // Added
+    'footer.owner_guide': 'دليل المؤجر', // Added
+    'footer.renter_guide': 'دليل المستأجر', // Added
+    'footer.terms_conditions': 'الشروط والأحكام', // Added
     // Login
     'login.title': 'تسجيل الدخول',
     'login.subtitle': 'اتصل بحسابك في Bricola LTD',
