@@ -10,6 +10,53 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    // pagination
+    'pagination.next': 'Suivant',
+    'pagination.previous': 'Précédent',
+
+    // catalog section
+    'catalog_section.title': 'Outils trouvés',
+    'catalog_section.by': 'Par',
+    'catalog_section.category': 'Catégorie',
+    'catalog_section.sort_by': 'Trier par',
+    'catalog_section.most_recent': 'Plus récents',
+    'catalog_section.price_low_to_high': 'Prix croissant',
+    'catalog_section.price_high_to_low': 'Prix décroissant',
+    'catalog_section.top_rated': 'Mieux notés',
+    'catalog_section.filters': 'Filtres',
+    'catalog_section.search': 'Recherche',
+    'catalog_section.tool_name': 'Nom de l\'outil',
+    'catalog_section.location': 'Localisation',
+    'catalog_section.all_categories': 'Toutes les catégories',
+    'catalog_section.sub_category': 'Sous-catégorie',
+    'catalog_section.all_sub_categories': 'Toutes les sous-catégories',
+    'catalog_section.daily_price': 'Prix par jour',
+    'catalog_section.apply_filters': 'Appliquer les filtres',
+
+
+    // blog section
+    'blog_section.title': 'Derniers articles du blog',
+    'blog_section.description': 'Découvrez nos conseils, guides et actualités pour réussir tous vos projets de bricolage',
+    'blog_section.min': 'min',
+    'blog_section.read_article': 'Lire l\'article',
+    'blog_section.view_all': 'Voir tous les articles',
+
+    // customer reviews
+    'customer_reviews.title': 'Avis de nos clients',
+    'customer_reviews.description': 'Découvrez ce que nos utilisateurs pensent de notre plateforme',
+
+    // rental process
+    'rental_process.title': 'Comment ça marche ?',
+    'rental_process.description': 'Louez vos outils en 4 étapes simples et commencez à générer des revenus',
+    'rental_process.step1.title': 'Publiez votre annonce en quelques clics',
+    'rental_process.step1.description': 'Ajoutez vos outils avec photos et description détaillée en quelques minutes seulement.',
+    'rental_process.step2.title': 'Maximisez votre visibilité',
+    'rental_process.step2.description': 'Votre annonce est visible par des milliers d\'utilisateurs à la recherche d\'outils.',
+    'rental_process.step3.title': 'Recevez vos premières réservations',
+    'rental_process.step3.description': 'Les locataires vous contactent directement pour réserver vos outils aux dates souhaitées.',
+    'rental_process.step4.title': 'Percevez vos revenus en toute sérénité',
+    'rental_process.step4.description': 'Recevez vos paiements de manière sécurisée et générez des revenus supplémentaires.',
+
     // Profile translations (some already added from ProfileInfo)
     'profile.first_name': 'Prénom',
     'profile.last_name': 'Nom',
@@ -58,6 +105,17 @@ const translations = {
     'wallet.withdrawal_note': 'Vous pouvez retirer votre argent à partir du moment où votre solde cumulé atteint 20 GBP.',
     'wallet.conversion_rate': '20 GBP = {minWithdrawalEUR} EUR',
     'wallet.dynamic_conversion': 'Le taux de conversion s\'actualise dynamiquement en fonction de la devise choisie dans le compte.',
+
+    // recent transactions
+    'wallet.recent_transactions': 'Transactions récentes',
+    'wallet.select_time_period': 'Sélectionnez une période',
+    'wallet.all_transactions': 'Toutes les transactions',
+    'wallet.incoming_payments': 'Receptions',
+    'wallet.withdrawal': 'Retrait',
+    'wallet.reset': 'Réinitialiser',
+    'wallet.completed': 'Terminée',
+    'wallet.pending': 'En attente',
+    'wallet.failed': 'Échouée',
     
     // New FAQ translations
     'faq.hero.title': 'Questions Fréquentes',
@@ -133,17 +191,25 @@ const translations = {
     'hero.search.placeholder': 'Rechercher un outil...',
     'hero.search.location': 'Localisation',
     'hero.search.button': 'Rechercher',
+    'hero.available_tools': 'Outils disponibles',
+    'hero.active_users': 'Utilisateurs actifs',
+    'hero.cities_covered': 'Villes couvertes',
     
     // Categories
-    'categories.title': 'Catégories populaires',
-    'categories.garden': 'Jardinage',
-    'categories.construction': 'Construction',
-    'categories.automotive': 'Automobile',
-    'categories.electric': 'Électrique',
+    'categories.title': 'Nos catégories',
+    'categories.description': 'Trouvez l\'outil parfait selon vos besoins',
+    'categories.gardening': 'Jardinage',
+    'categories.cleaning': 'Nettoyage',
+    'categories.diy': 'Bricolage',
+    'categories.events': 'Événementiel',
+    'categories.transport': 'Transport',
     
     // Tools
     'tools.featured': 'Outils en vedette',
+    'tools.description': 'Les outils les mieux notés et les plus demandés de notre communauté',
     'tools.day': 'jour',
+    'tools.display_all': 'Voir tous les outils',
+    'tools.by': 'par',
     'tools.available': 'Disponible',
     'tools.rent': 'Louer',
     'tools.details': 'Voir détails',
@@ -157,6 +223,24 @@ const translations = {
     'tools.pending': 'En attente',
     'tools.approved': 'Approuvé',
     'tools.rejected': 'Rejeté',
+    'tools.back_to_results': 'Retour aux résultats',
+    'tools.verified': 'Vérifié',
+    'tools.owner': 'Propriétaire',
+    'tools.model': 'Modèle',
+    'tools.brand': 'Marque',
+    'tools.year_of_purchase': 'Année d\'achat',
+    'tools.fees_and_taxes': 'Incluant taxes et frais',
+    'tools.of': 'des',
+    'tools.charged': 'saisis par le loueur',
+    'tools.deposit': 'Caution',
+    'tools.refunded': '(remboursée en fin de location)',
+    'tools.rent_now': 'Louer maintenant',
+    'tools.add_to_favorites': 'Ajouter aux favoris',
+    'tools.desc': 'Description',
+    'tools.remove_from_favorites': 'Retirer des favoris',
+    'tools.instructions': 'Consigne du propriétaire',
+    'tools.reviews': 'Avis des locataires',
+
 
     // Forms
     'form.first_name': 'Prénom',
@@ -330,12 +414,37 @@ const translations = {
     'add_tool.condition_good': '👍 Bon',
     'add_tool.condition_fair': '👌 Correct',
 
-    // Categories
+    // Categories and subcategories
     'category.gardening': 'Jardinage',
-    'category.diy': 'Bricolage',
-    'category.transport': 'Transport',
+    'category.gardening.lawn': 'Gazon',
+    'category.gardening.soil': 'Terre',
+    'category.gardening.wood': 'Bois',
+    'category.gardening.tree': 'Arbre',
+    'category.gardening.leaves': 'Feuilles',
+
     'category.cleaning': 'Nettoyage',
+    'category.cleaning.fabric': 'Tissu',
+    'category.cleaning.water': 'Eau',
+    'category.cleaning.dust': 'Poussière',
+
+    'category.diy': 'Bricolage',
+    'category.diy.construction': 'Construction',
+    'category.diy.electricity': 'Électricité',
+    'category.diy.painting': 'Peinture',
+    'category.diy.screws_and_bolts': 'Vis et boulons',
+
+    'category.transport': 'Transport',
+    'category.transport.heavy_load': 'Charge lourde',
+    'category.transport.engine': 'Moteur',
+    'category.transport.wheel': 'Roue',
+
     'category.event': 'Événementiel',
+    'category.event.lighting': 'Éclairage',
+    'category.event.kitchen': 'Cuisine',
+    'category.event.entertainment_and_games': 'Animation et jeux',
+    'category.event.furniture': 'Mobilier',
+    'category.event.decoration': 'Décoration',
+    'category.event.structure': 'Structure',
 
     // Common
     'common.yes': 'Oui',
@@ -348,7 +457,53 @@ const translations = {
     'common.home': 'Accueil'
   },
   en: {
-    
+
+    // pagination
+    'pagination.next': 'Next',
+    'pagination.previous': 'Previous',
+
+    // catalog section
+    'catalog_section.title': 'Tools Found',
+    'catalog_section.by': 'By',
+    'catalog_section.category': 'Category',
+    'catalog_section.sort_by': 'Sort by',
+    'catalog_section.most_recent': 'Most Recent',
+    'catalog_section.price_low_to_high': 'Price: Low to High',
+    'catalog_section.price_high_to_low': 'Price: High to Low',
+    'catalog_section.top_rated': 'Top Rated',
+    'catalog_section.filters': 'Filters',
+    'catalog_section.search': 'Search',
+    'catalog_section.tool_name': 'Tool Name',
+    'catalog_section.location': 'Location',
+    'catalog_section.all_categories': 'All Categories',
+    'catalog_section.sub_category': 'Sub-category',
+    'catalog_section.all_sub_categories': 'All Sub-categories',
+    'catalog_section.daily_price': 'Daily Price',
+    'catalog_section.apply_filters': 'Apply Filters',
+
+    // blog section
+    'blog_section.title': 'Latest Blog Articles',
+    'blog_section.description': 'Explore our tips, guides, and updates to succeed in all your DIY projects',
+    'blog_section.min': 'min',
+    'blog_section.read_article': 'Read Article',
+    'blog_section.view_all': 'View all articles',
+
+    // customer reviews
+    'customer_reviews.title': 'What our users say',
+    'customer_reviews.description': 'Find out what our users think about our platform.',
+
+    // rental process
+    'rental_process.title': 'How does it work?',
+    'rental_process.description': 'Rent your tools in 4 simple steps...',
+    'rental_process.step1.title': 'Post your listing in a few clicks',
+    'rental_process.step1.description': 'Add your tools with photos and a detailed description in just a few minutes.',
+    'rental_process.step2.title': 'Maximize your visibility',
+    'rental_process.step2.description': 'Your listing is seen by thousands of users looking for tools.',
+    'rental_process.step3.title': 'Receive your first bookings',
+    'rental_process.step3.description': 'Renters contact you directly to reserve your tools for the desired dates.',
+    'rental_process.step4.title': 'Collect your earnings with peace of mind',
+    'rental_process.step4.description': 'Receive your payments securely and generate additional income.',
+
     // Profile translations
     'profile.first_name': 'First name',
     'profile.last_name': 'Last name',
@@ -393,7 +548,18 @@ const translations = {
     'wallet.withdrawal_note': 'You can withdraw your money once your cumulative balance reaches 20 GBP.',
     'wallet.conversion_rate': '20 GBP = {minWithdrawalEUR} EUR',
     'wallet.dynamic_conversion': 'The conversion rate updates dynamically based on the currency selected in the account.',
-    
+
+    // recent transactions
+    'wallet.recent_transactions': 'Recent Transactions',
+    'wallet.select_time_period': 'Select a time period',
+    'wallet.all_transactions': 'All transactions',
+    'wallet.incoming_payments': 'Incoming payments',
+    'wallet.withdrawal': 'Withdrawal',
+    'wallet.reset': 'Reset',
+    'wallet.completed': 'Completed',
+    'wallet.pending': 'Pending',
+    'wallet.failed': 'Failed',
+
      // New FAQ translations
     'faq.hero.title': 'Frequently Asked Questions',
     'faq.hero.subtitle': 'Find quick answers to your most common questions',
@@ -467,16 +633,24 @@ const translations = {
     'hero.search.placeholder': 'Search for a tool...',
     'hero.search.location': 'Location',
     'hero.search.button': 'Search',
+    'hero.available_tools': 'Tools Available',
+    'hero.active_users': 'Active Users',  
+    'hero.cities_covered': 'Cities Covered',
     
     // Categories
-    'categories.title': 'Popular categories',
-    'categories.garden': 'Gardening',
-    'categories.construction': 'Construction',
-    'categories.automotive': 'Automotive',
-    'categories.electric': 'Electric',
+    'categories.title': 'Our Categories',
+    'categories.description': 'Find the perfect tool for your needs',
+    'categories.gardening': 'Gardening',
+    'categories.cleaning': 'Cleaning',
+    'categories.diy': 'DIY',
+    'categories.events': 'Event Equipment',
+    'categories.transport': 'Transport',
     
     // Tools
     'tools.featured': 'Featured tools',
+    'tools.description': 'Top-rated and most requested tools by our community',
+    'tools.display_all': 'View All Tools',
+    'tools.by': 'by',
     'tools.day': 'day',
     'tools.available': 'Available',
     'tools.rent': 'Rent',
@@ -491,8 +665,25 @@ const translations = {
     'tools.pending': 'Pending',
     'tools.approved': 'Approved',
     'tools.rejected': 'Rejected',
-    
-    
+    'tools.back_to_results': 'Back to Results',
+    'tools.verified': 'Verified',
+    'tools.owner': 'Owner',
+    'tools.model': 'Model',
+    'tools.brand': 'Brand',
+    'tools.year_of_purchase': 'Year of Purchase',
+    'tools.fees_and_taxes': 'Including fees and tax',
+    'tools.of': 'of',
+    'tools.charged': 'charged',
+    'tools.deposit': 'Deposit',
+    'tools.refunded': '(refunded at the end of rental)',
+    'tools.rent_now': 'Rent Now',
+    'tools.add_to_favorites': 'Add to Favorites',
+    'tools.remove_from_favorites': 'Remove from Favorites',
+    'tools.desc': 'Description',
+    'tools.instructions': 'Owner\'s Instructions',
+    'tools.reviews': 'Renter Reviews',
+
+
     // Forms
     'form.first_name': 'First name',
     'form.last_name': 'Last name',
@@ -668,12 +859,37 @@ const translations = {
     'add_tool.condition_good': '👍 Good',
     'add_tool.condition_fair': '👌 Fair',
 
-    // Categories
+    // Categories and subcategories
     'category.gardening': 'Gardening',
-    'category.diy': 'DIY',
-    'category.transport': 'Transport',
+    'category.gardening.lawn': 'Lawn',
+    'category.gardening.soil': 'Soil',
+    'category.gardening.wood': 'Wood',
+    'category.gardening.tree': 'Tree',
+    'category.gardening.leaves': 'Leaves',
+
     'category.cleaning': 'Cleaning',
+    'category.cleaning.fabric': 'Fabric',
+    'category.cleaning.water': 'Water',
+    'category.cleaning.dust': 'Dust',
+
+    'category.diy': 'DIY',
+    'category.diy.construction': 'Construction',
+    'category.diy.electricity': 'Electricity',
+    'category.diy.painting': 'Painting',
+    'category.diy.screws_and_bolts': 'Screws and bolts',
+
+    'category.transport': 'Transport',
+    'category.transport.heavy_load': 'Heavy load',
+    'category.transport.engine': 'Engine',
+    'category.transport.wheel': 'Wheel',
+
     'category.event': 'Event',
+    'category.event.lighting': 'Lighting',
+    'category.event.kitchen': 'Kitchen',
+    'category.event.entertainment_and_games': 'Entertainment and games',
+    'category.event.furniture': 'Furniture',
+    'category.event.decoration': 'Decoration',
+    'category.event.structure': 'Structure',
 
     // Common
     'common.yes': 'Yes',
@@ -683,11 +899,57 @@ const translations = {
     'common.currency': 'Currency',
     'common.menu': 'Menu',
     'common.navigation': 'Navigation',
-    'common.home': 'Home'
+    'common.home': 'Home',
   },
   ar: {
+    // pagination
+    'pagination.next': 'التالي',
+    'pagination.previous': 'السابق',
 
+    // catalog section
+    'catalog_section.title': 'أداة معثور عليها',
+    'catalog_section.category': 'الفئة',
+    'catalog_section.sort_by': 'ترتيب حسب',
+    'catalog_section.most_recent': 'الأحدث',
+    'catalog_section.price_low_to_high': 'السعر: من الأدنى إلى الأعلى',
+    'catalog_section.price_high_to_low': 'السعر: من الأعلى إلى الأدنى ',
+    'catalog_section.top_rated': 'الأعلى تقييمًا',
+    'catalog_section.filters': 'المرشحات',
+    'catalog_section.search': 'البحث',
+    'catalog_section.tool_name': 'اسم الأداة',
+    'catalog_section.location': 'الموقع',
+    'catalog_section.all_categories': 'جميع الفئات',
+    'catalog_section.sub_category': 'فئة فرعية',
+    'catalog_section.all_sub_categories': 'جميع الفئات الفرعية',
+    'catalog_section.daily_price': 'السعر اليومي',
+    'catalog_section.apply_filters': 'بحث',
+    'catalog_section.by': 'بواسطة',
     
+
+
+    // blog section
+    'blog_section.title': 'أحدث مقالات المدونة',
+    'blog_section.description': 'اكتشف نصائحنا وأدلتنا وآخر الأخبار لإنجاح جميع مشاريعك في الأشغال اليدوية',
+    'blog_section.min': 'دقيقة',
+    'blog_section.read_article': 'قراءة المقال',
+    'blog_section.view_all': 'عرض جميع المقالات',
+
+     // customer reviews
+    'customer_reviews.title': 'آراء عملائنا',
+    'customer_reviews.description': 'اكتشف آراء مستخدمينا حول المنصة',
+
+    // rental process
+    'rental_process.title': 'كيف يعمل النظام؟',
+    'rental_process.description': 'أجر أدواتك في 4 خطوات بسيطة',
+    'rental_process.step1.title': 'أنشر إعلانك ببضع نقرات',
+    'rental_process.step1.description': 'أضف أدواتك مع الصور والوصف المفصل  في دقائق معدودة.',
+    'rental_process.step2.title': 'زد من ظهور إعلانك',
+    'rental_process.step2.description': 'إعلانك مرئي لآلاف المستخدمين الباحثين عن الأدوات.',
+    'rental_process.step3.title': 'استقبل أولى الحجوزات',
+    'rental_process.step3.description': 'يتواصل معك المستأجرون مباشرةً لحجز أدواتك في التواريخ المطلوبة.',
+    'rental_process.step4.title': 'احصل على أرباحك بأمان',
+    'rental_process.step4.description': 'استلم دفعاتك بأمان وحقق دخلاً إضافياً.',
+
     // Wallet translations
     'wallet.title': 'محفظتي',
     'wallet.total': 'الإجمالي',
@@ -700,6 +962,17 @@ const translations = {
     'wallet.withdrawal_note': 'يمكنك سحب أموالك بمجرد أن يصل رصيدك الإجمالي إلى 20 جنيهًا إسترلينيًا.',
     'wallet.conversion_rate': '20 جنيه إسترليني = {minWithdrawalEUR} يورو',
     'wallet.dynamic_conversion': 'يتم تحديث سعر الصرف تلقائيًا حسب العملة المختارة في الحساب.',
+
+    // recent transactions
+    'wallet.recent_transactions': 'المعاملات الأخيرة',
+    'wallet.select_time_period': 'اختر فترة زمنية',
+    'wallet.all_transactions': 'جميع المعاملات',
+    'wallet.incoming_payments': 'المدفوعات الواردة',
+    'wallet.withdrawal': 'السحب',
+    'wallet.reset': 'إعادة تعيين',
+    'wallet.completed': 'مكتملة',
+    'wallet.pending': 'قيد الانتظار',
+    'wallet.failed': 'فشلت',
     
     // Navigation
     'nav.home': 'الرئيسية',
@@ -719,6 +992,9 @@ const translations = {
     'hero.search.placeholder': 'البحث عن أداة...',
     'hero.search.location': 'الموقع',
     'hero.search.button': 'بحث',
+    'hero.available_tools': 'أداة متاحة',
+    'hero.active_users': 'مستخدم نشط',
+    'hero.cities_covered': 'مدينة مشمولة',
 
     // New FAQ translations
     'faq.hero.title': 'الأسئلة الشائعة',
@@ -776,14 +1052,19 @@ const translations = {
     'faq.payment.q6': 'ما هي تدابير السلامة المطبقة؟',
     'faq.payment.a6': 'التحقق من الهوية، تقييمات المستخدمين، المدفوعات الآمنة، ومتابعة مستمرة من فريق الدعم لضمان بيئة موثوقة وآمنة.',
     // Categories
-    'categories.title': 'الفئات الشائعة',
-    'categories.garden': 'البستنة',
-    'categories.construction': 'البناء',
-    'categories.automotive': 'السيارات',
-    'categories.electric': 'الكهرباء',
+    'categories.title': 'الفئات المتوفرة',
+    'categories.description':'ابحث عن الأداة المناسبة حسب احتياجك',
+    'categories.gardening': 'البستنة',
+    'categories.cleaning': 'التنظيف',
+    'categories.diy': 'الأشغال  اليدوية',
+    'categories.events': 'معدات الحفلات',
+    'categories.transport': 'النقل',
     
     // Tools
     'tools.featured': 'الأدوات المميزة',
+    'tools.description': 'الأدوات الأعلى تقييماً والأكثر طلباً من مجتمعنا',
+    'tools.by': 'بواسطة',
+    'tools.display_all': 'عرض جميع الأدوات',
     'tools.day': 'يوم',
     'tools.available': 'متاح',
     'tools.rent': 'استئجار',
@@ -798,7 +1079,24 @@ const translations = {
     'tools.pending': 'في الانتظار',
     'tools.approved': 'مُوافق عليه',
     'tools.rejected': 'مرفوض',
-    
+    'tools.back_to_results': 'الرجوع إلى النتائج',
+    'tools.verified': 'موثق',
+    'tools.owner': 'المؤجر',
+    'tools.model': 'لطراز',
+    'tools.brand': 'العلامة التجارية',
+    'tools.year_of_purchase': 'سنة الشراء',
+    'tools.fees_and_taxes':'يشمل الضرائب والرسوم',
+    'tools.of': 'من',
+    'tools.charged': 'التي يحددها المؤجر',
+    'tools.deposit': 'تأمين',
+    'tools.refunded': '(يُسترد عند نهاية الإيجار)',
+    'tools.rent_now': 'استأجر الآن',
+    'tools.add_to_favorites': 'أضف إلى قائمة المفضّلات',
+    'tools.remove_from_favorites': 'إزالة من قائمة المفضّلات',
+    'tools.desc': 'الوصف',
+    'tools.instructions': 'تعليمات المؤجر',
+    'tools.reviews': 'تقييمات المستأجرين',
+
     // Profile translations
     'profile.first_name': 'الاسم',
     'profile.last_name': 'اللقب',
@@ -1005,12 +1303,37 @@ const translations = {
     'add_tool.condition_good': '👍 جيد',
     'add_tool.condition_fair': '👌 مقبول',
 
-    // Categories
+    // Categories and subcategories
     'category.gardening': 'البستنة',
-    'category.diy': 'الأعمال اليدوية',
-    'category.transport': 'النقل',
+    'category.gardening.lawn': 'العشب',
+    'category.gardening.soil': 'التربة',
+    'category.gardening.wood': 'الخشب',
+    'category.gardening.tree': 'الشجرة',
+    'category.gardening.leaves': 'الأوراق',
+
     'category.cleaning': 'التنظيف',
-    'category.event': 'المناسبات',
+    'category.cleaning.fabric': 'الأقمشة',
+    'category.cleaning.water': 'الماء',
+    'category.cleaning.dust': 'الغبار',
+
+    'category.diy': 'الأشغال اليدوية',
+    'category.diy.construction': 'البناء',
+    'category.diy.electricity': 'الكهرباء',
+    'category.diy.painting': 'الطلاء',
+    'category.diy.screws_and_bolts': 'البراغي والصواميل',
+
+    'category.transport': 'النقل',
+    'category.transport.heavy_load': 'الأحمال الثقيلة',
+    'category.transport.engine': 'المحرك',
+    'category.transport.wheel': 'العجل',
+
+    'category.event': 'معدات المناسبات',
+    'category.event.lighting': 'الإضاءة',
+    'category.event.kitchen': 'المطبخ',
+    'category.event.entertainment_and_games': 'الترفيه والألعاب',
+    'category.event.furniture': 'الأثاث',
+    'category.event.decoration': 'الزينة',
+    'category.event.structure': 'الهياكل',
 
     // Common
     'common.yes': 'نعم',

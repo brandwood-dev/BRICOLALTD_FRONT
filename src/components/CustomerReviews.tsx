@@ -2,8 +2,10 @@
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Star } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const CustomerReviews = () => {
+  const { t } = useLanguage();
   const reviews = [
     {
       id: 1,
@@ -51,10 +53,10 @@ const CustomerReviews = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Avis de nos clients
+            {t('customer_reviews.title')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Découvrez ce que nos utilisateurs pensent de notre plateforme
+            {t('customer_reviews.description')}
           </p>
         </div>
 

@@ -95,15 +95,15 @@ const HeroSection = () => {
         <div className="grid grid-cols-3 gap-8 mt-16 text-white">
           <div>
             <div className="text-3xl font-bold">5000+</div>
-            <div className="text-white/80">Outils disponibles</div>
+            <div className="text-white/80">{t('hero.available_tools')}</div>
           </div>
           <div>
             <div className="text-3xl font-bold">2000+</div>
-            <div className="text-white/80">Utilisateurs actifs</div>
+            <div className="text-white/80">{t('hero.active_users')}</div>
           </div>
           <div>
             <div className="text-3xl font-bold">50+</div>
-            <div className="text-white/80">Villes couvertes</div>
+            <div className="text-white/80">{t('hero.cities_covered')}</div>
           </div>
         </div>
       </div>

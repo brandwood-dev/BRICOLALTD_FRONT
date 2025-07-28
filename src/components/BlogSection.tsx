@@ -7,8 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { mockBlogPosts } from '@/data/mockData';
 import { Calendar, User, Clock, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const BlogSection = () => {
+
+  const { t } = useLanguage();
   // Prendre les 3 derniers articles
   const latestPosts = mockBlogPosts.slice(0, 3);
 
@@ -17,10 +20,10 @@ const BlogSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Derniers articles du blog
+            {t('blog_section.title')}
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Découvrez nos conseils, guides et actualités pour réussir tous vos projets de bricolage
+            {t('blog_section.description')}
           </p>
         </div>
 
@@ -55,12 +58,12 @@ const BlogSection = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="h-4 w-4" />
-                    <span>{post.readTime}</span>
+                    <span>{post.readTime}{t('blog_section.min')}</span>
                   </div>
                 </div>
                 <Link to={`/blog/${post.id}`}>
                   <Button variant="outline" size="sm" className="w-full">
-                    Lire l'article
+                    {t('blog_section.read_article')}
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                   </Link>
@@ -76,7 +79,7 @@ const BlogSection = () => {
         <div className="text-center">
           <Link to="/blog">
             <Button size="lg" variant="outline">
-              Voir tous les articles
+              {t('blog_section.view_all')}
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </Link>

@@ -253,7 +253,7 @@ const Wallet = () => {
       <Card className="border-0 shadow-lg">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-gray-900">{t('tools.recent_transactions')}</h3>
+            <h3 className="text-xl font-semibold text-gray-900">{t('wallet.recent_transactions')}</h3>
           </div>
           
           {/* Filters */}

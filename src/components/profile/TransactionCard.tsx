@@ -2,6 +2,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { ArrowDownLeft, ArrowUpRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TransactionCardProps {
   transaction: {
@@ -20,6 +21,7 @@ interface TransactionCardProps {
 }
 
 const TransactionCard = ({ transaction }: TransactionCardProps) => {
+  const { t } = useLanguage(); 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
@@ -36,11 +38,11 @@ const TransactionCard = ({ transaction }: TransactionCardProps) => {
   const getStatusLabel = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'Terminé';
+        return t('wallet.completed');
       case 'pending':
-        return 'En attente';
+        return t('wallet.pending');
       case 'failed':
-        return 'Échec';
+        return t('wallet.failed');
       default:
         return status;
     }
@@ -83,7 +85,7 @@ const TransactionCard = ({ transaction }: TransactionCardProps) => {
             <ArrowUpRight className="h-5 w-5" />
           </div>
           <div>
-            <div className="font-semibold text-gray-900 mb-1">Retrait</div>
+            <div className="font-semibold text-gray-900 mb-1">{t('wallet.withdrawal')}</div>
             <div className="text-sm text-gray-600 mb-1">{transaction.withdrawalId}</div>
             <div className="text-sm text-gray-500">{transaction.date}</div>
           </div>

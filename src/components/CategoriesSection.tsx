@@ -5,36 +5,37 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Scissors, Hammer, Droplets, Car, Music } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+
 const CategoriesSection = () => {
   const { t } = useLanguage();
 
   const categories = [
     {
-      name: 'Jardinage',
+      name: t('categories.gardening'),
       icon: Scissors,
       color: 'bg-green-100 text-green-700',
       image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
     },
     {
-      name: 'Bricolage',
-      icon: Hammer,
+      name: t('categories.diy'),
+      icon: Hammer, 
       color: 'bg-orange-100 text-orange-700',
       image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
     },
     {
-      name: 'Nettoyage',
+      name: t('categories.cleaning'),
       icon: Droplets,
       color: 'bg-blue-100 text-blue-700',
       image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
     },
     {
-      name: 'Transport',
+      name: t('categories.transport'),
       icon: Car,
       color: 'bg-purple-100 text-purple-700',
       image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
     },
     {
-      name: 'Événementiel',
+      name: t('categories.events'),
       icon: Music,
       color: 'bg-pink-100 text-pink-700',
       image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
@@ -46,10 +47,10 @@ const CategoriesSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Nos catégories
+            {t('categories.title')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Trouvez l'outil parfait selon vos besoins
+            {t('categories.description')}
           </p>
         </div>
 

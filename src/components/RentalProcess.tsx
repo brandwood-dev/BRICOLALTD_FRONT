@@ -1,28 +1,30 @@
 
 import React from 'react';
 import { PlusCircle, Eye, Calendar, DollarSign } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const RentalProcess = () => {
+  const { t } = useLanguage();
   const steps = [
     {
       icon: PlusCircle,
-      title: 'Publiez votre annonce en quelques clics',
-      description: 'Ajoutez vos outils avec photos et description détaillée en quelques minutes seulement.'
+      title: t('rental_process.step1.title'),
+      description: t('rental_process.step1.description')
     },
     {
       icon: Eye,
-      title: 'Maximisez votre visibilité',
-      description: 'Votre annonce est visible par des milliers d\'utilisateurs à la recherche d\'outils.'
+      title: t('rental_process.step2.title'),
+      description: t('rental_process.step2.description')
     },
     {
       icon: Calendar,
-      title: 'Recevez vos premières réservations',
-      description: 'Les locataires vous contactent directement pour réserver vos outils aux dates souhaitées.'
+      title: t('rental_process.step3.title'),
+      description: t('rental_process.step3.description')
     },
     {
       icon: DollarSign,
-      title: 'Percevez vos revenus en toute sérénité',
-      description: 'Recevez vos paiements de manière sécurisée et générez des revenus supplémentaires.'
+      title: t('rental_process.step4.title'),
+      description: t('rental_process.step4.description')
     }
   ];
 
@@ -31,10 +33,10 @@ const RentalProcess = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Comment ça marche ?
+            {t('rental_process.title')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Louez vos outils en 4 étapes simples et commencez à générer des revenus
+            {t('rental_process.description')}
           </p>
         </div>
 

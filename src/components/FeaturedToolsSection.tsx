@@ -102,7 +102,7 @@ const FeaturedToolsSection = () => {
             {t('tools.featured')}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Les outils les mieux notés et les plus demandés de notre communauté
+            {t('tools.description')}
           </p>
         </div>
 
@@ -169,7 +169,7 @@ const FeaturedToolsSection = () => {
                       {displayPrice.toFixed(1)}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
                     </div>
                     <div className="text-sm text-gray-500">
-                      par {tool.owner}
+                      {t('tools.by')} {tool.owner}
                     </div>
                   </div>
 
@@ -191,7 +191,7 @@ const FeaturedToolsSection = () => {
         <div className="text-center mt-10">
           <Link to="/search">
             <Button variant="outline" size="lg">
-              Voir tous les outils
+              {t('tools.display_all')}
             </Button>
           </Link>
         </div>

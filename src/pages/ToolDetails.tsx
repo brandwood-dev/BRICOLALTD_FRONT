@@ -12,11 +12,11 @@ import Footer from '@/components/Footer';
 import { mockTools } from '@/data/mockData';
 import { Star, MapPin, User, CheckCircle, ArrowLeft, Heart } from 'lucide-react';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { fr, enUS, arSA } from 'date-fns/locale';
 
 const ToolDetails = () => {
   const { id } = useParams();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const tool = mockTools.find(t => t.id === id) || mockTools[0];
   
@@ -76,7 +76,7 @@ const ToolDetails = () => {
           <div className="mb-6">
             <Link to="/search" className="inline-flex items-center gap-2 text-accent hover:underline">
               <ArrowLeft className="h-4 w-4" />
-              Retour aux résultats
+              {t('tools.back_to_results')}
             </Link>
           </div>
 
@@ -96,11 +96,11 @@ const ToolDetails = () => {
                     {toolDetails.owner.verified && (
                       <Badge variant="secondary" className="bg-green-100 text-green-800">
                         <CheckCircle className="h-3 w-3 mr-1" />
-                        Vérifié
+                        {t('tools.verified')}
                       </Badge>
                     )}
                   </div>
-                  <p className="text-gray-600">Propriétaire</p>
+                  <p className="text-gray-600">{t('tools.owner')}</p>
                 </div>
               </div>
             </CardContent>
@@ -139,15 +139,15 @@ const ToolDetails = () => {
               <div className="space-y-3 mb-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <span className="text-gray-600">Marque:</span>
+                    <span className="text-gray-600">{t('tools.brand')}:</span>
                     <span className="ml-2 font-medium">{toolDetails.brand}</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">Modèle:</span>
+                    <span className="text-gray-600">{t('tools.model')}:</span>
                     <span className="ml-2 font-medium">{toolDetails.model}</span>
                   </div>
                   <div>
-                    <span className="text-gray-600">Année d'achat:</span>
+                    <span className="text-gray-600">{t('tools.year_of_purchase')}:</span>
                     <span className="ml-2 font-medium">{toolDetails.purchaseYear}</span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -167,18 +167,18 @@ const ToolDetails = () => {
 
               <div className="bg-accent/5 rounded-lg p-6 mb-6">
                 <div className="text-3xl font-bold text-accent mb-2">
-                  {displayPrice.toFixed(1)}€<span className="text-lg font-normal text-gray-600">/jour</span>
+                  {displayPrice.toFixed(1)}€<span className="text-lg font-normal text-gray-600">/{t('tools.day')}</span>
                 </div>
                 <div className="text-sm text-gray-600 mb-4">
-                  Incluant taxes et frais : {feeAmount.toFixed(1)} € (5,4% des {originalPrice} € saisis par le loueur)
+                  {t('tools.fees_and_taxes')} : {feeAmount.toFixed(1)} € (5,4% {t('tools.of')} {originalPrice} € {t('tools.charged')})
                 </div>
                 <div className="text-sm text-gray-600 mb-4">
-                  Caution: {toolDetails.deposit}€ (remboursée en fin de location)
+                  {t('tools.deposit')}: {toolDetails.deposit}€ {t('tools.refunded')}
                 </div>
                 <div className="space-y-2">
                   <Link to={`/rent/${tool.id}`}>
                     <Button className="w-full" size="lg">
-                      Louer maintenant
+                      {t('tools.rent_now')}
                     </Button>
                   </Link>
                   <Button 
@@ -191,7 +191,7 @@ const ToolDetails = () => {
                         isFavorite(tool.id) ? 'fill-red-500 text-red-500' : ''
                       }`} 
                     />
-                    {isFavorite(tool.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                    {isFavorite(tool.id) ? `${t('tools.remove_from_favorites')}` : `${t('tools.add_to_favorites')}`}
                   </Button>
                 </div>
               </div>
@@ -203,10 +203,10 @@ const ToolDetails = () => {
             <div>
               <Card className="mb-6">
                 <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Description</h2>
+                  <h2 className="text-xl font-semibold mb-4">{t('tools.desc')}</h2>
                   <p className="text-gray-700 mb-6">{tool.description}</p>
                   
-                  <h3 className="text-lg font-semibold mb-3">Caractéristiques</h3>
+                  {/* <h3 className="text-lg font-semibold mb-3">Caractéristiques</h3>
                   <ul className="grid grid-cols-2 gap-2">
                     {tool.features.map((feature, index) => (
                       <li key={index} className="flex items-center gap-2">
@@ -214,14 +214,14 @@ const ToolDetails = () => {
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
-                  </ul>
+                  </ul> */}
                 </CardContent>
               </Card>
 
               {/* Owner Instructions */}
               <Card className="mb-6">
                 <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Consignes du propriétaire</h2>
+                  <h2 className="text-xl font-semibold mb-4">{t('tools.instructions')}</h2>
                   <p className="text-gray-700">{toolDetails.ownerInstructions}</p>
                 </CardContent>
               </Card>
@@ -229,7 +229,7 @@ const ToolDetails = () => {
               {/* Reviews with Pagination */}
               <Card>
                 <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Avis des locataires</h2>
+                  <h2 className="text-xl font-semibold mb-4">{t('tools.reviews')}</h2>
                   <div className="space-y-4 mb-6">
                     {currentReviews.map((review) => (
                       <div key={review.id} className="border-b pb-4 last:border-b-0">
@@ -248,7 +248,14 @@ const ToolDetails = () => {
                           </div>
                           <span className="font-medium">{review.user}</span>
                           <span className="text-sm text-gray-500">
-                            {format(new Date(review.date), 'dd MMMM yyyy', { locale: fr })}
+                            {format(new Date(review.date), 'dd MMMM yyyy', {
+                              locale:
+                                language === 'fr'
+                                  ? fr
+                                  : language === 'ar'
+                                  ? arSA
+                                  : enUS,
+                            })}
                           </span>
                         </div>
                         <p className="text-gray-700">{review.comment}</p>

@@ -8,6 +8,7 @@ import { CalendarIcon, Filter, RotateCcw, ChevronDown } from 'lucide-react';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TransactionFiltersProps {
   dateRange: DateRange | undefined;
@@ -25,12 +26,13 @@ const TransactionFilters = ({
   onReset
 }: TransactionFiltersProps) => {
   const [calendarOpen, setCalendarOpen] = useState(false);
-
+  const {t} = useLanguage();
   const transactionTypes = [
-    { value: 'all', label: 'Toutes les transactions' },
-    { value: 'receipts', label: 'Réceptions' },
-    { value: 'withdrawals', label: 'Retraits' }
+    { value: 'all', label: t('wallet.all_transactions') },
+    { value: 'receipts', label: t('wallet.incoming_payments') },
+    { value: 'withdrawals', label: t('wallet.withdrawal') }
   ];
+  
 
   return (
     <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -48,7 +50,7 @@ const TransactionFilters = ({
                 format(dateRange.from, "dd/MM/yyyy")
               )
             ) : (
-              "Sélectionner une période"
+              t('wallet.select_time_period')
             )}
           </Button>
         </PopoverTrigger>
@@ -96,7 +98,7 @@ const TransactionFilters = ({
         className="text-muted-foreground hover:text-foreground"
       >
         <RotateCcw className="mr-2 h-4 w-4" />
-        Réinitialiser
+        {t('wallet.reset')}
       </Button>
     </div>
   );

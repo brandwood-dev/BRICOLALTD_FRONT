@@ -38,11 +38,11 @@ const Search = () => {
 
   // Subcategories mapping
   const subCategoriesMap: { [key: string]: string[] } = {
-    'jardinage': ['Gazon', 'Terre', 'Bois', 'Arbre', 'Feuilles'],
-    'bricolage': ['Construction', 'Électricité', 'Peinture', 'Vis et Boulons'],
-    'transport': ['Charge lourde', 'Moteur', 'Roue'],
-    'nettoyage': ['Tissus', 'Eau', 'Poussière'],
-    'evenementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
+    'jardinage': [t('category.gardening.lawn'), t('category.gardening.soil'), t('category.gardening.wood'), t('category.gardening.tree'), t('category.gardening.leaves')],
+    'bricolage': [t('category.diy.construction'), t('category.diy.electricity'), t('category.diy.painting'), t('category.diy.screws_and_bolts')],
+    'transport': [t('category.transport.heavy_load'), t('category.transport.engine'), t('category.transport.wheel')],
+    'nettoyage': [t('category.cleaning.fabric'), t('category.cleaning.water'), t('category.cleaning.dust')],
+    'evenementiel': [t('category.event.lighting'), t('category.event.kitchen'), t('category.event.entertainment_and_games'), t('category.event.furniture'), t('category.event.decoration'), t('category.event.structure')]
   };
 
   // Calculate display price with 5.4% fees
@@ -100,52 +100,52 @@ const Search = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-6">
                     <Filter className="h-5 w-5" />
-                    <h2 className="text-lg font-semibold">Filtres</h2>
+                    <h2 className="text-lg font-semibold">{t('catalog_section.filters')}</h2>
                   </div>
                   
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <Label>Recherche</Label>
+                      <Label>{t('catalog_section.search')}</Label>
                       <div className="relative">
                         <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input placeholder="Nom de l'outil..." className="pl-10" />
+                        <Input placeholder={t('catalog_section.tool_name')} className="pl-10" />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Localisation</Label>
+                      <Label>{t('catalog_section.location')}</Label>
                       <div className="relative">
                         <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input placeholder="Ville, code postal..." className="pl-10" />
+                        <Input placeholder={t('catalog_section.location')} className="pl-10" />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Catégorie</Label>
+                      <Label>{t('catalog_section.category')}</Label>
                       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Toutes les catégories" />
+                          <SelectValue placeholder={t('catalog_section.all_categories')} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">Toutes les catégories</SelectItem>
-                          <SelectItem value="jardinage">Jardinage</SelectItem>
-                          <SelectItem value="bricolage">Bricolage</SelectItem>
-                          <SelectItem value="transport">Transport</SelectItem>
-                          <SelectItem value="nettoyage">Nettoyage</SelectItem>
-                          <SelectItem value="evenementiel">Événementiel</SelectItem>
+                          <SelectItem value="all">{t('catalog_section.all_categories')}</SelectItem>
+                          <SelectItem value="jardinage">{t('category.gardening')}</SelectItem>
+                          <SelectItem value="bricolage">{t('category.diy')}</SelectItem>
+                          <SelectItem value="transport">{t('category.transport')}</SelectItem>
+                          <SelectItem value="nettoyage">{t('category.cleaning')}</SelectItem>
+                          <SelectItem value="evenementiel">{t('category.event')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     {selectedCategory !== 'all' && (
                       <div className="space-y-2">
-                        <Label>Sous-catégorie</Label>
+                        <Label>{t('catalog_section.sub_category')}</Label>
                         <Select value={selectedSubCategory} onValueChange={setSelectedSubCategory}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Toutes les sous-catégories" />
+                            <SelectValue placeholder={t('catalog_section.all_sub_categories')} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="all">Toutes les sous-catégories</SelectItem>
+                            <SelectItem value="all">{t('catalog_section.all_sub_categories')}</SelectItem>
                             {subCategoriesMap[selectedCategory]?.map((subCat) => (
                               <SelectItem key={subCat} value={subCat.toLowerCase().replace(/\s+/g, '-')}>
                                 {subCat}
@@ -157,7 +157,7 @@ const Search = () => {
                     )}
 
                     <div className="space-y-3">
-                      <Label className="text-sm font-medium">Prix par jour</Label>
+                      <Label className="text-sm font-medium">{t('catalog_section.daily_price')}</Label>
                       <div className="px-2">
                         <Slider
                           value={priceRange}
@@ -178,7 +178,7 @@ const Search = () => {
                       </div>
                     </div>
 
-                    <Button className="w-full">Appliquer les filtres</Button>
+                    <Button className="w-full">{t('catalog_section.apply_filters')}</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -188,22 +188,22 @@ const Search = () => {
             <div className="lg:col-span-3">
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <h1 className="text-2xl font-bold">{filteredTools.length} outils trouvés</h1>
+                  <h1 className="text-2xl font-bold">{filteredTools.length} {t('catalog_section.title')}</h1>
                   {selectedCategory !== 'all' && (
                     <p className="text-gray-600 mt-1">
-                      Catégorie: {categoryMap[selectedCategory] || selectedCategory}
+                      {t('catalog_section.category')}: {categoryMap[selectedCategory] || selectedCategory}
                     </p>
                   )}
                 </div>
                 <Select>
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Trier par" />
+                    <SelectValue placeholder={t('catalog_section.sort_by')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="recent">Plus récents</SelectItem>
-                    <SelectItem value="price-asc">Prix croissant</SelectItem>
-                    <SelectItem value="price-desc">Prix décroissant</SelectItem>
-                    <SelectItem value="rating">Mieux notés</SelectItem>
+                    <SelectItem value="recent">{t('catalog_section.most_recent')}</SelectItem>
+                    <SelectItem value="price-asc">{t('catalog_section.price_low_to_high')}</SelectItem>
+                    <SelectItem value="price-desc">{t('catalog_section.price_high_to_low')}</SelectItem>
+                    <SelectItem value="rating">{t('catalog_section.top_rated')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -250,7 +250,7 @@ const Search = () => {
                             {displayPrice.toFixed(1)}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
                           </div>
                           <div className="text-sm text-gray-500">
-                            par {tool.owner}
+                            {t('catalog_section.by')} {tool.owner}
                           </div>
                         </div>
 
