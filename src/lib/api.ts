@@ -7,9 +7,72 @@ interface ApiResponse<T = any> {
 
 class ApiClient {
   private readonly baseURL: string;
+  private isRefreshing = false;
+  private refreshPromise: Promise<boolean> | null = null;
 
   constructor(baseURL: string = 'http://localhost:3001') {
     this.baseURL = baseURL;
+  }
+
+  private async refreshToken(): Promise<boolean> {
+    if (this.isRefreshing && this.refreshPromise) {
+      return await this.refreshPromise;
+    }
+
+    this.isRefreshing = true;
+    this.refreshPromise = this.performRefresh();
+    
+    try {
+      const result = await this.refreshPromise;
+      return result;
+    } finally {
+      this.isRefreshing = false;
+      this.refreshPromise = null;
+    }
+  }
+
+  private async performRefresh(): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.baseURL}/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include', // Include cookies (refresh token)
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.access_token) {
+          // Update token in localStorage
+          localStorage.setItem('access_token', data.access_token);
+          
+          // Update user data if provided
+          if (data.user) {
+            localStorage.setItem('user', JSON.stringify(data.user));
+          }
+          
+          // Trigger auth context update
+          window.dispatchEvent(new CustomEvent('tokenRefreshed', { 
+            detail: { access_token: data.access_token, user: data.user } 
+          }));
+          
+          return true;
+        }
+      }
+      
+      // If refresh fails, logout user
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
+      window.dispatchEvent(new CustomEvent('tokenRefreshFailed'));
+      return false;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
+      window.dispatchEvent(new CustomEvent('tokenRefreshFailed'));
+      return false;
+    }
   }
 
   private async makeRequest<T>(
@@ -26,15 +89,39 @@ class ApiClient {
         defaultHeaders['Content-Type'] = 'application/json';
       }
 
+      // Add auth token if available
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        defaultHeaders['Authorization'] = `Bearer ${token}`;
+      }
+
       const config: RequestInit = {
         ...options,
+        credentials: 'include', // Include cookies for refresh token
         headers: {
           ...defaultHeaders,
           ...options.headers,
         },
       };
 
-      const response = await fetch(url, config);
+      let response = await fetch(url, config);
+      
+      // If token expired (401), try to refresh
+      if (response.status === 401 && token) {
+        const refreshSuccess = await this.refreshToken();
+        
+        if (refreshSuccess) {
+          // Retry the request with new token
+          const newToken = localStorage.getItem('access_token');
+          if (newToken) {
+            config.headers = {
+              ...config.headers,
+              'Authorization': `Bearer ${newToken}`,
+            };
+            response = await fetch(url, config);
+          }
+        }
+      }
       
       let data;
       try {

@@ -3,11 +3,13 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from 'react';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { FavoritesProvider } from '@/contexts/FavoritesContext';
 import { CurrencyProvider } from '@/contexts/CurrencyContext';
 import { AgeVerificationProvider } from '@/contexts/AgeVerificationContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { tokenRefreshManager } from '@/utils/tokenRefresh';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
@@ -33,60 +35,71 @@ import ContratLocation from "./pages/ContratLocation";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import UnderAge from "./pages/UnderAge";
 import AgeVerificationDialog from "./components/AgeVerificationDialog";
+import UnderAgeGuard from "./components/UnderAgeGuard";
 import FloatingActionButton from "./components/FloatingActionButton";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthRedirect from "./components/AuthRedirect";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <LanguageProvider>
-        <CurrencyProvider>
-          <AuthProvider>
-            <FavoritesProvider>
-              <AgeVerificationProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-              <AgeVerificationDialog />
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/login" element={<AuthRedirect><Login /></AuthRedirect>} />
-                <Route path="/register" element={<AuthRedirect><Register /></AuthRedirect>} />
-                <Route path="/forgot-password" element={<AuthRedirect><ForgotPassword /></AuthRedirect>} />
-                <Route path="/verify-code" element={<AuthRedirect><VerifyCode /></AuthRedirect>} />
-                <Route path="/reset-password" element={<AuthRedirect><ResetPassword /></AuthRedirect>} />
-                <Route path="/add-tool" element={<ProtectedRoute><AddTool /></ProtectedRoute>} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/tool/:id" element={<ToolDetails />} />
-                <Route path="/rent/:id" element={<ProtectedRoute><Rent /></ProtectedRoute>} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:id" element={<BlogPost />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                <Route path="/guide-loueur" element={<GuideLoueur />} />
-                <Route path="/guide-locataire" element={<GuideLocataire />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/cgu" element={<CGU />} />
-                <Route path="/contrat-location" element={<ContratLocation />} />
-                <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
-                <Route path="/under-age" element={<UnderAge />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-              <FloatingActionButton />
-            </BrowserRouter>
-            </AgeVerificationProvider>
-          </FavoritesProvider>
-          </AuthProvider>
-        </CurrencyProvider>
-      </LanguageProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  useEffect(() => {
+    tokenRefreshManager.start();
+    return () => tokenRefreshManager.stop();
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <LanguageProvider>
+          <CurrencyProvider>
+            <AuthProvider>
+              <FavoritesProvider>
+                <AgeVerificationProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                <AgeVerificationDialog />
+                <UnderAgeGuard>
+                <Routes>
+                  {/* ...existing routes... */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/login" element={<AuthRedirect><Login /></AuthRedirect>} />
+                  <Route path="/register" element={<AuthRedirect><Register /></AuthRedirect>} />
+                  <Route path="/forgot-password" element={<AuthRedirect><ForgotPassword /></AuthRedirect>} />
+                  <Route path="/verify-code" element={<AuthRedirect><VerifyCode /></AuthRedirect>} />
+                  <Route path="/reset-password" element={<AuthRedirect><ResetPassword /></AuthRedirect>} />
+                  <Route path="/add-tool" element={<ProtectedRoute><AddTool /></ProtectedRoute>} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/tool/:id" element={<ToolDetails />} />
+                  <Route path="/rent/:id" element={<ProtectedRoute><Rent /></ProtectedRoute>} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:id" element={<BlogPost />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/favorites" element={<ProtectedRoute><Favorites /></ProtectedRoute>} />
+                  <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                  <Route path="/guide-loueur" element={<GuideLoueur />} />
+                  <Route path="/guide-locataire" element={<GuideLocataire />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/cgu" element={<CGU />} />
+                  <Route path="/contrat-location" element={<ContratLocation />} />
+                  <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+                  <Route path="/under-age" element={<UnderAge />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+                </UnderAgeGuard>
+                <FloatingActionButton />
+              </BrowserRouter>
+              </AgeVerificationProvider>
+            </FavoritesProvider>
+            </AuthProvider>
+          </CurrencyProvider>
+        </LanguageProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

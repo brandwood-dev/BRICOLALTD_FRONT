@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +9,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Edit3, Check, X, Shield, Camera, Upload, Loader2 } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { userService, UpdateUserRequest } from '@/services/userService';
 
@@ -17,13 +17,14 @@ interface ProfileInfoProps {
 }
 
 const ProfileInfo = ({ onUserInfoUpdate }: ProfileInfoProps) => {
-  const { t } = useLanguage();
-  const { user, access_token } = useAuth();
+  const { access_token, logout } = useAuth();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
+  const [originalEmail, setOriginalEmail] = useState('');
   const [userInfo, setUserInfo] = useState({
     firstName: '',
     lastName: '',
@@ -34,6 +35,7 @@ const ProfileInfo = ({ onUserInfoUpdate }: ProfileInfoProps) => {
     country: '',
     verified: false,
     profileImage: '',
+    memberSince: '',
     accountType: 'Particulier'
   });
 
@@ -49,9 +51,13 @@ const ProfileInfo = ({ onUserInfoUpdate }: ProfileInfoProps) => {
         const response = await userService.getMe(access_token);
         if (response.success && response.data) {
           const userData = response.data;
-          const profileImageUrl = userData.profilePicture 
-            ? `${import.meta.env.VITE_BASE_URL}${userData.profilePicture.startsWith('/') ? '' : '/'}${userData.profilePicture}`
-            : '';
+          let profileImageUrl = '';
+          if (userData.profilePicture) {
+            const baseUrl = import.meta.env.VITE_BASE_URL;
+            const separator = userData.profilePicture.startsWith('/') ? '' : '/';
+            profileImageUrl = `${baseUrl}${separator}${userData.profilePicture}`;
+          }
+          
           setUserInfo(prev => ({
             ...prev,
             firstName: userData.firstName || '',
@@ -63,8 +69,14 @@ const ProfileInfo = ({ onUserInfoUpdate }: ProfileInfoProps) => {
             country: userData.country || '',
             address: userData.address || '',
             profileImage: profileImageUrl,
+            memberSince: userData.createdAt ? new Date(userData.createdAt).toLocaleDateString('fr-FR', { 
+              year: 'numeric', 
+              month: 'long' 
+            }) : 'N/A',
             accountType: userData.userType === 'ENTREPRISE' ? 'Entreprise' : 'Particulier'
           }));
+          // Store original email for comparison
+          setOriginalEmail(userData.email || '');
         }
       } catch (error) {
         console.error('Error fetching user info:', error);
@@ -113,16 +125,33 @@ const ProfileInfo = ({ onUserInfoUpdate }: ProfileInfoProps) => {
       const updateData: UpdateUserRequest = {
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
-        email: userInfo.email,
+        newEmail: userInfo.email,
         phoneNumber: userInfo.phone ? parseInt(userInfo.phone) : undefined,
         prefix: userInfo.phonePrefix,
         country: userInfo.country,
         address: userInfo.address,
       };
-
+      if(userInfo.email === originalEmail){
+        delete updateData.newEmail;
+      }
       const response = await userService.updateUser(access_token, updateData);
       
       if (response.success) {
+        // Check if email was changed
+        const emailChanged = userInfo.email !== originalEmail;
+        
+        if (emailChanged) {
+          // Log out user and redirect to verify code page
+          logout();
+          navigate('/verify-code', { 
+            state: { 
+              email: userInfo.email,
+              from: 'email-change' 
+            }
+          });
+          return;
+        }
+        
         setIsEditing(false);
         // Trigger update in parent component
         if (onUserInfoUpdate) {
@@ -211,7 +240,7 @@ const ProfileInfo = ({ onUserInfoUpdate }: ProfileInfoProps) => {
                       {userInfo.accountType}
                     </Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1">Membre depuis janvier 2024</p>
+                  <p className="text-sm text-muted-foreground mt-1">Membre depuis {userInfo.memberSince}</p>
                 </div>
               </div>
               

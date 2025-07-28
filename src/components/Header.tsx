@@ -36,16 +36,16 @@ const Header = () => {
               {t('nav.home')}
             </Link>
             <Link to="/search" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Catalogue
+              {t('nav.catalog')}
             </Link>
             <Link to="/about" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              À propos
+              {t('nav.about')}
             </Link>
             <Link to="/blog" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Blog
+              {t('nav.blog')}
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-accent font-medium transition-colors">
-              Contact
+              {t('nav.contact')}
             </Link>
           </nav>
 

@@ -41,6 +41,46 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
 
       {/* Profile header */}
       <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6 mb-8">
+        {/* Delete account button */}
+          <div className="flex justify-center sm:justify-end">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  disabled={isAccountDeletionPending}
+                  className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  <span className="sm:hidden">
+                    {isAccountDeletionPending ? "Suppression en cours" : t('profile.delete_account')}
+                  </span>
+                  <span className="hidden sm:inline">
+                    {isAccountDeletionPending ? "Suppression en cours" : t('profile.delete_account')}
+                  </span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t('profile.delete_confirm')}</AlertDialogTitle>
+                  <AlertDialogDescription className="text-left">
+                    {t('profile.delete_description')}
+                    <br /><br />
+                    Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu'aucune réclamation ou litige en cours n'est rattaché à votre compte.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={onAccountDeletion}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    {t('action.confirm')}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         <div className="flex flex-col gap-6">
           {/* Profile info section */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
@@ -104,41 +144,6 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
             </div>
           </div>
 
-          {/* Delete account button */}
-          <div className="flex justify-center sm:justify-end">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground w-full sm:w-auto"
-                >
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  <span className="sm:hidden">{t('profile.delete_account')}</span>
-                  <span className="hidden sm:inline">{t('profile.delete_account')}</span>
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('profile.delete_confirm')}</AlertDialogTitle>
-                  <AlertDialogDescription className="text-left">
-                    {t('profile.delete_description')}
-                    <br /><br />
-                    Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu'aucune réclamation ou litige en cours n'est rattaché à votre compte.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction 
-                    onClick={onAccountDeletion}
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  >
-                    {t('action.confirm')}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
         </div>
       </div>
     </>

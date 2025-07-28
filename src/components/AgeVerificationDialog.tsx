@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -10,23 +9,50 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useAgeVerification } from '@/contexts/AgeVerificationContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AgeVerificationDialog = () => {
-  const { isVerified, setIsVerified, setIsUnderAge, isUnderAge } = useAgeVerification();
-  const navigate = useNavigate();
+  const { isVerified, setIsVerified, setIsUnderAge, isUnderAge, clearAgeVerification } = useAgeVerification();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Handle logout detection and age verification clearing
+  useEffect(() => {
+    if (!isLoading) {
+      if (isAuthenticated) {
+        // User is logged in - mark them as authenticated in this session
+        sessionStorage.setItem('wasAuthenticated', 'true');
+      } else {
+        // User is not authenticated
+        // Check if they were authenticated in a previous session (not just this page load)
+        const wasAuthenticated = sessionStorage.getItem('wasAuthenticated');
+        
+        // Only clear age verification if the user explicitly logged out
+        // (was authenticated in this session but now is not)
+        if (wasAuthenticated === 'true') {
+          //clearAgeVerification();
+          sessionStorage.removeItem('wasAuthenticated');
+        }
+      }
+    }
+  }, [isAuthenticated, isLoading, clearAgeVerification]);
+
+  // Show dialog when:
+  // 1. Not loading
+  // 2. Not authenticated (user is not logged in)  
+  // 3. Not verified (hasn't confirmed age)
+  // 4. Not under age (hasn't said they're under 18)
+  const shouldShowDialog = !isLoading && !isAuthenticated && !isVerified && !isUnderAge;
 
   const handleConfirmAge = () => {
     setIsVerified(true);
-    navigate('/');
   };
 
   const handleUnderAge = () => {
     setIsUnderAge(true);
-    navigate('/under-age');
   };
 
   return (
-    <AlertDialog open={!isVerified && !isUnderAge}>
+    <AlertDialog open={shouldShowDialog}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center">Vérification d'âge</AlertDialogTitle>

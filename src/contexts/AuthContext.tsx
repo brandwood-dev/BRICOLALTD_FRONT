@@ -15,6 +15,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (access_token: string, user: User) => void;
   logout: () => void;
+  refreshToken: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,6 +28,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Listen for token refresh events
+  useEffect(() => {
+    const handleTokenRefreshed = (event: CustomEvent) => {
+      const { access_token, user } = event.detail;
+      setAccessToken(access_token);
+      if (user) {
+        setUser(user);
+      }
+    };
+
+    const handleTokenRefreshFailed = () => {
+      logout();
+    };
+
+    window.addEventListener('tokenRefreshed', handleTokenRefreshed as EventListener);
+    window.addEventListener('tokenRefreshFailed', handleTokenRefreshFailed);
+
+    return () => {
+      window.removeEventListener('tokenRefreshed', handleTokenRefreshed as EventListener);
+      window.removeEventListener('tokenRefreshFailed', handleTokenRefreshFailed);
+    };
+  }, []);
 
   // Check for existing auth data on app startup
   useEffect(() => {
@@ -60,6 +84,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     localStorage.removeItem('access_token');
     localStorage.removeItem('user');
+    
+    // Call backend logout endpoint to clear refresh token cookie
+    fetch('/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).catch(console.error);
+  };
+
+  const refreshToken = async (): Promise<boolean> => {
+    try {
+      const response = await fetch('/auth/refresh', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.access_token) {
+          login(data.access_token, data.user || user);
+          return true;
+        }
+      }
+      return false;
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      return false;
+    }
   };
 
   const value: AuthContextType = useMemo(() => ({
@@ -69,6 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     login,
     logout,
+    refreshToken,
   }), [user, accessToken, isLoading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

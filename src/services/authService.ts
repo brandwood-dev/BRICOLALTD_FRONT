@@ -49,7 +49,42 @@ class AuthService {
   }
 
   async login(data: LoginRequest): Promise<ApiResponse<LoginResponse>> {
-    return apiClient.post<LoginResponse>('/auth/login', data);
+    // Use credentials: 'include' to send/receive cookies
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/auth/login`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      return {
+        success: true,
+        data: result,
+      };
+    } else {
+      return {
+        success: false,
+        error: result.message || 'Login failed',
+      };
+    }
+  }
+
+  async logout(): Promise<ApiResponse<{ message: string }>> {
+    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    if (response.ok) {
+      return { success: true };
+    } else {
+      return { success: false, error: 'Logout failed' };
+    }
   }
 
   /* async verifyEmail(token: string): Promise<ApiResponse<{ message: string }>> {

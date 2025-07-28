@@ -79,13 +79,20 @@ const VerifyCode = () => {
           });
         }
       } else {
-        // Handle regular email verification
+        // Handle regular email verification or email change
         const response = await authService.verifyEmailWithCode(email, code);
         
         if (response.success) {
+          let successMessage;
+          if (from === 'email-change') {
+            successMessage = "Votre nouvelle adresse email a été vérifiée avec succès. Vous pouvez maintenant vous connecter.";
+          } else {
+            successMessage = response.message ?? "Email vérifié avec succès";
+          }
+          
           toast({
             title: "Code vérifié",
-            description: response.message ?? "Email vérifié avec succès",
+            description: successMessage,
           });
           navigate('/login');
         } else {
@@ -125,7 +132,7 @@ const VerifyCode = () => {
         // Resend forgot password code
         response = await authService.forgotPassword(email);
       } else {
-        // Resend regular verification code
+        // Resend regular verification code (both for registration and email change)
         response = await authService.resendVerificationCode(email);
       }
       
@@ -162,7 +169,15 @@ const VerifyCode = () => {
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">Vérification</CardTitle>
               <CardDescription>
-                Entrez le code de {from === 'forgot-password' ? 'réinitialisation' : 'vérification'} envoyé à {email}
+                {(() => {
+                  if (from === 'forgot-password') {
+                    return `Entrez le code de réinitialisation envoyé à ${email}`;
+                  } else if (from === 'email-change') {
+                    return `Entrez le code de vérification envoyé à votre nouvelle adresse ${email}`;
+                  } else {
+                    return `Entrez le code de vérification envoyé à ${email}`;
+                  }
+                })()}
               </CardDescription>
             </CardHeader>
             <CardContent>

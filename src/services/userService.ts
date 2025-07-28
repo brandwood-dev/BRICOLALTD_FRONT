@@ -16,12 +16,13 @@ export interface UserProfile {
   createdAt: string;
   role: string;
   verified: boolean;
+  hasDeletionRequest: boolean;
 }
 
 export interface UpdateUserRequest {
   firstName?: string;
   lastName?: string;
-  email?: string;
+  newEmail?: string;
   phoneNumber?: number;
   prefix?: string;
   country?: string;
@@ -65,6 +66,10 @@ class UserService {
       Authorization: `Bearer ${token}`,
       
     });
+  }
+
+  async requestAccountDeletion(): Promise<ApiResponse<any>> {
+    return apiClient.post<any>('/users/request-account-deletion');
   }
 }
 

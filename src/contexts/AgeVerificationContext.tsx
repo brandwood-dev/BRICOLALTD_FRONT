@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 interface AgeVerificationContextType {
   isVerified: boolean;
   setIsVerified: (verified: boolean) => void;
   isUnderAge: boolean;
   setIsUnderAge: (underAge: boolean) => void;
+  clearAgeVerification: () => void;
 }
 
 const AgeVerificationContext = createContext<AgeVerificationContextType | undefined>(undefined);
@@ -22,13 +23,14 @@ export const AgeVerificationProvider: React.FC<{ children: React.ReactNode }> = 
   const [isUnderAge, setIsUnderAge] = useState(false);
 
   useEffect(() => {
-    // Check if user has already verified their age in this session
-    const verified = sessionStorage.getItem('ageVerified');
-    const underAge = sessionStorage.getItem('underAge');
+    // Check sessionStorage for age verification within the current session
+    // This persists on page refresh but resets when browser is closed
+    const verifiedSession = sessionStorage.getItem('ageVerified');
+    const underAgeSession = sessionStorage.getItem('underAge');
     
-    if (verified === 'true') {
+    if (verifiedSession === 'true') {
       setIsVerified(true);
-    } else if (underAge === 'true') {
+    } else if (underAgeSession === 'true') {
       setIsUnderAge(true);
     }
   }, []);
@@ -36,6 +38,7 @@ export const AgeVerificationProvider: React.FC<{ children: React.ReactNode }> = 
   const handleSetIsVerified = (verified: boolean) => {
     setIsVerified(verified);
     if (verified) {
+      // Store in sessionStorage so it persists on refresh but not across browser sessions
       sessionStorage.setItem('ageVerified', 'true');
     }
   };
@@ -43,19 +46,29 @@ export const AgeVerificationProvider: React.FC<{ children: React.ReactNode }> = 
   const handleSetIsUnderAge = (underAge: boolean) => {
     setIsUnderAge(underAge);
     if (underAge) {
+      // Store in sessionStorage so it persists on refresh but not across browser sessions
       sessionStorage.setItem('underAge', 'true');
     }
   };
 
+  const clearAgeVerification = () => {
+    setIsVerified(false);
+    setIsUnderAge(false);
+    // Clear any stored verification data
+    sessionStorage.removeItem('ageVerified');
+    sessionStorage.removeItem('underAge');
+  };
+
+  const value = useMemo(() => ({
+    isVerified,
+    setIsVerified: handleSetIsVerified,
+    isUnderAge,
+    setIsUnderAge: handleSetIsUnderAge,
+    clearAgeVerification,
+  }), [isVerified, isUnderAge]);
+
   return (
-    <AgeVerificationContext.Provider
-      value={{
-        isVerified,
-        setIsVerified: handleSetIsVerified,
-        isUnderAge,
-        setIsUnderAge: handleSetIsUnderAge,
-      }}
-    >
+    <AgeVerificationContext.Provider value={value}>
       {children}
     </AgeVerificationContext.Provider>
   );

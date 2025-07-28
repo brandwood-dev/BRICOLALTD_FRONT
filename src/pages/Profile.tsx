@@ -10,7 +10,6 @@ import ProfileTabs from '@/components/profile/ProfileTabs';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('profile');
-  const [isAccountDeletionPending, setIsAccountDeletionPending] = useState(false);
   const { toast } = useToast();
   const { access_token } = useAuth();
   
@@ -21,7 +20,8 @@ const Profile = () => {
     verified: true,
     memberSince: '',
     accountType: '',
-    profileImage: ''
+    profileImage: '',
+    hasDeletionRequest: false
   });
 
   const stats = {
@@ -52,7 +52,8 @@ const Profile = () => {
             month: 'long' 
           }) : 'N/A',
           accountType: apiUser.userType === 'ENTREPRISE' ? 'Entreprise' : 'Particulier',
-          profileImage: profileImageUrl
+          profileImage: profileImageUrl,
+          hasDeletionRequest: apiUser.hasDeletionRequest || false
         });
       }
     } catch (error) {
@@ -64,13 +65,33 @@ const Profile = () => {
     fetchUserData();
   }, [access_token]);
 
-  const handleAccountDeletion = () => {
-    setIsAccountDeletionPending(true);
-    toast({
-      title: "Demande de suppression enregistrée",
-      description: "Votre demande de suppression de compte a été enregistrée et sera traitée sous 72 heures.",
-      variant: "default",
-    });
+  const handleAccountDeletion = async () => {
+    try {
+      const response = await userService.requestAccountDeletion();
+      
+      if (response.success) {
+        // Refresh user data to get updated hasDeletionRequest status
+        await fetchUserData();
+        toast({
+          title: "Demande de suppression enregistrée",
+          description: "Votre demande de suppression de compte a été enregistrée et sera traitée sous 72 heures.",
+          variant: "default",
+        });
+      } else {
+        toast({
+          title: "Erreur",
+          description: response.message || "Une erreur est survenue lors de la demande de suppression.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error requesting account deletion:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la demande de suppression.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -81,7 +102,7 @@ const Profile = () => {
           <ProfileHeader 
             userInfo={userInfo}
             stats={stats}
-            isAccountDeletionPending={isAccountDeletionPending}
+            isAccountDeletionPending={userInfo.hasDeletionRequest}
             onAccountDeletion={handleAccountDeletion}
           />
           <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} onUserInfoUpdate={fetchUserData} />
