@@ -4,6 +4,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface RefusalDialogProps {
   onDecline: (requestId: string, reason: string, message: string) => void;
@@ -14,7 +15,7 @@ const RefusalDialog: React.FC<RefusalDialogProps> = ({ onDecline, requestId }) =
   const [refusalReason, setRefusalReason] = useState('');
   const [refusalMessage, setRefusalMessage] = useState('');
   const { toast } = useToast();
-
+  const { t } = useLanguage();
   const handleDecline = () => {
     if (!refusalReason) {
       toast({
@@ -34,7 +35,7 @@ const RefusalDialog: React.FC<RefusalDialogProps> = ({ onDecline, requestId }) =
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          Refuser
+          {t('request.decline')}
         </Button>
       </DialogTrigger>
       <DialogContent>

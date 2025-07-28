@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search, RotateCcw } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface FilterOptions {
   searchTerm: string;
@@ -28,6 +29,7 @@ const RequestsAndReservationsFilters = ({
     statusFilter: 'all',
     periodFilter: 'all'
   });
+  const { t } = useLanguage();
 
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -151,7 +153,7 @@ const RequestsAndReservationsFilters = ({
             <SelectValue placeholder="Filtrer par statut" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tous</SelectItem>
+            <SelectItem value="all">{t('request.all')}</SelectItem>
             {statusOptions.map(option => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
@@ -166,10 +168,10 @@ const RequestsAndReservationsFilters = ({
             <SelectValue placeholder="Filtrer par période" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Toutes les périodes</SelectItem>
-            <SelectItem value="week">Cette semaine</SelectItem>
-            <SelectItem value="month">Ce mois-ci</SelectItem>
-            <SelectItem value="year">Cette année</SelectItem>
+            <SelectItem value="all">{t('request.all_periods')}</SelectItem>
+            <SelectItem value="week">{t('request.this_week')}</SelectItem>
+            <SelectItem value="month">{t('request.this_month')}</SelectItem>
+            <SelectItem value="year">{t('request.this_year')}</SelectItem>
           </SelectContent>
         </Select>
 
@@ -180,13 +182,13 @@ const RequestsAndReservationsFilters = ({
           className="flex items-center gap-2"
         >
           <RotateCcw className="h-4 w-4" />
-          Réinitialiser
+          {t('request.reset')}
         </Button>
       </div>
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
-        {filteredData.length} résultat{filteredData.length !== 1 ? 's' : ''} trouvé{filteredData.length !== 1 ? 's' : ''}
+        {filteredData.length} {t('request.results_found')}
       </div>
     </div>
   );

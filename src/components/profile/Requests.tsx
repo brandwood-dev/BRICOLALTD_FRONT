@@ -20,6 +20,7 @@ import ConfirmRecoveryDialog from './requests/ConfirmRecoveryDialog';
 import ReviewDialog from './requests/ReviewDialog';
 import ClaimDialog from './requests/ClaimDialog';
 import CancellationDetailsDialog from './requests/CancellationDetailsDialog';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Requests = () => {
   const [validationCode, setValidationCode] = useState('');
@@ -34,6 +35,7 @@ const Requests = () => {
 
   const [requests, setRequests] = useState<Request[]>(mockRequests);
 
+  const {t} = useLanguage();
 
   const handleAcceptRequest = (requestId: string) => {
     setRequests(prev => prev.map(req => 
@@ -167,7 +169,7 @@ const Requests = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MessageSquare className="h-5 w-5" />
-          Mes Demandes
+          {t('request.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -175,7 +177,7 @@ const Requests = () => {
         <RequestsAndReservationsFilters 
           data={requests}
           onFilteredDataChange={handleFilteredDataChange}
-          searchPlaceholder="Rechercher par titre d'annonce..."
+          searchPlaceholder={t('request.search')}
           statusOptions={statusOptions}
         />
         
@@ -199,7 +201,7 @@ const Requests = () => {
                       {request.isOwnerView ? request.renterName : request.owner}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      Référence: {request.referenceId}
+                      {t('request.reference')}: {request.referenceId}
                     </div>
                   </div>
                 </div>
@@ -218,11 +220,11 @@ const Requests = () => {
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  Du {request.startDate} au {request.endDate}
+                  {t('request.from')} {request.startDate} {t('request.to')} {request.endDate}
                 </div>
                 <div className="flex items-center gap-1">
                   <Clock className="h-4 w-4" />
-                  Récupération : {request.pickupTime}
+                  {t('request.pickup_time')} : {request.pickupTime}
                 </div>
                 <div className="font-semibold text-primary">
                   {request.totalPrice}€
@@ -248,7 +250,7 @@ const Requests = () => {
                     className="flex items-center gap-2"
                   >
                     <Download className="h-4 w-4" />
-                    Télécharger le contrat
+                    {t('request.download_contract')}
                   </Button>
                 )}
 
@@ -258,7 +260,7 @@ const Requests = () => {
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="default" size="sm">
-                          Accepter
+                          {t('request.accept')}
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
@@ -269,9 +271,9 @@ const Requests = () => {
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Annuler</AlertDialogCancel>
+                          <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
                           <AlertDialogAction onClick={() => handleAcceptRequest(request.id)}>
-                            Confirmer
+                            {t('action.confirm')}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -322,16 +324,16 @@ const Requests = () => {
                 {/* Code de validation pour les demandes acceptées */}
                 {request.isOwnerView && request.status === 'accepted' && (
                   <div className="w-full mt-3 p-3 bg-blue-50 rounded border">
-                    <p className="text-sm font-medium mb-2">Code de validation de remise :</p>
+                    <p className="text-sm font-medium mb-2">{t('request.validation_code')}:</p>
                     <div className="flex gap-2">
                       <Input
-                        placeholder="Entrez le code"
+                        placeholder={t('request.enter_code')}
                         value={validationCode}
                         onChange={(e) => setValidationCode(e.target.value)}
                         className="flex-1"
                       />
                       <Button onClick={() => handleValidationCode(request.id)}>
-                        Confirmer
+                        {t('action.confirm')}
                       </Button>
                     </div>
                   </div>

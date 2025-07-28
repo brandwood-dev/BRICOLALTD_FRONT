@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Flag } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
+import { useLanguage } from '@/contexts/LanguageContext';
 interface ReportDialogProps {
   requestId: string;
   onReportSubmit?: (requestId: string) => void;
@@ -15,7 +15,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
   const [reportReason, setReportReason] = useState('');
   const [reportMessage, setReportMessage] = useState('');
   const { toast } = useToast();
-
+  const { t } = useLanguage();
   const handleReport = () => {
     if (!reportReason) {
       toast({
@@ -45,7 +45,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <Flag className="h-4 w-4 mr-1" />
-          Signaler
+          {t('request.report')}
         </Button>
       </DialogTrigger>
       <DialogContent>
