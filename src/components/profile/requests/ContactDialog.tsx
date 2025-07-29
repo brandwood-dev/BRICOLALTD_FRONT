@@ -5,17 +5,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Phone, Mail } from 'lucide-react';
 import { handleCall, handleEmail } from './utils';
 import { OwnerRequest } from './types';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ContactDialogProps {
   request: OwnerRequest;
 }
 
 const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
+  const { t } = useLanguage();
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          Contacter
+          {t('request.contact')}
         </Button>
       </DialogTrigger>
       <DialogContent>

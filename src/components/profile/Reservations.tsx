@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { generateRentalContract } from '@/utils/contractGenerator';
 import RequestsAndReservationsFilters from './RequestsAndReservationsFilters';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Reservation {
   id: string;
@@ -457,6 +458,7 @@ const Reservations = () => {
     setFilteredReservations(data);
     setCurrentPage(1); // Retour à la première page lors d'un changement de filtre
   };
+  const { t } = useLanguage();
 
   return (
     <Card>
@@ -471,7 +473,7 @@ const Reservations = () => {
         <RequestsAndReservationsFilters 
           data={reservations}
           onFilteredDataChange={handleFilteredDataChange}
-          searchPlaceholder="Rechercher par titre d'annonce..."
+          searchPlaceholder={t('booking.search')}
           statusOptions={statusOptions}
         />
         
@@ -496,7 +498,7 @@ const Reservations = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                           <h3 className="text-lg font-semibold text-gray-900">{reservation.toolName}</h3>
                           <Badge className={getStatusColor(reservation.status)}>
-                            {getStatusText(reservation.status)}
+                            {t(`general.${reservation.status}`)}
                           </Badge>
                           {reservation.status === 'ongoing' && reservation.renterHasReturned && (
                             <Badge variant="outline" className="bg-blue-50 text-blue-800 border-blue-200">
@@ -512,11 +514,11 @@ const Reservations = () => {
                         
                         <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                           <User className="h-4 w-4" />
-                          <span>par {reservation.owner}</span>
+                          <span>{t('general.by')} {reservation.owner}</span>
                         </div>
                         
                         <div className="text-xs text-gray-500 mb-3">
-                          Référence: {reservation.referenceId}
+                          {t('general.reference')}: {reservation.referenceId}
                         </div>
                         
                         <p className="text-sm text-gray-600 mb-4">{reservation.toolDescription}</p>
@@ -524,7 +526,7 @@ const Reservations = () => {
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600 mb-4">
                           <div className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
-                            <span>Du {reservation.startDate} au {reservation.endDate}</span>
+                            <span>{t('general.from')} {reservation.startDate} {t('general.to')} {reservation.endDate}</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <MapPin className="h-4 w-4" />
@@ -538,7 +540,7 @@ const Reservations = () => {
                           {reservation.price}€
                         </div>
                         <div className="text-sm text-gray-500">
-                          {reservation.dailyPrice}€/jour
+                          {reservation.dailyPrice}€/{t('general.day')}
                         </div>
                       </div>
                     </div>
@@ -550,7 +552,7 @@ const Reservations = () => {
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button variant="outline" size="sm">
-                              Annuler
+                              {t('action.cancel')}
                             </Button>
                           </DialogTrigger>
                           <DialogContent>
@@ -596,7 +598,7 @@ const Reservations = () => {
                                 disabled={!isCancellationAllowed(reservation.startDate)}
                                 className={!isCancellationAllowed(reservation.startDate) ? 'opacity-50 cursor-not-allowed' : ''}
                               >
-                                Annuler
+                                {t('general.cancel')}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -637,13 +639,13 @@ const Reservations = () => {
                             className="flex items-center gap-2"
                           >
                             <Download className="h-4 w-4" />
-                            Télécharger le contrat
+                            {t('general.download_contract')}
                           </Button>
 
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button variant="outline" size="sm">
-                                Contacter
+                                {t('general.contact')}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -690,7 +692,7 @@ const Reservations = () => {
                             <DialogTrigger asChild>
                               <Button variant="outline" size="sm">
                                 <Flag className="h-4 w-4 mr-1" />
-                                Signaler
+                                {t('general.report')}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -733,7 +735,7 @@ const Reservations = () => {
                             disabled={reservation.hasUsedReturnButton}
                             className={reservation.hasUsedReturnButton ? 'opacity-50 cursor-not-allowed' : ''}
                           >
-                            J'ai rendu l'outil
+                            {t('booking.tool_returned')}
                           </Button>
 
                           <Button 
@@ -743,13 +745,13 @@ const Reservations = () => {
                             className="flex items-center gap-2"
                           >
                             <Download className="h-4 w-4" />
-                            Télécharger le contrat
+                            {t('general.download_contract')}
                           </Button>
 
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button variant="outline" size="sm">
-                                Contacter
+                                {t('general.contact')}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -796,7 +798,7 @@ const Reservations = () => {
                             <DialogTrigger asChild>
                               <Button variant="outline" size="sm">
                                 <Flag className="h-4 w-4 mr-1" />
-                                Signaler
+                                {t('general.report')}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -835,7 +837,7 @@ const Reservations = () => {
                           <DialogTrigger asChild>
                             <Button variant="outline" size="sm">
                               <Eye className="h-4 w-4 mr-1" />
-                              Voir détails
+                              {t('general.view_details')}
                             </Button>
                           </DialogTrigger>
                           <DialogContent>
@@ -863,7 +865,7 @@ const Reservations = () => {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-medium text-blue-900">Code de validation</span>
+                            <span className="text-sm font-medium text-blue-900">{t('booking.verification_code')}</span>
                           </div>
                           <Button 
                             variant="ghost" 
@@ -874,12 +876,12 @@ const Reservations = () => {
                             {showValidationCode[reservation.id] ? (
                               <>
                                 <EyeOff className="h-4 w-4 mr-1" />
-                                Masquer
+                                {t('general.hide')}
                               </>
                             ) : (
                               <>
                                 <Eye className="h-4 w-4 mr-1" />
-                                Afficher
+                                {t('general.show')}
                               </>
                             )}
                           </Button>
@@ -905,13 +907,13 @@ const Reservations = () => {
                                 ) : (
                                   <>
                                     <Copy className="h-4 w-4 mr-1" />
-                                    Copier
+                                    {t('general.copy')}
                                   </>
                                 )}
                               </Button>
                             </div>
                             <p className="text-xs text-blue-600 mt-2">
-                              Présentez ce code au propriétaire lors de la récupération
+                              {t('booking.present_code')}
                             </p>
                           </div>
                         )}

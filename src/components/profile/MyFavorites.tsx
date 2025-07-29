@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Heart, Star, MapPin, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const MyFavorites = () => {
   const favorites = [
@@ -40,13 +41,13 @@ const MyFavorites = () => {
     // Remove from favorites logic
     console.log('Remove favorite:', id);
   };
-
+  const { t } = useLanguage();
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Heart className="h-5 w-5 text-red-500" />
-          Mes Favoris
+          {t('favorites.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -72,7 +73,7 @@ const MyFavorites = () => {
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="font-semibold">{favorite.title}</h3>
-                        <p className="text-sm text-muted-foreground">par {favorite.owner}</p>
+                        <p className="text-sm text-muted-foreground">{t('general.by')} {favorite.owner}</p>
                       </div>
                       <Button 
                         variant="ghost" 
@@ -97,11 +98,11 @@ const MyFavorites = () => {
 
                     <div className="flex items-center justify-between">
                       <div className="font-semibold text-primary">
-                        {favorite.price}€/jour
+                        {favorite.price}€/{t('general.day')}
                       </div>
                       <Link to={`/tool/${favorite.id}`}>
                         <Button size="sm">
-                          Voir détails
+                          {t('general.view_details')}
                         </Button>
                       </Link>
                     </div>

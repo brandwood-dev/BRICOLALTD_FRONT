@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Search, Grid, List } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface SearchAndFiltersProps {
   searchTerm: string;
@@ -30,13 +31,14 @@ const MyAdsSearchAndFilters = ({
   viewMode,
   onViewModeChange
 }: SearchAndFiltersProps) => {
+  const {t} = useLanguage();
   return (
     <div className="space-y-4 mb-6">
       {/* Barre de recherche */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
-          placeholder="Rechercher par titre ou catégorie..."
+          placeholder={t('ads.search')}
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pl-10"
@@ -51,10 +53,10 @@ const MyAdsSearchAndFilters = ({
               <SelectValue placeholder="Statut validation" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tous</SelectItem>
-              <SelectItem value="confirmed">Confirmé</SelectItem>
-              <SelectItem value="rejected">Rejeté</SelectItem>
-              <SelectItem value="pending">En attente</SelectItem>
+              <SelectItem value="all">{t('general.all')}</SelectItem>
+              <SelectItem value="confirmed">{t('general.confirmed')}</SelectItem>
+              <SelectItem value="rejected">{t('general.rejected')}</SelectItem>
+              <SelectItem value="pending">{t('general.pending')}</SelectItem>
             </SelectContent>
           </Select>
           
@@ -63,9 +65,9 @@ const MyAdsSearchAndFilters = ({
               <SelectValue placeholder="Statut publication" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tous</SelectItem>
-              <SelectItem value="published">Publié</SelectItem>
-              <SelectItem value="unpublished">Non publié</SelectItem>
+              <SelectItem value="all">{t('general.all')}</SelectItem>
+              <SelectItem value="published">{t('general.published')}</SelectItem>
+              <SelectItem value="unpublished">{t('general.unpublished')}</SelectItem>
             </SelectContent>
           </Select>
           
@@ -74,12 +76,12 @@ const MyAdsSearchAndFilters = ({
               <SelectValue placeholder="Catégorie" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Toutes</SelectItem>
-              <SelectItem value="Jardinage">Jardinage</SelectItem>
-              <SelectItem value="Bricolage">Bricolage</SelectItem>
-              <SelectItem value="Transport">Transport</SelectItem>
-              <SelectItem value="Nettoyage">Nettoyage</SelectItem>
-              <SelectItem value="Événementiel">Événementiel</SelectItem>
+              <SelectItem value="all">{t('general.all')}</SelectItem>
+              <SelectItem value="Jardinage">{t('category.gardening')}</SelectItem>
+              <SelectItem value="Bricolage">{t('category.diy')}</SelectItem>
+              <SelectItem value="Transport">{t('category.transport')}</SelectItem>
+              <SelectItem value="Nettoyage">{t('category.cleaning')}</SelectItem>
+              <SelectItem value="Événementiel">{t('category.event')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -93,7 +95,7 @@ const MyAdsSearchAndFilters = ({
             className="flex items-center gap-2"
           >
             <Grid className="h-4 w-4" />
-            <span className="hidden sm:inline">Grille</span>
+            <span className="hidden sm:inline">{t('general.grid')}</span>
           </Button>
           <Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
@@ -102,7 +104,7 @@ const MyAdsSearchAndFilters = ({
             className="flex items-center gap-2"
           >
             <List className="h-4 w-4" />
-            <span className="hidden sm:inline">Liste</span>
+            <span className="hidden sm:inline">{t('general.list')}</span>
           </Button>
         </div>
       </div>

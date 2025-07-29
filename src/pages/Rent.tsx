@@ -105,7 +105,7 @@ const Rent = () => {
           <div className="mb-6">
             <Link to={`/tool/${id}`} className="inline-flex items-center gap-2 text-accent hover:underline">
               <ArrowLeft className="h-4 w-4" />
-              Retour aux détails
+              {t('reservation.back_to_details')}
             </Link>
           </div>
 
@@ -116,7 +116,7 @@ const Rent = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CalendarIcon className="h-5 w-5" />
-                    Finaliser votre réservation
+                    {t('reservation.complete_booking')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -126,17 +126,17 @@ const Rent = () => {
                       <img src={tool.images[0]} alt={tool.title} className="w-16 h-16 object-cover rounded" />
                       <div>
                         <h3 className="font-semibold">{tool.title}</h3>
-                        <p className="text-sm text-gray-600">{displayPrice.toFixed(1)}€/jour</p>
+                        <p className="text-sm text-gray-600">{displayPrice.toFixed(1)}€/{t('general.day')}</p>
                         <p className="text-sm text-gray-600">{tool.location}</p>
                       </div>
                     </div>
 
                     {/* Dates de location */}
                     <div className="space-y-4">
-                      <h3 className="font-semibold text-lg">Période de location</h3>
+                      <h3 className="font-semibold text-lg">{t('reservation.rental_period')}</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label>Date de début *</Label>
+                          <Label>{t('reservation.start_date')} *</Label>
                           <Popover>
                             <PopoverTrigger asChild>
                               <Button
@@ -147,7 +147,7 @@ const Rent = () => {
                                 )}
                               >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {startDate ? format(startDate, "PPP", { locale: fr }) : "Sélectionner une date"}
+                                {startDate ? format(startDate, "PPP", { locale: fr }) : t('reservation.select_date')}
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
@@ -175,7 +175,7 @@ const Rent = () => {
                           </Popover>
                         </div>
                         <div className="space-y-2">
-                          <Label>Date de fin *</Label>
+                          <Label>{t('reservation.end_date')} *</Label>
                           <Popover>
                             <PopoverTrigger asChild>
                               <Button
@@ -186,7 +186,7 @@ const Rent = () => {
                                 )}
                               >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {endDate ? format(endDate, "PPP", { locale: fr }) : "Sélectionner une date"}
+                                {endDate ? format(endDate, "PPP", { locale: fr }) : t('reservation.select_date')}
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-auto p-0">
@@ -216,7 +216,7 @@ const Rent = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="pickupTime">Heure de récupération</Label>
+                        <Label htmlFor="pickupTime">{t('reservation.pickup_time')}</Label>
                         <Select value={formData.pickupTime} onValueChange={(value) => setFormData({...formData, pickupTime: value})}>
                           <SelectTrigger>
                             <SelectValue />
@@ -237,10 +237,10 @@ const Rent = () => {
 
                     {/* Message au propriétaire */}
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message au propriétaire (optionnel)</Label>
+                      <Label htmlFor="message">{t('reservation.message_to_owner')}</Label>
                       <Textarea 
                         id="message"
-                        placeholder="Précisez l'usage prévu, vos questions..."
+                        placeholder={t('reservation.message_placeholder')}
                         className="min-h-[80px]"
                         value={formData.message}
                         onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -249,23 +249,23 @@ const Rent = () => {
 
                     {/* Informations personnelles */}
                     <div className="space-y-4">
-                      <h3 className="font-semibold text-lg">Informations de contact</h3>
+                      <h3 className="font-semibold text-lg">{t('reservation.contact_information')}</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="firstName">Prénom *</Label>
+                          <Label htmlFor="firstName">{t('general.first_name')} *</Label>
                           <Input 
                             id="firstName"
-                            placeholder="Jean"
+                            placeholder={t('general.first_name_placeholder')}
                             value={formData.firstName}
                             onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                             required
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="lastName">Nom *</Label>
+                          <Label htmlFor="lastName">{t('general.last_name')} *</Label>
                           <Input 
                             id="lastName"
-                            placeholder="Dupont"
+                            placeholder={t('general.last_name_placeholder')}
                             value={formData.lastName}
                             onChange={(e) => setFormData({...formData, lastName: e.target.value})}
                             required
@@ -273,7 +273,7 @@ const Rent = () => {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Téléphone *</Label>
+                        <Label htmlFor="phone">{t('general.phone')} *</Label>
                         <Input 
                           id="phone"
                           type="tel" 
@@ -287,7 +287,7 @@ const Rent = () => {
 
                     {/* Mode de paiement */}
                     <div className="space-y-4">
-                      <h3 className="font-semibold text-lg">Mode de paiement</h3>
+                      <h3 className="font-semibold text-lg">{t('reservation.payment_method')}</h3>
                       <div className="space-y-3">
                         <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                           <input 
@@ -298,7 +298,7 @@ const Rent = () => {
                             onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
                           />
                           <CreditCard className="h-5 w-5" />
-                          <span>Carte bancaire</span>
+                          <span>{t('reservation.card')}</span>
                         </label>
                         <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                           <input 
@@ -316,7 +316,7 @@ const Rent = () => {
 
                     <Button type="submit" className="w-full" size="lg">
                       <Check className="h-5 w-5 mr-2" />
-                      Confirmer la réservation
+                      {t('reservation.confirm')}
                     </Button>
                   </form>
                 </CardContent>
@@ -329,34 +329,34 @@ const Rent = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CreditCard className="h-5 w-5" />
-                    Récapitulatif
+                    {t('reservation.recap')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <span>Prix par jour</span>
+                      <span>{t('reservation.price_per_day')}</span>
                       <span>{displayPrice.toFixed(1)}€</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Nombre de jours</span>
+                      <span>{t('reservation.number_of_days')}</span>
                       <span>{calculateDays()}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Sous-total</span>
+                      <span>{t('reservation.subtotal')}</span>
                       <span>{totalPrice.toFixed(1)}€</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Frais de paiement sécurisé (taxes et frais)</span>
+                      <span>{t('reservation.payment_fee')}</span>
                       <span>{totalFees.toFixed(1)}€</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span>Caution (remboursable)</span>
+                      <span>{t('reservation.deposit')}</span>
                       <span>{deposit}€</span>
                     </div>
                     <div className="border-t pt-3">
                       <div className="flex justify-between font-semibold text-lg">
-                        <span>Total à payer</span>
+                        <span>{t('reservation.total_amount')}</span>
                         <span>{totalToPay.toFixed(1)}€</span>
                       </div>
                     </div>
@@ -366,16 +366,16 @@ const Rent = () => {
                     <div className="flex items-start gap-2">
                       <Shield className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                       <div className="text-sm">
-                        <p className="font-medium text-blue-900 mb-1">Protection incluse</p>
+                        <p className="font-medium text-blue-900 mb-1">{t('reservation.included_protection')}</p>
                         <p className="text-blue-700">
-                          Votre location est protégée par notre assurance en cas de dommage.
+                          {t('reservation.insurance_description')}
                         </p>
                       </div>
                     </div>
                   </div>
 
                   <div className="text-xs text-gray-500 text-center">
-                    En confirmant, vous acceptez nos conditions de location et notre politique d'annulation.
+                    {t('reservation.confirmation_message')}
                   </div>
                 </CardContent>
               </Card>

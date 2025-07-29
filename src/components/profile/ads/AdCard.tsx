@@ -8,6 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Edit, Eye, Trash2, Star } from 'lucide-react';
 import AdEditDialog from '../AdEditDialog';
 import AdViewDialog from '../AdViewDialog';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AdCardProps {
   ad: any;
@@ -18,6 +19,7 @@ interface AdCardProps {
 }
 
 const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, getValidationStatusText }: AdCardProps) => {
+  const { t } = useLanguage();
   return (
     <div className="border rounded-lg p-4">
       <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -43,7 +45,7 @@ const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, get
                   onCheckedChange={(checked) => onPublishToggle(ad.id, checked)}
                 />
                 <Label htmlFor={`published-${ad.id}`} className="text-sm">
-                  {ad.published ? 'Publié' : 'Non publié'}
+                  {ad.published ? t('general.published') : t('general.unpublished')}
                 </Label>
               </div>
             </div>
@@ -55,20 +57,20 @@ const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, get
               {ad.rating}
             </div>
             <div>
-              {ad.totalRentals} locations
+              {ad.totalRentals} {t('general.location')}
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="font-semibold text-primary">
-              {ad.price}€/jour
+              {ad.price}€/{t('general.day')}
             </div>
             <div className="flex flex-wrap gap-2">
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" size="sm">
                     <Edit className="h-4 w-4 mr-1" />
-                    Modifier
+                    {t('general.modify')}
                   </Button>
                 </DialogTrigger>
                 <AdEditDialog ad={ad} />
@@ -78,7 +80,7 @@ const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, get
                 <DialogTrigger asChild>
                   <Button variant="outline" size="sm">
                     <Eye className="h-4 w-4 mr-1" />
-                    Voir
+                    {t('general.see')}
                   </Button>
                 </DialogTrigger>
                 <AdViewDialog ad={ad} />

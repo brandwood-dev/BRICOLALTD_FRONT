@@ -8,6 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Edit, Eye, Trash2 } from 'lucide-react';
 import AdEditDialog from '../AdEditDialog';
 import AdViewDialog from '../AdViewDialog';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AdListItemProps {
   ad: any;
@@ -18,6 +19,7 @@ interface AdListItemProps {
 }
 
 const AdListItem = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, getValidationStatusText }: AdListItemProps) => {
+  const { t } = useLanguage();
   return (
     <div className="border rounded-lg p-3 flex items-center gap-4">
       <img 
@@ -39,11 +41,11 @@ const AdListItem = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor,
           onCheckedChange={(checked) => onPublishToggle(ad.id, checked)}
         />
         <Label htmlFor={`list-published-${ad.id}`} className="text-xs">
-          {ad.published ? 'Publié' : 'Non publié'}
+          {ad.published ? t('general.published') : t('general.unpublished')}
         </Label>
       </div>
       <div className="font-semibold text-sm text-primary">
-        {ad.price}€/jour
+        {ad.price}€/{t('general.day')}
       </div>
       <div className="flex gap-1">
         <Dialog>

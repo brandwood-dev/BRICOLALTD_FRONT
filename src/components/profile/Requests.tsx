@@ -207,7 +207,7 @@ const Requests = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge className={getStatusColor(request.status)}>
-                    {getStatusText(request.status)}
+                    {t(`request.${request.status}`)}
                   </Badge>
                   {(request.status === 'ongoing' || request.status === 'accepted') && request.hasActiveClaim && (
                     <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
