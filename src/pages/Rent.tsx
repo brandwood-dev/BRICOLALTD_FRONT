@@ -87,8 +87,8 @@ const Rent = () => {
 
     // Simuler le processus de réservation
     toast({
-      title: "Réservation confirmée !",
-      description: `Votre réservation pour ${tool.title} a été confirmée. Vous recevrez un email de confirmation.`,
+      title: t('reservation.confirmed'),
+      description: t('reservation.confirmed_message', { toolName: tool.title }),
     });
 
     // Rediriger vers le profil ou la page d'accueil après 2 secondes

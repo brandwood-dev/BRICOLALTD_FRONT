@@ -35,25 +35,25 @@ const Contact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">{t('contact.first_name')}</label>
-                    <Input placeholder="Votre prénom" />
+                    <Input placeholder={t('general.first_name_placeholder')} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">{t('contact.last_name')}</label>
-                    <Input placeholder="Votre nom" />
+                    <Input placeholder={t('general.last_name_placeholder')} />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">{t('login.email')}</label>
-                  <Input type="email" placeholder="votre.email@exemple.com" />
+                  <Input type="email" placeholder="email@exemple.com" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">{t('contact.subject')}</label>
-                  <Input placeholder="Sujet de votre message" />
+                  <Input placeholder={t('general.subject_placeholder')} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">{t('contact.message')}</label>
                   <Textarea 
-                    placeholder="Décrivez votre demande en détail..." 
+                    placeholder={t('general.message_placeholder')} 
                     className="min-h-[120px]"
                   />
                 </div>
@@ -97,7 +97,7 @@ const Contact = () => {
                     <MapPin className="h-6 w-6 text-accent mt-1" />
                     <div>
                       <h3 className="text-lg font-semibold mb-2">BRICOLA LTD</h3>
-                      <p className="text-gray-600 mb-1">Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372</p>
+                      <p className="text-gray-600 mb-1">{t('general.registered_under')}</p>
                     </div>
                   </div>
                 </CardContent>

@@ -9,18 +9,18 @@ const UnderAge = () => {
       <Card className="max-w-md w-full text-center">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-primary">
-            Accès non autorisé
+            Unauthorized Access
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="text-muted-foreground leading-relaxed">
-            Nous sommes désolés, vous ne pouvez pas utiliser la plateforme Bricola.
+            We're sorry, you are not authorized to use the Bricola platform.
             <br /><br />
-            Merci de consulter nos Conditions Générales d'Utilisation.
+            Please refer to our Terms and Conditions.
           </p>
           <Button asChild variant="outline" className="w-full">
             <Link to="/cgu">
-              Consulter les CGU
+              View Terms and Conditions
             </Link>
           </Button>
         </CardContent>

@@ -5,7 +5,7 @@ type Language = 'fr' | 'en' | 'ar';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
 }
 
 const translations = {
@@ -34,6 +34,18 @@ const translations = {
     'reservation.included_protection': 'Protection incluse',
     'reservation.insurance_description': 'Votre location est protégée par notre assurance en cas de dommage.',
     'reservation.confirmation_message': 'En confirmant, vous acceptez nos conditions de location et notre politique d\'annulation.',
+    'reservation.confirmed': 'Réservation confirmée',
+    'reservation.confirmed_message':'Votre réservation pour {{toolName}} a été confirmée. Vous recevrez un email de confirmation.',
+    'reservation.refused_title': 'Motif du refus',
+    'reservation.refused_reason': 'Sélectionnez une raison :',
+    'reservation.refused_reason_maintenance': 'En maintenance',
+    'reservation.refused_reason_already_booked': 'Déjà réservé',
+    'reservation.refused_reason_other': 'Autre',
+    'reservation.refused_message_placeholder': 'Message libre (optionnel)',
+    'reservation.refused_confirm':'Confirmer le refus',
+
+
+
     // blog
     'blog.title':'Blog Bricola LTD',
     'blog.description': 'Découvrez nos conseils, guides et actualités sur l\'univers des outils et du bricolage',
@@ -58,14 +70,16 @@ const translations = {
     'ads.search': 'Rechercher par titre ou catégorie...',
 
     // General
+    'general.message': 'Message',
+    'general.registered_under': 'Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372',
     'general.first_name': 'Prénom',
     'general.first_name_placeholder': 'votre prénom',
     'general.last_name': 'Nom',
     'general.last_name_placeholder': 'votre nom',
     'general.phone': 'Téléphone',
-    
-    
-  
+    'general.message_placeholder': 'Votre message...',
+    'general.subject_placeholder': 'Sujet de votre message',
+
     'general.min': 'min',
     'general.modify': 'Modifier',
     'general.see': 'Voir',
@@ -116,6 +130,8 @@ const translations = {
     'pagination.previous': 'Précédent',
 
     // requests
+
+    'request.pickup_confirm_button':'Récupération de l’outil',
     'request.title': 'Mes Demandes',
     'request.search': 'Rechercher par titre d\'annonce...',
     'request.all': 'Tous',
@@ -146,6 +162,22 @@ const translations = {
     'request.enter_code': 'Entrez le code',
     'request.confirm': 'Confirmer',
     'request.contact': 'Contacter',
+    'request.confirm_acceptence': 'Confirmer l\'acceptation',
+    'request.confirm_acceptence_message':'Êtes-vous sûr de vouloir accepter cette demande de location ?',
+    'request.validation_code_accepted': 'Remise confirmée',
+    'request.validation_code_accepted_message': 'L\'outil a été remis avec succès. Le statut passe à \'En cours\'.',
+    'request.validation_code_rejected': 'Code invalide',
+    'request.validation_code_rejected_message': 'Le code de validation est incorrect.',
+    'request.contact_renter_information':'Informations du locataire',
+    'request.contact_owner_information':'Informations du propriétaire',
+    'request.call':'Appeler',
+    'request.mail':'E-mail',
+
+    'request.pickup_confirm_title':'Confirmer la récupération',
+    'request.pickup_confirm_message1': 'Voulez-vous vraiment confirmer la bonne réception de votre outil, sans déclaration de problème ?',
+    'request.pickup_confirm_message2': 'Si vous avez rencontré un souci, cliquez sur le lien "Signaler un problème"',
+    'request.pickup_confirm':'Oui, je confirme la bonne réception',
+    'request.pickup_report':'Signaler un problème',
 
     // catalog section
     'catalog_section.title': 'Outils trouvés',
@@ -486,6 +518,9 @@ const translations = {
     'about.cities_covered': 'Villes couvertes',
     'about.satisfaction': 'Satisfaction client',
     'about.team_title': 'Notre Équipe',
+    'about.founder.name': 'Adel Jebbali',
+    'about.founder.role': 'CEO et Fondateur',
+    'about.founder.bio': 'Ph.D in Computer Science | Cybersecurity & Resiliency Consultant',
 
     // Contact
     'contact.title': 'Contactez-nous',
@@ -512,7 +547,7 @@ const translations = {
     'contact.how_to_list_answer': 'Cliquez sur "Proposer un outil" dans la navigation, ajoutez les détails et photos de votre outil, et commencez à gagner de l\'argent.',
     'contact.insurance': 'Les outils sont-ils assurés ?',
     'contact.insurance_answer': 'Oui, tous les outils loués via Bricola sont couverts par notre assurance complète pour votre tranquillité d\'esprit.',
-
+    
     // Add Tool
     'add_tool.title': 'Proposer un outil',
     'add_tool.subtitle': 'Partagez vos outils avec la communauté et générez des revenus en les louant facilement',
@@ -887,6 +922,15 @@ const translations = {
     'reservation.included_protection': 'Included protection',
     'reservation.insurance_description': 'Your rental is covered by our insurance against damages.',
     'reservation.confirmation_message': 'By confirming, you agree to our rental terms and cancellation policy.',
+    'reservation.confirmed': 'Booking Confirmed!',
+    'reservation.confirmed_message':'Your booking for {toolName} has been confirmed. You will receive a confirmation email.',
+    'reservation.refused_title': 'Reason for Rejection',
+    'reservation.refused_reason': 'Select a reason:',
+    'reservation.refused_reason_maintenance': 'Under maintenance',
+    'reservation.refused_reason_already_booked': 'Already booked',
+    'reservation.refused_reason_other': 'Other',
+    'reservation.refused_message_placeholder': 'Optional Message',
+    'reservation.refused_confirm':'Confirm Rejection',
 
     // blog
     'blog.title':'Bricola LTD Blog',
@@ -911,6 +955,9 @@ const translations = {
     // ads profile
     'ads.search': 'Search by Listing Title or Category...',
     // General
+    'general.registered_under': 'Registered in England and Wales under number: 16401372',
+    'general.subject_placeholder': 'Subject of the Request',
+    'general.message_placeholder': 'Describe Your Request',
     'general.first_name': 'First Name',
     'general.first_name_placeholder': 'your first name',
     'general.last_name': 'Last Name',
@@ -952,6 +999,7 @@ const translations = {
     'general.contact': 'Contact',
     'general.confirmed': 'Confirmed',
     'general.rejected': 'Rejected',
+    'general.message': 'Message',
 
     // bookings
     'booking.title': 'My Reservations',
@@ -961,6 +1009,15 @@ const translations = {
     'booking.present_code': 'Show this code to the owner when picking up the tool on the first day.',
 
     // requests
+    'request.pickup_confirm_button': 'Tool pickup',
+     'request.pickup_confirm_title':'Confirm Tool Pickup',
+    'request.pickup_confirm_message1': 'Are you sure you want to confirm that you’ve received your tool without reporting any issues?',
+    'request.pickup_confirm_message2': 'If you encountered a problem, click the link "Report an Issue"',
+    'request.pickup_confirm':'Yes, I confirm proper reception',
+    'request.pickup_report':'Report an Issue',
+
+    'request.confirm_acceptence': 'Confirm Acceptance',
+    'request.confirm_acceptence_message':'Are you sure you want to accept this rental request?',
     'request.title': 'My Reservation requests',
     'request.contact': 'Contact',
     'request.search': 'Search by Listing Title',
@@ -991,6 +1048,15 @@ const translations = {
     'request.validation_code': 'Validation Code',
     'request.enter_code': 'Enter Code',
     'request.confirm': 'Confirm',
+    'request.validation_code_accepted': 'Return confirmed',
+    'request.validation_code_accepted_message': 'The tool has been successfully returned. The status is now "In Progress".',
+    'request.validation_code_rejected': 'Invalid Code',
+    'request.validation_code_rejected_message': 'The verification code is incorrect!',
+    'request.contact_renter_information':'Renter Information',
+    'request.contact_owner_information':'Owner Information',
+    'request.call':'Call',
+    'request.mail':'E-mail',
+
 
     // pagination
     'pagination.next': 'Next',
@@ -1332,6 +1398,9 @@ const translations = {
     'about.cities_covered': 'Cities covered',
     'about.satisfaction': 'Customer satisfaction',
     'about.team_title': 'Our Team',
+    'about.founder.name': 'Adel Jebbali',
+    'about.founder.role': 'CEO et Fonder',
+    'about.founder.bio': 'Ph.D in Computer Science | Cybersecurity & Resiliency Consultant',
 
     // Contact
     'contact.title': 'Contact us',
@@ -1763,6 +1832,15 @@ const translations = {
     'reservation.included_protection': 'الحماية مشمولة',
     'reservation.insurance_description': 'إيجارك محمي بتأمين ضد الأضرار.',
     'reservation.confirmation_message': 'بتأكيد الحجز، فإنك توافق على شروط الإيجار وسياسة الإلغاء الخاصة بنا.',
+    'reservation.confirmed': 'تم تأكيد الحجز!',
+    'reservation.confirmed_message':'تم تأكيد حجزك {toolName}. ستتلقى رسالة تأكيد عبر البريد الإلكتروني.',
+    'reservation.refused_title': 'سبب الرفض',
+    'reservation.refused_reason': ':يرجى اختيار سبب',
+    'reservation.refused_reason_maintenance': 'قيد الصيانة',
+    'reservation.refused_reason_already_booked': 'محجوز مسبقًا',
+    'reservation.refused_reason_other': 'آخر',
+    'reservation.refused_message_placeholder': 'رسالة اختيارية (إن وُجدت)',
+    'reservation.refused_confirm':'تأكيد الرفض',
 
      // blog
     'blog.title':'مدونة بريكولا المحدودة',
@@ -1788,11 +1866,15 @@ const translations = {
     // ads profile
     'ads.search': 'ابحث بواسطة عنوان الإعلان أو الفئة...',
     // General
+    'general.message': 'رسالة',
+    'general.registered_under':'مسجّلة في إنجلترا وويلز تحت الرقم: 16401372',
     'general.first_name': 'الاسم',
     'general.first_name_placeholder': 'اسمك',
     'general.last_name': 'اسم العائلة',
     'general.last_name_placeholder': 'اسم العائلة',
     'general.phone': 'رقم الهاتف',
+    'general.message_placeholder': 'وصف الطلب',
+    'general.subject_placeholder': 'موضوع الطلب',
 
     'general.min': 'دقيقة',
     'general.modify': 'تعديل',
@@ -1840,6 +1922,16 @@ const translations = {
     'booking.present_code': 'قدم هذا الرمز للمالك عند استلام الأداة في اليوم الأول.',
 
     // requests
+
+    'request.pickup_confirm_button': 'استرجاع الأداة',
+    'request.pickup_confirm_title':'تأكيد الاستلام',
+    'request.pickup_confirm_message1': 'هل أنت متأكد من أنك استلمت الأداة بدون أي مشكلة؟',
+    'request.pickup_confirm_message2': 'إذا واجهت مشكلة، اضغط على الرابط "الإبلاغ عن مشكلة"',
+    'request.pickup_confirm':'نعم، أؤكد الاستلام الصحيح',
+    'request.pickup_report':'الإبلاغ عن مشكلة',
+
+    'request.confirm_acceptence': 'تأكيد القبول',
+    'request.confirm_acceptence_message':'هل أنت متأكد من رغبتك في قبول طلب الإيجار هذا؟',
     'request.title': 'طلبات الحجز الخاصة بي',
     'request.contact': 'اتصل',
     'request.search': 'ابحث بواسطة عنوان الإعلان',
@@ -1870,6 +1962,15 @@ const translations = {
     'request.validation_code': 'رمز التحقق',
     'request.enter_code': 'أدخل الرمز',
     'request.confirm': 'تأكيد',
+    'request.validation_code_accepted': 'تم تأكيد الإرجاع',
+    'request.validation_code_accepted_message': 'تمت إعادة الأداة بنجاح. الحالة الآن "قيد التقدم".',
+    'request.validation_code_rejected': 'رمز غير صالح',
+    'request.validation_code_rejected_message': 'رمز التحقق غير صحيح!',
+    'request.contact_renter_information':'معلومات المستأجر',
+    'request.contact_owner_information':'معلومات المالك',
+    'request.call':'اتصل',
+    'request.mail':'البريد الإلكتروني',
+
 
     // pagination
     'pagination.next': 'التالي',
@@ -2211,6 +2312,9 @@ const translations = {
     'about.cities_covered': 'المدن المغطاة',
     'about.satisfaction': 'رضا العملاء',
     'about.team_title': 'فريقنا',
+    'about.founder.name': 'عادل الجبالي',
+    'about.founder.role': 'الرئيس التنفيذي والمؤسس',
+    'about.founder.bio': 'دكتوراه في علوم الحاسوب | مستشار في الأمن السيبراني والمرونة الرقمية',
 
     // Contact
     'contact.title': 'اتصل بنا',

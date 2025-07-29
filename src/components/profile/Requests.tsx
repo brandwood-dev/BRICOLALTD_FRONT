@@ -69,14 +69,14 @@ const Requests = () => {
         req.id === requestId ? { ...req, status: 'ongoing' } : req
       ));
       toast({
-        title: "Remise confirmée",
-        description: "L'outil a été remis avec succès. Le statut passe à 'En cours'.",
+        title: t('request.validation_code_accepted'),
+        description: t('request.validation_code_accepted_message'),
       });
       setValidationCode('');
     } else {
       toast({
-        title: "Code invalide",
-        description: "Le code de validation est incorrect.",
+        title: t('request.validation_code_rejected'),
+        description: t('request.validation_code_rejected_message'),
         variant: "destructive"
       });
     }
@@ -265,9 +265,9 @@ const Requests = () => {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Confirmer l'acceptation</AlertDialogTitle>
+                          <AlertDialogTitle>{t('request.confirm_acceptence')}</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Êtes-vous sûr de vouloir accepter cette demande de location ?
+                            {t('request.confirm_acceptence_message')}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -306,7 +306,7 @@ const Requests = () => {
                       disabled={!request.renterHasReturned}
                       onClick={() => handleToolRecovery(request.id)}
                     >
-                      J'ai récupéré mon outil
+                      {t('request.pickup_confirm_button')}
                     </Button>
 
                     {!request.renterHasReturned && (

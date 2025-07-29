@@ -29,13 +29,13 @@ const AgeVerificationDialog = () => {
     <AlertDialog open={!isVerified && !isUnderAge}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">Vérification d'âge</AlertDialogTitle>
+          <AlertDialogTitle className="text-center">Age Verification</AlertDialogTitle>
           <AlertDialogDescription className="text-center text-sm leading-relaxed">
-            Notre plateforme est accessible via les applications web et mobile. Elle est réservée aux utilisateurs âgés de 18 ans ou plus, disposant de la capacité légale d'utiliser nos services.
+            Our platform is accessible via both web and mobile applications. It is strictly reserved for users aged 18 or older who have the legal capacity to use our services.
             <br /><br />
-            Bricola se réserve le droit de suspendre ou de résilier tout compte en cas de non-respect de notre politique, de fraude ou d'abus.
+            Bricola reserves the right to suspend or terminate any account in case of policy violations, fraud, or abuse.
             <br /><br />
-            Pour en savoir plus, veuillez consulter nos Conditions Générales d'Utilisation.
+            For more details, please refer to our Terms and Conditions.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col gap-2 sm:flex-col">
@@ -43,14 +43,14 @@ const AgeVerificationDialog = () => {
             onClick={handleConfirmAge}
             className="w-full"
           >
-            Oui, je confirme avoir 18 ans ou plus
+            Yes, I confirm that I am 18 years old or older
           </Button>
           <Button 
             variant="outline" 
             onClick={handleUnderAge}
             className="w-full"
           >
-            Non, j'ai moins de 18 ans
+            No, I am under 18
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

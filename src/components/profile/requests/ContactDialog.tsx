@@ -22,7 +22,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Informations du locataire</DialogTitle>
+          <DialogTitle>{t('request.contact_renter_information')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
@@ -41,7 +41,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
           
           {request.message && (
             <div className="bg-muted/50 p-3 rounded">
-              <p className="text-sm"><strong>Message :</strong> {request.message}</p>
+              <p className="text-sm"><strong>{t('general.message')} :</strong> {request.message}</p>
             </div>
           )}
           
@@ -51,7 +51,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
               className="flex-1 flex items-center gap-2"
             >
               <Phone className="h-4 w-4" />
-              Appeler
+              {t('request.call')}
             </Button>
             <Button 
               variant="outline"
@@ -59,7 +59,7 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
               className="flex-1 flex items-center gap-2"
             >
               <Mail className="h-4 w-4" />
-              E-mail
+              {t('request.mail')}
             </Button>
           </div>
         </div>

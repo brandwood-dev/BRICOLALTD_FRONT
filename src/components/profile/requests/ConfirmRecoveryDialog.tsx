@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ConfirmRecoveryDialogProps {
   isOpen: boolean;
@@ -15,23 +16,24 @@ const ConfirmRecoveryDialog: React.FC<ConfirmRecoveryDialogProps> = ({
   onConfirm,
   onClaim
 }) => {
+  const { t } = useLanguage(); 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirmer la récupération</DialogTitle>
+          <DialogTitle>{t('request.pickup_confirm_title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p>Voulez-vous vraiment confirmer la bonne réception de votre outil, sans déclaration de problème ?</p>
+          <p>{t('request.pickup_confirm_message1')}</p>
           <p className="text-sm text-muted-foreground">
-            Si vous avez rencontré un souci, cliquez sur le lien "Signaler un problème"
+            {t('request.pickup_confirm_message2')}
           </p>
           <div className="flex gap-2">
             <Button onClick={onConfirm} className="flex-1">
-              Oui, je confirme la bonne réception
+              {t('request.pickup_confirm')}
             </Button>
             <Button variant="outline" onClick={onClaim} className="flex-1">
-              Signaler un problème
+              {t('request.pickup_report')}
             </Button>
           </div>
         </div>

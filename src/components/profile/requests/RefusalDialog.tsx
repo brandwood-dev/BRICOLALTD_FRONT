@@ -40,22 +40,21 @@ const RefusalDialog: React.FC<RefusalDialogProps> = ({ onDecline, requestId }) =
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Motif du refus</DialogTitle>
+          <DialogTitle>{t('reservation.refused_title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <Select value={refusalReason} onValueChange={setRefusalReason}>
             <SelectTrigger>
-              <SelectValue placeholder="Sélectionnez une raison" />
+              <SelectValue placeholder={t('reservation.refused_reason')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="unavailable">Outil non disponible</SelectItem>
-              <SelectItem value="maintenance">En maintenance</SelectItem>
-              <SelectItem value="already-booked">Déjà réservé</SelectItem>
-              <SelectItem value="other">Autre</SelectItem>
+              <SelectItem value="maintenance">{t('reservation.refused_reason_maintenance')}</SelectItem>
+              <SelectItem value="already-booked">{t('reservation.refused_reason_already_booked')}</SelectItem>
+              <SelectItem value="other">{t('reservation.refused_reason_other')}</SelectItem>
             </SelectContent>
           </Select>
           <Textarea
-            placeholder="Message libre (optionnel)"
+            placeholder={t('reservation.refused_message_placeholder')}
             value={refusalMessage}
             onChange={(e) => setRefusalMessage(e.target.value)}
           />
@@ -64,7 +63,7 @@ const RefusalDialog: React.FC<RefusalDialogProps> = ({ onDecline, requestId }) =
               onClick={handleDecline}
               className="flex-1"
             >
-              Confirmer le refus
+              {t('reservation.refused_confirm')}
             </Button>
           </div>
         </div>
