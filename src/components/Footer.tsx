@@ -29,7 +29,7 @@ const Footer = () => {
             <p className="text-gray-400 mb-4 max-w-md md:mb-10">
               {t('footer.description')}
             </p>
-            <div className="flex space-x-4">
+            <div className={ `flex space-x-4 ${language === 'ar' ? 'justify-end' : 'justify-start'}`}>
               <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Twitter className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Instagram className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
@@ -62,14 +62,21 @@ const Footer = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div  >
             <h3 className="font-semibold mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-2 text-gray-400">
-              <li className="flex items-center">
-                <Mail className="h-4 w-4 mr-2" />
+              <li
+                className={
+                  `flex items-center ` +
+                  (language === 'ar'
+                    ? 'flex-row-reverse justify-end space-x-reverse space-x-2'
+                    : 'flex-row justify-start space-x-2')
+                }
+              >
+                <Mail className="h-4 w-4" />
                 contact@bricolaltd.com
               </li>
-              <li className="flex items-center">
+              <li className={`flex items-center` + (language === 'ar' ? ' justify-end' : ' justify-start')}>
                 <Phone className="h-4 w-4 mr-2" />
                 +442039960821
               </li>
@@ -78,7 +85,7 @@ const Footer = () => {
             {/* Payment Methods */}
             <div className="mt-6">
               <h4 className="font-semibold mb-3 text-sm">{t('footer.payment')}</h4>
-              <div className="flex space-x-3">
+              <div className={"flex space-x-3" + (language === 'ar' ? ' justify-end' : ' justify-start')}>
                 <img src={visaLogo} alt="Visa" className="h-6 object-contain" />
                 <img src={mastercardLogo} alt="Mastercard" className="h-6 object-contain" />
               </div>
@@ -90,7 +97,7 @@ const Footer = () => {
           <div className="flex !flex-col items-center text-center text-gray-400 space-y-2">
             <p>&copy; 2025 Bricola LTD. {t('footer.rights')}.</p>
             <p className="text-sm">
-              {t('footer.designed_by')}{' '}
+              {'Designed By'}{' '}
               <a
                 href="https://www.brandwoodandco.com/"
                 target="_blank"
