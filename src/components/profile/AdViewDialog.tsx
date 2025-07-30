@@ -1,43 +1,29 @@
-
 import React from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { Star } from 'lucide-react';
 
-interface Ad {
-  id: string;
-  title: string;
-  category: string;
-  price: number;
-  published: boolean;
-  validationStatus: string;
-  rating: number;
-  totalRentals: number;
-  image: string;
-}
-
-interface AdViewDialogProps {
-  ad: Ad;
-}
-
-const AdViewDialog = ({ ad }: AdViewDialogProps) => {
-  const getValidationStatusColor = (status: string) => {
+const AdViewDialog = ({ ad }: { ad: any }) => {
+  const getPublicationStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
+      case 'PUBLIE': return 'bg-green-100 text-green-800';
+      case 'EN_ATTENTE': return 'bg-yellow-100 text-yellow-800';
+      case 'REJETE': return 'bg-red-100 text-red-800';
+      case 'SUSPENDU': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const getValidationStatusText = (status: string) => {
+  const getPublicationStatusText = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'Confirmée';
-      case 'pending': return 'En attente';
-      case 'rejected': return 'Rejetée';
+      case 'PUBLIE': return 'Publié';
+      case 'EN_ATTENTE': return 'En attente';
+      case 'REJETE': return 'Rejeté';
+      case 'SUSPENDU': return 'Suspendu';
       default: return status;
     }
   };
+
+  const primaryPhoto = ad.photos?.find((photo: any) => photo.isPrimary) || ad.photos?.[0];
 
   return (
     <DialogContent className="max-w-2xl">
@@ -47,60 +33,42 @@ const AdViewDialog = ({ ad }: AdViewDialogProps) => {
       <div className="space-y-6">
         <div className="flex gap-6">
           <img 
-            src={ad.image} 
+            src={primaryPhoto?.url || '/placeholder.svg'} 
             alt={ad.title}
             className="w-32 h-32 rounded-lg object-cover"
           />
           <div className="flex-1 space-y-3">
             <div>
               <h2 className="text-2xl font-bold">{ad.title}</h2>
-              <p className="text-muted-foreground">{ad.category}</p>
+              <p className="text-muted-foreground">
+                {ad.category?.displayName || ad.category?.name} - {ad.subcategory?.displayName || ad.subcategory?.name}
+              </p>
             </div>
             
             <div className="flex items-center gap-2">
-              <Badge className={getValidationStatusColor(ad.validationStatus)}>
-                {getValidationStatusText(ad.validationStatus)}
+              <Badge className={getPublicationStatusColor(ad.publicationStatus)}>
+                {getPublicationStatusText(ad.publicationStatus)}
               </Badge>
-              <Badge variant={ad.published ? 'default' : 'secondary'}>
-                {ad.published ? 'Publié' : 'Non publié'}
-              </Badge>
-            </div>
-            
-            <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-1">
-                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                {ad.rating}
-              </div>
-              <div>
-                {ad.totalRentals} locations réalisées
-              </div>
             </div>
             
             <div className="text-2xl font-bold text-primary">
-              {ad.price}€/jour
+              {ad.totalPrice ? `${ad.totalPrice.toFixed(2)}€/jour` : `${ad.basePrice}€/jour`}
+              {ad.totalPrice && (
+                <div className="text-sm text-muted-foreground mt-1">
+                  Prix de base: {ad.basePrice}€ + frais de service
+                </div>
+              )}
             </div>
           </div>
         </div>
         
         <div className="space-y-2">
           <h3 className="font-semibold">Description</h3>
-          <p className="text-muted-foreground">
-            Outil de qualité professionnelle, parfait pour tous vos projets. 
-            Facile à utiliser et très efficace.
-          </p>
-        </div>
-        
-        <div className="space-y-2">
-          <h3 className="font-semibold">Conditions de location</h3>
-          <ul className="text-sm text-muted-foreground space-y-1">
-            <li>• Caution de sécurité requise</li>
-            <li>• Retour dans le même état</li>
-            <li>• Mode d'emploi fourni</li>
-          </ul>
+          <p className="text-muted-foreground">{ad.description}</p>
         </div>
       </div>
     </DialogContent>
   );
 };
 
-export default AdViewDialog;
+export default AdViewDialog; 

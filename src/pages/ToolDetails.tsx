@@ -1,72 +1,326 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useFavorites } from '@/contexts/FavoritesContext';
+import { useToolDetails } from '@/hooks/useTools';
+import { useToast } from '@/hooks/use-toast';
+import listingApiService from '@/services/ListingApi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Skeleton } from '@/components/ui/skeleton';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { mockTools } from '@/data/mockData';
-import { Star, MapPin, User, CheckCircle, ArrowLeft, Heart } from 'lucide-react';
+import { Star, MapPin, User, CheckCircle, ArrowLeft, Heart, AlertCircle, Edit, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { Tool, ToolReview } from '@/types/tool';
 
 const ToolDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { t } = useLanguage();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
-  const tool = mockTools.find(t => t.id === id) || mockTools[0];
+  const { tool, loading, error, fetchTool } = useToolDetails();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   
   const [currentReviewPage, setCurrentReviewPage] = useState(1);
-  const reviewsPerPage = 3;
+  const [reviews, setReviews] = useState<ToolReview[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  // Mock data for the new fields
-  const toolDetails = {
-    ...tool,
-    brand: "DeWalt",
-    model: "DCD771C2",
-    purchaseYear: "2022",
-    subcategory: "Construction",
-    condition: "Très bon état",
-    deposit: 50,
-    ownerInstructions: "Veuillez manipuler avec précaution. Retourner l'outil propre et chargé. En cas de problème, contactez-moi immédiatement.",
-    owner: {
-      name: "Pierre Dubois",
-      avatar: "/placeholder.svg",
-      verified: true
+  // Review form state
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewError, setReviewError] = useState<string | null>(null);
+  const [allReviewsState, setAllReviewsState] = useState<ToolReview[]>([]);
+  
+  // Edit review state
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [editRating, setEditRating] = useState(5);
+  const [editComment, setEditComment] = useState('');
+  const [editSubmitting, setEditSubmitting] = useState(false);
+  
+  // User review state
+  const [hasUserReviewed, setHasUserReviewed] = useState(false);
+  const [checkingUserReview, setCheckingUserReview] = useState(false);
+
+  useEffect(() => {
+    if (id) {
+      fetchTool(id);
+    }
+  }, [id]); // Only depend on id changes
+
+  // Mock reviews data (since backend doesn't have reviews yet)
+  const allReviews: ToolReview[] = [
+    { 
+      id: '1', 
+      rating: 5, 
+      comment: "Excellent outil, très bien entretenu. Le propriétaire est très réactif et arrangeant.", 
+      createdAt: "2024-06-15",
+      user: { firstName: "Marie", lastName: "L." }
+    },
+    { 
+      id: '2', 
+      rating: 4, 
+      comment: "Bon outil, fonctionne parfaitement. Quelques traces d'usure normale.", 
+      createdAt: "2024-06-10",
+      user: { firstName: "Jean", lastName: "M." }
+    },
+    { 
+      id: '3', 
+      rating: 5, 
+      comment: "Parfait ! Exactement ce dont j'avais besoin pour mes travaux.", 
+      createdAt: "2024-06-05",
+      user: { firstName: "Sophie", lastName: "R." }
+    },
+  ];
+
+  // Fetch reviews from backend (replace mock)
+  useEffect(() => {
+    if (tool?.id) {
+      listingApiService.getToolReviews(tool.id).then(res => {
+        setAllReviewsState((res.data as ToolReview[]) || []);
+      });
+      
+      // Check if current user has reviewed this tool
+      setCheckingUserReview(true);
+      listingApiService.checkUserReview(tool.id)
+        .then(res => {
+          setHasUserReviewed((res as any).hasReviewed);
+        })
+        .catch(err => {
+          console.error('Error checking user review:', err);
+          setHasUserReviewed(false);
+        })
+        .finally(() => {
+          setCheckingUserReview(false);
+        });
+    }
+  }, [tool?.id]);
+
+  const reviewsPerPage = 3;
+  const totalReviews = allReviewsState.length;
+  const totalPages = Math.ceil(totalReviews / reviewsPerPage);
+  const startIndex = (currentReviewPage - 1) * reviewsPerPage;
+  const currentReviews = allReviewsState.slice(startIndex, startIndex + reviewsPerPage);
+
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+
+  const handleFavoriteToggle = async () => {
+    if (!tool || favoriteLoading) return;
+    
+    try {
+      setFavoriteLoading(true);
+      if (isFavorite(tool.id)) {
+        await removeFromFavorites(tool.id);
+        toast({ title: 'Retiré des favoris', description: tool.title });
+      } else {
+        await addToFavorites(tool.id);
+        toast({ title: 'Ajouté aux favoris', description: tool.title });
+      }
+    } catch (error) {
+      toast({ 
+        title: 'Erreur', 
+        description: 'Erreur lors de la modification des favoris',
+        variant: 'destructive'
+      });
+    } finally {
+      setFavoriteLoading(false);
     }
   };
 
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!tool) return;
+    setReviewSubmitting(true);
+    setReviewError(null);
+    try {
+      await listingApiService.createToolReview(tool.id, { rating: reviewRating, comment: reviewComment });
+      toast({ title: 'Avis soumis', description: 'Merci pour votre retour !' });
+      setReviewComment('');
+      setReviewRating(5);
+      setHasUserReviewed(true); // Mark as reviewed
+      // Refresh reviews
+      const res = await listingApiService.getToolReviews(tool.id);
+      setAllReviewsState((res.data as ToolReview[]) || []);
+    } catch (err: any) {
+      setReviewError(err.message || 'Erreur lors de la soumission de l\'avis');
+    } finally {
+      setReviewSubmitting(false);
+    }
+  };
+
+  const handleEditReview = (review: ToolReview) => {
+    setEditingReviewId(review.id);
+    setEditRating(review.rating);
+    setEditComment(review.comment);
+  };
+
+  const handleUpdateReview = async (reviewId: string) => {
+    if (!tool) return;
+    setEditSubmitting(true);
+    try {
+      await listingApiService.updateToolReview(tool.id, reviewId, { 
+        rating: editRating, 
+        comment: editComment 
+      });
+      toast({ title: 'Avis modifié', description: 'Votre avis a été mis à jour avec succès !' });
+      setEditingReviewId(null);
+      // Refresh reviews
+      const res = await listingApiService.getToolReviews(tool.id);
+      setAllReviewsState((res.data as ToolReview[]) || []);
+    } catch (err: any) {
+      toast({ 
+        title: 'Erreur', 
+        description: err.message || 'Erreur lors de la modification de l\'avis',
+        variant: 'destructive'
+      });
+    } finally {
+      setEditSubmitting(false);
+    }
+  };
+
+  const handleDeleteReview = async (reviewId: string) => {
+    if (!tool) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cet avis ?')) return;
+    
+    try {
+      await listingApiService.deleteToolReview(tool.id, reviewId);
+      toast({ title: 'Avis supprimé', description: 'Votre avis a été supprimé avec succès !' });
+      
+      // Refresh reviews
+      const res = await listingApiService.getToolReviews(tool.id);
+      setAllReviewsState((res.data as ToolReview[]) || []);
+      
+      // Check if user still has a review after deletion
+      setCheckingUserReview(true);
+      try {
+        const checkRes = await listingApiService.checkUserReview(tool.id);
+        setHasUserReviewed((checkRes as any).hasReviewed);
+      } catch (err) {
+        console.error('Error checking user review after deletion:', err);
+        setHasUserReviewed(false);
+      } finally {
+        setCheckingUserReview(false);
+      }
+    } catch (err: any) {
+      toast({ 
+        title: 'Erreur', 
+        description: err.message || 'Erreur lors de la suppression de l\'avis',
+        variant: 'destructive'
+      });
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingReviewId(null);
+    setEditRating(5);
+    setEditComment('');
+  };
+
+  // Check if current user is the author of the review
+  const isCurrentUserReview = (review: ToolReview) => {
+    // For now, we'll show edit/delete for all reviews
+    // In a real app, you'd compare with the current user's ID
+    // This would require getting the current user from context or API
+    return true; // Temporary - show for all reviews
+  };
+
+  const getConditionDisplayName = (condition: string) => {
+    const conditionMap: Record<string, string> = {
+      'NEUF': 'Neuf',
+      'TRES_BON': 'Très bon état',
+      'BON': 'Bon état',
+      'MOYEN': 'État moyen',
+      'MAUVAIS': 'Mauvais état'
+    };
+    return conditionMap[condition] || condition;
+  };
+
+  const getAvailabilityStatusDisplay = (status: string) => {
+    const statusMap: Record<string, string> = {
+      'DISPONIBLE': 'Disponible',
+      'RESERVE': 'Réservé',
+      'SUSPENDU': 'Suspendu',
+      'EN_ATTENTE': 'En attente de validation'
+    };
+    return statusMap[status] || status;
+  };
+
+  const getAvailabilityStatusColor = (status: string) => {
+    const colorMap: Record<string, string> = {
+      'DISPONIBLE': 'bg-green-500',
+      'RESERVE': 'bg-orange-500',
+      'SUSPENDU': 'bg-red-500',
+      'EN_ATTENTE': 'bg-yellow-500'
+    };
+    return colorMap[status] || 'bg-gray-500';
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <Skeleton className="h-8 w-48 mb-6" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div>
+                <Skeleton className="h-96 w-full mb-4" />
+                <div className="grid grid-cols-4 gap-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <Skeleton key={i} className="h-20 w-full" />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <Skeleton className="h-8 w-3/4 mb-4" />
+                <Skeleton className="h-6 w-1/2 mb-6" />
+                <Skeleton className="h-32 w-full mb-6" />
+              </div>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !tool) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center">
+              <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
+              <h1 className="text-2xl font-bold mb-2">Outil non trouvé</h1>
+              <p className="text-gray-600 mb-6">
+                {error || "L'outil que vous recherchez n'existe pas ou a été supprimé."}
+              </p>
+              <Link to="/search">
+                <Button>Retour à la recherche</Button>
+              </Link>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   // Calculate prices with 5.4% fees
-  const originalPrice = tool.price; // Original price entered by owner
-  const feeRate = 0.054; // 5.4%
+  const originalPrice = tool.basePrice;
+  const feeRate = 0.054;
   const feeAmount = originalPrice * feeRate;
   const displayPrice = originalPrice + feeAmount;
 
-  // Mock reviews data
-  const allReviews = [
-    { id: 1, user: "Marie L.", rating: 5, comment: "Excellent outil, très bien entretenu. Le propriétaire est très réactif et arrangeant.", date: "2024-06-15" },
-    { id: 2, user: "Jean M.", rating: 4, comment: "Bon outil, fonctionne parfaitement. Quelques traces d'usure normale.", date: "2024-06-10" },
-    { id: 3, user: "Sophie R.", rating: 5, comment: "Parfait ! Exactement ce dont j'avais besoin pour mes travaux.", date: "2024-06-05" },
-    { id: 4, user: "Antoine B.", rating: 4, comment: "Outil de qualité, propriétaire disponible et sympa.", date: "2024-05-28" },
-    { id: 5, user: "Lucie V.", rating: 5, comment: "Je recommande vivement, très bon rapport qualité-prix.", date: "2024-05-20" },
-  ];
-
-  const totalReviews = allReviews.length;
-  const totalPages = Math.ceil(totalReviews / reviewsPerPage);
-  const startIndex = (currentReviewPage - 1) * reviewsPerPage;
-  const currentReviews = allReviews.slice(startIndex, startIndex + reviewsPerPage);
-
-  const handleFavoriteToggle = () => {
-    if (isFavorite(tool.id)) {
-      removeFromFavorites(tool.id);
-    } else {
-      addToFavorites(tool);
-    }
-  };
+  const primaryPhoto = tool.photos.find(photo => photo.isPrimary) || tool.photos[0];
+  const allPhotos = tool.photos.length > 0 ? tool.photos : [{ url: '/placeholder.svg', filename: 'placeholder', isPrimary: true }];
 
   return (
     <div className="min-h-screen bg-background">
@@ -85,15 +339,17 @@ const ToolDetails = () => {
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={toolDetails.owner.avatar} alt={toolDetails.owner.name} />
+                  <AvatarImage src="/placeholder.svg" alt={`${tool.owner.firstName} ${tool.owner.lastName}`} />
                   <AvatarFallback>
                     <User className="h-8 w-8" />
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-semibold">{toolDetails.owner.name}</h2>
-                    {toolDetails.owner.verified && (
+                    <h2 className="text-xl font-semibold">
+                      {tool.owner.firstName} {tool.owner.lastName}
+                    </h2>
+                    {tool.owner.isVerified && (
                       <Badge variant="secondary" className="bg-green-100 text-green-800">
                         <CheckCircle className="h-3 w-3 mr-1" />
                         Vérifié
@@ -110,17 +366,20 @@ const ToolDetails = () => {
             {/* Images */}
             <div>
               <img 
-                src={tool.images[0]} 
+                src={allPhotos[selectedImageIndex]?.url || '/placeholder.svg'} 
                 alt={tool.title}
                 className="w-full h-96 object-cover rounded-lg mb-4"
               />
               <div className="grid grid-cols-4 gap-2">
-                {tool.images.map((image, index) => (
+                {allPhotos.map((photo, index) => (
                   <img 
-                    key={index}
-                    src={image} 
+                    key={photo.id || index}
+                    src={photo.url} 
                     alt={`${tool.title} ${index + 1}`}
-                    className="w-full h-20 object-cover rounded cursor-pointer hover:opacity-80"
+                    className={`w-full h-20 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity ${
+                      selectedImageIndex === index ? 'ring-2 ring-accent' : ''
+                    }`}
+                    onClick={() => setSelectedImageIndex(index)}
                   />
                 ))}
               </div>
@@ -129,30 +388,39 @@ const ToolDetails = () => {
             {/* Tool Information */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Badge variant="secondary">{tool.category}</Badge>
-                <Badge variant="outline">{toolDetails.subcategory}</Badge>
-                <Badge className="bg-green-500">{toolDetails.condition}</Badge>
+                <Badge variant="secondary">{tool.category.displayName}</Badge>
+                <Badge variant="outline">{tool.subcategory.displayName}</Badge>
+                <Badge className="bg-green-500">{getConditionDisplayName(tool.condition)}</Badge>
+                <Badge className={getAvailabilityStatusColor(tool.availabilityStatus)}>
+                  {getAvailabilityStatusDisplay(tool.availabilityStatus)}
+                </Badge>
               </div>
 
               <h1 className="text-3xl font-bold mb-4">{tool.title}</h1>
               
               <div className="space-y-3 mb-6">
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <span className="text-gray-600">Marque:</span>
-                    <span className="ml-2 font-medium">{toolDetails.brand}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Modèle:</span>
-                    <span className="ml-2 font-medium">{toolDetails.model}</span>
-                  </div>
-                  <div>
-                    <span className="text-gray-600">Année d'achat:</span>
-                    <span className="ml-2 font-medium">{toolDetails.purchaseYear}</span>
-                  </div>
+                  {tool.brand && (
+                    <div>
+                      <span className="text-gray-600">Marque:</span>
+                      <span className="ml-2 font-medium">{tool.brand}</span>
+                    </div>
+                  )}
+                  {tool.model && (
+                    <div>
+                      <span className="text-gray-600">Modèle:</span>
+                      <span className="ml-2 font-medium">{tool.model}</span>
+                    </div>
+                  )}
+                  {tool.year && (
+                    <div>
+                      <span className="text-gray-600">Année d'achat:</span>
+                      <span className="ml-2 font-medium">{tool.year}</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-1">
                     <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600">{tool.location}</span>
+                    <span className="text-gray-600">{tool.pickupAddress}</span>
                   </div>
                 </div>
               </div>
@@ -160,8 +428,12 @@ const ToolDetails = () => {
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{tool.rating}</span>
-                  <span className="text-gray-500">({tool.reviews} avis)</span>
+                  <span className="font-medium">
+                    {tool.reviewStats?.averageRating || 0}
+                  </span>
+                  <span className="text-gray-500">
+                    ({tool.reviewStats?.totalReviews || 0} avis)
+                  </span>
                 </div>
               </div>
 
@@ -173,25 +445,39 @@ const ToolDetails = () => {
                   Incluant taxes et frais : {feeAmount.toFixed(1)} € (5,4% des {originalPrice} € saisis par le loueur)
                 </div>
                 <div className="text-sm text-gray-600 mb-4">
-                  Caution: {toolDetails.deposit}€ (remboursée en fin de location)
+                  Caution: {tool.depositAmount}€ (remboursée en fin de location)
                 </div>
                 <div className="space-y-2">
                   <Link to={`/rent/${tool.id}`}>
-                    <Button className="w-full" size="lg">
-                      Louer maintenant
+                    <Button 
+                      className="w-full" 
+                      size="lg"
+                      disabled={tool.availabilityStatus !== 'DISPONIBLE'}
+                    >
+                      {tool.availabilityStatus === 'DISPONIBLE' ? 'Louer maintenant' : 'Non disponible'}
                     </Button>
                   </Link>
                   <Button 
                     variant="outline" 
                     className="w-full" 
                     onClick={handleFavoriteToggle}
+                    disabled={favoriteLoading}
                   >
-                    <Heart 
-                      className={`h-4 w-4 mr-2 ${
-                        isFavorite(tool.id) ? 'fill-red-500 text-red-500' : ''
-                      }`} 
-                    />
-                    {isFavorite(tool.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                    {favoriteLoading ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />
+                    ) : (
+                      <Heart 
+                        className={`h-4 w-4 mr-2 ${
+                          isFavorite(tool.id) ? 'fill-red-500 text-red-500' : ''
+                        }`} 
+                      />
+                    )}
+                    {favoriteLoading 
+                      ? 'Modification...' 
+                      : isFavorite(tool.id) 
+                        ? 'Retirer des favoris' 
+                        : 'Ajouter aux favoris'
+                    }
                   </Button>
                 </div>
               </div>
@@ -199,59 +485,158 @@ const ToolDetails = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-8">
-            {/* Description and Reviews */}
+            {/* Description */}
             <div>
               <Card className="mb-6">
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Description</h2>
                   <p className="text-gray-700 mb-6">{tool.description}</p>
                   
-                  <h3 className="text-lg font-semibold mb-3">Caractéristiques</h3>
-                  <ul className="grid grid-cols-2 gap-2">
-                    {tool.features.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-accent rounded-full"></div>
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {tool.ownerInstructions && (
+                    <>
+                      <h3 className="text-lg font-semibold mb-3">Consignes du propriétaire</h3>
+                      <p className="text-gray-700">{tool.ownerInstructions}</p>
+                    </>
+                  )}
                 </CardContent>
               </Card>
 
-              {/* Owner Instructions */}
-              <Card className="mb-6">
-                <CardContent className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Consignes du propriétaire</h2>
-                  <p className="text-gray-700">{toolDetails.ownerInstructions}</p>
-                </CardContent>
-              </Card>
-
-              {/* Reviews with Pagination */}
+              {/* Reviews with Pagination and Submission */}
               <Card>
                 <CardContent className="p-6">
                   <h2 className="text-xl font-semibold mb-4">Avis des locataires</h2>
+                  
+                  {/* Review form - only show if user hasn't reviewed */}
+                  {!hasUserReviewed && !checkingUserReview && (
+                    <form onSubmit={handleReviewSubmit} className="mb-6 space-y-2">
+                      <div className="flex items-center gap-2">
+                        {[1,2,3,4,5].map(star => (
+                          <button
+                            type="button"
+                            key={star}
+                            onClick={() => setReviewRating(star)}
+                            className={star <= reviewRating ? 'text-yellow-400' : 'text-gray-300'}
+                            aria-label={`Note ${star}`}
+                          >
+                            <Star className="h-5 w-5" />
+                          </button>
+                        ))}
+                      </div>
+                      <textarea
+                        className="w-full border rounded p-2"
+                        rows={3}
+                        placeholder="Votre avis..."
+                        value={reviewComment}
+                        onChange={e => setReviewComment(e.target.value)}
+                        required
+                      />
+                      <div className="flex items-center gap-2">
+                        <Button type="submit" disabled={reviewSubmitting || !reviewComment.trim()}>
+                          {reviewSubmitting ? 'Envoi...' : 'Envoyer mon avis'}
+                        </Button>
+                        {reviewError && <span className="text-red-500 text-sm">{reviewError}</span>}
+                      </div>
+                    </form>
+                  )}
+                  
+                  {/* Show message if user has already reviewed */}
+                  {hasUserReviewed && (
+                    <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-green-800 text-sm">
+                        ✅ Vous avez déjà laissé un avis pour cet outil.
+                      </p>
+                    </div>
+                  )}
                   <div className="space-y-4 mb-6">
                     {currentReviews.map((review) => (
                       <div key={review.id} className="border-b pb-4 last:border-b-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="flex items-center">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star 
-                                key={star} 
-                                className={`h-4 w-4 ${
-                                  star <= review.rating 
-                                    ? 'fill-yellow-400 text-yellow-400' 
-                                    : 'text-gray-300'
-                                }`} 
-                              />
-                            ))}
+                        {editingReviewId === review.id ? (
+                          // Edit mode
+                          <div className="space-y-3">
+                            <div className="flex items-center gap-2">
+                              {[1,2,3,4,5].map(star => (
+                                <button
+                                  type="button"
+                                  key={star}
+                                  onClick={() => setEditRating(star)}
+                                  className={star <= editRating ? 'text-yellow-400' : 'text-gray-300'}
+                                  aria-label={`Note ${star}`}
+                                >
+                                  <Star className="h-5 w-5" />
+                                </button>
+                              ))}
+                            </div>
+                            <textarea
+                              className="w-full border rounded p-2"
+                              rows={3}
+                              placeholder="Votre avis..."
+                              value={editComment}
+                              onChange={e => setEditComment(e.target.value)}
+                              required
+                            />
+                            <div className="flex items-center gap-2">
+                              <Button 
+                                size="sm"
+                                onClick={() => handleUpdateReview(review.id)}
+                                disabled={editSubmitting || !editComment.trim()}
+                              >
+                                {editSubmitting ? 'Modification...' : 'Sauvegarder'}
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={cancelEdit}
+                                disabled={editSubmitting}
+                              >
+                                Annuler
+                              </Button>
+                            </div>
                           </div>
-                          <span className="font-medium">{review.user}</span>
-                          <span className="text-sm text-gray-500">
-                            {format(new Date(review.date), 'dd MMMM yyyy', { locale: fr })}
-                          </span>
-                        </div>
-                        <p className="text-gray-700">{review.comment}</p>
+                        ) : (
+                          // View mode
+                          <>
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <div className="flex items-center">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star 
+                                      key={star} 
+                                      className={`h-4 w-4 ${star <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
+                                    />
+                                  ))}
+                                </div>
+                                <span className="font-medium">
+                                  {review.user?.firstName || review.reviewer?.firstName} {review.user?.lastName || review.reviewer?.lastName}
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                  {format(new Date(review.createdAt), 'dd MMMM yyyy', { locale: fr })}
+                                </span>
+                              </div>
+                              {/* Edit/Delete buttons - only show for user's own reviews */}
+                              {isCurrentUserReview(review) && (
+                                <div className="flex items-center gap-2">
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost"
+                                    onClick={() => handleEditReview(review)}
+                                    className="h-8 w-8 p-0"
+                                  >
+                                    <Edit className="h-4 w-4" />
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost"
+                                    onClick={() => handleDeleteReview(review.id)}
+                                    className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-gray-700">{review.comment}</p>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>

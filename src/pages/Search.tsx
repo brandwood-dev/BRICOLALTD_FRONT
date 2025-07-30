@@ -11,21 +11,35 @@ import { Badge } from '@/components/ui/badge';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { mockTools } from '@/data/mockData';
-import { Search as SearchIcon, MapPin, Star, Filter, Heart } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import { useFavorites } from '@/contexts/FavoritesContext';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { Filter, MapPin, SearchIcon, Star, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useRef } from 'react';
+
+const API_URL = 'http://localhost:3001/tools';
 
 const Search = () => {
   const { t } = useLanguage();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const [searchParams] = useSearchParams();
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const { toast } = useToast();
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [selectedSubCategory, setSelectedSubCategory] = useState('all');
-  const [filteredTools, setFilteredTools] = useState(mockTools);
+  const [searchText, setSearchText] = useState('');
+  const [addressInput, setAddressInput] = useState('');
+  const [addressSuggestions, setAddressSuggestions] = useState([]);
+  const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const addressTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [location, setLocation] = useState('');
+  const [tools, setTools] = useState([]);
+  const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+  const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState('recent');
 
   // Category mapping
   const categoryMap: { [key: string]: string } = {
@@ -52,21 +66,111 @@ const Search = () => {
     return originalPrice + feeAmount;
   };
 
-  useEffect(() => {
-    // Filter tools based on selected category
-    let filtered = mockTools;
+  const [favoriteLoading, setFavoriteLoading] = useState<string | null>(null);
+
+  // Handle favorite toggle
+  const handleFavoriteToggle = async (toolId: string, toolTitle: string) => {
+    if (favoriteLoading === toolId) return; // Prevent multiple clicks
     
-    if (selectedCategory !== 'all') {
-      const categoryName = categoryMap[selectedCategory];
-      if (categoryName) {
-        filtered = mockTools.filter(tool => 
-          tool.category.toLowerCase().includes(categoryName.toLowerCase())
-        );
+    try {
+      setFavoriteLoading(toolId);
+      if (isFavorite(toolId)) {
+        await removeFromFavorites(toolId);
+        toast({ title: 'Retiré des favoris', description: toolTitle });
+      } else {
+        await addToFavorites(toolId);
+        toast({ title: 'Ajouté aux favoris', description: toolTitle });
       }
+    } catch (error) {
+      toast({ 
+        title: 'Erreur', 
+        description: 'Erreur lors de la modification des favoris',
+        variant: 'destructive'
+      });
+    } finally {
+      setFavoriteLoading(null);
     }
-    
-    setFilteredTools(filtered);
-  }, [selectedCategory]);
+  };
+
+  // Add this function to reset all filters
+  const resetFilters = () => {
+    setSearchText('');
+    setLocation('');
+    setSelectedCategory('all');
+    setSelectedSubCategory('all');
+    setPriceRange([0, 1000]);
+    setCurrentPage(1);
+  };
+
+  // Address autocomplete handler
+  useEffect(() => {
+    if (!addressInput) {
+      setAddressSuggestions([]);
+      return;
+    }
+    if (addressTimeout.current) clearTimeout(addressTimeout.current);
+    addressTimeout.current = setTimeout(async () => {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressInput)}&addressdetails=1&limit=5`);
+      const data = await res.json();
+      setAddressSuggestions(data);
+    }, 300);
+    // eslint-disable-next-line
+  }, [addressInput]);
+
+  // Fetch tools from backend
+  const fetchTools = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (selectedCategory !== 'all') params.append('category', selectedCategory);
+      if (selectedSubCategory !== 'all') params.append('subcategory', selectedSubCategory);
+      if (searchText) params.append('search', searchText);
+      params.append('page', String(currentPage));
+      params.append('limit', String(itemsPerPage));
+      params.append('minPrice', String(priceRange[0]));
+      params.append('maxPrice', String(priceRange[1]));
+      params.append('sortBy', sortBy);
+      // GEOSEARCH: add lat/lon/radius if address selected
+      if (selectedCoords) {
+        params.append('latitude', String(selectedCoords.lat));
+        params.append('longitude', String(selectedCoords.lon));
+        params.append('radius', '10'); // 10km default
+      }
+      const res = await fetch(`${API_URL}?${params.toString()}`);
+      if (!res.ok) throw new Error('Erreur lors du chargement des outils');
+      const data = await res.json();
+      
+      // Map backend fields to frontend expectations
+      const mappedTools = (data.data || []).map(tool => {
+        console.log('Tool data:', tool); // Debug log
+        return {
+          ...tool,
+          images: tool.photos?.map(photo => photo.url) || [],
+          price: tool.basePrice,
+          location: tool.pickupAddress,
+          category: tool.category?.name || tool.category,
+          owner: tool.owner?.firstName ? `${tool.owner.firstName} ${tool.owner.lastName}` : 'Unknown',
+          rating: tool.reviewStats?.averageRating || 0,
+          reviews: tool.reviewStats?.totalReviews || 0,
+          available: tool.availabilityStatus === 'AVAILABLE' || tool.availabilityStatus === 'DISPONIBLE' || tool.availabilityStatus === 'available'
+        };
+      });
+      
+      setTools(mappedTools);
+      setTotal(data.total || 0);
+    } catch (err) {
+      toast({ title: 'Erreur', description: err.message || 'Erreur inconnue', variant: 'destructive' });
+      setTools([]);
+      setTotal(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTools();
+    // eslint-disable-next-line
+  }, [selectedCategory, selectedSubCategory, searchText, priceRange[0], priceRange[1], currentPage, sortBy, selectedCoords]);
 
   // Set initial category from URL params
   useEffect(() => {
@@ -82,11 +186,12 @@ const Search = () => {
     setCurrentPage(1); // Reset to first page when category changes
   }, [selectedCategory]);
 
+  // Remove all mockTools/filter logic, use tools and total from API
   // Calculate pagination
-  const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
+  const totalPages = Math.ceil(total / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentTools = filteredTools.slice(startIndex, endIndex);
+  const currentTools = tools.slice(startIndex, endIndex);
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,15 +213,46 @@ const Search = () => {
                       <Label>Recherche</Label>
                       <div className="relative">
                         <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input placeholder="Nom de l'outil..." className="pl-10" />
+                        <Input 
+                          placeholder="Nom de l'outil..." 
+                          className="pl-10"
+                          value={searchText}
+                          onChange={(e) => setSearchText(e.target.value)}
+                        />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Localisation</Label>
+                      <Label>Adresse</Label>
                       <div className="relative">
                         <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input placeholder="Ville, code postal..." className="pl-10" />
+                        <Input
+                          placeholder="Adresse, ville..."
+                          className="pl-10"
+                          value={addressInput}
+                          onChange={e => {
+                            setAddressInput(e.target.value);
+                            setSelectedCoords(null);
+                          }}
+                          autoComplete="off"
+                        />
+                        {addressSuggestions.length > 0 && (
+                          <div className="absolute z-10 bg-white border rounded w-full mt-1 shadow-lg max-h-48 overflow-auto">
+                            {addressSuggestions.map((s, idx) => (
+                              <div
+                                key={s.place_id}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                                onClick={() => {
+                                  setAddressInput(s.display_name);
+                                  setSelectedCoords({ lat: parseFloat(s.lat), lon: parseFloat(s.lon) });
+                                  setAddressSuggestions([]);
+                                }}
+                              >
+                                {s.display_name}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -162,7 +298,8 @@ const Search = () => {
                         <Slider
                           value={priceRange}
                           onValueChange={setPriceRange}
-                          max={100}
+                          max={1000}
+                          min={0}
                           step={5}
                           className="mt-2"
                         />
@@ -178,7 +315,7 @@ const Search = () => {
                       </div>
                     </div>
 
-                    <Button className="w-full">Appliquer les filtres</Button>
+                    <Button className="w-full" onClick={resetFilters}>Réinitialiser les filtres</Button>
                   </div>
                 </CardContent>
               </Card>
@@ -188,14 +325,14 @@ const Search = () => {
             <div className="lg:col-span-3">
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <h1 className="text-2xl font-bold">{filteredTools.length} outils trouvés</h1>
+                  <h1 className="text-2xl font-bold">{total} outils trouvés</h1>
                   {selectedCategory !== 'all' && (
                     <p className="text-gray-600 mt-1">
                       Catégorie: {categoryMap[selectedCategory] || selectedCategory}
                     </p>
                   )}
                 </div>
-                <Select>
+                <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Trier par" />
                   </SelectTrigger>
@@ -209,60 +346,101 @@ const Search = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {currentTools.map((tool) => {
-                  const displayPrice = calculateDisplayPrice(tool.price);
-                  return (
-                    <div key={tool.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover">
-                      {/* Image */}
-                      <div className="relative h-48 bg-gray-100">
-                        <img
-                          src={tool.images[0]}
-                          alt={tool.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute top-3 left-3">
-                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-                            {tool.category}
-                          </Badge>
+                {loading ? (
+                  <div className="col-span-full text-center py-10">
+                    <p>Chargement des outils...</p>
+                  </div>
+                ) : currentTools.length === 0 ? (
+                  <div className="col-span-full text-center py-10">
+                    <p>Aucun outil trouvé pour vos critères de recherche.</p>
+                  </div>
+                ) : (
+                  currentTools.map((tool) => {
+                    const displayPrice = calculateDisplayPrice(tool.price);
+                    return (
+                      <div key={tool.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden card-hover">
+                        {/* Image */}
+                        <div className="relative h-48 bg-gray-100">
+                          <img
+                            src={tool.images[0]}
+                            alt={tool.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute top-3 left-3">
+                            <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                              {tool.category}
+                            </Badge>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleFavoriteToggle(tool.id, tool.title);
+                            }}
+                            disabled={favoriteLoading === tool.id}
+                            className={`absolute top-3 right-3 px-3 py-1.5 rounded-full shadow-md transition-colors text-sm font-medium ${
+                              isFavorite(tool.id) 
+                                ? 'bg-red-500 text-white hover:bg-red-600' 
+                                : 'bg-white text-gray-700 hover:bg-gray-50'
+                            } ${favoriteLoading === tool.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          >
+                            <div className="flex items-center gap-1">
+                              {favoriteLoading === tool.id ? (
+                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                              ) : (
+                                <Heart 
+                                  className={`h-4 w-4 ${isFavorite(tool.id) ? 'fill-white' : 'text-gray-400'}`} 
+                                />
+                              )}
+                              <span className="hidden sm:inline">
+                                {favoriteLoading === tool.id 
+                                  ? '...' 
+                                  : isFavorite(tool.id) 
+                                    ? 'Retirer' 
+                                    : 'Favoris'
+                                }
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center text-sm text-gray-500">
+                              <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
+                              {tool.rating} ({tool.reviews})
+                            </div>
+                          </div>
+
+                          <h3 className="font-semibold text-gray-900 mb-2 truncate">
+                            {tool.title}
+                          </h3>
+
+                          <div className="flex items-center text-sm text-gray-500 mb-3">
+                            <MapPin className="h-4 w-4 mr-1" />
+                            {tool.location}
+                          </div>
+
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="text-lg font-bold text-primary">
+                              {displayPrice.toFixed(1)}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              par {tool.owner}
+                            </div>
+                          </div>
+
+                          <Link to={`/tool/${tool.id}`} className="w-full">
+                            <Button size="sm" className="w-full" disabled={!tool.available}>
+                              {tool.available ? (t('tools.rent') || 'Louer') : 'Indisponible'}
+                            </Button>
+                          </Link>
                         </div>
                       </div>
-
-                      {/* Content */}
-                      <div className="p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center text-sm text-gray-500">
-                            <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
-                            {tool.rating} ({tool.reviews})
-                          </div>
-                        </div>
-
-                        <h3 className="font-semibold text-gray-900 mb-2 truncate">
-                          {tool.title}
-                        </h3>
-
-                        <div className="flex items-center text-sm text-gray-500 mb-3">
-                          <MapPin className="h-4 w-4 mr-1" />
-                          {tool.location}
-                        </div>
-
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="text-lg font-bold text-primary">
-                            {displayPrice.toFixed(1)}€<span className="text-sm font-normal text-gray-500">/{t('tools.day')}</span>
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            par {tool.owner}
-                          </div>
-                        </div>
-
-                        <Link to={`/tool/${tool.id}`} className="w-full">
-                          <Button size="sm" className="w-full" disabled={!tool.available}>
-                            {tool.available ? t('tools.rent') : 'Indisponible'}
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
 
               {/* Pagination */}

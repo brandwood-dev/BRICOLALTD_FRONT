@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, Edit } from 'lucide-react';
@@ -10,122 +10,45 @@ import MyAdsSearchAndFilters from './MyAdsSearchAndFilters';
 import AdCard from './ads/AdCard';
 import AdListItem from './ads/AdListItem';
 import AdsPagination from './ads/AdsPagination';
+import listingApiService from '@/services/ListingApi';
 
 const MyAds = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const [ads, setAds] = useState([
-    {
-      id: '1',
-      title: 'Tondeuse à gazon électrique',
-      category: 'Jardinage',
-      price: 25,
-      published: true,
-      validationStatus: 'confirmed',
-      rating: 4.8,
-      totalRentals: 12,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '2',
-      title: 'Marteau-piqueur professionnel',
-      category: 'Bricolage',
-      price: 45,
-      published: false,
-      validationStatus: 'pending',
-      rating: 4.9,
-      totalRentals: 8,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '3',
-      title: 'Nettoyeur haute pression',
-      category: 'Nettoyage',
-      price: 30,
-      published: true,
-      validationStatus: 'rejected',
-      rating: 4.5,
-      totalRentals: 5,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '4',
-      title: 'Perceuse visseuse sans fil',
-      category: 'Bricolage',
-      price: 20,
-      published: true,
-      validationStatus: 'confirmed',
-      rating: 4.7,
-      totalRentals: 15,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '5',
-      title: 'Scie sauteuse professionnelle',
-      category: 'Bricolage',
-      price: 35,
-      published: true,
-      validationStatus: 'confirmed',
-      rating: 4.6,
-      totalRentals: 9,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '6',
-      title: 'Taille-haie électrique',
-      category: 'Jardinage',
-      price: 28,
-      published: false,
-      validationStatus: 'pending',
-      rating: 4.4,
-      totalRentals: 6,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '7',
-      title: 'Aspirateur industriel',
-      category: 'Nettoyage',
-      price: 40,
-      published: true,
-      validationStatus: 'confirmed',
-      rating: 4.9,
-      totalRentals: 18,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '8',
-      title: 'Ponceuse orbitale',
-      category: 'Bricolage',
-      price: 22,
-      published: true,
-      validationStatus: 'rejected',
-      rating: 4.3,
-      totalRentals: 4,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '9',
-      title: 'Souffleur de feuilles',
-      category: 'Jardinage',
-      price: 18,
-      published: true,
-      validationStatus: 'confirmed',
-      rating: 4.5,
-      totalRentals: 11,
-      image: '/placeholder.svg'
-    },
-    {
-      id: '10',
-      title: 'Nettoyeur vapeur',
-      category: 'Nettoyage',
-      price: 32,
-      published: false,
-      validationStatus: 'pending',
-      rating: 4.2,
-      totalRentals: 7,
-      image: '/placeholder.svg'
+  const [ads, setAds] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchUserAndAds() {
+      setLoading(true);
+      try {
+        const userRes = await listingApiService.getCurrentUser();
+        // Fix linter error: ensure id is a string
+        let id = '';
+        if (userRes && typeof userRes === 'object') {
+          if ('data' in userRes && userRes.data && typeof userRes.data === 'object' && 'id' in userRes.data) {
+            id = (userRes.data as any).id;
+          } else if ('id' in userRes) {
+            id = (userRes as any).id;
+          }
+        }
+        setUserId(id);
+        const adsRes = await listingApiService.getTools({ ownerId: id });
+        // adsRes may be { data: Tool[] } or Tool[]
+        let adsArr = Array.isArray(adsRes) ? adsRes : (Array.isArray(adsRes?.data) ? adsRes.data : []);
+        console.log('Fetched ads:', adsArr);
+        console.log('Ads with REJETE status:', adsArr.filter(ad => ad.publicationStatus === 'REJETE'));
+        setAds(adsArr);
+      } catch (e) {
+        toast({ title: 'Erreur', description: 'Impossible de charger vos annonces.' });
+        setAds([]);
+      } finally {
+        setLoading(false);
+      }
     }
-  ]);
+    fetchUserAndAds();
+  }, []);
 
   // États pour les filtres et la recherche
   const [searchTerm, setSearchTerm] = useState('');
@@ -140,17 +63,30 @@ const MyAds = () => {
 
   // Filtrage des annonces
   const filteredAds = useMemo(() => {
-    return ads.filter(ad => {
+    const filtered = ads.filter(ad => {
       const matchesSearch = ad.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           ad.category.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesValidation = validationFilter === 'all' || ad.validationStatus === validationFilter;
+                           (ad.category?.displayName || ad.category?.name || '').toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesValidation = validationFilter === 'all' || ad.publicationStatus === validationFilter;
       const matchesPublication = publicationFilter === 'all' || 
-                                (publicationFilter === 'published' && ad.published) ||
-                                (publicationFilter === 'unpublished' && !ad.published);
-      const matchesCategory = categoryFilter === 'all' || ad.category === categoryFilter;
+                                (publicationFilter === 'published' && ad.publicationStatus === 'PUBLIE') ||
+                                (publicationFilter === 'unpublished' && ad.publicationStatus !== 'PUBLIE');
+      const matchesCategory = categoryFilter === 'all' || (ad.category?.displayName || ad.category?.name) === categoryFilter;
       
       return matchesSearch && matchesValidation && matchesPublication && matchesCategory;
     });
+    
+    console.log('Filtering debug:', {
+      totalAds: ads.length,
+      validationFilter,
+      publicationFilter,
+      categoryFilter,
+      searchTerm,
+      filteredCount: filtered.length,
+      rejectedAds: ads.filter(ad => ad.publicationStatus === 'REJETE'),
+      filteredRejectedAds: filtered.filter(ad => ad.publicationStatus === 'REJETE')
+    });
+    
+    return filtered;
   }, [ads, searchTerm, validationFilter, publicationFilter, categoryFilter]);
 
   // Calculs de pagination
@@ -170,37 +106,36 @@ const MyAds = () => {
 
   const getValidationStatusColor = (status: string) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
+      case 'PUBLIE': return 'bg-green-100 text-green-800';
+      case 'EN_ATTENTE': return 'bg-yellow-100 text-yellow-800';
+      case 'REJETE': return 'bg-red-100 text-red-800';
+      case 'SUSPENDU': return 'bg-gray-100 text-gray-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   const getValidationStatusText = (status: string) => {
     switch (status) {
-      case 'confirmed': return t('tools.approved');
-      case 'pending': return t('tools.pending');
-      case 'rejected': return t('tools.rejected');
+      case 'PUBLIE': return t('tools.published');
+      case 'EN_ATTENTE': return t('tools.pending');
+      case 'REJETE': return t('tools.rejected');
+      case 'SUSPENDU': return t('tools.suspended');
       default: return status;
     }
   };
 
-  const handlePublishToggle = (adId: string, published: boolean) => {
-    setAds(prevAds => 
-      prevAds.map(ad => 
-        ad.id === adId ? { ...ad, published } : ad
-      )
-    );
+  const handleDeleteAd = async (adId: string) => {
+    try {
+      await listingApiService.deleteTool(adId);
+      setAds(prevAds => prevAds.filter(ad => ad.id !== adId));
+      toast({ title: 'Succès', description: 'Votre annonce a été bien supprimée.' });
+    } catch (e) {
+      toast({ title: 'Erreur', description: 'Impossible de supprimer cette annonce.' });
+    }
   };
 
-  const handleDeleteAd = (adId: string) => {
-    setAds(prevAds => prevAds.filter(ad => ad.id !== adId));
-    toast({
-      title: "Succès",
-      description: "Votre annonce a été bien supprimée.",
-    });
-  };
+  // Show loading spinner if loading
+  if (loading) return <div className="py-8 text-center">Chargement...</div>;
 
   return (
     <Card>
@@ -241,7 +176,7 @@ const MyAds = () => {
               <AdCard 
                 key={ad.id}
                 ad={ad}
-                onPublishToggle={handlePublishToggle}
+                onPublishToggle={() => {}} // No-op as tools are moderated
                 onDeleteAd={handleDeleteAd}
                 getValidationStatusColor={getValidationStatusColor}
                 getValidationStatusText={getValidationStatusText}
@@ -250,7 +185,7 @@ const MyAds = () => {
               <AdListItem 
                 key={ad.id}
                 ad={ad}
-                onPublishToggle={handlePublishToggle}
+                onPublishToggle={() => {}} // No-op as tools are moderated
                 onDeleteAd={handleDeleteAd}
                 getValidationStatusColor={getValidationStatusColor}
                 getValidationStatusText={getValidationStatusText}

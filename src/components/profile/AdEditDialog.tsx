@@ -6,19 +6,41 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, Euro, MapPin, Tag, FileText, Camera } from 'lucide-react';
+import { Upload, Euro, MapPin, Tag, FileText, Camera, X, Trash2 } from 'lucide-react';
+import listingApiService from '@/services/ListingApi';
 
 interface Ad {
   id: string;
   title: string;
-  category: string;
-  price: number;
-  published: boolean;
-  validationStatus: string;
-  rating: number;
-  totalRentals: number;
-  image: string;
+  description: string;
+  brand?: string;
+  model?: string;
+  year?: number;
+  condition: string;
+  pickupAddress: string;
+  basePrice: number;
+  depositAmount: number;
+  category: {
+    id: string;
+    name: string;
+    displayName: string;
+  };
+  subcategory: {
+    id: string;
+    name: string;
+    displayName: string;
+  };
+  ownerInstructions?: string;
+  publicationStatus: string;
+  availabilityStatus: string;
+  photos: Array<{
+    id: string;
+    url: string;
+    filename: string;
+    isPrimary: boolean;
+  }>;
 }
 
 interface AdEditDialogProps {
@@ -28,19 +50,22 @@ interface AdEditDialogProps {
 const AdEditDialog = ({ ad }: AdEditDialogProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    title: ad.title,
-    brand: '',
-    model: '',
-    year: '',
-    category: ad.category,
-    subcategory: '',
-    condition: '',
-    price: ad.price,
-    deposit: '',
-    location: '',
-    description: '',
-    instructions: ''
+    title: ad.title || '',
+    brand: ad.brand || '',
+    model: ad.model || '',
+    year: ad.year?.toString() || '',
+    category: ad.category?.displayName || ad.category?.name || '',
+    subcategory: ad.subcategory?.displayName || ad.subcategory?.name || '',
+    condition: ad.condition || '',
+    price: ad.basePrice?.toString() || '',
+    deposit: ad.depositAmount?.toString() || '',
+    location: ad.pickupAddress || '',
+    description: ad.description || '',
+    instructions: ad.ownerInstructions || ''
   });
+
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [existingPhotos, setExistingPhotos] = useState(ad.photos || []);
 
   const categories = {
     'jardinage': 'Jardinage',
@@ -58,17 +83,98 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
     'Événementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
   };
 
-  const handleSave = () => {
-    toast({
-      title: "Succès",
-      description: "Votre annonce a été modifiée avec succès.",
-    });
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'PUBLIE': return 'bg-green-100 text-green-800';
+      case 'EN_ATTENTE': return 'bg-yellow-100 text-yellow-800';
+      case 'REJETE': return 'bg-red-100 text-red-800';
+      case 'SUSPENDU': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'PUBLIE': return 'Publié';
+      case 'EN_ATTENTE': return 'En attente';
+      case 'REJETE': return 'Rejeté';
+      case 'SUSPENDU': return 'Suspendu';
+      default: return status;
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setSelectedFiles(prev => [...prev, ...files]);
+  };
+
+  const removeSelectedFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeExistingPhoto = (photoId: string) => {
+    setExistingPhotos(prev => prev.filter(photo => photo.id !== photoId));
+  };
+
+  const setPrimaryPhoto = (photoId: string) => {
+    setExistingPhotos(prev => 
+      prev.map(photo => ({
+        ...photo,
+        isPrimary: photo.id === photoId
+      }))
+    );
+  };
+
+  const handleSave = async () => {
+    try {
+      const updateData = new FormData();
+      updateData.append('title', formData.title);
+      updateData.append('description', formData.description);
+      updateData.append('brand', formData.brand);
+      updateData.append('model', formData.model);
+      updateData.append('year', formData.year);
+      updateData.append('condition', formData.condition);
+      updateData.append('basePrice', formData.price);
+      updateData.append('depositAmount', formData.deposit);
+      updateData.append('pickupAddress', formData.location);
+      updateData.append('ownerInstructions', formData.instructions);
+      updateData.append('category', formData.category);
+      updateData.append('subcategoryId', formData.subcategory);
+
+      // Add new photos
+      selectedFiles.forEach((file, index) => {
+        updateData.append('photos', file);
+      });
+
+      await listingApiService.updateTool(ad.id, updateData);
+      
+      toast({
+        title: "Succès",
+        description: "Votre annonce a été modifiée avec succès.",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de modifier l'annonce. Veuillez réessayer.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle>Modifier l'annonce</DialogTitle>
+        <div className="flex items-center gap-2 mt-2">
+          <Badge className={getStatusColor(ad.publicationStatus)}>
+            {getStatusText(ad.publicationStatus)}
+          </Badge>
+          {ad.publicationStatus === 'REJETE' && (
+            <span className="text-sm text-red-600">
+              Votre annonce a été rejetée. Vous pouvez la modifier et la soumettre à nouveau.
+            </span>
+          )}
+        </div>
       </DialogHeader>
       <div className="space-y-6">
         {/* Informations générales */}
@@ -201,7 +307,7 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
                 id="price"
                 type="number"
                 value={formData.price}
-                onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}
+                onChange={(e) => setFormData({...formData, price: e.target.value})}
               />
             </div>
             
@@ -243,14 +349,102 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
             Photos
           </h3>
           
-          <div className="border-2 border-dashed rounded-lg p-6 text-center">
-            <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground mb-2">
-              Glissez vos images ici ou cliquez pour parcourir
-            </p>
-            <Button variant="outline" size="sm">
-              Parcourir les fichiers
-            </Button>
+          {/* Existing Photos */}
+          {existingPhotos.length > 0 && (
+            <div className="space-y-3">
+              <Label>Photos existantes</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {existingPhotos.map((photo) => (
+                  <div key={photo.id} className="relative group">
+                    <img
+                      src={photo.url}
+                      alt="Photo de l'outil"
+                      className="w-full h-24 object-cover rounded-lg border"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded-lg flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 flex gap-1">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => setPrimaryPhoto(photo.id)}
+                          className="h-8 w-8 p-0"
+                          title={photo.isPrimary ? "Photo principale" : "Définir comme principale"}
+                        >
+                          {photo.isPrimary ? "★" : "☆"}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => removeExistingPhoto(photo.id)}
+                          className="h-8 w-8 p-0"
+                          title="Supprimer"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    {photo.isPrimary && (
+                      <div className="absolute top-1 left-1">
+                        <Badge className="bg-blue-500 text-white text-xs">Principale</Badge>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* New Photos Upload */}
+          <div className="space-y-3">
+            <Label>Ajouter de nouvelles photos</Label>
+            <div className="border-2 border-dashed rounded-lg p-6 text-center">
+              <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground mb-2">
+                Glissez vos images ici ou cliquez pour parcourir
+              </p>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+                id="photo-upload"
+              />
+              <label htmlFor="photo-upload">
+                <Button variant="outline" size="sm" className="cursor-pointer">
+                  Parcourir les fichiers
+                </Button>
+              </label>
+            </div>
+            
+            {/* Selected Files Preview */}
+            {selectedFiles.length > 0 && (
+              <div className="space-y-2">
+                <Label>Nouvelles photos sélectionnées</Label>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`Nouvelle photo ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg border"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded-lg flex items-center justify-center">
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => removeSelectedFile(index)}
+                          className="opacity-0 group-hover:opacity-100 h-8 w-8 p-0"
+                          title="Supprimer"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

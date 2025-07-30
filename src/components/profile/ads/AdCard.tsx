@@ -18,11 +18,42 @@ interface AdCardProps {
 }
 
 const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, getValidationStatusText }: AdCardProps) => {
+  const getPublicationStatusColor = (status: string) => {
+    switch (status) {
+      case 'PUBLIE': return 'bg-green-100 text-green-800';
+      case 'EN_ATTENTE': return 'bg-yellow-100 text-yellow-800';
+      case 'REJETE': return 'bg-red-100 text-red-800';
+      case 'SUSPENDU': return 'bg-gray-100 text-gray-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getPublicationStatusText = (status: string) => {
+    switch (status) {
+      case 'PUBLIE': return 'Publié';
+      case 'EN_ATTENTE': return 'En attente';
+      case 'REJETE': return 'Rejeté';
+      case 'SUSPENDU': return 'Suspendu';
+      default: return status;
+    }
+  };
+
+  const getAvailabilityStatusText = (status: string) => {
+    switch (status) {
+      case 'DISPONIBLE': return 'Disponible';
+      case 'OCCUPE': return 'Occupé';
+      case 'MAINTENANCE': return 'En maintenance';
+      default: return status;
+    }
+  };
+
+  const primaryPhoto = ad.photos?.find(photo => photo.isPrimary) || ad.photos?.[0];
+
   return (
     <div className="border rounded-lg p-4">
       <div className="flex flex-col sm:flex-row items-start gap-4">
         <img 
-          src={ad.image} 
+          src={primaryPhoto?.url || '/placeholder.svg'} 
           alt={ad.title}
           className="w-full sm:w-20 h-48 sm:h-20 rounded-lg object-cover"
         />
@@ -30,38 +61,41 @@ const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, get
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
             <div className="flex-1">
               <h3 className="font-semibold">{ad.title}</h3>
-              <p className="text-sm text-muted-foreground">{ad.category}</p>
+              <p className="text-sm text-muted-foreground">{ad.category?.displayName || ad.category?.name}</p>
             </div>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-              <Badge className={getValidationStatusColor(ad.validationStatus)}>
-                {getValidationStatusText(ad.validationStatus)}
+              <Badge className={getPublicationStatusColor(ad.publicationStatus)}>
+                {getPublicationStatusText(ad.publicationStatus)}
               </Badge>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id={`published-${ad.id}`}
-                  checked={ad.published}
-                  onCheckedChange={(checked) => onPublishToggle(ad.id, checked)}
-                />
-                <Label htmlFor={`published-${ad.id}`} className="text-sm">
-                  {ad.published ? 'Publié' : 'Non publié'}
-                </Label>
-              </div>
+              <Badge variant="outline" className="text-xs">
+                {getAvailabilityStatusText(ad.availabilityStatus)}
+              </Badge>
             </div>
           </div>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-              {ad.rating}
-            </div>
-            <div>
-              {ad.totalRentals} locations
-            </div>
+            {ad.reviewStats && (
+              <div className="flex items-center gap-1">
+                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                {ad.reviewStats.averageRating?.toFixed(1) || 0}
+                <span className="text-muted-foreground">({ad.reviewStats.totalReviews || 0} avis)</span>
+              </div>
+            )}
+            {ad._count && (
+              <div>
+                {ad._count.reservations || 0} locations
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="font-semibold text-primary">
-              {ad.price}€/jour
+              {ad.totalPrice ? `${ad.totalPrice.toFixed(2)}€/jour` : `${ad.basePrice}€/jour`}
+              {ad.totalPrice && (
+                <span className="text-xs text-muted-foreground ml-1">
+                  (base: {ad.basePrice}€ + frais)
+                </span>
+              )}
             </div>
             <div className="flex flex-wrap gap-2">
               <Dialog>

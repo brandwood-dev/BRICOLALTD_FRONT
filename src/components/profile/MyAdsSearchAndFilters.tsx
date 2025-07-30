@@ -52,9 +52,10 @@ const MyAdsSearchAndFilters = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Tous</SelectItem>
-              <SelectItem value="confirmed">Confirmé</SelectItem>
-              <SelectItem value="rejected">Rejeté</SelectItem>
-              <SelectItem value="pending">En attente</SelectItem>
+              <SelectItem value="PUBLIE">Publié</SelectItem>
+              <SelectItem value="EN_ATTENTE">En attente</SelectItem>
+              <SelectItem value="REJETE">Rejeté</SelectItem>
+              <SelectItem value="SUSPENDU">Suspendu</SelectItem>
             </SelectContent>
           </Select>
           

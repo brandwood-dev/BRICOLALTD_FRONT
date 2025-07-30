@@ -119,6 +119,18 @@ const Header = () => {
 
           {/* Mobile Right side */}
           <div className="md:hidden flex items-center space-x-2">
+            {/* Mobile Favorites */}
+            <Link to="/favorites" className="relative">
+              <Button variant="ghost" size="sm">
+                <Heart className="h-5 w-5" />
+                {favoritesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {favoritesCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+            
             <Link to="/profile">
               <Button variant="ghost" size="sm">
                 <User className="h-5 w-5" />
@@ -205,6 +217,20 @@ const Header = () => {
                           onClick={() => setIsMenuOpen(false)}
                         >
                           Contact
+                        </Link>
+                        <Link 
+                          to="/favorites" 
+                          className={`block py-3 text-gray-700 hover:text-accent transition-colors ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span>Mes Favoris</span>
+                            {favoritesCount > 0 && (
+                              <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                {favoritesCount}
+                              </span>
+                            )}
+                          </div>
                         </Link>
                       </div>
                     </div>

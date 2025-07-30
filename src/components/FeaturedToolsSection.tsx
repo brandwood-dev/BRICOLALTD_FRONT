@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 const FeaturedToolsSection = () => {
   const { t } = useLanguage();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  const [favoriteLoading, setFavoriteLoading] = useState<string | null>(null);
 
   const tools = [
     {
@@ -79,11 +80,20 @@ const FeaturedToolsSection = () => {
     }
   ];
 
-  const handleFavoriteToggle = (tool: any) => {
-    if (isFavorite(tool.id)) {
-      removeFromFavorites(tool.id);
-    } else {
-      addToFavorites(tool);
+  const handleFavoriteToggle = async (tool: any) => {
+    if (favoriteLoading === tool.id) return; // Prevent multiple clicks
+    
+    try {
+      setFavoriteLoading(tool.id);
+      if (isFavorite(tool.id)) {
+        await removeFromFavorites(tool.id);
+      } else {
+        await addToFavorites(tool.id);
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    } finally {
+      setFavoriteLoading(null);
     }
   };
 
@@ -136,13 +146,30 @@ const FeaturedToolsSection = () => {
                   </div>
                   <button
                     onClick={() => handleFavoriteToggle(tool)}
-                    className="absolute top-3 right-3 bg-white rounded-full p-1 hover:bg-gray-50"
+                    disabled={favoriteLoading === tool.id}
+                    className={`absolute top-3 right-3 px-3 py-1.5 rounded-full shadow-md transition-colors text-sm font-medium ${
+                      isFavorite(tool.id) 
+                        ? 'bg-red-500 text-white hover:bg-red-600' 
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                    } ${favoriteLoading === tool.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    <Heart 
-                      className={`h-4 w-4 ${
-                        isFavorite(tool.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'
-                      }`} 
-                    />
+                    <div className="flex items-center gap-1">
+                      {favoriteLoading === tool.id ? (
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                      ) : (
+                        <Heart 
+                          className={`h-4 w-4 ${isFavorite(tool.id) ? 'fill-white' : 'text-gray-400'}`} 
+                        />
+                      )}
+                      <span className="hidden sm:inline">
+                        {favoriteLoading === tool.id 
+                          ? '...' 
+                          : isFavorite(tool.id) 
+                            ? 'Retirer' 
+                            : 'Favoris'
+                        }
+                      </span>
+                    </div>
                   </button>
                 </div>
 
