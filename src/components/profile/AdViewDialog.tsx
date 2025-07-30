@@ -3,6 +3,7 @@ import React from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Star } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Ad {
   id: string;
@@ -38,11 +39,12 @@ const AdViewDialog = ({ ad }: AdViewDialogProps) => {
       default: return status;
     }
   };
+  const { t } = useLanguage();
 
   return (
     <DialogContent className="max-w-2xl">
       <DialogHeader>
-        <DialogTitle>Aperçu de l'annonce</DialogTitle>
+        <DialogTitle>{t('ads.view.title')}</DialogTitle>
       </DialogHeader>
       <div className="space-y-6">
         <div className="flex gap-6">
@@ -59,10 +61,10 @@ const AdViewDialog = ({ ad }: AdViewDialogProps) => {
             
             <div className="flex items-center gap-2">
               <Badge className={getValidationStatusColor(ad.validationStatus)}>
-                {getValidationStatusText(ad.validationStatus)}
+                {t(`general.${ad.validationStatus}`)}
               </Badge>
               <Badge variant={ad.published ? 'default' : 'secondary'}>
-                {ad.published ? 'Publié' : 'Non publié'}
+                {ad.published ? t('general.published') : t('general.unpublished')}
               </Badge>
             </div>
             
@@ -72,18 +74,18 @@ const AdViewDialog = ({ ad }: AdViewDialogProps) => {
                 {ad.rating}
               </div>
               <div>
-                {ad.totalRentals} locations réalisées
+                {ad.totalRentals} {t('profile.rentals_completed')}
               </div>
             </div>
             
             <div className="text-2xl font-bold text-primary">
-              {ad.price}€/jour
+              {ad.price}€/{t('general.day')}
             </div>
           </div>
         </div>
         
         <div className="space-y-2">
-          <h3 className="font-semibold">Description</h3>
+          <h3 className="font-semibold">{t('tools.desc')}</h3>
           <p className="text-muted-foreground">
             Outil de qualité professionnelle, parfait pour tous vos projets. 
             Facile à utiliser et très efficace.
@@ -91,7 +93,7 @@ const AdViewDialog = ({ ad }: AdViewDialogProps) => {
         </div>
         
         <div className="space-y-2">
-          <h3 className="font-semibold">Conditions de location</h3>
+          <h3 className="font-semibold">{t('ads.rental_conditions')}</h3>
           <ul className="text-sm text-muted-foreground space-y-1">
             <li>• Caution de sécurité requise</li>
             <li>• Retour dans le même état</li>

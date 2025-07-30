@@ -19,16 +19,16 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
   const handleReport = () => {
     if (!reportReason) {
       toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner une raison de signalement.",
+        title: t('general.error'),
+        description: t('general.report_error_message'),
         variant: "destructive"
       });
       return;
     }
     
     toast({
-      title: "Signalement envoyé",
-      description: "Votre signalement a été transmis à l'administration.",
+      title: t('request.report.accepted.title'),
+      description: t('request.report.accepted.message'),
     });
     
     // Call the callback to update the request status
@@ -50,27 +50,29 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Signaler un problème</DialogTitle>
+          <DialogTitle>{t('request.report.title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <Select value={reportReason} onValueChange={setReportReason}>
             <SelectTrigger>
-              <SelectValue placeholder="Sélectionnez une raison" />
+              <SelectValue placeholder={t('request.report.reason')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="no-response">Ne répond pas</SelectItem>
-              <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
-              <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
-              <SelectItem value="other">Autre</SelectItem>
+              <SelectItem value="no-response">{t('request.report.reason.no_show')}</SelectItem>
+              <SelectItem value="wrong-number">{t('request.report.reason.damaged_tool')}</SelectItem>
+              <SelectItem value="late-return">{t('request.report.reason.late_return')}</SelectItem>
+              <SelectItem value="inappropriate">{t('request.report.reason.inappropriate_behavior')}</SelectItem>
+              <SelectItem value="fraud_attempt">{t('request.report.reason.fraud_attempt')}</SelectItem>
+              <SelectItem value="other">{t('request.report.reason.other')}</SelectItem>
             </SelectContent>
           </Select>
           <Textarea
-            placeholder="Décrivez le problème"
+            placeholder={t('request.report.describe')}
             value={reportMessage}
             onChange={(e) => setReportMessage(e.target.value)}
           />
           <Button onClick={handleReport} className="w-full">
-            Envoyer le signalement
+            {t('request.report.submit')}
           </Button>
         </div>
       </DialogContent>

@@ -317,8 +317,8 @@ const Reservations = () => {
   const handleReport = (reservationId: string) => {
     if (!reportReason) {
       toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner une raison de signalement.",
+        title: t('general.error'),
+        description: t('general.report_error_message'),
         variant: "destructive"
       });
       return;
@@ -330,8 +330,8 @@ const Reservations = () => {
     ));
     
     toast({
-      title: "Signalement envoyé",
-      description: "Votre signalement a été transmis à l'administration.",
+      title: t('request.report.accepted.title'),
+      description: t('request.report.accepted.message'),
     });
     
     setReportReason('');
@@ -353,8 +353,8 @@ const Reservations = () => {
     ));
     
     toast({
-      title: "Retour confirmé",
-      description: "Vous avez confirmé avoir rendu l'outil. En attente de confirmation du propriétaire.",
+      title: t('tool.return.confirmed'),
+      description: t('tool.return.confirmed_message'),
     });
     
     setIsReturnDialogOpen(false);
@@ -415,8 +415,8 @@ const Reservations = () => {
       await navigator.clipboard.writeText(code);
       setCopiedCode(prev => ({ ...prev, [reservationId]: true }));
       toast({
-        title: "Code copié",
-        description: "Le code de validation a été copié dans le presse-papiers.",
+        title: t('code.copied'),
+        description: t('code.copied_message'),
       });
       setTimeout(() => {
         setCopiedCode(prev => ({ ...prev, [reservationId]: false }));
@@ -557,22 +557,22 @@ const Reservations = () => {
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Annuler la réservation</DialogTitle>
+                              <DialogTitle>{t('reservation.cancel.title')}</DialogTitle>
                             </DialogHeader>
                             <div className="space-y-4">
                               <Select value={cancellationReason} onValueChange={setCancellationReason}>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Sélectionnez une raison" />
+                                  <SelectValue placeholder={t('reservation.cancel.reason')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="change-plans">Changement de plans</SelectItem>
-                                  <SelectItem value="found-alternative">Trouvé une alternative</SelectItem>
-                                  <SelectItem value="no-longer-needed">Plus besoin</SelectItem>
-                                  <SelectItem value="other">Autre</SelectItem>
+                                  <SelectItem value="change-plans">{t('reservation.cancel.reason.unavailable')}</SelectItem>
+                                  <SelectItem value="found-alternative">{t('reservation.cancel.reason.other_alternative')}</SelectItem>
+                                  <SelectItem value="no-longer-needed">{t('reservation.cancel.reason.not_needed')}</SelectItem>
+                                  <SelectItem value="other">{t('reservation.cancel.reason.other')}</SelectItem>
                                 </SelectContent>
                               </Select>
                               <Textarea
-                                placeholder="Message complémentaire (optionnel)"
+                                placeholder={t('reservation.cancel.message')}
                                 value={cancellationMessage}
                                 onChange={(e) => setCancellationMessage(e.target.value)}
                               />
@@ -580,7 +580,7 @@ const Reservations = () => {
                                 onClick={() => handleCancelReservation(reservation.id)}
                                 className="w-full"
                               >
-                                Confirmer l'annulation
+                                {t('reservation.cancel.confirm')}
                               </Button>
                             </div>
                           </DialogContent>
@@ -603,22 +603,22 @@ const Reservations = () => {
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Annuler la réservation</DialogTitle>
+                                <DialogTitle>{t('reservation.cancel.title')}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-4">
                                 <Select value={cancellationReason} onValueChange={setCancellationReason}>
                                   <SelectTrigger>
-                                    <SelectValue placeholder="Sélectionnez une raison" />
+                                    <SelectValue placeholder={t('reservation.cancel.reason')} />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="change-plans">Changement de plans</SelectItem>
-                                    <SelectItem value="found-alternative">Trouvé une alternative</SelectItem>
-                                    <SelectItem value="no-longer-needed">Plus besoin</SelectItem>
-                                    <SelectItem value="other">Autre</SelectItem>
+                                    <SelectItem value="change-plans">{t('reservation.cancel.reason.not_needed')}</SelectItem>
+                                    <SelectItem value="found-alternative">{t('reservation.cancel.reason.other_alternative')}</SelectItem>
+                                    <SelectItem value="no-longer-needed">{t('reservation.cancel.reason.unavailable')}</SelectItem>
+                                    <SelectItem value="other">{t('reservation.cancel.reason.other')}</SelectItem>
                                   </SelectContent>
                                 </Select>
                                 <Textarea
-                                  placeholder="Message complémentaire (optionnel)"
+                                  placeholder={t('reservation.cancel.message')}
                                   value={cancellationMessage}
                                   onChange={(e) => setCancellationMessage(e.target.value)}
                                 />
@@ -626,7 +626,7 @@ const Reservations = () => {
                                   onClick={() => handleCancelReservation(reservation.id)}
                                   className="w-full"
                                 >
-                                  Confirmer l'annulation
+                                  {t('reservation.cancel.confirm')}
                                 </Button>
                               </div>
                             </DialogContent>
@@ -697,27 +697,27 @@ const Reservations = () => {
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Signaler un problème</DialogTitle>
+                                <DialogTitle>{t('booking.report.title')}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-4">
                                 <Select value={reportReason} onValueChange={setReportReason}>
                                   <SelectTrigger>
-                                    <SelectValue placeholder="Sélectionnez une raison" />
+                                    <SelectValue placeholder={t('booking.report.reason.placeholder')} />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="no-response">Ne répond pas</SelectItem>
-                                    <SelectItem value="wrong-number">Numéro incorrect</SelectItem>
-                                    <SelectItem value="inappropriate">Comportement inapproprié</SelectItem>
-                                    <SelectItem value="other">Autre</SelectItem>
+                                    <SelectItem value="no-response">{t('booking.report.reason.no_answer')}</SelectItem>
+                                    <SelectItem value="wrong-number">{t('booking.report.reason.wrong_number')}</SelectItem>
+                                    <SelectItem value="inappropriate">{t('booking.report.reason.inappropriate_behavior')}</SelectItem>
+                                    <SelectItem value="other">{t('booking.report.reason.other')}</SelectItem>
                                   </SelectContent>
                                 </Select>
                                 <Textarea
-                                  placeholder="Décrivez le problème"
+                                  placeholder={t('booking.report.describe')}
                                   value={reportMessage}
                                   onChange={(e) => setReportMessage(e.target.value)}
                                 />
                                 <Button onClick={() => handleReport(reservation.id)} className="w-full">
-                                  Envoyer le signalement
+                                  {t('booking.report.submit')}
                                 </Button>
                               </div>
                             </DialogContent>
@@ -842,15 +842,15 @@ const Reservations = () => {
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Détails de l'annulation</DialogTitle>
+                              <DialogTitle>{t('cancellation.details.title')}</DialogTitle>
                             </DialogHeader>
                             <div className="space-y-3">
                               <div>
-                                <strong>Raison :</strong> {reservation.cancellationReason}
+                                <strong>{t('cancellation.details.reason')} :</strong> {reservation.cancellationReason}
                               </div>
                               {reservation.cancellationMessage && (
                                 <div>
-                                  <strong>Message :</strong> {reservation.cancellationMessage}
+                                  <strong>{t('cancellation.details.message')} :</strong> {reservation.cancellationMessage}
                                 </div>
                               )}
                             </div>
@@ -981,16 +981,16 @@ const Reservations = () => {
         <Dialog open={isReturnDialogOpen} onOpenChange={setIsReturnDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Confirmer le retour de l'outil</DialogTitle>
+              <DialogTitle>{t('tool.return.title')}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <p>Choisissez une option :</p>
+              <p>{t('tool.return.option')}</p>
               <div className="flex flex-col gap-2">
                 <Button onClick={handleConfirmReturn} className="w-full">
-                  Je confirme que j'ai rendu l'outil
+                  {t('tool.return.confirm')}
                 </Button>
                 <Button variant="outline" onClick={handleOpenReturnClaim} className="w-full">
-                  Signaler un problème
+                  {t('tool.return.report')}
                 </Button>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { generateRentalContract } from '@/utils/contractGenerator';
 import { Request } from './types';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const getStatusColor = (status: string) => {
   switch (status) {
@@ -27,7 +28,8 @@ export const getStatusText = (status: string) => {
   }
 };
 
-export const handleDownloadContract = (request: Request, toast: any) => {
+export const handleDownloadContract = (request: Request, toast: any, t: (key: string) => string) => {
+  
   if (request.isOwnerView && request.renterName) {
     const contractData = {
       referenceId: request.referenceId,
@@ -49,8 +51,8 @@ export const handleDownloadContract = (request: Request, toast: any) => {
     generateRentalContract(contractData);
     
     toast({
-      title: "Contrat téléchargé",
-      description: "Le contrat de location a été généré et téléchargé avec succès.",
+      title: t('download.report.title'),
+      description: t('download.report.description'),
     });
   }
 };

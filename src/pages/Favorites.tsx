@@ -7,10 +7,11 @@ import { useFavorites } from '@/contexts/FavoritesContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Heart, Star, MapPin, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Favorites = () => {
   const { favorites, removeFromFavorites } = useFavorites();
-
+  const { t } = useLanguage();
   if (favorites.length === 0) {
     return (
       <div className="min-h-screen bg-background">
@@ -20,15 +21,15 @@ const Favorites = () => {
             <div className="mb-6">
               <Link to="/" className="inline-flex items-center gap-2 text-accent hover:underline">
                 <ArrowLeft className="h-4 w-4" />
-                Retour à l'accueil
+                {t('fav.backhome')}
               </Link>
             </div>
             <div className="text-center py-16">
               <Heart className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Aucun favori pour le moment</h1>
-              <p className="text-gray-600 mb-6">Explorez notre catalogue et ajoutez vos outils préférés à vos favoris</p>
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('fav.nofav')}</h1>
+              <p className="text-gray-600 mb-6">{t('fav.text')}</p>
               <Link to="/search">
-                <Button>Explorer le catalogue</Button>
+                <Button>{t('fav.btnexplore')}</Button>
               </Link>
             </div>
           </div>
@@ -46,7 +47,7 @@ const Favorites = () => {
           <div className="mb-6">
             <Link to="/" className="inline-flex items-center gap-2 text-accent hover:underline">
               <ArrowLeft className="h-4 w-4" />
-              Retour à l'accueil
+              {t('fav.backhome')}
             </Link>
           </div>
           

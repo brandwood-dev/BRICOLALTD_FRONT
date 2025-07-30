@@ -54,9 +54,9 @@ const MyFavorites = () => {
         {favorites.length === 0 ? (
           <div className="text-center py-8">
             <Heart className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-            <p className="text-gray-600 mb-4">Aucun favori pour le moment</p>
+            <p className="text-gray-600 mb-4">{t('fav.nofav')}</p>
             <Link to="/search">
-              <Button>Explorer le catalogue</Button>
+              <Button>{t('fav.btnexplore')}</Button>
             </Link>
           </div>
         ) : (

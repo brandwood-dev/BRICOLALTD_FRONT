@@ -42,8 +42,8 @@ const Requests = () => {
       req.id === requestId ? { ...req, status: 'accepted' } : req
     ));
     toast({
-      title: "Demande acceptée",
-      description: "La demande de location a été acceptée avec succès.",
+      title: t('request.accepted.title'),
+      description: t('request.accepted.message'),
     });
   };
 
@@ -246,7 +246,7 @@ const Requests = () => {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => handleDownloadContract(request, toast)}
+                    onClick={() => handleDownloadContract(request, toast,t)}
                     className="flex items-center gap-2"
                   >
                     <Download className="h-4 w-4" />

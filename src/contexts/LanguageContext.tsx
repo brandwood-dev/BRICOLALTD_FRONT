@@ -10,7 +10,67 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    // reset password
+    'resetpwd.emailtitle': 'Mot de passe oublié ?',
+    'resetpwd.emailtxt': 'Entrez votre adresse email pour recevoir un code de vérification',
+    'resetpwd.emailfield': 'Adresse email',
+    'resetpwd.emailplaceholder': 'votre@email.com',
+    'resetpwd.sendbtn': 'Envoyer',
+    'resetpwd.sendbtnpending': 'Envoi en cours...',
+    'resetpwd.backlogin': 'Retour à la connexion',
+    'resetpwd.popuptitle': 'Email envoyé',
+    'resetpwd.popuptxt': 'Un code de vérification a été envoyé à votre adresse email.',
+
+
+    // create password
+    'password.create.title': 'Nouveau mot de passe',
+    'password.create.description': 'Choisissez un nouveau mot de passe sécurisé',
+    'password.criteria': 'Critères du mot de passe :',
+    'password.min_length': 'Au moins 8 caractères',
+    'password.uppercase': 'Une lettre majuscule',
+    'password.lowercase': 'Une lettre minuscule',
+    'password.number': 'Un chiffre',
+    'password.special_char': 'Un caractère spécial',
+    'password.confirm': 'Confirmer le mot de passe',
+    'password.match': 'Les mots de passe correspondent',
+    'password.not_match': 'Les mots de passe ne correspondent pas',
+    'password.update': 'Mettre à jour le mot de passe',
+    'password.back_to_login': 'Retour à la connexion',
+
+    'resetpwd.popupsuccupdate': 'Mot de passe modifié',
+    'resetpwd.txtsucc': 'Votre mot de passe a été modifié avec succès.',
+
+
+
+    // email verification
+    'email.verification.title': 'Vérification',
+    'email.verification.description': 'Entrez le code de vérification envoyé à',
+    'email.resend': 'Renvoyer le code',
+    'email.invalid_code': 'Code incorrect',
+    'email.resend.message':'Code renvoyé',
+    'email.resend.description': 'Un nouveau code a été envoyé à votre adresse email',
+    'email.valid_code':'Code vérifié',
+    'email.valid_code_message': 'Code correct, redirection vers la réinitialisation du mot de passe',
+
+    // cancelation details
+    'cancellation.details.title': 'Détails de l\'annulation',
+    'cancellation.details.reason': 'Raison',
+    'cancellation.details.message': 'Message',
+
+    // Download report
+    'download.report.title': 'Contrat téléchargé',
+    'download.report.description': 'Le contrat de location a été généré et téléchargé avec succès.',
+
     // confirm reservation
+    'reservation.cancel.title': 'Annuler la réservation',
+    'reservation.cancel.reason': 'Sélectionnez une raison',
+    'reservation.cancel.reason.other_alternative': 'Une autre alternative trouvée',
+    'reservation.cancel.reason.not_needed': 'Pas besoin de l’outil',
+    'reservation.cancel.reason.unavailable': 'Je suis indisponible',
+    'reservation.cancel.reason.other': 'Autre',
+    'reservation.cancel.message': 'Message complémentaire (optionnel)',
+    'reservation.cancel.confirm': 'Confirmer l’annulation',
+
     'reservation.recap': 'Récapitulatif',
     'reservation.card': 'Carte bancaire',
     'reservation.back_to_details': 'Retour aux détails',
@@ -66,10 +126,53 @@ const translations = {
 
     // favorites
     'favorite.title': 'Mes Favoris',
+    'fav.backhome': 'Retour à l’accueil',
+    'fav.nofav': 'Aucun favori pour le moment',
+    'fav.text': 'Explorez notre catalogue et ajoutez vos outils préférés à vos favoris',
+    'fav.btnexplore': 'Explorer le catalogue',
+
     // profile ads
+
+    'ads.view.title':'Aperçu de l’annonce',
+    'ads.rental_conditions': 'Conditions de location',
+
+    'ads.success_message': 'Votre annonce a été modifiée avec succès.',
     'ads.search': 'Rechercher par titre ou catégorie...',
+    'ads.update': 'Modifier l’annonce',
+    'ads.general_information':'Informations générales',
+    'ads.listing_title':'Titre de l’annonce',
+    'ads.brand':'Marque',
+    'ads.model':'Modèle',
+    'ads.year_of_purchase':'Année d\'achat',
+    'ads.description':'Description',
+    'ads.description_placeholder':'Décrivez votre outil, son état, ses accessoires...',
+    'ads.categorization':'Catégorisation',
+    'ads.category':'Catégorie',
+    'ads.sub_category':'Sous-catégorie',
+    'ads.sub_category_placeholder':'Choisir une sous-catégorie',
+    'ads.tool_condition':'État de l’outil',
+    'ads.pricing':'Tarification',
+    'ads.pricing_placeholder' : 'Prix par jour (€)',
+    'ads.deposit':'Caution (€)',
+    'ads.location':'Localisation',
+    'ads.location_placeholder':'Adresse ou ville',
+    'ads.photos': 'Photos',
+    'ads.photos_placeholder': 'Glissez vos images ici ou cliquez pour parcourir',
+    'ads.browse_files': 'Parcourir les fichiers',
+    'ads.usage_instructions': 'Consignes d’utilisation',
+    'ads.owner_instructions': 'Consignes du propriétaire',
+    'ads.owner_instructions_placeholder': 'Prévoir une rallonge électrique, nettoyer après usage...',
+
+
+
 
     // General
+    'general.back':'Retour',
+    'general.in': 'dans',
+    'general.example': 'Ex',
+    'general.error': 'Erreur',
+    'general.report_error_message': 'Veuillez sélectionner une raison de signalement.',
+
     'general.message': 'Message',
     'general.registered_under': 'Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372',
     'general.first_name': 'Prénom',
@@ -119,6 +222,26 @@ const translations = {
     'general.grid': 'Grille',
 
     // bookings
+    'booking.report.title': 'Signaler un problème',
+    'booking.report.reason': 'Sélectionnez une raison',
+    'booking.report.reason.no_answer': 'Ne répond pas',
+    'booking.report.reason.wrong_number': 'Numéro incorrect',
+    'booking.report.reason.inappropriate_behavior': 'Comportement inapproprié',
+    'booking.report.reason.other': 'Autre',
+    'booking.report.describe': 'Décrivez le problème',
+    'booking.report.submit': 'Envoyer le signalement',
+
+    'tool.return.title': 'Confirmer le retour de l’outil',
+    'tool.return.option':'Choisissez une option :',
+    'tool.return.confirm': 'Je confirme que j’ai rendu l’outil',
+    'tool.return.report': 'Signaler un problème',
+    'tool.return.confirmed': 'Retour confirmé',
+    'tool.return.confirmed_message': 'Vous avez confirmé avoir rendu l’outil. En attente de confirmation de remise par le propriétaire.',
+    
+
+    'code.copied':'Code copié',
+    'code.copied_message':'Le code de validation a été copié dans le presse-papiers.',
+
     'booking.title': 'Mes Réservations',
     'booking.tool_returned': 'J\'ai rendu l\'outil',
     'booking.search': 'Rechercher par titre d\'annonce...',
@@ -130,6 +253,11 @@ const translations = {
     'pagination.previous': 'Précédent',
 
     // requests
+    'request.report.accepted.title': 'Signalement envoyé',
+    'request.report.accepted.message': 'Votre signalement a été transmis à l\'administration.',
+
+    'request.accepted.title': 'Demande acceptée',
+    'request.accepted.message': 'La demande de location a été acceptée. Vous pouvez maintenant confirmer la remise de l\'outil.',
 
     'request.pickup_confirm_button':'Récupération de l’outil',
     'request.title': 'Mes Demandes',
@@ -178,6 +306,34 @@ const translations = {
     'request.pickup_confirm_message2': 'Si vous avez rencontré un souci, cliquez sur le lien "Signaler un problème"',
     'request.pickup_confirm':'Oui, je confirme la bonne réception',
     'request.pickup_report':'Signaler un problème',
+
+    'request.report.title': 'Signaler un problème',
+    'request.report.reason': 'Sélectionnez une raison',
+    'request.report.reason.no_show': 'Locataire ne se présente pas',
+    'request.report.reason.damaged_tool': 'Outil retourné endommagé',
+    'request.report.reason.late_return': 'Retard de restitution',
+    'request.report.reason.inappropriate_behavior': 'Comportement inapproprié',
+    'request.report.reason.fraud_attempt': 'Tentative de fraude',
+    'request.report.reason.other': 'Autre problème',
+    'request.report.describe': 'Décrivez le problème',
+    'request.report.submit': 'Envoyer le signalement',
+
+    'request.claim.reason': 'Type de problème',
+    'request.claim.reason_placeholder': 'Sélectionnez le type de problème',
+    'request.claim.reason.damaged_tool': 'Outil endommagé',
+    'request.claim.reason.no_showup': 'Locataire ne se présente pas',
+    'request.claim.reason.late_return': 'Retard de restitution',
+    'request.claim.reason.inappropriate_behavior': 'Comportement inapproprié',
+    'request.claim.reason.fraud_attempt': 'Tentative de fraude',
+    'request.claim.reason.missing_parts': 'Pièces manquantes',
+    'request.claim.reason.not_working': 'Outil ne fonctionne pas',
+    'request.claim.reason.other': 'Autre',
+    'request.claim.evidence': 'Pièces justificatives',
+    'request.claim.evidence_placeholder': 'Glissez vos fichiers ici ou cliquez pour sélectionner',
+    'request.claim.evidence_limit': 'Images ou vidéos (max 10MB)',
+    'request.claim.describe': 'Décrivez le problème',
+    'request.claim.describe_placeholder':'Décrivez le problème rencontré...',
+    'request.claim.submit': 'Envoyer la réclamation',
 
     // catalog section
     'catalog_section.title': 'Outils trouvés',
@@ -898,7 +1054,66 @@ const translations = {
 
   },
   en: {
+
+    // reset password
+    'resetpwd.emailtitle': 'Forgot Password?',
+    'resetpwd.emailtxt': 'Enter your email address to receive a verification code',
+    'resetpwd.emailfield': 'Email address',
+    'resetpwd.emailplaceholder': 'your@email.com',
+    'resetpwd.sendbtn': 'Send',
+    'resetpwd.sendbtnpending': 'Sending...',
+    'resetpwd.backlogin': 'Back to LogIn',
+    'resetpwd.popuptitle': 'Email sent',
+    'resetpwd.popuptxt': 'A verification code has been sent to your email address.',
+
+
+     // create password
+    'password.create.title': 'New Password',
+    'password.create.description': 'Choose a secure new password',
+    'password.criteria': 'Password criteria:',
+    'password.min_length': 'At least 8 characters',
+    'password.uppercase': 'One uppercase letter',
+    'password.lowercase': 'One lowercase letter',
+    'password.number': 'One number',
+    'password.special_char': 'One special character',
+    'password.confirm': 'Confirm password',
+    'password.match': 'Passwords match',
+    'password.no_match': 'Passwords do not match',
+    'password.update': 'Update password',
+    'password.back_to_login': 'Back to login',
+
+    'resetpwd.popupsuccupdate': 'Password Changed',
+    'resetpwd.txtsucc': 'Your password has been successfully changed.',
+
+
+    // email verification
+    'email.verification.title': 'Verification',
+    'email.verification.description': 'Enter the verification code sent to ',
+    'email.resend': 'Resend Code',
+    'email.invalid_code':'Incorrect code!',
+    'email.resend.message':'Code resent',
+    'email.resend.description': 'A new code has been sent to your email address.',
+    'email.valid_code':'Code Verified',
+    'email.valid_code_message': 'Code correct, redirecting to password reset.',
+
+    'cancellation.details.title': 'Cancellation Details',
+    'cancellation.details.reason': 'Reason',
+    'cancellation.details.message': 'Message',
+
+    // Download report
+    'download.report.title': 'Contract downloaded',
+    'download.report.description': 'The rental contract has been successfully generated and downloaded.',
+
     // confirm reservation
+    'reservation.cancel.title': 'Cancel Reservation',
+    'reservation.cancel.reason': 'Select a reason',
+    'reservation.cancel.reason.other_alternative': 'Found another alternative',
+    'reservation.cancel.reason.not_needed': 'Do not need the tool',
+    'reservation.cancel.reason.unavailable': 'I am unavailable',
+    'reservation.cancel.reason.other': 'Other',
+    'reservation.cancel.message': 'Additional message (optional)',
+    'reservation.cancel.confirm': 'Confirm cancellation',
+
     'reservation.recap': 'Recap',
     'reservation.card': 'Credit Card',
     'reservation.back_to_details': 'Back to details',
@@ -952,9 +1167,48 @@ const translations = {
 
     // favorites
     'favorites.title': 'My Favorites',
+    'fav.backhome': 'Back to Home',
+    'fav.nofav': 'No favorites yet',
+    'fav.text': 'Browse our catalog and add your favorite tools to your favorites',
+    'fav.btnexplore': 'Browse Catalog',
+
+
     // ads profile
+    'ads.view.title':'Listing Preview',
+    'ads.rental_conditions': 'Rental Conditions',
+    'ads.success_message':'Your listing has been successfully updated.',
     'ads.search': 'Search by Listing Title or Category...',
+    'ads.update': 'Edit Listing',
+    'ads.general_information':'General Information',
+    'ads.listing_title':'Listing Title',
+    'ads.brand':'Brand',
+    'ads.model':'Model',
+    'ads.year_of_purchase':'Year of Purchase',
+    'ads.description':'Description',
+    'ads.description_placeholder':'Describe your tool, its condition, accessories...',
+    'ads.categorization':'Categorization',
+    'ads.category':'Category',
+    'ads.sub_category':'Sub-category',
+    'ads.sub_category_placeholder':'Choose a sub-category',
+    'ads.tool_condition':'Tool Condition',
+    'ads.pricing':'Pricing',
+    'ads.pricing_placeholder' : 'Price per day (€)',
+    'ads.deposit':'Deposit (€)',
+    'ads.location':'Location',
+    'ads.location_placeholder':'Address or city',
+    'ads.photos': 'Photos',
+    'ads.photos_placeholder': 'Drag your images here or click to browse',
+    'ads.browse_files': 'Browse files',
+    'ads.usage_instructions': 'Usage instructions',
+    'ads.owner_instructions': 'Owner’s instructions',
+    'ads.owner_instructions_placeholder': 'Provide an extension cord, clean after use...',
     // General
+    'general.back': 'Back',
+    'general.in': 'in',
+    'general.example': 'Ex',
+    'general.error': 'Error',
+    'general.report_error_message': 'Please select a reason for the report.',
+
     'general.registered_under': 'Registered in England and Wales under number: 16401372',
     'general.subject_placeholder': 'Subject of the Request',
     'general.message_placeholder': 'Describe Your Request',
@@ -1002,6 +1256,26 @@ const translations = {
     'general.message': 'Message',
 
     // bookings
+    'booking.report.title': 'Report a Problem',
+    'booking.report.reason': 'Select a reason',
+    'booking.report.reason.no_answer': 'No response',
+    'booking.report.reason.wrong_number': 'Incorrect number',
+    'booking.report.reason.inappropriate_behavior': 'Inappropriate behavior',
+    'booking.report.reason.other': 'Other',
+    'booking.report.describe': 'Describe the problem',
+    'booking.report.submit': 'Submit Report',
+
+
+    'tool.return.title': 'Confirm Tool Return',
+    'tool.return.option':'Choose an option:',
+    'tool.return.confirm': 'I confirm that I have returned the tool',
+    'tool.return.report': 'Report a problem',
+    'tool.return.confirmed': 'Return Confirmed',
+    'tool.return.confirmed_message': 'You have confirmed that the tool has been returned. Awaiting confirmation of receipt by the owner.',
+
+    'code.copied':'Code Copied',
+    'code.copied_message':'The verification code has been copied to the clipboard.',
+
     'booking.title': 'My Reservations',
     'booking.tool_returned': 'Tool Returned',
     'booking.search': 'Search by Listing Title...',
@@ -1009,6 +1283,40 @@ const translations = {
     'booking.present_code': 'Show this code to the owner when picking up the tool on the first day.',
 
     // requests
+    'request.report.accepted.title': 'Report Sent',
+    'request.report.accepted.message': 'Your report has been submitted to the administration.',
+
+    'request.accepted.title': 'Request Accepted',
+    'request.accepted.message': 'The reservation request has been successfully accepted.',
+
+    'request.claim.reason': 'Problem Type',
+    'request.claim.reason_placeholder': 'Select the type of problem',
+    'request.claim.reason.damaged_tool': 'Damaged Tool',
+    'request.claim.reason.no_showup': 'Renter Did Not Show Up',
+    'request.claim.reason.late_return': 'Late Return',
+    'request.claim.reason.inappropriate_behavior': 'Inappropriate Behavior',
+    'request.claim.reason.fraud_attempt': 'Fraud Attempt',
+    'request.claim.reason.missing_parts': 'Missing Parts',
+    'request.claim.reason.not_working': 'Not Working Tool',
+    'request.claim.reason.other': 'Other',
+    'request.claim.evidence': 'Supporting Documents',
+    'request.claim.evidence_placeholder': 'Drag your files here or click to select',
+    'request.claim.evidence_limit': 'Images or videos (max 10MB)',
+    'request.claim.describe': 'Describe the problem',
+    'request.claim.describe_placeholder':'Describe the problem encountered...',
+    'request.claim.submit': 'Submit Claim',
+
+    'request.report.title': 'Report an Issue',
+    'request.report.reason': 'Select a reason:',
+    'request.report.reason.no_show': 'Renter did not show up',
+    'request.report.reason.damaged_tool': 'Returned tool damaged',
+    'request.report.reason.late_return': 'Late return',
+    'request.report.reason.inappropriate_behavior': 'Inappropriate behavior',
+    'request.report.reason.fraud_attempt': 'Fraud attempt',
+    'request.report.reason.other': 'Other issue',
+    'request.report.describe': 'Describe the issue',
+    'request.report.submit': 'Submit Report',
+
     'request.pickup_confirm_button': 'Tool pickup',
      'request.pickup_confirm_title':'Confirm Tool Pickup',
     'request.pickup_confirm_message1': 'Are you sure you want to confirm that you’ve received your tool without reporting any issues?',
@@ -1808,7 +2116,66 @@ const translations = {
     "privacy.section10.p3": "Continued use of our services implies acceptance of the updated terms."
   },
   ar: {
+    // reset password
+    'resetpwd.emailtitle': 'هل نسيت كلمة المرور؟',
+    'resetpwd.emailtxt': 'أدخل عنوان بريدك الإلكتروني لاستلام رمز التحقق',
+    'resetpwd.emailfield': 'عنوان البريد الإلكتروني',
+    'resetpwd.emailplaceholder': 'your@email.com',
+    'resetpwd.sendbtn': 'إرسال',
+    'resetpwd.sendbtnpending': 'جارٍ الإرسال...',
+    'resetpwd.backlogin': 'العودة إلى تسجيل الدخول',
+    'resetpwd.popuptitle': 'تم إرسال البريد الإلكتروني',
+    'resetpwd.popuptxt': 'تم إرسال رمز التحقق إلى عنوان بريدك الإلكتروني.',
+
+
+    // create password
+    'password.create.title': 'كلمة مرور جديدة',
+    'password.create.description': 'اختر كلمة مرور جديدة آمنة',
+    'password.criteria': 'معايير كلمة المرور:',
+    'password.min_length': '8 أحرف على الأقل',
+    'password.uppercase': 'حرف كبير واحد',
+    'password.lowercase': 'حرف صغير واحد',
+    'password.number': 'رقم واحد',
+    'password.special_char': 'حرف خاص واحد',
+    'password.confirm': 'تأكيد كلمة المرور',
+    'password.match': 'تتطابق كلمات المرور',
+    'password.not_match': 'كلمات المرور غير متطابقة',
+    'password.update': 'تحديث كلمة المرور',
+    'password.back_to_login': 'العودة إلى تسجيل الدخول',
+
+    'resetpwd.popupsuccupdate': 'تم تغيير كلمة المرور',
+    'resetpwd.txtsucc': '.تم تغيير كلمة المرور الخاصة بك بنجاح',
+
+
+    // email verification
+    'email.verification.title': 'التحقق',
+    'email.verification.description': 'أدخل رمز التحقق المرسل إلى',
+    'email.resend': 'إعادة إرسال الرمز',
+    'email.invalid_code':'الرمز غير صحيح!',
+    'email.resend.message':'تم إعادة إرسال الرمز',
+    'email.resend.description': 'تم إرسال رمز جديد إلى عنوان بريدك الإلكتروني.',
+    'email.valid_code':'تم التحقق من الرمز',
+    'email.valid_code_message': 'الرمز صحيح، جاري التوجيه إلى إعادة تعيين كلمة المرور.',
+
+    'cancellation.details.title': 'تفاصيل الإلغاء',
+    'cancellation.details.reason': 'السبب',
+    'cancellation.details.message': 'رسالة',
+
+    // Download report
+    'download.report.title': 'تم تنزيل العقد',
+    'download.report.description': 'تم إنشاء عقد الإيجار وتنزيله بنجاح.',
      // confirm reservation
+
+    'reservation.cancel.title': 'إلغاء الحجز',
+    'reservation.cancel.reason': 'اختر سبباً',
+    'reservation.cancel.reason.other_alternative': 'تم العثور على بديل آخر',
+    'reservation.cancel.reason.not_needed': 'لست بحاجة إلى الأداة',
+    'reservation.cancel.reason.unavailable': 'أنا غير متاح',
+    'reservation.cancel.reason.other': 'سبب آخر',
+    'reservation.cancel.message': 'رسالة إضافية (اختياري)',
+    'reservation.cancel.confirm': 'تأكيد الإلغاء',
+
+
      'reservation.recap':'ملخص',
      'reservation.card': 'بطاقة ائتمان',
     'reservation.back_to_details': 'العودة إلى التفاصيل',
@@ -1863,9 +2230,50 @@ const translations = {
 
     // favorites
     'favorites.title': 'قائمة المفضلات',
+    'fav.backhome': 'العودة إلى الصفحة الرئيسية',
+    'fav.nofav': 'لا توجد أدوات مفضلة حالياً',
+    'fav.text': 'تصفح الكتالوج وأضف أدواتك المفضلة إلى قائمة المفضلة',
+    'fav.btnexplore': 'تصفح الدليل',
+
     // ads profile
+    'ads.view.title':'معاينة الإعلان',
+    'ads.rental_conditions': 'شروط الإيجار',
+    'ads.success_message':'تم تعديل إعلانك بنجاح.',
     'ads.search': 'ابحث بواسطة عنوان الإعلان أو الفئة...',
+
+    'ads.update': 'تعديل الإعلان',
+    'ads.general_information':'المعلومات العامة',
+    'ads.listing_title':'عنوان الإعلان',
+    'ads.brand':'لماركة',
+    'ads.model':'الموديل',
+    'ads.year_of_purchase':'سنة الشراء',
+    'ads.description':'الوصف',
+    'ads.description_placeholder':'صف أداتك، حالتها، ملحقاتها...',
+    'ads.categorization':'التصنيف',
+    'ads.category':'الفئة',
+    'ads.sub_category':'الفئة الفرعية',
+    'ads.sub_category_placeholder':'اختر فئة فرعية',
+    'ads.tool_condition':'حالة الأداة',
+    'ads.pricing':'التسعير',
+    'ads.pricing_placeholder' : 'لسعر يومياً (€)',
+    'ads.deposit':'التأمين (€)',
+    'ads.location':'الموقع',
+    'ads.location_placeholder':'العنوان أو المدينة',
+    'ads.photos': 'الصور',
+    'ads.photos_placeholder': 'اسحب صورك هنا أو انقر للاستعراض',
+    'ads.browse_files': 'استعراض الملفات',
+    'ads.usage_instructions': 'تعليمات الاستخدام',
+    'ads.owner_instructions': 'تعليمات المالك',
+    'ads.owner_instructions_placeholder': 'يرجى توفير سلك تمديد كهربائي، التنظيف بعد الاستخدام...',
+
+    
     // General
+    'general.back': 'رجوع',
+    'general.in':'خلال',
+    'general.example': 'مثال',
+    'general.error': 'خطأ',
+    'general.report_error_message': 'يرجى اختيار سبب للإبلاغ.',
+
     'general.message': 'رسالة',
     'general.registered_under':'مسجّلة في إنجلترا وويلز تحت الرقم: 16401372',
     'general.first_name': 'الاسم',
@@ -1915,6 +2323,27 @@ const translations = {
     'general.rejected': 'مرفوض',
 
     // bookings
+
+    'booking.report.title': 'الإبلاغ عن مشكلة',
+    'booking.report.reason': 'اختر سبباً',
+    'booking.report.reason.no_answer': 'لا يرد',
+    'booking.report.reason.wrong_number': 'رقم غير صحيح',
+    'booking.report.reason.inappropriate_behavior': 'سلوك غير لائق',
+    'booking.report.reason.other': 'سبب آخر',
+    'booking.report.describe': 'وصف المشكلة',
+    'booking.report.submit': 'إرسال التقرير',
+
+    'tool.return.title': 'تأكيد إعادة الأداة',
+    'tool.return.option':'اختر خياراً:',
+    'tool.return.confirm': 'أؤكد أنني قد أعدت الأداة',
+    'tool.return.report': 'الإبلاغ عن مشكلة',
+    'tool.return.confirmed': 'تم تأكيد الإعادة',
+    'tool.return.confirmed_message': 'لقد أكدت أنك أعدت الأداة. في انتظار تأكيد الاستلام من المالك.',
+    
+
+    'code.copied':'تم نسخ الرمز',
+    'code.copied_message':'تم نسخ رمز التحقق إلى الحافظة.',
+
     'booking.title': 'حجوزاتي',
     'booking.tool_returned': 'تم إرجاع الأداة',
     'booking.search': 'ابحث بواسطة عنوان الإعلان...',
@@ -1922,6 +2351,39 @@ const translations = {
     'booking.present_code': 'قدم هذا الرمز للمالك عند استلام الأداة في اليوم الأول.',
 
     // requests
+    'request.report.accepted.title': 'تم إرسال البلاغ',
+    'request.report.accepted.message': 'تم إرسال بلاغك إلى الإدارة.',
+    
+    'request.accepted.title':'تم قبول الطلب',
+    'request.accepted.message':'تم قبول طلب الحجز بنجاح.',
+
+    'request.claim.reason': 'نوع المشكلة',
+    'request.claim.reason_placeholder': 'حدد نوع المشكلة',
+    'request.claim.reason.damaged_tool': 'أداة تالفة',
+    'request.claim.reason.no_showup': 'لم يظهر المستأجر',
+    'request.claim.reason.late_return': 'إرجاع متأخر',
+    'request.claim.reason.inappropriate_behavior': 'سلوك غير لائق',
+    'request.claim.reason.fraud_attempt': 'محاولة احتيال',
+    'request.claim.reason.missing_parts': 'أجزاء مفقودة',
+    'request.claim.reason.not_working': 'أداة غير عاملة',
+    'request.claim.reason.other': 'أخرى',
+    'request.claim.evidence': 'المستندات الداعمة',
+    'request.claim.evidence_placeholder': 'قم بسحب الملفات هنا أو انقر للاختيار',
+    'request.claim.evidence_limit': 'الصور أو الفيديوهات (حد أقصى 10 MB)',
+    'request.claim.describe': 'وصف المشكلة',
+    'request.claim.describe_placeholder':'وصف المشكلة التي واجهتها...',
+    'request.claim.submit': 'إرسال البلاغ',
+
+    'request.report.title': 'الإبلاغ عن مشكلة',
+    'request.report.reason': 'اختر سببًا:',
+    'request.report.reason.no_show': 'لم يظهر المستأجر',
+    'request.report.reason.damaged_tool': 'الأداة المعادة تالفة',
+    'request.report.reason.late_return': 'إرجاع متأخر',
+    'request.report.reason.inappropriate_behavior': 'سلوك غير لائق',
+    'request.report.reason.fraud_attempt': 'محاولة احتيال',
+    'request.report.reason.other': 'مشكلة أخرى',
+    'request.report.describe': 'وصف المشكلة',
+    'request.report.submit': 'إرسال البلاغ',
 
     'request.pickup_confirm_button': 'استرجاع الأداة',
     'request.pickup_confirm_title':'تأكيد الاستلام',

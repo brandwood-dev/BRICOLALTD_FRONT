@@ -7,6 +7,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const VerifyCode = () => {
   const [code, setCode] = useState('');
@@ -26,7 +27,7 @@ const VerifyCode = () => {
       setCanResend(true);
     }
   }, [countdown]);
-
+  const { t } = useLanguage();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -47,14 +48,14 @@ const VerifyCode = () => {
       // Pour la démo, on accepte "123456" comme code valide
       if (code === '123456') {
         toast({
-          title: "Code vérifié",
-          description: "Code correct, redirection vers la réinitialisation du mot de passe",
+          title: t('email.valid_code'),
+          description: t('email.valid_code_message'),
         });
         navigate('/reset-password', { state: { email, verified: true } });
       } else {
         toast({
-          title: "Erreur",
-          description: "Code incorrect",
+          title: t('general.error'),
+          description: t('email.invalid_code'),
           variant: "destructive",
         });
       }
@@ -65,11 +66,11 @@ const VerifyCode = () => {
     setCountdown(60);
     setCanResend(false);
     toast({
-      title: "Code renvoyé",
-      description: "Un nouveau code a été envoyé à votre adresse email",
+      title: t('email.resend.message'),
+      description: t('email.resend.description'),
     });
   };
-
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -77,9 +78,9 @@ const VerifyCode = () => {
         <div className="max-w-md mx-auto px-4">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Vérification</CardTitle>
+              <CardTitle className="text-2xl">{t('email.verification.title')}</CardTitle>
               <CardDescription>
-                Entrez le code de vérification envoyé à {email}
+                {t('email.verification.description')} {email}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -113,17 +114,17 @@ const VerifyCode = () => {
                       onClick={handleResendCode}
                       className="text-sm text-accent hover:underline"
                     >
-                      Renvoyer le code
+                      {t('email.resend')}
                     </Button>
                   ) : (
                     <p className="text-sm text-muted-foreground">
-                      Renvoyer le code dans {countdown}s
+                      {t('email.resend')} {t('general.in')} {countdown}s
                     </p>
                   )}
                   
                   <div>
                     <Link to="/forgot-password" className="text-sm text-accent hover:underline">
-                      Retour
+                      {t('general.back')}
                     </Link>
                   </div>
                 </div>

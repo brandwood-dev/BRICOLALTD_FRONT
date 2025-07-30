@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { CheckIcon, XIcon } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -65,8 +66,8 @@ const ResetPassword = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast({
-        title: "Mot de passe modifié",
-        description: "Votre mot de passe a été modifié avec succès",
+        title: t('resetpwd.popupsuccupdate'),
+        description: t('resetpwd.txtsucc'),
       });
       navigate('/login');
     }, 1000);
@@ -78,7 +79,7 @@ const ResetPassword = () => {
       <span>{text}</span>
     </div>
   );
-
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -86,18 +87,18 @@ const ResetPassword = () => {
         <div className="max-w-md mx-auto px-4">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Nouveau mot de passe</CardTitle>
+              <CardTitle className="text-2xl">{t('password.create.title')}</CardTitle>
               <CardDescription>
-                Choisissez un nouveau mot de passe sécurisé
+                {t('password.create.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="password">Nouveau mot de passe</Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
+                  <Label htmlFor="password">{t('password.create.title')}</Label>
+                  <Input
+                    id="password"
+                    type="password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -107,20 +108,20 @@ const ResetPassword = () => {
 
                 {password && (
                   <div className="space-y-2 p-3 bg-muted rounded-md">
-                    <p className="text-sm font-medium">Critères du mot de passe :</p>
-                    <ValidationIndicator isValid={passwordValidation.minLength} text="Au moins 8 caractères" />
-                    <ValidationIndicator isValid={passwordValidation.hasUpperCase} text="Une lettre majuscule" />
-                    <ValidationIndicator isValid={passwordValidation.hasLowerCase} text="Une lettre minuscule" />
-                    <ValidationIndicator isValid={passwordValidation.hasNumber} text="Un chiffre" />
-                    <ValidationIndicator isValid={passwordValidation.hasSpecialChar} text="Un caractère spécial" />
+                    <p className="text-sm font-medium">{t('password.criteria')}</p>
+                    <ValidationIndicator isValid={passwordValidation.minLength} text={t('password.min_length')} />
+                    <ValidationIndicator isValid={passwordValidation.hasUpperCase} text={t('password.uppercase')} />
+                    <ValidationIndicator isValid={passwordValidation.hasLowerCase} text={t('password.lowercase')} />
+                    <ValidationIndicator isValid={passwordValidation.hasNumber} text={t('password.number')} />
+                    <ValidationIndicator isValid={passwordValidation.hasSpecialChar} text={t('password.special_char')} />
                   </div>
                 )}
                 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirmer le mot de passe</Label>
-                  <Input 
-                    id="confirmPassword" 
-                    type="password" 
+                  <Label htmlFor="confirmPassword">{t('password.confirm')}</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
                     placeholder="••••••••"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -128,7 +129,7 @@ const ResetPassword = () => {
                   />
                   {confirmPassword && (
                     <div className={`text-sm ${passwordsMatch ? 'text-green-600' : 'text-red-600'}`}>
-                      {passwordsMatch ? '✓ Les mots de passe correspondent' : '✗ Les mots de passe ne correspondent pas'}
+                      {passwordsMatch ? t('password.match') : t('password.not_match')}
                     </div>
                   )}
                 </div>
@@ -138,12 +139,12 @@ const ResetPassword = () => {
                   className="w-full" 
                   disabled={isLoading || !isPasswordValid || !passwordsMatch}
                 >
-                  {isLoading ? 'Modification...' : 'Modifier le mot de passe'}
+                  {isLoading ? 'Modification...' : t('password.update')}
                 </Button>
                 
                 <div className="text-center">
                   <Link to="/login" className="text-sm text-accent hover:underline">
-                    Retour à la connexion
+                    {t('password.back_to_login')}
                   </Link>
                 </div>
               </form>

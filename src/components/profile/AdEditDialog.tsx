@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, Euro, MapPin, Tag, FileText, Camera } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Ad {
   id: string;
@@ -60,27 +61,27 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
 
   const handleSave = () => {
     toast({
-      title: "Succès",
-      description: "Votre annonce a été modifiée avec succès.",
+      title: t('message.success'),
+      description: t('ads.success_message'),
     });
   };
-
+  const { t } = useLanguage();
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Modifier l'annonce</DialogTitle>
+        <DialogTitle>{t('ads.update')}</DialogTitle>
       </DialogHeader>
       <div className="space-y-6">
         {/* Informations générales */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center">
             <FileText className="h-5 w-5 mr-2" />
-            Informations générales
+            {t('ads.general_information')}
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Titre de l'annonce *</Label>
+              <Label htmlFor="title">{t('ads.listing_title')} *</Label>
               <Input
                 id="title"
                 value={formData.title}
@@ -89,46 +90,46 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="brand">Marque</Label>
+              <Label htmlFor="brand">{t('ads.brand')}</Label>
               <Input
                 id="brand"
                 value={formData.brand}
                 onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                placeholder="Ex: Bosch"
+                placeholder={`${t('general.example')}: Bosch`}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="model">Modèle</Label>
+              <Label htmlFor="model">{t('ads.model')}</Label>
               <Input
                 id="model"
                 value={formData.model}
                 onChange={(e) => setFormData({...formData, model: e.target.value})}
-                placeholder="Ex: GSB 13 RE"
+                placeholder={`${t('general.example')}: GSB 13 RE`}
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="year">Année d'achat</Label>
+              <Label htmlFor="year">{t('ads.year_of_purchase')}</Label>
               <Input
                 id="year"
                 type="number"
                 value={formData.year}
                 onChange={(e) => setFormData({...formData, year: e.target.value})}
-                placeholder="Ex: 2022"
+                placeholder={`${t('general.example')}: 2022`}
               />
             </div>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t('ads.description')}</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})}
-              placeholder="Décrivez votre outil, son état, ses accessoires..."
+              placeholder={t('ads.description_placeholder')}
               rows={4}
             />
           </div>
@@ -138,12 +139,12 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center">
             <Tag className="h-5 w-5 mr-2" />
-            Catégorisation
+            {t('ads.categorization')}
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Catégorie *</Label>
+              <Label>{t('ads.category')} *</Label>
               <Select value={formData.category} onValueChange={(value) => setFormData({...formData, category: value})}>
                 <SelectTrigger>
                   <SelectValue />
@@ -157,10 +158,10 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
             </div>
             
             <div className="space-y-2">
-              <Label>Sous-catégorie</Label>
+              <Label>{t('ads.sub_category')}</Label>
               <Select value={formData.subcategory} onValueChange={(value) => setFormData({...formData, subcategory: value})}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Choisir une sous-catégorie" />
+                  <SelectValue placeholder={t('ads.sub_category_placeholder')} />
                 </SelectTrigger>
                 <SelectContent>
                   {formData.category && subcategories[formData.category as keyof typeof subcategories]?.map((sub) => (
@@ -172,16 +173,16 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label>État de l'outil *</Label>
+            <Label>{t('ads.tool_condition')} *</Label>
             <Select value={formData.condition} onValueChange={(value) => setFormData({...formData, condition: value})}>
               <SelectTrigger>
-                <SelectValue placeholder="État de l'outil" />
+                <SelectValue placeholder={t('ads.tool_condition')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="new">✨ Neuf</SelectItem>
-                <SelectItem value="excellent">🌟 Excellent</SelectItem>
-                <SelectItem value="good">👍 Bon</SelectItem>
-                <SelectItem value="fair">👌 Correct</SelectItem>
+                <SelectItem value="new">{t('add_tool.condition_new')}</SelectItem>
+                <SelectItem value="excellent">{t('add_tool.condition_excellent')}</SelectItem>
+                <SelectItem value="good">{t('add_tool.condition_good')}</SelectItem>
+                <SelectItem value="fair">{t('add_tool.condition_fair')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -191,12 +192,12 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center">
             <Euro className="h-5 w-5 mr-2" />
-            Tarification
+            {t('ads.pricing')}
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="price">Prix par jour (€) *</Label>
+              <Label htmlFor="price">{t('ads.pricing_placeholder')} *</Label>
               <Input
                 id="price"
                 type="number"
@@ -206,7 +207,7 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="deposit">Caution (€)</Label>
+              <Label htmlFor="deposit">{t('ads.deposit')} *</Label>
               <Input
                 id="deposit"
                 type="number"
@@ -222,16 +223,16 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center">
             <MapPin className="h-5 w-5 mr-2" />
-            Localisation
+            {t('ads.location')}
           </h3>
           
           <div className="space-y-2">
-            <Label htmlFor="location">Adresse ou ville *</Label>
+            <Label htmlFor="location">{t('ads.location')} *</Label>
             <Input
               id="location"
               value={formData.location}
               onChange={(e) => setFormData({...formData, location: e.target.value})}
-              placeholder="Paris 15ème"
+              placeholder={t('ads.location_placeholder')}
             />
           </div>
         </div>
@@ -240,16 +241,16 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center">
             <Camera className="h-5 w-5 mr-2" />
-            Photos
+            {t('ads.photos')}
           </h3>
           
           <div className="border-2 border-dashed rounded-lg p-6 text-center">
             <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
             <p className="text-sm text-muted-foreground mb-2">
-              Glissez vos images ici ou cliquez pour parcourir
+              {t('ads.photos_placeholder')}
             </p>
             <Button variant="outline" size="sm">
-              Parcourir les fichiers
+              {t('ads.browse_files')}
             </Button>
           </div>
         </div>
@@ -258,24 +259,24 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold flex items-center">
             <FileText className="h-5 w-5 mr-2" />
-            Consignes d'utilisation
+            {t('ads.usage_instructions')}
           </h3>
           
           <div className="space-y-2">
-            <Label htmlFor="instructions">Consignes du propriétaire</Label>
+            <Label htmlFor="instructions">{t('ads.owner_instructions')}</Label>
             <Textarea
               id="instructions"
               value={formData.instructions}
               onChange={(e) => setFormData({...formData, instructions: e.target.value})}
-              placeholder="Ex: Prévoir une rallonge électrique, nettoyer après usage..."
+              placeholder={`${t('general.example')}: ${t('ads.owner_instructions_placeholder')}`}
               rows={3}
             />
           </div>
         </div>
         
         <div className="flex justify-end gap-2 pt-4 border-t">
-          <Button variant="outline">Annuler</Button>
-          <Button onClick={handleSave}>Sauvegarder</Button>
+          <Button variant="outline">{t('action.cancel')}</Button>
+          <Button onClick={handleSave}>{t('action.save')}</Button>
         </div>
       </div>
     </DialogContent>

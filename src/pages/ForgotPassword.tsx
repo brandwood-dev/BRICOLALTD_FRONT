@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -44,7 +45,7 @@ const ForgotPassword = () => {
       navigate('/verify-code', { state: { email } });
     }, 1000);
   };
-
+  const {t} = useLanguage()
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -52,19 +53,19 @@ const ForgotPassword = () => {
         <div className="max-w-md mx-auto px-4">
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Mot de passe oublié ?</CardTitle>
+              <CardTitle className="text-2xl">{t('resetpwd.emailtitle')}</CardTitle>
               <CardDescription>
-                Entrez votre adresse email pour recevoir un code de vérification
+                {t('resetpwd.emailtxt')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Adresse email</Label>
+                  <Label htmlFor="email">{t('resetpwd.emailfield')}</Label>
                   <Input 
                     id="email" 
                     type="email" 
-                    placeholder="votre@email.com"
+                    placeholder={t('resetpwd.emailplaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -72,12 +73,12 @@ const ForgotPassword = () => {
                 </div>
                 
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? 'Envoi en cours...' : 'Envoyer'}
+                  {isLoading ? t('resetpwd.sendbtnpending') : t('resetpwd.sendbtn')}
                 </Button>
                 
                 <div className="text-center">
                   <Link to="/login" className="text-sm text-accent hover:underline">
-                    Retour à la connexion
+                    {t('resetpwd.backlogin')}
                   </Link>
                 </div>
               </form>
