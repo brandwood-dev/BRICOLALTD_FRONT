@@ -65,18 +65,30 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
       description: t('ads.success_message'),
     });
   };
-  const { t } = useLanguage();
+  const { t, language} = useLanguage();
   return (
     <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-      <DialogHeader>
+      <DialogHeader className={language === 'ar' ? 'flex justify-end' : 'text-left'}>
         <DialogTitle>{t('ads.update')}</DialogTitle>
       </DialogHeader>
       <div className="space-y-6">
         {/* Informations générales */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center">
-            <FileText className="h-5 w-5 mr-2" />
-            {t('ads.general_information')}
+          <h3 className={"text-lg font-semibold flex items-center" + (language === 'ar' ? ' flex justify-end' : '')}>
+            {
+              language === 'ar' ? (
+                <>
+                {t('ads.general_information')}
+                  <FileText className="h-5 w-5 mr-2 ml-2" />
+                  
+                </>
+              ):(
+                <>
+                  <FileText className="h-5 w-5 mr-2" />
+                  {t('ads.general_information')}
+                </>
+              )
+            }
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -137,9 +149,20 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
 
         {/* Catégorisation */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center">
-            <Tag className="h-5 w-5 mr-2" />
-            {t('ads.categorization')}
+          <h3 className={"text-lg font-semibold flex items-center" + (language === 'ar' ? ' flex justify-end' : '')}>
+            {
+              language === 'ar' ? (
+                <>
+                {t('ads.categorization')}
+                  <Tag className="h-5 w-5 mr-2 ml-2" />
+                  
+                </>
+              ):(
+                <>
+                  <Tag className="h-5 w-5 mr-2" />
+                  {t('ads.categorization')}
+                </>
+            )}
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -190,9 +213,20 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
 
         {/* Tarification */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center">
-            <Euro className="h-5 w-5 mr-2" />
-            {t('ads.pricing')}
+          <h3 className={"text-lg font-semibold flex items-center" + (language === 'ar' ? ' flex justify-end' : '')}>
+            {
+              language === 'ar' ? (
+                <>
+                {t('ads.pricing')}
+                  <Euro className="h-5 w-5 mr-2 ml-2" />
+                  
+                </>
+              ):(
+                <>
+                  <Euro className="h-5 w-5 mr-2" />
+                  {t('ads.pricing')}
+                </>
+            )}
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -221,9 +255,20 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
 
         {/* Localisation */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center">
-            <MapPin className="h-5 w-5 mr-2" />
-            {t('ads.location')}
+          <h3 className={"text-lg font-semibold flex items-center" + (language === 'ar' ? ' flex justify-end' : '')}>
+            {
+              language === 'ar' ? (
+                <>
+                {t('ads.location')}
+                  <MapPin className="h-5 w-5 mr-2 ml-2" />
+                  
+                </>
+              ):(
+                <>
+                  <MapPin className="h-5 w-5 mr-2" />
+                  {t('ads.location')}
+                </>
+            )}
           </h3>
           
           <div className="space-y-2">
@@ -239,9 +284,21 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
 
         {/* Photos */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center">
-            <Camera className="h-5 w-5 mr-2" />
-            {t('ads.photos')}
+          <h3 className={"text-lg font-semibold flex items-center" + (language === 'ar' ? ' flex justify-end' : '')}>
+            {
+              language === 'ar' ? (
+                <>
+                {t('ads.photos')}
+                  <Camera className="h-5 w-5 mr-2 ml-2" />
+                  
+                </>
+              ):(
+                <>
+                  <Camera className="h-5 w-5 mr-2" />
+                  {t('ads.photos')}
+                </>
+            )
+            }
           </h3>
           
           <div className="border-2 border-dashed rounded-lg p-6 text-center">
@@ -257,9 +314,20 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
 
         {/* Consignes */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold flex items-center">
-            <FileText className="h-5 w-5 mr-2" />
-            {t('ads.usage_instructions')}
+          <h3 className={"text-lg font-semibold flex items-center" + (language === 'ar' ? ' flex justify-end' : '')}>
+            {
+              language === 'ar' ? (
+                <>
+                {t('ads.owner_instructions')}
+                  <Tag className="h-5 w-5 mr-2 ml-2" />
+                  
+                </>
+              ):(
+                <>
+                  <Tag className="h-5 w-5 mr-2" />
+                  {t('ads.owner_instructions')}
+                </>
+            )}
           </h3>
           
           <div className="space-y-2">

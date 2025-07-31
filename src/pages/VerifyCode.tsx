@@ -77,7 +77,7 @@ const VerifyCode = () => {
       <main className="py-20">
         <div className="max-w-md mx-auto px-4">
           <Card>
-            <CardHeader className="text-center">
+            <CardHeader className="text-center !flex !flex-col">
               <CardTitle className="text-2xl">{t('email.verification.title')}</CardTitle>
               <CardDescription>
                 {t('email.verification.description')} {email}
@@ -103,7 +103,7 @@ const VerifyCode = () => {
                 </div>
                 
                 <Button type="submit" className="w-full" disabled={isLoading || code.length !== 6}>
-                  {isLoading ? 'Vérification...' : 'Vérifier'}
+                  {isLoading ? t('resetpwd.verify_in_progress') : t('resetpwd.verify')}
                 </Button>
                 
                 <div className="text-center space-y-2">

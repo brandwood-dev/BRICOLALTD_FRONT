@@ -136,7 +136,7 @@ export const mockTools = [
     reviews: 18,
     images: ['https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
     available: true,
-    features: ['300W RMS', 'Bluetooth', 'Effets lumineux', 'Batterie 12h']
+    features: ['300W RMS', 'Bluetooth', 'Effets lueux', 'Batterie 12h']
   },
   {
     id: '10',
@@ -315,7 +315,7 @@ export const mockBlogPosts = [
     date: '2024-01-15',
     category: 'Guides',
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '5 min'
+    readTime: '5 '
   },
   {
     id: '2',
@@ -326,7 +326,7 @@ export const mockBlogPosts = [
     date: '2024-01-10',
     category: 'Jardinage',
     image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '7 min'
+    readTime: '7 '
   },
   {
     id: '3',
@@ -337,7 +337,7 @@ export const mockBlogPosts = [
     date: '2024-01-05',
     category: 'Entretien',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '4 min'
+    readTime: '4 '
   },
   {
     id: '4',
@@ -348,7 +348,7 @@ export const mockBlogPosts = [
     date: '2024-01-12',
     category: 'Sécurité',
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '6 min'
+    readTime: '6 '
   },
   {
     id: '5',
@@ -359,7 +359,7 @@ export const mockBlogPosts = [
     date: '2024-01-08',
     category: 'Jardinage',
     image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '5 min'
+    readTime: '5 '
   },
   {
     id: '6',
@@ -370,7 +370,7 @@ export const mockBlogPosts = [
     date: '2024-01-03',
     category: 'Tutoriels',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '12 min'
+    readTime: '12 '
   },
   {
     id: '7',
@@ -381,7 +381,7 @@ export const mockBlogPosts = [
     date: '2024-01-01',
     category: 'Électricité',
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '8 min'
+    readTime: '8 '
   },
   {
     id: '8',
@@ -392,7 +392,7 @@ export const mockBlogPosts = [
     date: '2023-12-28',
     category: 'Transport',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '4 min'
+    readTime: '4 '
   },
   {
     id: '9',
@@ -403,18 +403,18 @@ export const mockBlogPosts = [
     date: '2023-12-25',
     category: 'Nettoyage',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '6 min'
+    readTime: '6 '
   },
   {
     id: '10',
     title: 'Organiser un événement en extérieur',
     excerpt: 'Guide pratique pour réussir l\'organisation de votre événement outdoor.',
-    content: 'Organiser un événement en extérieur demande une préparation minutieuse...',
+    content: 'Organiser un événement en extérieur demande une préparation utieuse...',
     author: 'Event Planner',
     date: '2023-12-22',
     category: 'Événementiel',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '9 min'
+    readTime: '9 '
   },
   {
     id: '11',
@@ -425,7 +425,7 @@ export const mockBlogPosts = [
     date: '2023-12-20',
     category: 'Guides',
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '7 min'
+    readTime: '7 '
   },
   {
     id: '12',
@@ -436,7 +436,7 @@ export const mockBlogPosts = [
     date: '2023-12-18',
     category: 'Jardinage',
     image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '5 min'
+    readTime: '5 '
   },
   {
     id: '13',
@@ -447,7 +447,7 @@ export const mockBlogPosts = [
     date: '2023-12-15',
     category: 'Rénovation',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '11 min'
+    readTime: '11 '
   },
   {
     id: '14',
@@ -458,7 +458,7 @@ export const mockBlogPosts = [
     date: '2023-12-12',
     category: 'Guides',
     image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '4 min'
+    readTime: '4 '
   },
   {
     id: '15',
@@ -469,7 +469,7 @@ export const mockBlogPosts = [
     date: '2023-12-10',
     category: 'Isolation',
     image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    readTime: '10 min'
+    readTime: '10 '
   }
 ];
 

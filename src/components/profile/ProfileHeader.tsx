@@ -58,7 +58,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                 {userInfo.firstName[0]}{userInfo.lastName[0]}
               </AvatarFallback>
             </Avatar>
-            
+            {/* User details */}
             <div className="flex-1 text-center sm:text-left w-full">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                 <h1 className="text-2xl sm:text-3xl font-bold">
@@ -86,7 +86,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                   {t('profile.account_deletion_pending')}
                 </Badge>
               )}
-              <p className="text-gray-600 mb-4 text-sm sm:text-base">
+              <p className={`text-gray-600 mb-4 text-sm sm:text-base ${language === 'ar' ? 'text-right sm:text-right' : ''}`}>
                 {t('profile.member_since').replace('{date}', formattedMemberSince)}
               </p>
             </div>
@@ -127,16 +127,11 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
-                <AlertDialogHeader>
+                <AlertDialogHeader className={"flex flex-row flex-wrap items-center " + (language === 'ar' ? 'justify-end' : '')}>
                   <AlertDialogTitle>{t('profile.delete_confirm')}</AlertDialogTitle>
-                  <AlertDialogDescription className="text-left">
-                    {t('profile.delete_description')}
-                    <br /><br />
-                    {language === 'fr' 
-                      ? 'Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu\'aucune réclamation ou litige en cours n\'est rattaché à votre compte.'
-                      : language === 'ar'
-                      ? 'سيتم معالجة طلبك خلال 72 ساعة، وهو الوقت اللازم لفريقنا للتحقق من عدم وجود شكاوى أو نزاعات مرتبطة بحسابك.'
-                      : 'Your request will be processed within 72 hours, allowing our team to verify that no ongoing claims or disputes are linked to your account.'}
+                  <AlertDialogDescription className={"text-left space-y-2" + (language === 'ar' ? ' text-right' : '')}>
+                    <div>{t('profile.delete_description')}</div>
+                    <div>{t('profile.delete_processing')}</div>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

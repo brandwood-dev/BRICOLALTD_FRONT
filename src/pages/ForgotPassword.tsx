@@ -39,8 +39,8 @@ const ForgotPassword = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast({
-        title: "Email envoyé",
-        description: "Un code de vérification a été envoyé à votre adresse email",
+        title: t('resetpwd.popuptitle'),
+        description: t('resetpwd.popuptxt'),
       });
       navigate('/verify-code', { state: { email } });
     }, 1000);
@@ -52,7 +52,7 @@ const ForgotPassword = () => {
       <main className="py-20">
         <div className="max-w-md mx-auto px-4">
           <Card>
-            <CardHeader className="text-center">
+            <CardHeader className="text-center !flex !flex-col">
               <CardTitle className="text-2xl">{t('resetpwd.emailtitle')}</CardTitle>
               <CardDescription>
                 {t('resetpwd.emailtxt')}

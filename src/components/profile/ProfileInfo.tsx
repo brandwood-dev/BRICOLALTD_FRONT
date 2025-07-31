@@ -154,6 +154,7 @@ const ProfileInfo = () => {
               value={userInfo.firstName}
               disabled={!isEditing}
               onChange={(e) => setUserInfo({...userInfo, firstName: e.target.value})}
+              className={language === 'ar' ? 'text-right' : ''}
             />
           </div>
           <div className="space-y-2">
@@ -163,6 +164,7 @@ const ProfileInfo = () => {
               value={userInfo.lastName}
               disabled={!isEditing}
               onChange={(e) => setUserInfo({...userInfo, lastName: e.target.value})}
+              className={language === 'ar' ? 'text-right' : ''}
             />
           </div>
         </div>
@@ -232,6 +234,7 @@ const ProfileInfo = () => {
               disabled={!isEditing}
               onChange={(e) => setUserInfo({...userInfo, address: e.target.value})}
               placeholder={t('profile.address_placeholder')}
+              className={language === 'ar' ? 'text-right' : ''}
             />
             {isEditing && (
               <p className="text-xs text-muted-foreground">

@@ -15,7 +15,7 @@ const RefusalDialog: React.FC<RefusalDialogProps> = ({ onDecline, requestId }) =
   const [refusalReason, setRefusalReason] = useState('');
   const [refusalMessage, setRefusalMessage] = useState('');
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const handleDecline = () => {
     if (!refusalReason) {
       toast({
@@ -38,9 +38,9 @@ const RefusalDialog: React.FC<RefusalDialogProps> = ({ onDecline, requestId }) =
           {t('request.decline')}
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('reservation.refused_title')}</DialogTitle>
+      <DialogContent >
+        <DialogHeader className={(language === 'ar' ? 'flex justify-end' : '')}>
+          <DialogTitle >{t('reservation.refused_title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <Select value={refusalReason} onValueChange={setRefusalReason}>

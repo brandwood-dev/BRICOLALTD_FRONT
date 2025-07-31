@@ -16,11 +16,11 @@ const ConfirmRecoveryDialog: React.FC<ConfirmRecoveryDialogProps> = ({
   onConfirm,
   onClaim
 }) => {
-  const { t } = useLanguage(); 
+  const { t,language } = useLanguage(); 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className={language === 'ar' ? 'flex justify-end' : ''}>
           <DialogTitle>{t('request.pickup_confirm_title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">

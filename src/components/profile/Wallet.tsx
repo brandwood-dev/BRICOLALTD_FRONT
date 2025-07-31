@@ -21,7 +21,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Wallet = () => {
-  const { t } = useLanguage(); // Access the translation function
+  const { t, language } = useLanguage(); // Access the translation function
   const [showWithdrawDialog, setShowWithdrawDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -237,7 +237,7 @@ const Wallet = () => {
                 <p className="text-sm text-amber-800 font-medium">
                   {t('wallet.withdrawal_note')}
                 </p>
-                <p className="text-xs text-amber-700">
+                <p className="text-xs text-amber-700 text-right">
                   {t('wallet.conversion_rate').replace('{minWithdrawalEUR}', minWithdrawalEUR.toString())}
                 </p>
                 <p className="text-xs text-amber-600">

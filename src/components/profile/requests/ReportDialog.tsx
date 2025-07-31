@@ -15,7 +15,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
   const [reportReason, setReportReason] = useState('');
   const [reportMessage, setReportMessage] = useState('');
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const handleReport = () => {
     if (!reportReason) {
       toast({
@@ -41,7 +41,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
   };
 
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           <Flag className="h-4 w-4 mr-1" />
@@ -49,8 +49,8 @@ const ReportDialog: React.FC<ReportDialogProps> = ({ requestId, onReportSubmit }
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('request.report.title')}</DialogTitle>
+        <DialogHeader className="flex justify-end">
+          <DialogTitle className="text-left">{t('request.report.title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <Select value={reportReason} onValueChange={setReportReason}>

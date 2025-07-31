@@ -72,21 +72,21 @@ const ResetPassword = () => {
       navigate('/login');
     }, 1000);
   };
-
+  const { t, language } = useLanguage();
   const ValidationIndicator = ({ isValid, text }: { isValid: boolean; text: string }) => (
-    <div className={`flex items-center space-x-2 text-sm ${isValid ? 'text-green-600' : 'text-red-600'}`}>
+    <div className={`flex items-center space-x-2 text-sm ${isValid ? 'text-green-600 ' : 'text-red-600 '}` + (language === 'ar' ? 'justify-end' : '')}>
       {isValid ? <CheckIcon className="h-4 w-4" /> : <XIcon className="h-4 w-4" />}
       <span>{text}</span>
     </div>
   );
-  const { t } = useLanguage();
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="py-20">
         <div className="max-w-md mx-auto px-4">
           <Card>
-            <CardHeader className="text-center">
+            <CardHeader className="text-center !flex !flex-col">
               <CardTitle className="text-2xl">{t('password.create.title')}</CardTitle>
               <CardDescription>
                 {t('password.create.description')}

@@ -10,6 +10,24 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+
+    //countries
+    'country.kuwait':'Kuwait',
+    'country.ksa':'Arabie Saoudite',
+    'country.uae':'Émirats Arabes Unis',
+    'country.qatar':'Qatar',
+    'country.bahrain':'Bahreïn',
+    'country.oman':'Oman',
+
+    'review.modaltitle': 'Évaluer la location',
+    'review.rate': 'Note par étoiles',
+    'review.comment': 'Commentaire',
+    'review.placeholdercomm': 'Partagez votre expérience...',
+    'review.submitbtn': 'Soumettre l’évaluation',
+    'review.popuptitle': 'Évaluation soumise',
+    'review.modalmsg': 'Merci pour votre évaluation. Le statut passe à "Terminé".',
+
+
     // reset password
     'resetpwd.emailtitle': 'Mot de passe oublié ?',
     'resetpwd.emailtxt': 'Entrez votre adresse email pour recevoir un code de vérification',
@@ -20,6 +38,8 @@ const translations = {
     'resetpwd.backlogin': 'Retour à la connexion',
     'resetpwd.popuptitle': 'Email envoyé',
     'resetpwd.popuptxt': 'Un code de vérification a été envoyé à votre adresse email.',
+    'resetpwd.verify': 'Vérifier',
+    'resetpwd.verify_in_progress': 'Vérification en cours...',
 
 
     // create password
@@ -110,6 +130,11 @@ const translations = {
     'blog.title':'Blog Bricola LTD',
     'blog.description': 'Découvrez nos conseils, guides et actualités sur l\'univers des outils et du bricolage',
     'blog.popular_categories': 'Catégories  populaires',
+
+    'blog.return':'Retour au blog',
+    'blog.share': 'Partager',
+    'blog.like': 'J\'aime',
+    'blog.similar_articles': 'Articles similaires',
     // blog categories
     'blog.category.gardening': 'Jardinage',
     'blog.category.maintenance':   'Entretien',
@@ -165,8 +190,11 @@ const translations = {
 
 
 
-
+    'claim.sent':'Réclamation envoyée',
+    'claim.sent_message':'Votre réclamation a bien été transmise à notre support. Elle sera traitée sous 48h.',
+    'claim.in_progress': 'Réclamation en cours',
     // General
+    
     'general.back':'Retour',
     'general.in': 'dans',
     'general.example': 'Ex',
@@ -222,6 +250,9 @@ const translations = {
     'general.grid': 'Grille',
 
     // bookings
+    'booking.cancelled': 'Réservation annulée',
+    'booking.cancelled_message': 'Votre réservation a été annulée avec succès.',
+    'booking.wait':'En attente de confirmation de remise par le propriétaire.',
     'booking.report.title': 'Signaler un problème',
     'booking.report.reason': 'Sélectionnez une raison',
     'booking.report.reason.no_answer': 'Ne répond pas',
@@ -253,6 +284,8 @@ const translations = {
     'pagination.previous': 'Précédent',
 
     // requests
+    'request.refuse':'Demande refusée',
+    'request.refuse.message':'Le refus a été transmis à l\'administration.',
     'request.report.accepted.title': 'Signalement envoyé',
     'request.report.accepted.message': 'Votre signalement a été transmis à l\'administration.',
 
@@ -286,7 +319,7 @@ const translations = {
     'request.cancel': 'Annuler',
     'request.report': 'Signaler',
     'request.download_contract': 'Télécharger le contrat',
-    'request.validation_code': 'Code de validation',
+    'request.validation_code': 'Code de validation :',
     'request.enter_code': 'Entrez le code',
     'request.confirm': 'Confirmer',
     'request.contact': 'Contacter',
@@ -409,6 +442,7 @@ const translations = {
     'profile.delete_confirm': 'Confirmez-vous la suppression de votre compte ?',
     'profile.delete_description': 'Cette action est irréversible. Toutes vos données, annonces, réservations et historique de transactions seront définitivement supprimés.',
     'profile.account_deletion_pending': 'Compte en attente de suppression',
+    'profile.delete_processing':'Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu\'aucune réclamation ou litige en cours n\'est rattaché à votre compte.',
 
     // Action translations (assuming these exist from previous context)
     'action.cancel': 'Annuler',
@@ -1054,6 +1088,21 @@ const translations = {
 
   },
   en: {
+   'country.kuwait':'Kuwait',
+    'country.ksa':'KSA',
+    'country.uae':'UAE',
+    'country.qatar':'Qatar',
+    'country.bahrain':'Bahrain',
+    'country.oman':'Oman',
+
+    'review.modaltitle': 'Rate the Rental',
+    'review.rate': 'Star Rating',
+    'review.comment': 'Comment',
+    'review.placeholdercomm': 'Share your experience...',
+    'review.submitbtn': 'Submit Review',
+    'review.popuptitle': 'Review Submitted',
+    'review.modalmsg': 'Thank you for your review. The status has been updated to "Completed".',
+
 
     // reset password
     'resetpwd.emailtitle': 'Forgot Password?',
@@ -1065,6 +1114,8 @@ const translations = {
     'resetpwd.backlogin': 'Back to LogIn',
     'resetpwd.popuptitle': 'Email sent',
     'resetpwd.popuptxt': 'A verification code has been sent to your email address.',
+    'resetpwd.verify': 'Verify',
+    'resetpwd.verify_in_progress': 'Verifying...',
 
 
      // create password
@@ -1151,6 +1202,12 @@ const translations = {
     'blog.title':'Bricola LTD Blog',
     'blog.description': 'Explore our tips, guides, and news from the world of tools and DIY',
     'blog.popular_categories': 'Popular Categories',
+
+    'blog.return':'Return to Blog',
+    'blog.share': 'Share',
+    'blog.like': 'Like',
+    'blog.similar_articles': 'Similar Articles',
+
      // blog categories
     'blog.category.gardening': 'Gardening',
     'blog.category.maintenance':   'Maintenance',
@@ -1202,6 +1259,10 @@ const translations = {
     'ads.usage_instructions': 'Usage instructions',
     'ads.owner_instructions': 'Owner’s instructions',
     'ads.owner_instructions_placeholder': 'Provide an extension cord, clean after use...',
+    
+    'claim.sent':'Claim Submitted',
+    'claim.sent_message':'Your claim has been successfully sent to our support team. It will be processed within 48 hours.',
+    'claim.in_progress': 'Claim in Progress',
     // General
     'general.back': 'Back',
     'general.in': 'in',
@@ -1220,7 +1281,7 @@ const translations = {
     'general.min': 'min',
     'general.modify': 'Modify',
     'general.see': 'See',
-    'general.location': 'Location',
+    'general.location': 'Rentals',
     'general.list':'List',
     'general.grid':'Grid',
     'general.published': 'Published',
@@ -1256,6 +1317,9 @@ const translations = {
     'general.message': 'Message',
 
     // bookings
+    'booking.cancelled': 'Reservation Cancelled',
+    'booking.cancelled_message': 'Your reservation has been successfully cancelled.',
+    'booking.wait': 'Waiting for Owner Confirmation',
     'booking.report.title': 'Report a Problem',
     'booking.report.reason': 'Select a reason',
     'booking.report.reason.no_answer': 'No response',
@@ -1283,6 +1347,8 @@ const translations = {
     'booking.present_code': 'Show this code to the owner when picking up the tool on the first day.',
 
     // requests
+    'request.refuse':'Request Denied',
+    'request.refuse.message':'The denial has been forwarded to the administration.',
     'request.report.accepted.title': 'Report Sent',
     'request.report.accepted.message': 'Your report has been submitted to the administration.',
 
@@ -1353,7 +1419,7 @@ const translations = {
     'request.cancel': 'Cancel',
     'request.report': 'Report',
     'request.download_contract': 'Download Contract',
-    'request.validation_code': 'Validation Code',
+    'request.validation_code': 'Validation Code :',
     'request.enter_code': 'Enter Code',
     'request.confirm': 'Confirm',
     'request.validation_code_accepted': 'Return confirmed',
@@ -1443,6 +1509,7 @@ const translations = {
     'profile.delete_confirm': 'Are you sure you want to delete your account?',
     'profile.delete_description': 'This action is irreversible. All your data, ads, reservations, and transaction history will be permanently deleted.',
     'profile.account_deletion_pending': 'Account pending deletion',
+    'profile.delete_processing':'Your request will be processed within 72 hours, allowing our team to verify that no ongoing claims or disputes are linked to your account.',
 
     // Wallet translations
     'wallet.title': 'My Wallet',
@@ -2116,6 +2183,21 @@ const translations = {
     "privacy.section10.p3": "Continued use of our services implies acceptance of the updated terms."
   },
   ar: {
+    'country.kuwait':'الكويت',
+    'country.ksa':'السعودية',
+    'country.uae':'الإمارات',
+    'country.qatar':'قطر',
+    'country.bahrain':'البحرين',
+    'country.oman':'عمان',
+
+    'review.modaltitle': 'تقييم الإيجار',
+    'review.rate': 'تقييم ',
+    'review.comment': 'تعليق',
+    'review.placeholdercomm': ' …شارك تجربتك',
+    'review.submitbtn': 'إرسال التقييم',
+    'review.popuptitle': 'تم إرسال التقييم',
+    'review.modalmsg': 'شكرًا على تقييمك',
+
     // reset password
     'resetpwd.emailtitle': 'هل نسيت كلمة المرور؟',
     'resetpwd.emailtxt': 'أدخل عنوان بريدك الإلكتروني لاستلام رمز التحقق',
@@ -2126,7 +2208,8 @@ const translations = {
     'resetpwd.backlogin': 'العودة إلى تسجيل الدخول',
     'resetpwd.popuptitle': 'تم إرسال البريد الإلكتروني',
     'resetpwd.popuptxt': 'تم إرسال رمز التحقق إلى عنوان بريدك الإلكتروني.',
-
+    'resetpwd.verify': 'التحقق من الرمز',
+    'resetpwd.verify_in_progress': 'جارٍ التحقق من الرمز...',
 
     // create password
     'password.create.title': 'كلمة مرور جديدة',
@@ -2227,6 +2310,11 @@ const translations = {
     'blog.category.decoration':  'الديكور',
     'blog.category.guide':                'دليل',
 
+    'blog.return':'عودة إلى المدونة',
+    'blog.share': 'مشاركة',
+    'blog.like': 'أحب',
+    'blog.similar_articles': 'مقالات مشابهة',
+
 
     // favorites
     'favorites.title': 'قائمة المفضلات',
@@ -2266,7 +2354,10 @@ const translations = {
     'ads.owner_instructions': 'تعليمات المالك',
     'ads.owner_instructions_placeholder': 'يرجى توفير سلك تمديد كهربائي، التنظيف بعد الاستخدام...',
 
-    
+
+    'claim.sent':'تم إرسال الشكوى',
+    'claim.sent_message':'تم إرسال شكواك إلى فريق الدعم، وسيتم معالجتها خلال 48 ساعة.',
+    'claim.in_progress': 'الشكوى قيد المعالجة',
     // General
     'general.back': 'رجوع',
     'general.in':'خلال',
@@ -2287,7 +2378,7 @@ const translations = {
     'general.min': 'دقيقة',
     'general.modify': 'تعديل',
     'general.see': 'عرض',
-    'general.location': 'موقع',
+    'general.location': 'الإيجارات',
 
     'general.list': 'قائمة',
     'general.grid': 'شبكة',
@@ -2323,7 +2414,9 @@ const translations = {
     'general.rejected': 'مرفوض',
 
     // bookings
-
+    'booking.cancelled': 'تم إلغاء الحجز',
+    'booking.cancelled_message': '.تم إلغاء حجزك بنجاح',
+    'booking.wait':'في انتظار تأكيد المالك',
     'booking.report.title': 'الإبلاغ عن مشكلة',
     'booking.report.reason': 'اختر سبباً',
     'booking.report.reason.no_answer': 'لا يرد',
@@ -2351,6 +2444,8 @@ const translations = {
     'booking.present_code': 'قدم هذا الرمز للمالك عند استلام الأداة في اليوم الأول.',
 
     // requests
+    'request.refuse':'تم رفض الطلب',
+    'request.refuse.message':'تم إرسال الرفض إلى الإدارة.',
     'request.report.accepted.title': 'تم إرسال البلاغ',
     'request.report.accepted.message': 'تم إرسال بلاغك إلى الإدارة.',
     
@@ -2375,7 +2470,7 @@ const translations = {
     'request.claim.submit': 'إرسال البلاغ',
 
     'request.report.title': 'الإبلاغ عن مشكلة',
-    'request.report.reason': 'اختر سببًا:',
+    'request.report.reason': 'اختر سببًا',
     'request.report.reason.no_show': 'لم يظهر المستأجر',
     'request.report.reason.damaged_tool': 'الأداة المعادة تالفة',
     'request.report.reason.late_return': 'إرجاع متأخر',
@@ -2421,7 +2516,7 @@ const translations = {
     'request.cancel': 'إلغاء',
     'request.report': 'الإبلاغ',
     'request.download_contract': 'تحميل العقد',
-    'request.validation_code': 'رمز التحقق',
+    'request.validation_code': ': رمز التحقق',
     'request.enter_code': 'أدخل الرمز',
     'request.confirm': 'تأكيد',
     'request.validation_code_accepted': 'تم تأكيد الإرجاع',
@@ -2491,8 +2586,8 @@ const translations = {
     'wallet.successful': 'ناجحة',
     'wallet.successful_transactions': 'المعاملات الناجحة',
     'wallet.withdraw_money': 'سحب أموالي',
-    'wallet.withdrawal_note': 'يمكنك سحب أموالك بمجرد أن يصل رصيدك الإجمالي إلى 20 جنيهًا إسترلينيًا.',
-    'wallet.conversion_rate': '20 جنيه إسترليني = {minWithdrawalEUR} يورو',
+    'wallet.withdrawal_note': '.يمكنك سحب أموالك بمجرد أن يصل رصيدك الإجمالي إلى 20 جنيهًا إسترلينيًا',
+    'wallet.conversion_rate': '20£ = {minWithdrawalEUR} €',
     'wallet.dynamic_conversion': 'يتم تحديث سعر الصرف تلقائيًا حسب العملة المختارة في الحساب.',
 
     // recent transactions
@@ -2660,6 +2755,7 @@ const translations = {
     'profile.delete_confirm': 'هل أنت متأكد من حذف حسابك؟',
     'profile.delete_description': 'هذا الإجراء لا رجعة فيه. سيتم حذف جميع بياناتك، إعلاناتك، حجوزاتك، وسجل معاملاتك نهائيًا.',
     'profile.account_deletion_pending': 'الحساب في انتظار الحذف',
+    'profile.delete_processing':'سيتم معالجة طلبك خلال 72 ساعة، وهو الوقت اللازم لفريقنا للتحقق من عدم وجود شكاوى أو نزاعات مرتبطة بحسابك.',
     
     // Forms
     'form.first_name': 'الاسم الأول',

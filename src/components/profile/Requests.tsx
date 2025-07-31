@@ -35,7 +35,7 @@ const Requests = () => {
 
   const [requests, setRequests] = useState<Request[]>(mockRequests);
 
-  const {t} = useLanguage();
+  const { t, language } = useLanguage();
 
   const handleAcceptRequest = (requestId: string) => {
     setRequests(prev => prev.map(req => 
@@ -58,8 +58,8 @@ const Requests = () => {
     ));
     
     toast({
-      title: "Demande refusée",
-      description: "Le refus a été transmis à l'administration.",
+      title: t('request.refuse'),
+      description: t('request.refuse.message'),
     });
   };
 
@@ -103,8 +103,8 @@ const Requests = () => {
     ));
     
     toast({
-      title: "Évaluation soumise",
-      description: "Merci pour votre évaluation. Le statut passe à 'Terminé'.",
+      title: t('review.popuptitle'),
+      description: t('review.modalmsg'),
     });
     
     setIsReviewDialogOpen(false);
@@ -118,8 +118,8 @@ const Requests = () => {
     ));
     
     toast({
-      title: "Réclamation envoyée",
-      description: "Votre réclamation a bien été transmise à notre support. Elle sera traitée sous 48h.",
+      title: t('claim.sent'),
+      description: t('claim.sent_message'),
     });
     
     setIsClaimDialogOpen(false);
@@ -201,7 +201,10 @@ const Requests = () => {
                       {request.isOwnerView ? request.renterName : request.owner}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {t('request.reference')}: {request.referenceId}
+                      {language === 'ar'
+                        ? `${request.referenceId} : ${t('general.reference')}`
+                        : `${t('general.reference')}: ${request.referenceId}`
+                      }
                     </div>
                   </div>
                 </div>
@@ -211,7 +214,7 @@ const Requests = () => {
                   </Badge>
                   {(request.status === 'ongoing' || request.status === 'accepted') && request.hasActiveClaim && (
                     <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
-                      Réclamation en cours
+                      {t('claim.in_progress')}
                     </Badge>
                   )}
                 </div>
@@ -264,9 +267,11 @@ const Requests = () => {
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>{t('request.confirm_acceptence')}</AlertDialogTitle>
-                          <AlertDialogDescription>
+                        <AlertDialogHeader className="!flex !flex-col !space-y-3">
+                          <AlertDialogTitle className={"text-lg font-semibold "+ (language === 'ar' ? "text-right" : "")}>
+                            {t('request.confirm_acceptence')}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription className={"text-sm text-muted-foreground "+ (language === 'ar' ? "text-right" : "")}>
                             {t('request.confirm_acceptence_message')}
                           </AlertDialogDescription>
                         </AlertDialogHeader>
@@ -324,13 +329,13 @@ const Requests = () => {
                 {/* Code de validation pour les demandes acceptées */}
                 {request.isOwnerView && request.status === 'accepted' && (
                   <div className="w-full mt-3 p-3 bg-blue-50 rounded border">
-                    <p className="text-sm font-medium mb-2">{t('request.validation_code')}:</p>
+                    <p className="text-sm font-medium mb-2">{t('request.validation_code')}</p>
                     <div className="flex gap-2">
                       <Input
                         placeholder={t('request.enter_code')}
                         value={validationCode}
                         onChange={(e) => setValidationCode(e.target.value)}
-                        className="flex-1"
+                        className={"flex-1" + (language === 'ar' ? " text-right" : "")}
                       />
                       <Button onClick={() => handleValidationCode(request.id)}>
                         {t('action.confirm')}

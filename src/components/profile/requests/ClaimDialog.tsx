@@ -36,11 +36,11 @@ const ClaimDialog: React.FC<ClaimDialogProps> = ({
     setClaimType('');
     setClaimDescription('');
   };
-  const {t} = useLanguage();
+  const {t,language} = useLanguage();
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
           <DialogTitle>{t('request.report.title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">

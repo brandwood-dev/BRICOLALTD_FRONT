@@ -239,7 +239,7 @@ const Reservations = () => {
       default: return 'bg-gray-100 text-gray-800';
     }
   };
-
+  
   const getStatusText = (status: string) => {
     switch (status) {
       case 'pending': return 'En attente';
@@ -280,8 +280,8 @@ const Reservations = () => {
     ));
     
     toast({
-      title: "Réservation annulée",
-      description: "Votre réservation a été annulée avec succès.",
+      title: t('booking.cancelled'),
+      description: t('booking.cancelled_message'),
     });
     
     setCancellationReason('');
@@ -385,8 +385,8 @@ const Reservations = () => {
     ));
     
     toast({
-      title: "Réclamation envoyée",
-      description: "Votre réclamation a bien été transmise à notre support. Elle sera traitée sous 48h.",
+      title: t('claim.sent'),
+      description: t('claim.sent_message'),
     });
     
     setIsClaimDialogOpen(false);
@@ -458,7 +458,7 @@ const Reservations = () => {
     setFilteredReservations(data);
     setCurrentPage(1); // Retour à la première page lors d'un changement de filtre
   };
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <Card>
@@ -502,12 +502,12 @@ const Reservations = () => {
                           </Badge>
                           {reservation.status === 'ongoing' && reservation.renterHasReturned && (
                             <Badge variant="outline" className="bg-blue-50 text-blue-800 border-blue-200">
-                              En attente de confirmation de remise par le propriétaire
+                              {t('booking.wait')}
                             </Badge>
                           )}
                           {((reservation.status === 'ongoing' || reservation.status === 'accepted') && reservation.hasActiveClaim) && (
                             <Badge variant="outline" className="bg-orange-50 text-orange-800 border-orange-200">
-                              Réclamation en cours
+                              {t('claim.in_progress')}
                             </Badge>
                           )}
                         </div>
@@ -518,7 +518,10 @@ const Reservations = () => {
                         </div>
                         
                         <div className="text-xs text-gray-500 mb-3">
-                          {t('general.reference')}: {reservation.referenceId}
+                          {language === 'ar'
+                        ? `${reservation.referenceId} : ${t('general.reference')}`
+                        : `${t('general.reference')}: ${reservation.referenceId}`
+                      }
                         </div>
                         
                         <p className="text-sm text-gray-600 mb-4">{reservation.toolDescription}</p>
@@ -556,7 +559,7 @@ const Reservations = () => {
                             </Button>
                           </DialogTrigger>
                           <DialogContent>
-                            <DialogHeader>
+                            <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
                               <DialogTitle>{t('reservation.cancel.title')}</DialogTitle>
                             </DialogHeader>
                             <div className="space-y-4">
@@ -602,7 +605,7 @@ const Reservations = () => {
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
-                              <DialogHeader>
+                              <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
                                 <DialogTitle>{t('reservation.cancel.title')}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-4">
@@ -649,22 +652,40 @@ const Reservations = () => {
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Informations du propriétaire</DialogTitle>
+                              <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
+                                <DialogTitle>{t('request.contact_owner_information')}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                  <Avatar className="h-12 w-12">
-                                    <AvatarImage src="" />
-                                    <AvatarFallback>
-                                      {reservation.owner.split(' ').map(n => n[0]).join('')}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  <div>
-                                    <h3 className="font-semibold">{reservation.owner}</h3>
-                                    <p className="text-sm text-muted-foreground">{reservation.ownerEmail}</p>
-                                    <p className="text-sm text-muted-foreground">{reservation.ownerPhone}</p>
-                                  </div>
+                                <div className={`flex items-center gap-3 ${language === 'ar' ? 'justify-end' : ''}`}>
+                                  {language === 'ar' ? (
+                                                <>
+                                                  <div>
+                                                    <h3 className="font-semibold">{reservation.owner}</h3>
+                                                    <p className="text-sm text-muted-foreground">{reservation.ownerEmail}</p>
+                                                    <p className="text-sm text-muted-foreground">{reservation.ownerPhone}</p>
+                                                  </div>
+                                                  <Avatar className="h-12 w-12">
+                                                    <AvatarImage src='' />
+                                                    <AvatarFallback>
+                                                      {reservation.owner?.split(' ').map(n => n[0]).join('')}
+                                                    </AvatarFallback>
+                                                  </Avatar>
+                                                </>
+                                              ) : (
+                                                <>
+                                                  <Avatar className="h-12 w-12">
+                                                    <AvatarImage src='' />
+                                                    <AvatarFallback>
+                                                      {reservation.owner?.split(' ').map(n => n[0]).join('')}
+                                                    </AvatarFallback>
+                                                  </Avatar>
+                                                  <div>
+                                                    <h3 className="font-semibold">{reservation.owner}</h3>
+                                                    <p className="text-sm text-muted-foreground">{reservation.ownerEmail}</p>
+                                                    <p className="text-sm text-muted-foreground">{reservation.ownerPhone}</p>
+                                                  </div>
+                                                </>
+                                              )}
                                 </div>
                                 
                                 <div className="flex gap-2">
@@ -673,7 +694,7 @@ const Reservations = () => {
                                     className="flex-1 flex items-center gap-2"
                                   >
                                     <Phone className="h-4 w-4" />
-                                    Appeler
+                                    {t('request.call')}
                                   </Button>
                                   <Button 
                                     variant="outline"
@@ -681,14 +702,14 @@ const Reservations = () => {
                                     className="flex-1 flex items-center gap-2"
                                   >
                                     <Mail className="h-4 w-4" />
-                                    E-mail
+                                    {t('request.mail')}
                                   </Button>
                                 </div>
                               </div>
                             </DialogContent>
                           </Dialog>
 
-                          <Dialog>
+                          <Dialog >
                             <DialogTrigger asChild>
                               <Button variant="outline" size="sm">
                                 <Flag className="h-4 w-4 mr-1" />
@@ -696,13 +717,13 @@ const Reservations = () => {
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
-                              <DialogHeader>
+                              <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
                                 <DialogTitle>{t('booking.report.title')}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-4">
                                 <Select value={reportReason} onValueChange={setReportReason}>
                                   <SelectTrigger>
-                                    <SelectValue placeholder={t('booking.report.reason.placeholder')} />
+                                    <SelectValue placeholder={t('booking.report.reason')} />
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value="no-response">{t('booking.report.reason.no_answer')}</SelectItem>
@@ -841,7 +862,7 @@ const Reservations = () => {
                             </Button>
                           </DialogTrigger>
                           <DialogContent>
-                            <DialogHeader>
+                            <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
                               <DialogTitle>{t('cancellation.details.title')}</DialogTitle>
                             </DialogHeader>
                             <div className="space-y-3">
@@ -980,7 +1001,7 @@ const Reservations = () => {
         {/* Modal de confirmation de retour */}
         <Dialog open={isReturnDialogOpen} onOpenChange={setIsReturnDialogOpen}>
           <DialogContent>
-            <DialogHeader>
+            <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
               <DialogTitle>{t('tool.return.title')}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">

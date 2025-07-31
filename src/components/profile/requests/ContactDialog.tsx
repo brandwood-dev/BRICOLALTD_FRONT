@@ -12,7 +12,7 @@ interface ContactDialogProps {
 }
 
 const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -21,22 +21,40 @@ const ContactDialog: React.FC<ContactDialogProps> = ({ request }) => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className={`${language === 'ar' ? 'flex justify-end' : ''}`}>
           <DialogTitle>{t('request.contact_renter_information')}</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <Avatar className="h-12 w-12">
-              <AvatarImage src={request.renterAvatar} />
-              <AvatarFallback>
-                {request.renterName?.split(' ').map(n => n[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="font-semibold">{request.renterName}</h3>
-              <p className="text-sm text-muted-foreground">{request.renterEmail}</p>
-              <p className="text-sm text-muted-foreground">{request.renterPhone}</p>
-            </div>
+        <div className="space-y-4 ">
+          <div className={`flex items-center gap-3 ${language === 'ar' ? 'justify-end' : ''}`}>
+            {language === 'ar' ? (
+              <>
+                <div>
+                  <h3 className="font-semibold">{request.renterName}</h3>
+                  <p className="text-sm text-muted-foreground">{request.renterEmail}</p>
+                  <p className="text-sm text-muted-foreground">{request.renterPhone}</p>
+                </div>
+                <Avatar className="h-12 w-12">
+                  <AvatarImage src={request.renterAvatar} />
+                  <AvatarFallback>
+                    {request.renterName?.split(' ').map(n => n[0]).join('')}
+                  </AvatarFallback>
+                </Avatar>
+              </>
+            ) : (
+              <>
+                <Avatar className="h-12 w-12">
+                  <AvatarImage src={request.renterAvatar} />
+                  <AvatarFallback>
+                    {request.renterName?.split(' ').map(n => n[0]).join('')}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold">{request.renterName}</h3>
+                  <p className="text-sm text-muted-foreground">{request.renterEmail}</p>
+                  <p className="text-sm text-muted-foreground">{request.renterPhone}</p>
+                </div>
+              </>
+            )}
           </div>
           
           {request.message && (

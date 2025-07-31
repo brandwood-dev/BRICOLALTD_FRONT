@@ -23,7 +23,7 @@ const BlogPost = () => {
           <div className="mb-6">
             <Link to="/blog" className="inline-flex items-center gap-2 text-accent hover:underline">
               <ArrowLeft className="h-4 w-4" />
-              Retour au blog
+              {t('blog.return')}
             </Link>
           </div>
 
@@ -44,18 +44,18 @@ const BlogPost = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="h-4 w-4" />
-                    <span>{post.readTime}</span>
+                    <span>{post.readTime}{t('general.min')}</span>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm">
                     <Share2 className="h-4 w-4 mr-1" />
-                    Partager
+                    { t('blog.share') }
                   </Button>
                   <Button variant="outline" size="sm">
                     <Heart className="h-4 w-4 mr-1" />
-                    J'aime
+                    { t('blog.like') }
                   </Button>
                 </div>
               </div>
@@ -120,7 +120,7 @@ const BlogPost = () => {
 
             {/* Articles similaires */}
             <div className="border-t pt-8">
-              <h2 className="text-2xl font-bold mb-6">Articles similaires</h2>
+              <h2 className="text-2xl font-bold mb-6">{t('blog.similar_articles')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {mockBlogPosts.filter(p => p.id !== post.id).slice(0, 2).map((relatedPost) => (
                   <Card key={relatedPost.id} className="hover:shadow-lg transition-shadow">

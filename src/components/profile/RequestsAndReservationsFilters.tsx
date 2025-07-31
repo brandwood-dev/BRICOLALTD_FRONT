@@ -156,7 +156,7 @@ const RequestsAndReservationsFilters = ({
             <SelectItem value="all">{t('request.all')}</SelectItem>
             {statusOptions.map(option => (
               <SelectItem key={option.value} value={option.value}>
-                {option.label}
+                {t(`general.${option.value}`)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -168,10 +168,10 @@ const RequestsAndReservationsFilters = ({
             <SelectValue placeholder="Filtrer par période" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t('request.all_periods')}</SelectItem>
-            <SelectItem value="week">{t('request.this_week')}</SelectItem>
-            <SelectItem value="month">{t('request.this_month')}</SelectItem>
-            <SelectItem value="year">{t('request.this_year')}</SelectItem>
+            <SelectItem value="all">{t('general.all_periods')}</SelectItem>
+            <SelectItem value="week">{t('general.week')}</SelectItem>
+            <SelectItem value="month">{t('general.month')}</SelectItem>
+            <SelectItem value="year">{t('general.year')}</SelectItem>
           </SelectContent>
         </Select>
 

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Star } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ReviewDialogProps {
   isOpen: boolean;
@@ -23,16 +24,16 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
     setRating(0);
     setReviewComment('');
   };
-
+  const { t } = useLanguage();
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Évaluer la location</DialogTitle>
+          <DialogTitle>{t('review.modaltitle')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Note par étoiles</label>
+            <label className="block text-sm font-medium mb-2">{t('review.rate')}</label>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -46,15 +47,15 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Commentaire</label>
+            <label className="block text-sm font-medium mb-2">{t('review.comment')}</label>
             <Textarea
-              placeholder="Partagez votre expérience..."
+              placeholder={t('review.placeholdercomm')}
               value={reviewComment}
               onChange={(e) => setReviewComment(e.target.value)}
             />
           </div>
           <Button onClick={handleSubmit} className="w-full">
-            Soumettre l'évaluation
+            {t('review.submitbtn')}
           </Button>
         </div>
       </DialogContent>

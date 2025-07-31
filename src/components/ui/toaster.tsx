@@ -7,15 +7,16 @@ import {
   ToastTitle,
   ToastViewport,
 } from "@/components/ui/toast"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 export function Toaster() {
   const { toasts } = useToast()
-
+  const { t, language } = useLanguage()
   return (
     <ToastProvider>
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
-          <Toast key={id} {...props}>
+          <Toast key={id} {...props}  className={language === 'ar' ? 'flex justify-end' : ''}>
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (

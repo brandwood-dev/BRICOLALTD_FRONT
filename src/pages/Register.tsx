@@ -13,7 +13,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const Register = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [formData, setFormData] = useState({
     userType: 'individual',
     firstName: '',
@@ -39,13 +39,13 @@ const Register = () => {
   ];
   
   const phonePrefixes = [
-    { value: '+33', label: '+33 (France)' },
-    { value: '+32', label: '+32 (Belgique)' },
-    { value: '+41', label: '+41 (Suisse)' },
-    { value: '+1', label: '+1 (Canada)' },
-    { value: '+212', label: '+212 (Maroc)' },
-    { value: '+216', label: '+216 (Tunisie)' },
-    { value: '+213', label: '+213 (Algérie)' }
+    { value: '+965', label: `+965 (${t('country.kuwait')})` },
+    { value: '+966', label: `+966 (${t('country.ksa')})` },
+    { value: '+971', label: `+971 (${t('country.uae')})` },
+    { value: '+974', label: `+974 (${t('country.qatar')})` },
+    { value: '+973', label: `+973 (${t('country.bahrain')})` },
+    { value: '+968', label: `+968 (${t('country.oman')})` },
+
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -211,25 +211,25 @@ const Register = () => {
                 </div>
                 
                 {/* Cases à cocher pour les conditions */}
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
+                <div className="space-y-3 ">
+                  <div className={"items-center space-x-2" + (language === 'ar' ? 'flex-col-reverse' : 'flex')}>
                     <Checkbox 
                       id="terms" 
                       checked={termsAccepted}
                       onCheckedChange={handleTermsChange}
                     />
-                    <Label htmlFor="terms" className="text-sm">
+                    <Label htmlFor="terms" className="text-sm p-2">
                       {t('register.terms')}
                     </Label>
                   </div>
                   
-                  <div className="flex items-center space-x-2">
+                  <div className={"items-center space-x-2" + (language === 'ar' ? 'flex-col-reverse' : 'flex')}>
                     <Checkbox 
                       id="sales" 
                       checked={salesConditionsAccepted}
                       onCheckedChange={handleSalesConditionsChange}
                     />
-                    <Label htmlFor="sales" className="text-sm">
+                    <Label htmlFor="sales" className="text-sm p-2">
                       {t('register.sales_conditions')}
                     </Label>
                   </div>

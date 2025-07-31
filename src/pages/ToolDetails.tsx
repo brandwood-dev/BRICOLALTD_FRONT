@@ -70,7 +70,7 @@ const ToolDetails = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header/>
       <main className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-6">
@@ -82,15 +82,39 @@ const ToolDetails = () => {
 
           {/* Owner Information */}
           <Card className="mb-6">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
+            <CardContent className={"p-6 flex"+ (language === 'ar' ? ' justify-end' : '')}>
+              {language === 'ar' ? (
+                <div className="flex items-center gap-4">
+              
+                <div >
+                  <div className="flex items-center gap-2">
+                    {toolDetails.owner.verified && (
+                      <Badge variant="secondary" className="bg-green-100 text-green-800">
+                        <CheckCircle className="h-3 w-3 mr-1" />
+                        {t('tools.verified')}
+                      </Badge>
+                    )}
+                    <h2 className="text-xl font-semibold">{toolDetails.owner.name}</h2>
+                    
+                  </div>
+                  <p className="text-gray-600">{t('tools.owner')}</p>
+                </div>
                 <Avatar className="h-16 w-16">
                   <AvatarImage src={toolDetails.owner.avatar} alt={toolDetails.owner.name} />
                   <AvatarFallback>
                     <User className="h-8 w-8" />
                   </AvatarFallback>
                 </Avatar>
-                <div>
+              </div>
+              ):(
+                <div className="flex items-center gap-4">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src={toolDetails.owner.avatar} alt={toolDetails.owner.name} />
+                  <AvatarFallback>
+                    <User className="h-8 w-8" />
+                  </AvatarFallback>
+                </Avatar>
+                <div >
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-semibold">{toolDetails.owner.name}</h2>
                     {toolDetails.owner.verified && (
@@ -103,6 +127,7 @@ const ToolDetails = () => {
                   <p className="text-gray-600">{t('tools.owner')}</p>
                 </div>
               </div>
+              )}
             </CardContent>
           </Card>
 
@@ -150,9 +175,18 @@ const ToolDetails = () => {
                     <span className="text-gray-600">{t('tools.year_of_purchase')}:</span>
                     <span className="ml-2 font-medium">{toolDetails.purchaseYear}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600">{tool.location}</span>
+                  <div className={"flex items-center gap-1 "+ (language === 'ar' ? 'justify-end' : '')}>
+                    {language === 'ar' ? (
+                      <>
+                        <span className="text-gray-600">{tool.location}</span>
+                        <MapPin className="h-4 w-4 text-gray-400" />
+                      </>
+                    ) : (
+                      <>
+                        <MapPin className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-600">{tool.location}</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

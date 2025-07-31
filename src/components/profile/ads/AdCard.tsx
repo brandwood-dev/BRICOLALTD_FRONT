@@ -38,7 +38,7 @@ const AdCard = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, get
               <Badge className={getValidationStatusColor(ad.validationStatus)}>
                 {getValidationStatusText(ad.validationStatus)}
               </Badge>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 gap-3">
                 <Switch
                   id={`published-${ad.id}`}
                   checked={ad.published}
