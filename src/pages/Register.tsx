@@ -30,12 +30,12 @@ const Register = () => {
   const [salesConditionsAccepted, setSalesConditionsAccepted] = useState(false);
 
   const countries = [
-    { value: 'KWD', label: 'Koweït', flag: '<span class="fi fi-kw"></span>' },
-    { value: 'SAR', label: 'Arabie Saoudite', flag: '<span class="fi fi-sa"></span>' },
-    { value: 'BHD', label: 'Bahreïn', flag: '<span class="fi fi-bh"></span>' },
-    { value: 'OMR', label: 'Oman', flag: '<span class="fi fi-om"></span>' },
-    { value: 'QAR', label: 'Qatar', flag: '<span class="fi fi-qa"></span>'  },
-    { value: 'AED', label: 'Émirats Arabes Unis.', flag: '<span class="fi fi-ae"></span>' },
+    { value: 'KWD', label: 'kuwait', flag: '<span class="fi fi-kw"></span>' },
+    { value: 'SAR', label: 'ksa', flag: '<span class="fi fi-sa"></span>' },
+    { value: 'BHD', label: 'bahrain', flag: '<span class="fi fi-bh"></span>' },
+    { value: 'OMR', label: 'oman', flag: '<span class="fi fi-om"></span>' },
+    { value: 'QAR', label: 'qatar', flag: '<span class="fi fi-qa"></span>'  },
+    { value: 'AED', label: 'uae', flag: '<span class="fi fi-ae"></span>' },
   ];
   
   const phonePrefixes = [
@@ -167,7 +167,7 @@ const Register = () => {
                         {countries.map((country) => (
                           <SelectItem key={country.value} value={country.value}>
                               <span className='mx-2' dangerouslySetInnerHTML={{ __html: country.flag }} />
-                            {country.label}
+                            {t(`country.${country.label}`)}
 
                           </SelectItem>
                         ))}
