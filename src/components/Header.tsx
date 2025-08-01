@@ -85,7 +85,7 @@ const Header = () => {
               <Button variant="ghost" size="sm">
                 <Heart className="h-5 w-5" />
                 {favoritesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {favoritesCount}
                   </span>
                 )}

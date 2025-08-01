@@ -19,7 +19,7 @@ interface AdListItemProps {
 }
 
 const AdListItem = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor, getValidationStatusText }: AdListItemProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="border rounded-lg p-3 flex items-center gap-4">
       <img 
@@ -73,19 +73,19 @@ const AdListItem = ({ ad, onPublishToggle, onDeleteAd, getValidationStatusColor,
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
-              <AlertDialogDescription>
-                Êtes-vous sûr de vouloir supprimer cette annonce ? Cette action est irréversible.
+            <AlertDialogHeader className = "!flex !flex-col">
+              <AlertDialogTitle className={language === 'ar' ? 'text-right' : ''}>{t('ads.delete.confirm.title')}</AlertDialogTitle>
+              <AlertDialogDescription className={language === 'ar' ? 'text-right' : ''}>
+                {t('ads.delete.confirm.description')}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Annuler</AlertDialogCancel>
+              <AlertDialogCancel>{t('general.cancel')}</AlertDialogCancel>
               <AlertDialogAction 
                 onClick={() => onDeleteAd(ad.id)}
                 className="bg-red-600 hover:bg-red-700"
               >
-                Oui, je veux supprimer
+                {t('general.delete.confirm')}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

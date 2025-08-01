@@ -11,7 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Favorites = () => {
   const { favorites, removeFromFavorites } = useFavorites();
-  const { t } = useLanguage();
+  const { t,language } = useLanguage();
   if (favorites.length === 0) {
     return (
       <div className="min-h-screen bg-background">
@@ -51,12 +51,26 @@ const Favorites = () => {
             </Link>
           </div>
           
-          <div className="flex items-center gap-3 mb-8">
+          <div className={"flex items-center gap-3 mb-8" + (language === 'ar' ? " justify-end" : " justify-start")}>
+            {
+              language === 'ar' ? (
+                <>
+                <span className="bg-accent text-white px-3 py-1 rounded-full text-sm">
+              {favorites.length}{t('blog.subcategory.tools')}
+            </span> 
+            <h1 className="text-3xl font-bold">{t('favorites.title')}</h1>
             <Heart className="h-8 w-8 text-red-500" />
-            <h1 className="text-3xl font-bold">Mes favoris</h1>
+                </>
+              ):(
+                <>
+                <Heart className="h-8 w-8 text-red-500" />
+            <h1 className="text-3xl font-bold">{t('favorites.title')}</h1>
             <span className="bg-accent text-white px-3 py-1 rounded-full text-sm">
-              {favorites.length} outil{favorites.length > 1 ? 's' : ''}
+              {favorites.length} {t('blog.subcategory.tools')}
             </span>
+                </>
+              )
+            }
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -79,20 +93,39 @@ const Favorites = () => {
                 </div>
                 <CardContent className="p-4">
                   <h3 className="font-semibold text-lg mb-2 line-clamp-2">{tool.title}</h3>
-                  <div className="flex items-center gap-1 mb-2">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-sm font-medium">{tool.rating}</span>
+                  <div className={"flex items-center gap-1 mb-2" + (language === 'ar' ? " justify-end" : "")}>
+                    {language === 'ar' ? (
+                      <>
+                      <span className="text-sm font-medium">{tool.rating}</span>
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400"/>
+                      
+                      </>
+                    ):(
+                      <>
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400"/>
+                      <span className="text-sm font-medium">{tool.rating}</span></>
+                    )}
                   </div>
-                  <div className="flex items-center gap-1 text-gray-600 mb-3">
-                    <MapPin className="h-4 w-4" />
-                    <span className="text-sm">{tool.location}</span>
+                  <div className={"flex items-center gap-1 text-gray-600 mb-3" + (language === 'ar' ? " justify-end" : "")}>
+                    {language === 'ar' ? (
+                      <>
+                      <span className="text-sm">{tool.location}</span>
+                      <MapPin className="h-4 w-4" />
+                    
+                      </>
+                    ):(
+                      <>
+                      <MapPin className="h-4 w-4" />
+                      <span className="text-sm">{tool.location}</span>
+                    </>
+                    )}
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="text-xl font-bold text-accent">
-                      {tool.price}€<span className="text-sm font-normal text-gray-600">/jour</span>
+                      {tool.price}€<span className="text-sm font-normal text-gray-600">/{t('general.day')}</span>
                     </div>
                     <Link to={`/tool/${tool.id}`}>
-                      <Button size="sm">Voir détails</Button>
+                      <Button size="sm">{t('general.view_details')}</Button>
                     </Link>
                   </div>
                 </CardContent>

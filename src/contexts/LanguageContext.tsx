@@ -136,6 +136,7 @@ const translations = {
     'blog.like': 'J\'aime',
     'blog.similar_articles': 'Articles similaires',
     // blog categories
+    'blog.subcategory.tools': 'Outils',
     'blog.category.gardening': 'Jardinage',
     'blog.category.maintenance':   'Entretien',
     'blog.category.transport':   'Transport',
@@ -148,6 +149,7 @@ const translations = {
     'blog.category.cleaning':   'Nettoyage',
     'blog.category.decoration':  'Décoration',
     'blog.category.guide':                'Guide',
+    'blog.category.safety': 'Sécurité',
 
     // favorites
     'favorite.title': 'Mes Favoris',
@@ -157,7 +159,9 @@ const translations = {
     'fav.btnexplore': 'Explorer le catalogue',
 
     // profile ads
-
+    'ads.delete.success': 'Votre annonce a été bien supprimée.',
+    'ads.delete.confirm.title': 'Confirmer la suppression',
+    'ads.delete.confirm.description': 'Êtes-vous sûr de vouloir supprimer cette annonce ? Cette action est irréversible.',
     'ads.view.title':'Aperçu de l’annonce',
     'ads.rental_conditions': 'Conditions de location',
 
@@ -194,7 +198,7 @@ const translations = {
     'claim.sent_message':'Votre réclamation a bien été transmise à notre support. Elle sera traitée sous 48h.',
     'claim.in_progress': 'Réclamation en cours',
     // General
-    
+    'general.delete.confirm': 'Oui, je veux supprimer',
     'general.back':'Retour',
     'general.in': 'dans',
     'general.example': 'Ex',
@@ -1209,6 +1213,8 @@ const translations = {
     'blog.similar_articles': 'Similar Articles',
 
      // blog categories
+     'blog.subcategory.tools': 'Tools',
+     'blog.category.safety': 'Safety',
     'blog.category.gardening': 'Gardening',
     'blog.category.maintenance':   'Maintenance',
     'blog.category.transport':   'Transport',
@@ -1231,6 +1237,9 @@ const translations = {
 
 
     // ads profile
+    'ads.delete.success': 'Listing Deleted',
+    'ads.delete.confirm.title': 'Confirm Deletion',
+    'ads.delete.confirm.description': 'Are you sure you want to delete this listing? This action is irreversible.',
     'ads.view.title':'Listing Preview',
     'ads.rental_conditions': 'Rental Conditions',
     'ads.success_message':'Your listing has been successfully updated.',
@@ -1264,6 +1273,7 @@ const translations = {
     'claim.sent_message':'Your claim has been successfully sent to our support team. It will be processed within 48 hours.',
     'claim.in_progress': 'Claim in Progress',
     // General
+    'general.delete.confirm':'Confirm Deletion',
     'general.back': 'Back',
     'general.in': 'in',
     'general.example': 'Ex',
@@ -2297,6 +2307,8 @@ const translations = {
     'blog.description': 'اكتشف نصائحنا، وأدلّتنا، وآخر الأخبار في عالم الأدوات والأعمال اليدوية',
     'blog.popular_categories': 'الفئات الشائعة',
      // blog categories
+     'blog.subcategory.tools': 'الأدوات',
+    'blog.category.safety': 'السلامة',
     'blog.category.gardening': 'البستنة',
     'blog.category.maintenance':   'الصيانة',
     'blog.category.transport':   'النقل',
@@ -2312,7 +2324,7 @@ const translations = {
 
     'blog.return':'عودة إلى المدونة',
     'blog.share': 'مشاركة',
-    'blog.like': 'أحب',
+    'blog.like': 'إعجاب',
     'blog.similar_articles': 'مقالات مشابهة',
 
 
@@ -2324,6 +2336,9 @@ const translations = {
     'fav.btnexplore': 'تصفح الدليل',
 
     // ads profile
+    'ads.delete.success': 'تم حذف الإعلان بنجاح',
+    'ads.delete.confirm.title': 'تأكيد حذف الإعلان',
+    'ads.delete.confirm.description': 'هل أنت متأكد أنك تريد حذف هذا الإعلان؟ هذه العملية غير قابلة للتراجع.',
     'ads.view.title':'معاينة الإعلان',
     'ads.rental_conditions': 'شروط الإيجار',
     'ads.success_message':'تم تعديل إعلانك بنجاح.',
@@ -2359,6 +2374,7 @@ const translations = {
     'claim.sent_message':'تم إرسال شكواك إلى فريق الدعم، وسيتم معالجتها خلال 48 ساعة.',
     'claim.in_progress': 'الشكوى قيد المعالجة',
     // General
+    'general.delete.confirm': 'تأكيد الحذف',
     'general.back': 'رجوع',
     'general.in':'خلال',
     'general.example': 'مثال',

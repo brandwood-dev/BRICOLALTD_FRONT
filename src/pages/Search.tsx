@@ -28,12 +28,21 @@ const Search = () => {
   const itemsPerPage = 9;
 
   // Category mapping
-  const categoryMap: { [key: string]: string } = {
-    'jardinage': 'Jardinage',
-    'bricolage': 'Bricolage', 
-    'transport': 'Transport',
-    'nettoyage': 'Nettoyage',
-    'evenementiel': 'Événementiel'
+  const categoryMap: Record<string, string> = {
+    Jardinage: 'gardening',
+    Entretien: 'maintenance',
+    Sécurité: 'safety',
+    Nouveautés: 'updates',
+    Guides: 'guide',
+    Transport: 'transport',
+    Bricolage: 'diy',
+    Electricité: 'electricity',
+    Éclairage: 'lighting',
+    Peinture: 'painting',
+    Construction: 'construction',
+    Plantes: 'plants',
+    Nettoyage: 'cleaning',
+    Décoration: 'decoration',
   };
 
   // Subcategories mapping
@@ -222,7 +231,10 @@ const Search = () => {
                         />
                         <div className="absolute top-3 left-3">
                           <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-                            {tool.category}
+                            {t(`blog.category.${categoryMap[tool.category]}`)}
+                          </Badge>
+                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                            {t(`blog.subcategory.tools`)}
                           </Badge>
                         </div>
                       </div>

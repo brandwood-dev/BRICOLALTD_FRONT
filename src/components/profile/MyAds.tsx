@@ -197,8 +197,8 @@ const MyAds = () => {
   const handleDeleteAd = (adId: string) => {
     setAds(prevAds => prevAds.filter(ad => ad.id !== adId));
     toast({
-      title: "Succès",
-      description: "Votre annonce a été bien supprimée.",
+      title: t('message.success'),
+      description: t('ads.delete.success'),
     });
   };
 

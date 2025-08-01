@@ -22,7 +22,7 @@ const Rent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const tool = mockTools.find(t => t.id === id) || mockTools[0];
   
   const [formData, setFormData] = useState({
@@ -33,11 +33,21 @@ const Rent = () => {
     firstName: '',
     lastName: '',
     phone: '',
+    phonePrefix: '+965',
     paymentMethod: 'card'
   });
 
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+   const phonePrefixes = [
+    { value: '+965', label: `+965 (${t('country.kuwait')})` },
+    { value: '+966', label: `+966 (${t('country.ksa')})` },
+    { value: '+971', label: `+971 (${t('country.uae')})` },
+    { value: '+974', label: `+974 (${t('country.qatar')})` },
+    { value: '+973', label: `+973 (${t('country.bahrain')})` },
+    { value: '+968', label: `+968 (${t('country.oman')})` },
+
+  ];
 
   // Mock unavailable dates
   const unavailableDates = [
@@ -113,22 +123,46 @@ const Rent = () => {
             {/* Formulaire de réservation */}
             <div className="lg:col-span-2">
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <CalendarIcon className="h-5 w-5" />
-                    {t('reservation.complete_booking')}
+                <CardHeader className={(language === 'ar' ? "justify-end" : "")}>
+                  <CardTitle className="flex items-center gap-2 ">
+                    {
+                      language === 'ar' ? (
+                        <>
+                          {t('reservation.complete_booking')}
+                          <CalendarIcon className="h-5 w-5" />
+                        </>
+                      ) : (
+                        <>
+                          <CalendarIcon className="h-5 w-5" />
+                          {t('reservation.complete_booking')}
+                        </>
+                      )
+                    }
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Outil sélectionné */}
-                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                      <img src={tool.images[0]} alt={tool.title} className="w-16 h-16 object-cover rounded" />
-                      <div>
-                        <h3 className="font-semibold">{tool.title}</h3>
-                        <p className="text-sm text-gray-600">{displayPrice.toFixed(1)}€/{t('general.day')}</p>
-                        <p className="text-sm text-gray-600">{tool.location}</p>
-                      </div>
+                    <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg justify-end">
+                      { language === 'ar' ? (
+                        <>
+                          <div>
+                            <h3 className="font-semibold">{tool.title}</h3>
+                            <p className="text-sm text-gray-600">{displayPrice.toFixed(1)}€/{t('general.day')}</p>
+                            <p className="text-sm text-gray-600">{tool.location}</p>
+                          </div>
+                          <img src={tool.images[0]} alt={tool.title} className="w-16 h-16 object-cover rounded" />
+                        </>
+                      ):(
+                        <>
+                          <img src={tool.images[0]} alt={tool.title} className="w-16 h-16 object-cover rounded" />
+                          <div>
+                            <h3 className="font-semibold">{tool.title}</h3>
+                            <p className="text-sm text-gray-600">{displayPrice.toFixed(1)}€/{t('general.day')}</p>
+                            <p className="text-sm text-gray-600">{tool.location}</p>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Dates de location */}
@@ -272,16 +306,31 @@ const Rent = () => {
                           />
                         </div>
                       </div>
+                      {/* Téléphone avec préfixe */}
                       <div className="space-y-2">
-                        <Label htmlFor="phone">{t('general.phone')} *</Label>
-                        <Input 
-                          id="phone"
-                          type="tel" 
-                          placeholder="06 12 34 56 78"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                          required
-                        />
+                        <Label htmlFor="phone">{t('register.phone')}</Label>
+                        <div className="flex space-x-2">
+                          <Select value={formData.phonePrefix} onValueChange={(value) => setFormData({...formData, phonePrefix: value})}>
+                            <SelectTrigger className="w-32">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {phonePrefixes.map((prefix) => (
+                                <SelectItem key={prefix.value} value={prefix.value}>
+                                  {prefix.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <Input 
+                            id="phone" 
+                            type="tel" 
+                            placeholder="12 34 56 78"
+                            className="flex-1"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -326,10 +375,19 @@ const Rent = () => {
             {/* Récapitulatif */}
             <div className="lg:col-span-1">
               <Card className="sticky top-24">
-                <CardHeader>
+                <CardHeader className = {language =='ar' ? "flex justify-end" : ""}>
                   <CardTitle className="flex items-center gap-2">
-                    <CreditCard className="h-5 w-5" />
-                    {t('reservation.recap')}
+                    {language === 'ar' ? (
+                      <>
+                        {t('reservation.recap')}
+                        <CreditCard className="h-5 w-5" />
+                      </>
+                    ):(
+                      <>
+                        <CreditCard className="h-5 w-5" />
+                        {t('reservation.recap')}
+                      </>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -363,14 +421,29 @@ const Rent = () => {
                   </div>
 
                   <div className="bg-blue-50 p-4 rounded-lg">
-                    <div className="flex items-start gap-2">
-                      <Shield className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className={"flex items-start gap-2" + (language === 'ar' ? " justify-end" : "")}>
+                      {language === 'ar' ? (
+                        <>
+                        <div className="text-sm">
+                        <p className="font-medium text-blue-900 mb-1">{t('reservation.included_protection')}</p>
+                        <p className="text-blue-700">
+                          {t('reservation.insurance_description')}
+                        </p>
+                      </div>
+                          <Shield className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                        </>
+                      ):(
+                        <>
+                          <Shield className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                       <div className="text-sm">
                         <p className="font-medium text-blue-900 mb-1">{t('reservation.included_protection')}</p>
                         <p className="text-blue-700">
                           {t('reservation.insurance_description')}
                         </p>
                       </div>
+                        </>
+
+                      )}
                     </div>
                   </div>
 

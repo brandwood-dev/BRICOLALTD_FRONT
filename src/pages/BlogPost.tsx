@@ -14,6 +14,23 @@ const BlogPost = () => {
   const { id } = useParams();
   const { t } = useLanguage();
   const post = mockBlogPosts.find(p => p.id === id) || mockBlogPosts[0];
+  const categoryMap: Record<string, string> = {
+    Jardinage: 'gardening',
+    Entretien: 'maintenance',
+    Sécurité: 'safety',
+    Nouveautés: 'updates',
+    Guides: 'guide',
+    Transport: 'transport',
+    Bricolage: 'diy',
+    Electricité: 'electricity',
+    Éclairage: 'lighting',
+    Peinture: 'painting',
+    Construction: 'construction',
+    Plantes: 'plants',
+    Nettoyage: 'cleaning',
+    Décoration: 'decoration',
+  };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -29,7 +46,7 @@ const BlogPost = () => {
 
           <article>
             <header className="mb-8">
-              <Badge className="mb-4">{post.category}</Badge>
+              <Badge className="mb-4">{t(`blog.category.${categoryMap[post.category]}`)}</Badge>
               <h1 className="text-4xl font-bold mb-6">{post.title}</h1>
               
               <div className="flex items-center justify-between mb-6">
@@ -130,7 +147,7 @@ const BlogPost = () => {
                       className="w-full h-32 object-cover rounded-t-lg"
                     />
                     <CardContent className="p-4">
-                      <Badge className="mb-2">{relatedPost.category}</Badge>
+                      <Badge className="mb-2">{t(`blog.category.${categoryMap[relatedPost.category]}`)}</Badge>
                       <h3 className="font-semibold mb-2">
                         <Link to={`/blog/${relatedPost.id}`} className="hover:text-accent">
                           {relatedPost.title}

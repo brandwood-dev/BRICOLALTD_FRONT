@@ -29,8 +29,8 @@ const ToolDetails = () => {
     brand: "DeWalt",
     model: "DCD771C2",
     purchaseYear: "2022",
-    subcategory: "Construction",
-    condition: "Très bon état",
+    subcategory: "tools",
+    condition: "new",
     deposit: 50,
     ownerInstructions: "Veuillez manipuler avec précaution. Retourner l'outil propre et chargé. En cas de problème, contactez-moi immédiatement.",
     owner: {
@@ -38,6 +38,22 @@ const ToolDetails = () => {
       avatar: "/placeholder.svg",
       verified: true
     }
+  };
+  const categoryMap: Record<string, string> = {
+    Jardinage: 'gardening',
+    Entretien: 'maintenance',
+    Sécurité: 'safety',
+    Nouveautés: 'updates',
+    Guides: 'guide',
+    Transport: 'transport',
+    Bricolage: 'diy',
+    Electricité: 'electricity',
+    Éclairage: 'lighting',
+    Peinture: 'painting',
+    Construction: 'construction',
+    Plantes: 'plants',
+    Nettoyage: 'cleaning',
+    Décoration: 'decoration',
   };
 
   // Calculate prices with 5.4% fees
@@ -154,9 +170,9 @@ const ToolDetails = () => {
             {/* Tool Information */}
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Badge variant="secondary">{tool.category}</Badge>
-                <Badge variant="outline">{toolDetails.subcategory}</Badge>
-                <Badge className="bg-green-500">{toolDetails.condition}</Badge>
+                <Badge variant="secondary">{t(`blog.category.${categoryMap[tool.category]}`)}</Badge>
+                <Badge variant="outline">{t('blog.subcategory.tools')}</Badge>
+                <Badge className="bg-green-500">{t('add_tool.condition_new')}</Badge>
               </div>
 
               <h1 className="text-3xl font-bold mb-4">{tool.title}</h1>
