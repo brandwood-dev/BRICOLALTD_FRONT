@@ -16,20 +16,29 @@ const AddTool = () => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  const categories = {
-    'jardinage': 'Jardinage',
-    'bricolage': 'Bricolage', 
-    'transport': 'Transport',
-    'nettoyage': 'Nettoyage',
-    'evenementiel': 'Événementiel'
+  const categoryMap: Record<string, string> = {
+    Jardinage: 'gardening',
+    Entretien: 'maintenance',
+    Sécurité: 'safety',
+    Nouveautés: 'updates',
+    Guides: 'guide',
+    Transport: 'transport',
+    Bricolage: 'diy',
+    Electricité: 'electricity',
+    Éclairage: 'lighting',
+    Peinture: 'painting',
+    Construction: 'construction',
+    Plantes: 'plants',
+    Nettoyage: 'cleaning',
+    Décoration: 'decoration',
   };
 
-  const subcategories = {
-    'jardinage': ['Gazon', 'Terre', 'Bois', 'Arbre', 'Feuilles'],
-    'bricolage': ['Construction', 'Électricité', 'Peinture', 'Vis et Boulons'],
-    'transport': ['Charge lourde', 'Moteur', 'Roue'],
-    'nettoyage': ['Tissus', 'Eau', 'Poussière'],
-    'evenementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
+  const subCategoriesMap: { [key: string]: string[] } = {
+    'jardinage': [t('category.gardening.lawn'), t('category.gardening.soil'), t('category.gardening.wood'), t('category.gardening.tree'), t('category.gardening.leaves')],
+    'bricolage': [t('category.diy.construction'), t('category.diy.electricity'), t('category.diy.painting'), t('category.diy.screws_and_bolts')],
+    'transport': [t('category.transport.heavy_load'), t('category.transport.engine'), t('category.transport.wheel')],
+    'nettoyage': [t('category.cleaning.fabric'), t('category.cleaning.water'), t('category.cleaning.dust')],
+    'evenementiel': [t('category.event.lighting'), t('category.event.kitchen'), t('category.event.entertainment_and_games'), t('category.event.furniture'), t('category.event.decoration'), t('category.event.structure')]
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -159,9 +168,11 @@ const AddTool = () => {
                           <SelectValue placeholder={t('add_tool.choose_category')} />
                         </SelectTrigger>
                         <SelectContent>
-                          {Object.entries(categories).map(([key, value]) => (
-                            <SelectItem key={key} value={key}>{value}</SelectItem>
-                          ))}
+                          <SelectItem value="jardinage">{t('category.gardening')}</SelectItem>
+                          <SelectItem value="bricolage">{t('category.diy')}</SelectItem>
+                          <SelectItem value="transport">{t('category.transport')}</SelectItem>
+                          <SelectItem value="nettoyage">{t('category.cleaning')}</SelectItem>
+                          <SelectItem value="evenementiel">{t('category.event')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -173,9 +184,11 @@ const AddTool = () => {
                           <SelectValue placeholder={t('add_tool.choose_subcategory')} />
                         </SelectTrigger>
                         <SelectContent>
-                          {selectedCategory && subcategories[selectedCategory as keyof typeof subcategories]?.map((sub) => (
-                            <SelectItem key={sub} value={sub}>{sub}</SelectItem>
-                          ))}
+                          {subCategoriesMap[selectedCategory]?.map((subCat) => (
+                                                        <SelectItem key={subCat} value={subCat.toLowerCase().replace(/\s+/g, '-')}>
+                                                          {subCat}
+                                                        </SelectItem>
+                                                      ))}
                         </SelectContent>
                       </Select>
                     </div>

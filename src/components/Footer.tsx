@@ -64,19 +64,14 @@ const Footer = () => {
           {/* Contact */}
           <div  >
             <h3 className="font-semibold mb-4">{t('footer.contact')}</h3>
-            <ul className="space-y-2 text-gray-400">
+            <ul className="space-y-2 text-gray-400  ">
               <li
-                className={
-                  `flex items-center ` +
-                  (language === 'ar'
-                    ? 'flex-row-reverse justify-end space-x-reverse space-x-2'
-                    : 'flex-row justify-start space-x-2')
-                }
+                className={"flex items-center " + (language === 'ar' ? '[direction:ltr]' : '')}
               >
                 <Mail className="h-4 w-4" />
                 contact@bricolaltd.com
               </li>
-              <li className={`flex items-center` + (language === 'ar' ? ' justify-end' : ' justify-start')}>
+              <li className={"flex items-center " + (language === 'ar' ? '[direction:ltr]' : '')}>
                 <Phone className="h-4 w-4 mr-2" />
                 +442039960821
               </li>

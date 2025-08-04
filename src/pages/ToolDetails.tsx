@@ -169,7 +169,7 @@ const ToolDetails = () => {
 
             {/* Tool Information */}
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className={"flex items-center gap-2 mb-4 "+ (language === 'ar' ? '[direction:ltr]' : '')}>
                 <Badge variant="secondary">{t(`blog.category.${categoryMap[tool.category]}`)}</Badge>
                 <Badge variant="outline">{t('blog.subcategory.tools')}</Badge>
                 <Badge className="bg-green-500">{t('add_tool.condition_new')}</Badge>
@@ -178,7 +178,7 @@ const ToolDetails = () => {
               <h1 className="text-3xl font-bold mb-4">{tool.title}</h1>
               
               <div className="space-y-3 mb-6">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 ">
                   <div>
                     <span className="text-gray-600">{t('tools.brand')}:</span>
                     <span className="ml-2 font-medium">{toolDetails.brand}</span>
@@ -207,7 +207,7 @@ const ToolDetails = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 mb-6">
+              <div className={"flex items-center gap-4 mb-6 "+ (language === 'ar' ? '[direction:ltr]' : '')}>
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                   <span className="font-medium">{tool.rating}</span>
