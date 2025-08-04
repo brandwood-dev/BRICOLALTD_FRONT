@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 type Language = 'fr' | 'en' | 'ar';
 
@@ -3158,20 +3158,47 @@ const translations = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  // Initialize language from localStorage or default to 'en'
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const savedLanguage = localStorage.getItem('selectedLanguage') as Language;
+      return savedLanguage && ['fr', 'en', 'ar'].includes(savedLanguage) ? savedLanguage : 'en';
+    } catch (error) {
+      console.warn('Failed to load language from localStorage:', error);
+      return 'en';
+    }
+  });
+
+  // Custom setLanguage function that also saves to localStorage
+  const updateLanguage = (lang: Language) => {
+    try {
+      localStorage.setItem('selectedLanguage', lang);
+      setLanguage(lang);
+    } catch (error) {
+      console.warn('Failed to save language to localStorage:', error);
+      setLanguage(lang);
+    }
+  };
 
   const t = (key: string): string => {
     return translations[language][key as keyof typeof translations[typeof language]] || key;
   };
 
   // Set document direction for Arabic
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
   }, [language]);
 
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    language,
+    setLanguage: updateLanguage,
+    t
+  }), [language]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );
