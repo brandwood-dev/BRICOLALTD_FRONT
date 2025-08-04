@@ -25,7 +25,7 @@ const AdsPagination = ({ currentPage, totalPages, onPageChange, startIndex, endI
   return (
     <>
       <Pagination className="mt-6">
-        <PaginationContent>
+        <PaginationContent >
           <PaginationItem>
             <PaginationPrevious 
               onClick={() => onPageChange(Math.max(1, currentPage - 1))}

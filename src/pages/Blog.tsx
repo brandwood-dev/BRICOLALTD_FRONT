@@ -11,7 +11,7 @@ import { mockBlogPosts } from '@/data/mockData';
 import { Calendar, User, Clock } from 'lucide-react';
 
 const Blog = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -122,7 +122,7 @@ const Blog = () => {
           {totalPages > 1 && (
             <div className="flex justify-center mb-16">
               <Pagination>
-                <PaginationContent>
+                <PaginationContent className={language === 'ar' ? "[direction:ltr]" : ''}>
                   {currentPage > 1 && (
                     <PaginationItem>
                       <PaginationPrevious 

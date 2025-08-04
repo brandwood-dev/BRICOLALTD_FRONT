@@ -951,7 +951,7 @@ const Reservations = () => {
         {totalPages > 1 && (
           <div className="mt-6">
             <Pagination>
-              <PaginationContent>
+              <PaginationContent className={language === 'ar' ? "[direction:ltr]" : ''}>
                 <PaginationItem>
                   <PaginationPrevious 
                     href="#"

@@ -315,7 +315,7 @@ const ToolDetails = () => {
                   
                   {totalPages > 1 && (
                     <Pagination>
-                      <PaginationContent>
+                      <PaginationContent className={language === 'ar' ? "[direction:ltr]" : ''}>
                         <PaginationItem>
                           <PaginationPrevious 
                             onClick={() => setCurrentReviewPage(Math.max(1, currentReviewPage - 1))}

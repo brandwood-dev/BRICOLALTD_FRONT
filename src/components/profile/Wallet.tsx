@@ -281,7 +281,7 @@ const Wallet = () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <Pagination>
-              <PaginationContent>
+              <PaginationContent className={language === 'ar' ? "[direction:ltr]" : ''}>
                 <PaginationItem>
                   <PaginationPrevious 
                     onClick={() => handlePageChange(Math.max(1, currentPage - 1))}

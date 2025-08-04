@@ -281,12 +281,12 @@ const Search = () => {
               {totalPages > 1 && (
                 <div className="flex justify-center mt-8">
                   <Pagination>
-                    <PaginationContent>
+                    <PaginationContent className={language === 'ar' ? "[direction:ltr]" : ''}>
                       {currentPage > 1 && (
                         <PaginationItem>
                           <PaginationPrevious 
                             onClick={() => setCurrentPage(currentPage - 1)}
-                            className="cursor-pointer"
+                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                           />
                         </PaginationItem>
                       )}
@@ -310,7 +310,7 @@ const Search = () => {
                         <PaginationItem>
                           <PaginationNext 
                             onClick={() => setCurrentPage(currentPage + 1)}
-                            className="cursor-pointer"
+                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                           />
                         </PaginationItem>
                       )}
