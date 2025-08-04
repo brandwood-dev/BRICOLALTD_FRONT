@@ -17,7 +17,7 @@ import { useFavorites } from '@/contexts/FavoritesContext';
 import { Link, useSearchParams } from 'react-router-dom';
 
 const Search = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const [searchParams] = useSearchParams();
   const [priceRange, setPriceRange] = useState([0, 100]);
@@ -195,9 +195,9 @@ const Search = () => {
 
             {/* Résultats */}
             <div className="lg:col-span-3">
-              <div className="flex justify-between items-center mb-6">
+              <div className={"flex justify-between items-center mb-6 "+ (language === 'ar' ? ' [direction:ltr] ' : '')}>
                 <div>
-                  <h1 className="text-2xl font-bold">{filteredTools.length} {t('catalog_section.title')}</h1>
+                  <h1 className={"text-2xl font-bold " + (language === 'ar' ? '[direction:rtl]' : '')}>{filteredTools.length} {t('catalog_section.title')}</h1>
                   {selectedCategory !== 'all' && (
                     <p className="text-gray-600 mt-1">
                       {t('catalog_section.category')}: {categoryMap[selectedCategory] || selectedCategory}
@@ -230,10 +230,10 @@ const Search = () => {
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute top-3 left-3">
-                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 ml-1">
                             {t(`blog.category.${categoryMap[tool.category]}`)}
                           </Badge>
-                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 ml-1">
                             {t(`blog.subcategory.tools`)}
                           </Badge>
                         </div>

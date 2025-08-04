@@ -52,11 +52,11 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">{t('footer.help')}</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><Link to="/guide-loueur" className="hover:text-white transition-colors">{t('faq.owners.title')}</Link></li>
-              <li><Link to="/guide-locataire" className="hover:text-white transition-colors">{t('faq.renters.title')}</Link></li>
+              <li><Link to="" className="hover:text-white transition-colors">{t('faq.owners.title')}</Link></li>
+              <li><Link to="/" className="hover:text-white transition-colors">{t('faq.renters.title')}</Link></li>
               <li><Link to="/faq" className="hover:text-white transition-colors">{t('footer.faq')}</Link></li>
               <li><Link to="/cgu" className="hover:text-white transition-colors">{t('footer.cgu')}</Link></li>
-              <li><Link to="/contrat-location" className="hover:text-white transition-colors">{t('footer.contrat')}</Link></li>
+              <li><Link to="" className="hover:text-white transition-colors">{t('footer.contrat')}</Link></li>
               <li><Link to="/politique-confidentialite" className="hover:text-white transition-colors">{t('footer.privacy')}</Link></li>
             </ul>
           </div>
