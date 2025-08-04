@@ -34,6 +34,7 @@ import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import UnderAge from "./pages/UnderAge";
 import AgeVerificationDialog from "./components/AgeVerificationDialog";
 import FloatingActionButton from "./components/FloatingActionButton";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <ScrollToTop />
               <AgeVerificationDialog />
               <Routes>
                 <Route path="/" element={<Index />} />

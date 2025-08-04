@@ -215,7 +215,7 @@ const Wallet = () => {
                   {t('wallet.withdraw_money')}
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className={language === 'ar' ? '[direction:ltr]' : ''}>
                 <DialogHeader>
                   <DialogTitle>{t('wallet.withdraw_money')}</DialogTitle>
                 </DialogHeader>
