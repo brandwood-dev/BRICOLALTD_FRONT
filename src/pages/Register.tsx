@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { CheckIcon, XIcon } from 'lucide-react';
 
 const Register = () => {
   const { t, language } = useLanguage();
@@ -28,6 +29,20 @@ const Register = () => {
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [salesConditionsAccepted, setSalesConditionsAccepted] = useState(false);
+  const ValidationIndicator = ({ isValid, text }: { isValid: boolean; text: string }) => (
+    <div className={`flex items-center space-x-2 text-sm ${isValid ? 'text-green-600 ' : 'text-red-600 '}` + (language === 'ar' ? 'justify-end' : '')}>
+      {isValid ? <CheckIcon className="h-4 w-4" /> : <XIcon className="h-4 w-4" />}
+      <span>{text}</span>
+    </div>
+    
+  );
+  const passwordValidation = {
+    minLength: formData.password.length >= 8,
+    hasUpperCase: /[A-Z]/.test(formData.password),
+    hasLowerCase: /[a-z]/.test(formData.password),
+    hasNumber: /\d/.test(formData.password),
+    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password),
+  };
 
   const countries = [
     { value: 'KWD', label: 'kuwait', flag: '<span class="fi fi-kw"></span>' },
@@ -198,6 +213,16 @@ const Register = () => {
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                   />
                 </div>
+                {formData.password && (
+                  <div className="space-y-2 p-3 bg-muted rounded-md">
+                    <p className="text-sm font-medium">{t('password.criteria')}</p>
+                    <ValidationIndicator isValid={passwordValidation.minLength} text={t('password.min_length')} />
+                    <ValidationIndicator isValid={passwordValidation.hasUpperCase} text={t('password.uppercase')} />
+                    <ValidationIndicator isValid={passwordValidation.hasLowerCase} text={t('password.lowercase')} />
+                    <ValidationIndicator isValid={passwordValidation.hasNumber} text={t('password.number')} />
+                    <ValidationIndicator isValid={passwordValidation.hasSpecialChar} text={t('password.special_char')} />
+                  </div>
+                )}
                 
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword">{t('register.confirm_password')}</Label>
