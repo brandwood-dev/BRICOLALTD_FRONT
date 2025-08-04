@@ -135,6 +135,7 @@ const translations = {
     'blog.share': 'Partager',
     'blog.like': 'J\'aime',
     'blog.similar_articles': 'Articles similaires',
+    'blog.share_article': 'Partager cet article',
     // blog categories
     'blog.subcategory.tools': 'Outils',
     'blog.category.gardening': 'Jardinage',
@@ -204,6 +205,8 @@ const translations = {
     'general.example': 'Ex',
     'general.error': 'Erreur',
     'general.report_error_message': 'Veuillez sélectionner une raison de signalement.',
+    'general.copy_link': 'Copier le lien',
+    'general.copy_link_message': 'lien copié !',
 
     'general.message': 'Message',
     'general.registered_under': 'Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372',
@@ -651,7 +654,7 @@ const translations = {
     'footer.cgu': 'CGU',
     'footer.privacy': 'Politique de confidentialité',
     'footer.faq': 'FAQ',
-    'footer.description': 'La plateforme de location d`\'outils qui connecte les propriétaires avec ceux qui en ont besoin. Simple, sécurisé et local.',
+    'footer.description': 'La plateforme de location d\'outils qui met en relation les propriétaires avec ceux qui en ont besoin. Simple, sécurisée et locale. « www.bricolaltd.com » est une marque déposée de BRICOLA LTD. Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372.',
     'footer.contrat': 'Contrat de location', // Added
     'footer.payment': 'Modes de paiement', // Added
     'footer.useful_links': 'Liens utiles', // Added
@@ -1211,6 +1214,7 @@ const translations = {
     'blog.share': 'Share',
     'blog.like': 'Like',
     'blog.similar_articles': 'Similar Articles',
+    'blog.share_article': 'Share this article',
 
      // blog categories
      'blog.subcategory.tools': 'Tools',
@@ -1273,6 +1277,8 @@ const translations = {
     'claim.sent_message':'Your claim has been successfully sent to our support team. It will be processed within 48 hours.',
     'claim.in_progress': 'Claim in Progress',
     // General
+    'general.copy_link': 'Copy Link',
+    'general.copy_link_message': 'The link has been copied !',
     'general.delete.confirm':'Confirm Deletion',
     'general.back': 'Back',
     'general.in': 'in',
@@ -2326,6 +2332,7 @@ const translations = {
     'blog.share': 'مشاركة',
     'blog.like': 'إعجاب',
     'blog.similar_articles': 'مقالات مشابهة',
+    'blog.share_article': 'مشاركة هذه المقالة',
 
 
     // favorites
@@ -2374,6 +2381,8 @@ const translations = {
     'claim.sent_message':'تم إرسال شكواك إلى فريق الدعم، وسيتم معالجتها خلال 48 ساعة.',
     'claim.in_progress': 'الشكوى قيد المعالجة',
     // General
+    'general.copy_link': 'نسخ الرابط',
+    'general.copy_link_message': 'تم نسخ الرابط بنجاح',
     'general.delete.confirm': 'تأكيد الحذف',
     'general.back': 'رجوع',
     'general.in':'خلال',
