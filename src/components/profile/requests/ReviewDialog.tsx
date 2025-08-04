@@ -24,17 +24,17 @@ const ReviewDialog: React.FC<ReviewDialogProps> = ({
     setRating(0);
     setReviewComment('');
   };
-  const { t } = useLanguage();
+  const { t,language } = useLanguage();
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
           <DialogTitle>{t('review.modaltitle')}</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4">
+        <div className={"space-y-4"}>
           <div>
             <label className="block text-sm font-medium mb-2">{t('review.rate')}</label>
-            <div className="flex gap-1">
+            <div className={"flex gap-1 "+ (language === 'ar' ? '[direction:ltr]' : '')}>
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
