@@ -33,7 +33,7 @@ const Footer = () => {
                   window.scroll({top: 0, behavior: 'smooth'})
 
                 }}
-                src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e42.png"
+                src="/lovable-uploads/LOGO BRICOLA LTD VF Sombre.webp"
                 alt="Bricola"
                 className={`h-8 ${language === 'ar' ? 'rtl text-right' : 'ltr text-left'}`}
               />

@@ -23,7 +23,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img 
-              src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+              src="/lovable-uploads/LOGO BRICOLA LTD VF.webp" 
               alt="Bricola" 
               className="h-8"
             />
@@ -143,7 +143,7 @@ const Header = () => {
                 <Link to="/" className="flex items-center space-x-2">
 
                   <img 
-                    src="/lovable-uploads/f67f6fee-f634-4c6d-bd0f-0aba827121e4.png" 
+                    src="/lovable-uploads/LOGO BRICOLA LTD VF.webp" 
                     alt="Bricola" 
                     className="h-8"
                   />

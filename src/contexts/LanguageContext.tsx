@@ -464,8 +464,8 @@ const translations = {
     'wallet.successful': 'Réussies',
     'wallet.successful_transactions': 'Transactions réussies',
     'wallet.withdraw_money': 'Retirer mon argent',
-    'wallet.withdrawal_note': 'Vous pouvez retirer votre argent à partir du moment où votre solde cumulé atteint 20 GBP.',
-    'wallet.conversion_rate': '20 GBP = {minWithdrawalEUR} EUR',
+    'wallet.withdrawal_note': 'Vous pouvez retirer votre argent à partir du moment où votre solde cumulé atteint 50 GBP.',
+    'wallet.conversion_rate': '50 GBP = {minWithdrawalEUR} EUR',
     'wallet.dynamic_conversion': 'Le taux de conversion s\'actualise dynamiquement en fonction de la devise choisie dans le compte.',
 
     // recent transactions
@@ -1537,8 +1537,8 @@ const translations = {
     'wallet.successful': 'Successful',
     'wallet.successful_transactions': 'Successful transactions',
     'wallet.withdraw_money': 'Withdraw my money',
-    'wallet.withdrawal_note': 'You can withdraw your money once your cumulative balance reaches 20 GBP.',
-    'wallet.conversion_rate': '20 GBP = {minWithdrawalEUR} EUR',
+    'wallet.withdrawal_note': 'You can withdraw your money once your cumulative balance reaches 50 GBP.',
+    'wallet.conversion_rate': '50 GBP = {minWithdrawalEUR} EUR',
     'wallet.dynamic_conversion': 'The conversion rate updates dynamically based on the currency selected in the account.',
 
     // recent transactions
@@ -2613,8 +2613,8 @@ const translations = {
     'wallet.successful': 'ناجحة',
     'wallet.successful_transactions': 'المعاملات الناجحة',
     'wallet.withdraw_money': 'سحب أموالي',
-    'wallet.withdrawal_note': '.يمكنك سحب أموالك بمجرد أن يصل رصيدك الإجمالي إلى 20 جنيهًا إسترلينيًا',
-    'wallet.conversion_rate': '20£ = {minWithdrawalEUR} €',
+    'wallet.withdrawal_note': '.يمكنك سحب أموالك بمجرد أن يصل رصيدك الإجمالي إلى 50 جنيهًا إسترلينيًا',
+    'wallet.conversion_rate': '50£ = {minWithdrawalEUR} €',
     'wallet.dynamic_conversion': 'يتم تحديث سعر الصرف تلقائيًا حسب العملة المختارة في الحساب.',
 
     // recent transactions

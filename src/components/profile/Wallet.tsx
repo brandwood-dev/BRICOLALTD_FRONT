@@ -129,7 +129,7 @@ const Wallet = () => {
   
   // Currency conversion (example rates)
   const gbpToEur = 1.159; // Example conversion rate
-  const minWithdrawalGBP = 20;
+  const minWithdrawalGBP = 50;
   const minWithdrawalEUR = Math.round(minWithdrawalGBP * gbpToEur * 100) / 100;
 
   const canWithdraw = cumulativeBalance >= minWithdrawalEUR;
@@ -238,7 +238,7 @@ const Wallet = () => {
                   {t('wallet.withdrawal_note')}
                 </p>
                 <p className="text-xs text-amber-700 text-right">
-                  {t('wallet.conversion_rate').replace('{minWithdrawalEUR}', minWithdrawalEUR.toString())}
+                  {t('wallet.conversion_rate').replace('{minWithdrawalEUR}', '57.78')}
                 </p>
                 <p className="text-xs text-amber-600">
                   {t('wallet.dynamic_conversion')}
