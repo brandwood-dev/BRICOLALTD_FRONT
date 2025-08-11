@@ -79,7 +79,6 @@ const MyAdsSearchAndFilters = ({
               <SelectItem value="all">{t('general.all')}</SelectItem>
               <SelectItem value="Jardinage">{t('category.gardening')}</SelectItem>
               <SelectItem value="Bricolage">{t('category.diy')}</SelectItem>
-              <SelectItem value="Transport">{t('category.transport')}</SelectItem>
               <SelectItem value="Nettoyage">{t('category.cleaning')}</SelectItem>
               <SelectItem value="Événementiel">{t('category.event')}</SelectItem>
             </SelectContent>

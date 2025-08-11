@@ -29,12 +29,6 @@ const CategoriesSection = () => {
       image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
     },
     {
-      name: t('categories.transport'),
-      icon: Car,
-      color: 'bg-purple-100 text-purple-700',
-      image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
-    },
-    {
       name: t('categories.events'),
       icon: Music,
       color: 'bg-pink-100 text-pink-700',
@@ -54,9 +48,9 @@ const CategoriesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 ">
           {categories.map((category, index) => {
-            const IconComponent = category.icon;
+            const IconComponent = category.icon
             return (
               <Link
                 key={index}
@@ -80,7 +74,7 @@ const CategoriesSection = () => {
                   </h3>
                 </div>
               </Link>
-            );
+            )
           })}
         </div>
       </div>

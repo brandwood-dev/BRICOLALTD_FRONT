@@ -46,7 +46,6 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
   const categories = {
     'jardinage': 'Jardinage',
     'bricolage': 'Bricolage', 
-    'transport': 'Transport',
     'nettoyage': 'Nettoyage',
     'evenementiel': 'Événementiel'
   };
@@ -54,7 +53,6 @@ const AdEditDialog = ({ ad }: AdEditDialogProps) => {
   const subcategories = {
     'Jardinage': ['Gazon', 'Terre', 'Bois', 'Arbre', 'Feuilles'],
     'Bricolage': ['Construction', 'Électricité', 'Peinture', 'Vis et Boulons'],
-    'Transport': ['Charge lourde', 'Moteur', 'Roue'],
     'Nettoyage': ['Tissus', 'Eau', 'Poussière'],
     'Événementiel': ['Son', 'Éclairage', 'Cuisine', 'Animation et Jeux', 'Décoration', 'Mobilier', 'Structure']
   };

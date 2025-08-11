@@ -34,7 +34,6 @@ const Search = () => {
     Sécurité: 'safety',
     Nouveautés: 'updates',
     Guides: 'guide',
-    Transport: 'transport',
     Bricolage: 'diy',
     Electricité: 'electricity',
     Éclairage: 'lighting',
@@ -49,7 +48,6 @@ const Search = () => {
   const subCategoriesMap: { [key: string]: string[] } = {
     'jardinage': [t('category.gardening.lawn'), t('category.gardening.soil'), t('category.gardening.wood'), t('category.gardening.tree'), t('category.gardening.leaves')],
     'bricolage': [t('category.diy.construction'), t('category.diy.electricity'), t('category.diy.painting'), t('category.diy.screws_and_bolts')],
-    'transport': [t('category.transport.heavy_load'), t('category.transport.engine'), t('category.transport.wheel')],
     'nettoyage': [t('category.cleaning.fabric'), t('category.cleaning.water'), t('category.cleaning.dust')],
     'evenementiel': [t('category.event.lighting'), t('category.event.kitchen'), t('category.event.entertainment_and_games'), t('category.event.furniture'), t('category.event.decoration'), t('category.event.structure')]
   };
@@ -139,7 +137,6 @@ const Search = () => {
                           <SelectItem value="all">{t('catalog_section.all_categories')}</SelectItem>
                           <SelectItem value="jardinage">{t('category.gardening')}</SelectItem>
                           <SelectItem value="bricolage">{t('category.diy')}</SelectItem>
-                          <SelectItem value="transport">{t('category.transport')}</SelectItem>
                           <SelectItem value="nettoyage">{t('category.cleaning')}</SelectItem>
                           <SelectItem value="evenementiel">{t('category.event')}</SelectItem>
                         </SelectContent>

@@ -648,6 +648,8 @@ const translations = {
     // Footer
     'footer.about': 'À propos',
     'footer.help': 'Aide',
+    'footer.discover': 'Découvrir Bricola LTD',
+    'footer.useful_links': 'Liens utiles',
     'footer.contact': 'Contact',
     'footer.legal': 'Mentions légales',
     'footer.rights': 'Tous droits réservés',
@@ -657,7 +659,6 @@ const translations = {
     'footer.description': 'La plateforme de location d\'outils qui met en relation les propriétaires avec ceux qui en ont besoin. Simple, sécurisée et locale. « www.bricolaltd.com » est une marque déposée de BRICOLA LTD. Enregistrée en Angleterre et au Pays de Galles sous le numéro : 16401372.',
     'footer.contrat': 'Contrat de location', // Added
     'footer.payment': 'Modes de paiement', // Added
-    'footer.useful_links': 'Liens utiles', // Added
     'footer.help_center': 'Centre d\'assistance', // Added
     'footer.owner_guide': 'Guide du loueur', // Added
     'footer.renter_guide': 'Guide du locataire', // Added
@@ -715,7 +716,7 @@ const translations = {
     'about.cities_covered': 'Villes couvertes',
     'about.satisfaction': 'Satisfaction client',
     'about.team_title': 'Notre Équipe',
-    'about.founder.name': 'Adel Jebbali',
+    'about.founder.name': 'Adel Jebali',
     'about.founder.role': 'CEO et Fondateur',
     'about.founder.bio': 'Ph.D in Computer Science | Cybersecurity & Resiliency Consultant',
 
@@ -871,7 +872,7 @@ const translations = {
 
     'cgu.section5.li1': 'Tous les paiements sont traités via Stripe, dans le respect des réglementations financières locales.',
 
-    'cgu.section5.li2': 'Des frais de service de 5,4 % sont appliqués au locataire lors du paiement. Ils couvrent les frais de traitement Stripe ainsi qu’une partie des coûts techniques de la plateforme (hébergement, maintenance, mises à jour).',
+    'cgu.section5.li2': 'Des frais de service de 6 % sont appliqués au locataire lors du paiement. Ils couvrent les frais de traitement Stripe ainsi qu’une partie des coûts techniques de la plateforme (hébergement, maintenance, mises à jour).',
 
     'cgu.section5.li3': 'Une commission de 15 % est automatiquement prélevée sur chaque transaction réussie.',
 
@@ -993,7 +994,7 @@ const translations = {
 
     "privacy.section2.payment": "Informations de paiement :",
 
-    "privacy.section2.payment.li1": "Coordonnées bancaires (IBAN) utilisées exclusivement pour les virements via Wise (aucune autre information de paiement n’est collectée)",
+    "privacy.section2.payment.li1": "Nous ne collectons aucune information de paiement.",
 
     "privacy.section2.technical": "Informations techniques :",
 
@@ -1721,6 +1722,8 @@ const translations = {
     // Footer
     'footer.about': 'About',
     'footer.help': 'Help',
+    'footer.discover': 'Discover Bricola',
+    'footer.useful_links': 'Useful links',
     'footer.contact': 'Contact',
     'footer.legal': 'Legal',
     'footer.rights': 'All rights reserved',
@@ -1730,7 +1733,6 @@ const translations = {
     'footer.description': 'The tool rental platform that connects owners with those who need them. Simple, secure, and local.“www.bricolaltd.com” is a trademark of BRICOLA LTD.Registered in England and Wales under number: 16401372',
     'footer.contrat': 'Rental Agreement', // Added
     'footer.payment': 'Payment Methods', // Added
-    'footer.useful_links': 'Useful Links', // Added
     'footer.help_center': 'Help Center', // Added
     'footer.owner_guide': 'Owner’s Guide', // Added
     'footer.renter_guide': 'Renter’s Guide', // Added
@@ -1789,7 +1791,7 @@ const translations = {
     'about.cities_covered': 'Cities covered',
     'about.satisfaction': 'Customer satisfaction',
     'about.team_title': 'Our Team',
-    'about.founder.name': 'Adel Jebbali',
+    'about.founder.name': 'Adel Jebali',
     'about.founder.role': 'CEO et Fonder',
     'about.founder.bio': 'Ph.D in Computer Science | Cybersecurity & Resiliency Consultant',
 
@@ -1953,7 +1955,7 @@ const translations = {
 
     'cgu.section5.li1': 'All payments are processed via Stripe, in accordance with local financial regulations.',
 
-    'cgu.section5.li2': 'A 5.4% service fee is applied to the renter at checkout. This covers Stripe processing fees and a portion of the platform’s technical costs (hosting, maintenance, updates).',
+    'cgu.section5.li2': 'A 6% service fee is applied to the renter at checkout. This covers Stripe processing fees and a portion of the platform’s technical costs (hosting, maintenance, updates).',
 
     'cgu.section5.li3': 'A 15% commission is automatically deducted from each successful transaction.',
 
@@ -2096,7 +2098,7 @@ const translations = {
 
     "privacy.section2.payment": "Payment information:",
 
-    "privacy.section2.payment.li1": "IBAN details for Wise payouts, we do not collect any other payment information except the IBAN",
+    "privacy.section2.payment.li1": "We do not collect any payment information.",
 
     "privacy.section2.technical": "Technical information:",
 
@@ -2828,6 +2830,7 @@ const translations = {
     // Footer
     'footer.about': 'حول',
     'footer.help': 'مساعدة',
+    'footer.discover': 'اكتشف بريكولا',
     'footer.contact': 'اتصال',
     'footer.legal': 'قانوني',
     'footer.rights': 'جميع الحقوق محفوظة',
@@ -3030,7 +3033,7 @@ const translations = {
 
     'cgu.section5.title': '5. الدفع والعمولة والمحفظة',
     'cgu.section5.li1': 'تُدار عمليات الدفع عبر Stripe، وتخضع للوائح المالية المحلية.',
-    'cgu.section5.li2': 'تُحمّل نسبة 5.4% من كل عملية كراء على المستأجر عند الدفع، وهي تغطي مصاريف الدفع الإلكتروني عبر Stripe إضافة إلى جزء من تكاليف تطوير وتشغيل المنصة (صيانة، استضافة، تحسينات تقنية).',
+    'cgu.section5.li2': 'تُحمّل نسبة 6% من كل عملية كراء على المستأجر عند الدفع، وهي تغطي مصاريف الدفع الإلكتروني عبر Stripe إضافة إلى جزء من تكاليف تطوير وتشغيل المنصة (صيانة، استضافة، تحسينات تقنية).',
     'cgu.section5.li3': 'تُقتطع عمولة بنسبة 15% من كل عملية كراء ناجحة.',
     'cgu.section5.li4': 'تُودع أرباح المؤجر في محفظة رقمية داخلية ويمكن سحبها عبر Wise.',
     'cgu.section5.li5': 'لا يمكن للمؤجر سحب الرصيد المتوفر في محفظته إلا إذا بلغ الحد الأدنى وهو 50 جنيهًا إسترلينيًا. هذا الإجراء يهدف إلى تقليص عدد عمليات السحب الصغيرة، وتفادي التكاليف المرتفعة المرتبطة بالتحويلات، وضمان انسيابية العمليات داخل المنصة.',
@@ -3102,7 +3105,7 @@ const translations = {
     "privacy.section2.account": "بيانات الحساب:",
     "privacy.section2.account.li1": "اسم المستخدم، كلمة المرور",
     "privacy.section2.payment": "معلومات الدفع:",
-    "privacy.section2.payment.li1": "تفاصيل IBAN للتحويلات عبر Wise، لا نجمع أي معلومات دفع أخرى باستثناء IBAN",
+    "privacy.section2.payment.li1": "نحن لا نقوم بجمع اي معلومات خاصة بوسائل الدفع.",
     "privacy.section2.technical": "المعلومات التقنية:",
     "privacy.section2.technical.li1": "عنوان IP، نوع المتصفح، نظام التشغيل، الموقع الجغرافي التقريبي",
     "privacy.section2.usage": "بيانات الاستخدام:",
