@@ -1792,7 +1792,7 @@ const translations = {
     'about.satisfaction': 'Customer satisfaction',
     'about.team_title': 'Our Team',
     'about.founder.name': 'Adel Jebali',
-    'about.founder.role': 'CEO et Fonder',
+    'about.founder.role': 'CEO et Founder',
     'about.founder.bio': 'Ph.D in Computer Science | Cybersecurity & Resiliency Consultant',
 
     // Contact
