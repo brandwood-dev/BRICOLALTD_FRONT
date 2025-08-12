@@ -3,8 +3,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, Calendar, Shield, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const GuideLocataire = () => {
+  const { t, language } = useLanguage();
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -12,68 +14,133 @@ const GuideLocataire = () => {
         <div className="max-w-4xl mx-auto px-4">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Guide du Locataire</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('rentersGuide.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Découvrez comment louer facilement les outils dont vous avez besoin pour vos projets
+              {t('rentersGuide.intro')} 
             </p>
           </div>
 
           {/* How to Rent */}
           <div className="mb-12">
-            <h2 className="text-3xl font-bold mb-8">Comment louer un outil</h2>
+            {/* <h2 className="text-3xl font-bold mb-8">Comment louer un outil</h2> */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
-                <CardHeader>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
                   <CardTitle className="flex items-center">
                     <Search className="h-6 w-6 text-blue-500 mr-2" />
-                    1. Recherchez votre outil
+                     {t('rentersGuide.step1.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Utilisez notre moteur de recherche pour trouver l'outil parfait près de chez vous. Filtrez par catégorie, prix et localisation.
+                    {t('rentersGuide.step1.description')}
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
                   <CardTitle className="flex items-center">
                     <Calendar className="h-6 w-6 text-green-500 mr-2" />
-                    2. Choisissez vos dates
+                     {t('rentersGuide.step2.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Sélectionnez les dates de début et fin de location selon vos besoins. Vérifiez la disponibilité en temps réel.
+                    {t('rentersGuide.step2.description')}
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
                   <CardTitle className="flex items-center">
                     <Shield className="h-6 w-6 text-purple-500 mr-2" />
-                    3. Réservez en sécurité
+                     {t('rentersGuide.step3.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Effectuez votre réservation avec paiement sécurisé. Votre argent est protégé jusqu'à la remise de l'outil.
+                    {t('rentersGuide.step3.description')}
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
                   <CardTitle className="flex items-center">
                     <CheckCircle className="h-6 w-6 text-orange-500 mr-2" />
-                    4. Récupérez et utilisez
+                     {t('rentersGuide.step4.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Rendez-vous au point de rendez-vous convenu, récupérez votre outil et réalisez votre projet en toute tranquillité.
+                    {t('rentersGuide.step4.description')}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                  <CardTitle className="flex items-center">
+                    <CheckCircle className="h-6 w-6 text-orange-500 mr-2" />
+                     {t('rentersGuide.step5.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    {t('rentersGuide.step5.description')}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                  <CardTitle className="flex items-center">
+                    <CheckCircle className="h-6 w-6 text-orange-500 mr-2" />
+                     {t('rentersGuide.step6.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    {t('rentersGuide.step6.description')}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                  <CardTitle className="flex items-center">
+                    <CheckCircle className="h-6 w-6 text-orange-500 mr-2" />
+                   {t('rentersGuide.step7.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    {t('rentersGuide.step7.description')}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                  <CardTitle className="flex items-center">
+                    <CheckCircle className="h-6 w-6 text-orange-500 mr-2" />
+                     {t('rentersGuide.step8.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    {t('rentersGuide.step8.description')}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                  <CardTitle className="flex items-center">
+                    <CheckCircle className="h-6 w-6 text-orange-500 mr-2" />
+                     {t('rentersGuide.step9.title')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    {t('rentersGuide.step9.description')}
                   </p>
                 </CardContent>
               </Card>
@@ -81,7 +148,7 @@ const GuideLocataire = () => {
           </div>
 
           {/* Tips for Renters */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <h2 className="text-3xl font-bold mb-8">Conseils pour bien louer</h2>
             <div className="space-y-6">
               <Card>
@@ -131,7 +198,7 @@ const GuideLocataire = () => {
             </div>
           </div>
 
-          {/* Security and Insurance */}
+          
           <Card className="mb-12">
             <CardHeader>
               <CardTitle>Sécurité et assurance</CardTitle>
@@ -153,7 +220,7 @@ const GuideLocataire = () => {
                 </p>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </main>
       <Footer />

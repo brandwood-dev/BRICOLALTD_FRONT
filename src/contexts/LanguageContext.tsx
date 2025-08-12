@@ -10,6 +10,28 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    // renters guide 
+    "rentersGuide.title": "Pour les locataires",
+  "rentersGuide.intro": "Bienvenue chez Bricola LTD ! Ce guide vous explique comment louer des outils facilement et en toute sécurité.",
+  "rentersGuide.step1.title": "Créer un Compte",
+  "rentersGuide.step1.description": "Inscrivez-vous en tant que locataire en renseignant vos informations personnelles avec soin.",
+  "rentersGuide.step2.title": "Chercher un Outil",
+  "rentersGuide.step2.description": "Utilisez le moteur de recherche ou les catégories pour trouver l’outil dont vous avez besoin.",
+  "rentersGuide.step3.title": "Lire les Détails",
+  "rentersGuide.step3.description": "Prenez le temps de lire la description de l’outil et les conditions fixées par le propriétaire avant de réserver.",
+  "rentersGuide.step4.title": "Réserver et Payer",
+  "rentersGuide.step4.description": "Choisissez la période de location souhaitée et réglez via le système de paiement sécurisé de la plateforme.",
+  "rentersGuide.step5.title": "Recevoir l’Outil",
+  "rentersGuide.step5.description": "Organisez avec le propriétaire la méthode et le lieu de remise de l’outil.",
+  "rentersGuide.step6.title": "Utilisation",
+  "rentersGuide.step6.description": "Manipulez l’outil avec soin et respectez les consignes données par le propriétaire.",
+  "rentersGuide.step7.title": "Retour",
+  "rentersGuide.step7.description": "Rendez l’outil à temps et dans l’état où vous l’avez reçu.",
+  "rentersGuide.step8.title": "Évaluer",
+  "rentersGuide.step8.description": "Après la location, laissez un avis sur le propriétaire pour contribuer à améliorer la qualité du service.",
+  "rentersGuide.step9.title": "Annulation et Remboursement",
+  "rentersGuide.step9.description": "Consultez les pages dédiées sur le site pour connaître les règles en cas d’annulation ou de remboursement.",
+
     // owners guide
     "ownersGuide.title": "Guide pour les propriétaires",
     "ownersGuide.intro": "Bienvenue chez Bricola LTD ! Ce guide va vous aider à tirer le meilleur profit de vos outils.",
@@ -1154,6 +1176,28 @@ const translations = {
 
   },
   en: {
+    // renters guide
+    "rentersGuide.title": "For Renters Guide",
+    "rentersGuide.intro": "Welcome to Bricola LTD! This guide explains how to rent tools easily and securely.",
+    "rentersGuide.step1.title": "Create an Account",
+    "rentersGuide.step1.description": "Sign up as a renter and enter your personal details accurately.",
+    "rentersGuide.step2.title": "Search for a Tool",
+    "rentersGuide.step2.description": "Use the search engine or categories to find the tool you need.",
+    "rentersGuide.step3.title": "Read the Details",
+    "rentersGuide.step3.description": "Make sure to read the tool description and the owner’s conditions before booking.",
+    "rentersGuide.step4.title": "Book and Pay",
+    "rentersGuide.step4.description": "Select the desired rental period and pay using the platform’s secure payment system.",
+    "rentersGuide.step5.title": "Receive the Tool",
+    "rentersGuide.step5.description": "Coordinate with the owner on the delivery method and location.",
+    "rentersGuide.step6.title": "Usage",
+    "rentersGuide.step6.description": "Handle the tool with care and follow the owner’s instructions.",
+    "rentersGuide.step7.title": "Return",
+    "rentersGuide.step7.description": "Return the tool on time and in the same condition you received it.",
+    "rentersGuide.step8.title": "Review",
+    "rentersGuide.step8.description": "After completion, rate the owner to help improve service quality.",
+    "rentersGuide.step9.title": "Cancellation and Refund Policy",
+    "rentersGuide.step9.description": "Check the dedicated pages on the website for more details.",
+
     // owners guide
     "ownersGuide.title": "For Owners Guide",
     "ownersGuide.intro": "Welcome to Bricola LTD! This guide will help you maximize your earnings from your tools.",
@@ -2317,6 +2361,28 @@ const translations = {
     "privacy.section10.p3": "Continued use of our services implies acceptance of the updated terms."
   },
   ar: {
+    // renters guide
+    "rentersGuide.title": "دليل المستأجر",
+    "rentersGuide.intro": "مرحباً بك في Bricola LTD! يوضح هذا الدليل كيفية استئجار الأدوات بسهولة وأمان.",
+    "rentersGuide.step1.title": "إنشاء حساب",
+    "rentersGuide.step1.description": "قم بالتسجيل كمستأجر وأدخل بياناتك الشخصية بدقة.",
+    "rentersGuide.step2.title": "البحث عن أداة",
+    "rentersGuide.step2.description": "استخدم محرك البحث أو التصنيفات للعثور على الأداة التي تحتاجها.",
+    "rentersGuide.step3.title": "قراءة التفاصيل",
+    "rentersGuide.step3.description": "تأكد من قراءة وصف الأداة وشروط المؤجر قبل الحجز.",
+    "rentersGuide.step4.title": "الحجز والدفع",
+    "rentersGuide.step4.description": "حدد مدة الإيجار المناسبة وقم بالدفع عبر نظام الدفع الآمن في المنصة.",
+    "rentersGuide.step5.title": "استلام الأداة",
+    "rentersGuide.step5.description": "اتفق مع المؤجر على طريقة ومكان الاستلام.",
+    "rentersGuide.step6.title": "الاستخدام",
+    "rentersGuide.step6.description": "استخدم الأداة بحرص ووفقاً لتعليمات المؤجر.",
+    "rentersGuide.step7.title": "الإرجاع",
+    "rentersGuide.step7.description": "أعد الأداة في الوقت المحدد وبنفس الحالة التي استلمتها بها.",
+    "rentersGuide.step8.title": "التقييم",
+    "rentersGuide.step8.description": "بعد انتهاء العملية، قيّم المؤجر لتساعد في تحسين جودة الخدمة.",
+    "rentersGuide.step9.title": "سياسة الإلغاء والاسترجاع",
+    "rentersGuide.step9.description": "راجع الصفحات المخصصة على الموقع لمزيد من التفاصيل.",
+
     // owners guide
     "ownersGuide.title": "دلیل المؤجر",
     "ownersGuide.intro": "مرحباً بك في منصة Bricola LTD! يهدف هذا الدليل إلى مساعدتك كمؤجر لتحقيق أقصى استفادة من أدواتك.",
