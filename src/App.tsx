@@ -35,6 +35,7 @@ import UnderAge from "./pages/UnderAge";
 import AgeVerificationDialog from "./components/AgeVerificationDialog";
 import FloatingActionButton from "./components/FloatingActionButton";
 import ScrollToTop from "./components/ScrollToTop";
+import PolitiqueAnnulation from "./pages/PolitiqueAnnulation";
 
 const queryClient = new QueryClient();
 
@@ -73,6 +74,7 @@ const App = () => (
                 <Route path="/cgu" element={<CGU />} />
                 {/* <Route path="/contrat-location" element={<ContratLocation />} /> */}
                 <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+                <Route path="/politique-annulation" element={<PolitiqueAnnulation />} />
                 <Route path="/under-age" element={<UnderAge />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

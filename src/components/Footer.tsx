@@ -77,6 +77,7 @@ const Footer = () => {
               <li><Link to="/cgu" className="hover:text-white transition-colors">{t('footer.cgu')}</Link></li>
               <li><Link to="" className="hover:text-white transition-colors">{t('footer.contrat')}</Link></li>
               <li><Link to="/politique-confidentialite" className="hover:text-white transition-colors">{t('footer.privacy')}</Link></li>
+              <li><Link to="/politique-annulation" className="hover:text-white transition-colors">{t('cancellationPolicy.title')}</Link></li>
             </ul>
           </div>
 

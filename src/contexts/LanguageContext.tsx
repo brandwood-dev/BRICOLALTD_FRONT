@@ -10,6 +10,20 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    // cancellationPolicy
+  "cancellationPolicy.title": "Politique d’annulation",
+  "cancellationPolicy.intro": "Chez Bricola LTD, nous souhaitons offrir une expérience simple et transparente aux locataires et propriétaires. Voici les règles concernant les annulations :",
+  "cancellationPolicy.renters.title": "Pour les locataires :",
+  "cancellationPolicy.renters.rule1": "Vous pouvez annuler votre réservation et bénéficier d’un remboursement intégral si l’annulation est faite au moins 24 heures avant le début de la location.",
+  "cancellationPolicy.renters.rule2": "En cas d’annulation moins de 24 heures avant la location, aucun remboursement ne sera accordé et la réservation sera considérée comme ferme.",
+  "cancellationPolicy.owners.title": "Pour les propriétaires :",
+  "cancellationPolicy.owners.rule1": "Si un propriétaire annule une réservation à tout moment, le locataire recevra un remboursement complet.",
+  "cancellationPolicy.owners.rule2": "Les annulations répétées de la part des propriétaires peuvent entraîner des sanctions, voire la suspension de leur compte.",
+  "cancellationPolicy.maxDuration.title": "Durée maximale de location :",
+  "cancellationPolicy.maxDuration.rule": "La location ne peut pas dépasser 5 jours par réservation. Pour prolonger la location, le locataire doit d’abord vérifier la disponibilité de l’outil auprès du propriétaire, puis effectuer une nouvelle réservation via la plateforme.",
+  "cancellationPolicy.autoCancellations.title": "Annulations automatiques :",
+  "cancellationPolicy.autoCancellations.rule": "Si un utilisateur (locataire ou propriétaire) ne répond pas ou ne réalise pas une action dans un délai raisonnable, Bricola LTD se réserve le droit de confirmer automatiquement l’état de la transaction (livraison ou retour de l’outil) pour assurer la continuité du service.",
+
 
     //countries
     'country.kuwait':'Kuwait',
@@ -1102,6 +1116,21 @@ const translations = {
 
   },
   en: {
+    // cancellationPolicy
+    "cancellationPolicy.title": "Cancellation Policy",
+    "cancellationPolicy.intro": "At Bricola LTD, we strive to provide a simple and transparent experience for renters and owners. Here are the cancellation rules:",
+    "cancellationPolicy.renters.title": "For renters:",
+    "cancellationPolicy.renters.rule1": "You may cancel your booking and receive a full refund if the cancellation is made at least 24 hours before the rental start time.",
+    "cancellationPolicy.renters.rule2": "Cancellations made less than 24 hours before the rental start will not be refunded, and the booking will be considered final.",
+    "cancellationPolicy.owners.title": "For owners:",
+    "cancellationPolicy.owners.rule1": "If an owner cancels a booking at any time, the renter will receive a full refund.",
+    "cancellationPolicy.owners.rule2": "Repeated cancellations by owners may lead to penalties or account suspension.",
+    "cancellationPolicy.maxDuration.title": "Maximum rental duration:",
+    "cancellationPolicy.maxDuration.rule": "Rentals cannot exceed 5 days per booking. To extend the rental period, renters must first check the tool’s availability with the owner, then make a new booking via the platform.",
+    "cancellationPolicy.autoCancellations.title": "Automatic cancellations:",
+    "cancellationPolicy.autoCancellations.rule": "If a user (renter or owner) fails to respond or take necessary actions within a reasonable time, Bricola LTD reserves the right to automatically confirm the status of a transaction (delivery or return) to ensure service continuity.",
+
+    // countries
    'country.kuwait':'Kuwait',
     'country.ksa':'KSA',
     'country.uae':'UAE',
@@ -2213,6 +2242,22 @@ const translations = {
     "privacy.section10.p3": "Continued use of our services implies acceptance of the updated terms."
   },
   ar: {
+    
+    // cancellationPolicy
+    "cancellationPolicy.title": "سیاسة الالغاء",
+    "cancellationPolicy.intro": "في Bricola LTD ، نسعى لتقديم تجربة بسيطة وشفافة للمستأجرین والمالكین. فیما يلي قواعد الإلغاء:",
+    "cancellationPolicy.renters.title": "للمستأجرین:",
+    "cancellationPolicy.renters.rule1": "یُمكنكم إلغاء الحجز واسترداد المبلغ كاملاً إذا تم الإلغاء قبل موعد بدء الإيجار بـ 24 ساعة على الأقل.",
+    "cancellationPolicy.renters.rule2": "في حال الإلغاء خلال أقل من 24 ساعة من موعد بدء الإيجار، لن يتم استرداد المبلغ وتُعتبر الحجز نهائيًا.",
+    "cancellationPolicy.owners.title": "للمالكین:",
+    "cancellationPolicy.owners.rule1": "إذا قام المالك بإلغاء الحجز في أي وقت، سيحصل المستأجر على استرداد كامل.",
+    "cancellationPolicy.owners.rule2": "قد تؤدي الإلغاءات المتكررة من قبل المالكین إلى عقوبات أو تعليق الحساب.",
+    "cancellationPolicy.maxDuration.title": "المدة القصوى للإيجار:",
+    "cancellationPolicy.maxDuration.rule": "لا يمكن أن تتجاوز مدة الإيجار 5 أيام لكل حجز. لتمديد مدة الإيجار، يجب على المستأجر التحقق أولاً من توفر الأداة لدى المالك، ثم إجراء حجز جديد عبر المنصة.",
+    "cancellationPolicy.autoCancellations.title": "الإلغاءات التلقائیة:",
+    "cancellationPolicy.autoCancellations.rule": "إذا لم يقم المستخدم (مستأجر أو مالك) بالرد أو اتخاذ الإجراءات اللازمة خلال فترة زمنية معقولة، تحتفظ Bricola LTD بالحق في تأكيد حالة المعاملة (التسليم أو الإرجاع) تلقائيًا لضمان استمرارية الخدمة.",
+
+    // Countries
     'country.kuwait':'الكويت',
     'country.ksa':'السعودية',
     'country.uae':'الإمارات',
