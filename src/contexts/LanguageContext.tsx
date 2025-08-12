@@ -10,6 +10,44 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    // owners guide
+    "ownersGuide.title": "Guide pour les propriétaires",
+    "ownersGuide.intro": "Bienvenue chez Bricola LTD ! Ce guide va vous aider à tirer le meilleur profit de vos outils.",
+    "ownersGuide.step1.title": "Créez un compte",
+    "ownersGuide.step1.description": "Inscrivez-vous en tant que propriétaire sur la plateforme en renseignant vos informations personnelles exactes, comme votre numéro de téléphone et votre adresse email.",
+    "ownersGuide.step2.title": "Ajoutez un outil",
+    "ownersGuide.step2.description": "Publiez des photos nettes et de bonne qualité, décrivez bien votre outil, puis fixez un tarif journalier et un montant de caution.",
+    "ownersGuide.step3.title": "Définissez vos conditions",
+    "ownersGuide.step3.description": "Indiquez la durée maximale de location autorisée ainsi que les consignes particulières d’utilisation de l’outil.",
+    "ownersGuide.step4.title": "Examinez les demandes",
+    "ownersGuide.step4.description": "Vous recevrez des notifications à chaque nouvelle demande de location, que vous pourrez accepter ou refuser selon la disponibilité de l’outil.",
+    "ownersGuide.step5.title": "Organisez la livraison et la restitution",
+    "ownersGuide.step5.description": "Mettez-vous d’accord avec le locataire sur le mode et le lieu de remise de l’outil pour que tout se passe facilement.",
+    "ownersGuide.step6.title": "Recevez vos paiements",
+    "ownersGuide.step6.description": "Une fois la location terminée, le montant dû sera versé sur votre portefeuille virtuel. Vous pourrez retirer l’argent dès que vous atteindrez le seuil minimum.",
+    "ownersGuide.step7.title": "Conseils",
+    "ownersGuide.step7.description": "Proposez des outils propres et en bon état, et entretenez de bonnes évaluations pour attirer plus de locataires.",
+
+
+   // Refund Policy
+    "refundPolicy.title": "Politique de remboursement",
+    "refundPolicy.intro": "Bricola LTD s’engage à garantir la sécurité et la satisfaction de ses utilisateurs. Voici les règles relatives aux remboursements :",
+    "refundPolicy.renters.title": "Remboursements pour les locataires :",
+    "refundPolicy.renters.rule1": "En cas d’annulation faite au moins 24 heures avant le début de la location, le remboursement est intégral.",
+    "refundPolicy.renters.rule2": "Si le propriétaire annule la réservation, le locataire bénéficie automatiquement d’un remboursement complet.",
+    "refundPolicy.deposit.title": "Caution et dégâts :",
+    "refundPolicy.deposit.rule1": "Chaque location inclut une caution temporaire bloquée via Stripe.",
+    "refundPolicy.deposit.rule2": "Cette caution est libérée 24 heures après la restitution de l’outil, sous réserve de vérification de son bon état.",
+    "refundPolicy.deposit.rule3": "En cas de dommages, perte ou litige, Bricola peut retenir tout ou partie de la caution après avoir informé l’utilisateur par email.",
+    "refundPolicy.lateReturns.title": "Retards de retour et pénalités :",
+    "refundPolicy.lateReturns.rule": "Les retards dans la restitution peuvent entraîner des pénalités calculées à l’heure ou à la journée, selon les règles fixées par la plateforme.",
+    "refundPolicy.disputes.title": "Gestion des litiges :",
+    "refundPolicy.disputes.rule1": "Toute réclamation doit être signalée dans les 24 heures suivant la date prévue de retour.",
+    "refundPolicy.disputes.rule2": "L’équipe support de Bricola enquête sous 72 heures et prend une décision finale, qui est contraignante pour les deux parties.",
+    "refundPolicy.payments.title": "Paiements et frais :",
+    "refundPolicy.payments.rule1": "Tous les paiements sont sécurisés et traités via Stripe.",
+    "refundPolicy.payments.rule2": "Une commission de 15 % est prélevée sur chaque transaction réussie, et une commission de 6 % est appliquée aux locataires au moment du paiement (frais de traitement et fonctionnement de la plateforme).",
+
     // cancellationPolicy
   "cancellationPolicy.title": "Politique d’annulation",
   "cancellationPolicy.intro": "Chez Bricola LTD, nous souhaitons offrir une expérience simple et transparente aux locataires et propriétaires. Voici les règles concernant les annulations :",
@@ -1116,6 +1154,43 @@ const translations = {
 
   },
   en: {
+    // owners guide
+    "ownersGuide.title": "For Owners Guide",
+    "ownersGuide.intro": "Welcome to Bricola LTD! This guide will help you maximize your earnings from your tools.",
+    "ownersGuide.step1.title": "Create an account",
+    "ownersGuide.step1.description": "Sign up as an owner on the platform and provide accurate personal details, including phone number and email.",
+    "ownersGuide.step2.title": "Add a tool",
+    "ownersGuide.step2.description": "Upload clear, high-quality photos, provide a detailed description, and set the daily rate and deposit amount.",
+    "ownersGuide.step3.title": "Set your conditions",
+    "ownersGuide.step3.description": "Define the allowed rental duration and any special instructions for using the tool.",
+    "ownersGuide.step4.title": "Review requests",
+    "ownersGuide.step4.description": "You will receive notifications for new rental requests, and you can accept or decline based on availability.",
+    "ownersGuide.step5.title": "Delivery and pickup",
+    "ownersGuide.step5.description": "Coordinate with the renter on the method and location of delivery for a smooth experience.",
+    "ownersGuide.step6.title": "Receive payments",
+    "ownersGuide.step6.description": "After the rental is completed, the due amount will be transferred to your wallet, and you can withdraw it once you reach the minimum payout.",
+    "ownersGuide.step7.title": "Tips",
+    "ownersGuide.step7.description": "Provide clean, functional tools and maintain high ratings to attract more customers.",
+
+    // Refund Policy
+    "refundPolicy.title": "Refund Policy",
+    "refundPolicy.intro": "Bricola LTD is committed to ensuring the security and satisfaction of its users. Here are the refund rules:",
+    "refundPolicy.renters.title": "For renters:",
+    "refundPolicy.renters.rule1": "Full refunds are issued if cancellations occur at least 24 hours before the rental start.",
+    "refundPolicy.renters.rule2": "If the owner cancels, the renter automatically receives a full refund.",
+    "refundPolicy.deposit.title": "Security deposit and damages:",
+    "refundPolicy.deposit.rule1": "Each rental includes a temporary security deposit held via Stripe.",
+    "refundPolicy.deposit.rule2": "The deposit is released 24 hours after the tool’s return, pending condition verification.",
+    "refundPolicy.deposit.rule3": "In cases of damage, loss, or disputes, Bricola may withhold part or all of the deposit after notifying the user by email.",
+    "refundPolicy.lateReturns.title": "Late returns and penalties:",
+    "refundPolicy.lateReturns.rule": "Late returns may result in penalties charged hourly or daily, according to platform rules.",
+    "refundPolicy.disputes.title": "Dispute resolution:",
+    "refundPolicy.disputes.rule1": "Disputes must be reported within 24 hours after the scheduled return date.",
+    "refundPolicy.disputes.rule2": "Bricola’s support team investigates within 72 hours and issues a final, binding decision.",
+    "refundPolicy.payments.title": "Payments and fees:",
+    "refundPolicy.payments.rule1": "All payments are secured and processed via Stripe.",
+    "refundPolicy.payments.rule2": "A 15% commission is deducted from each successful transaction, and renters pay a 6% fee at payment (processing and platform maintenance costs).",
+
     // cancellationPolicy
     "cancellationPolicy.title": "Cancellation Policy",
     "cancellationPolicy.intro": "At Bricola LTD, we strive to provide a simple and transparent experience for renters and owners. Here are the cancellation rules:",
@@ -2242,7 +2317,42 @@ const translations = {
     "privacy.section10.p3": "Continued use of our services implies acceptance of the updated terms."
   },
   ar: {
-    
+    // owners guide
+    "ownersGuide.title": "دلیل المؤجر",
+    "ownersGuide.intro": "مرحباً بك في منصة Bricola LTD! يهدف هذا الدليل إلى مساعدتك كمؤجر لتحقيق أقصى استفادة من أدواتك.",
+    "ownersGuide.step1.title": "إنشاء حساب",
+    "ownersGuide.step1.description": "قم بإنشاء حساب مؤجر على المنصة وأدخل بدقة بياناتك الشخصية، بما في ذلك رقم الهاتف والبريد الإلكتروني.",
+    "ownersGuide.step2.title": "إضافة أداة",
+    "ownersGuide.step2.description": "التقط صوراً واضحة وعالية الجودة، وأضف وصفاً شاملاً للأداة، وحدد السعر اليومي ومبلغ التأمين.",
+    "ownersGuide.step3.title": "تحديد شروطك",
+    "ownersGuide.step3.description": "حدد مدة الإيجار المسموح بها، وأي تعليمات خاصة باستخدام الأداة.",
+    "ownersGuide.step4.title": "مراجعة الطلبات",
+    "ownersGuide.step4.description": "ستتلقى إشعارات عند وجود طلب جديد، ويمكنك قبول أو رفض الطلب بناءً على توفر الأداة.",
+    "ownersGuide.step5.title": "التسليم والاستلام",
+    "ownersGuide.step5.description": "اتفق مع المستأجر على طريقة ومكان التسليم لضمان تجربة سلسة.",
+    "ownersGuide.step6.title": "استلام الأموال",
+    "ownersGuide.step6.description": "سيتم تحويل المبلغ المستحق إلى محفظتك في المنصة بعد إتمام الإيجار، ويمكنك سحبه بعد الوصول للحد الأدنى للسحب.",
+    "ownersGuide.step7.title": "نصائح",
+    "ownersGuide.step7.description": "وفر أدوات نظيفة وصالحة للاستعمال، وحافظ على تقييمات عالية لجذب المزيد من العملاء.",
+
+     // Refund Policy
+     "refundPolicy.title": "سیاسة الاسترجاع",
+      "refundPolicy.intro": "تلتزم Bricola LTD بضمان أمان ورضا المستخدمین. فیما يلي قواعد الاسترجاع:",
+      "refundPolicy.renters.title": "للمستأجرین:",
+      "refundPolicy.renters.rule1": "یتم إصدار استرداد كامل إذا تم الإلغاء قبل موعد بدء الإيجار بـ 24 ساعة على الأقل.",
+      "refundPolicy.renters.rule2": "إذا قام المالك بالإلغاء، يحصل المستأجر تلقائيًا على استرداد كامل.",
+      "refundPolicy.deposit.title": "الودیعة والتلفیات:",
+      "refundPolicy.deposit.rule1": "تشمل كل عملیة إیجار ودیعة مؤقتة یتم حجزھا عبر Stripe.",
+      "refundPolicy.deposit.rule2": "تُفرج الودیعة بعد 24 ساعة من إرجاع الأداة، بشرط التحقق من حالتھا.",
+      "refundPolicy.deposit.rule3": "في حالات التلف أو الفقدان أو النزاعات، قد تحتفظ Bricola بجزء أو كامل الودیعة بعد إعلام المستخدم عبر البريد الإلكتروني.",
+      "refundPolicy.lateReturns.title": "التأخیر في الإرجاع والعقوبات:",
+      "refundPolicy.lateReturns.rule": "قد یؤدي التأخیر في الإرجاع إلى فرض عقوبات تُحسب بالساعة أو الیوم وفقًا لقواعد المنصة.",
+      "refundPolicy.disputes.title": "حل النزاعات:",
+      "refundPolicy.disputes.rule1": "یجب الإبلاغ عن النزاعات خلال 24 ساعة من تاریخ الإرجاع المحدد.",
+      "refundPolicy.disputes.rule2": "یحقق فریق الدعم خلال 72 ساعة ویصدر قرارًا نھائیًا وملزمًا للطرفین.",
+      "refundPolicy.payments.title": "المدفوعات والرسوم:",
+      "refundPolicy.payments.rule1": "جمیع المدفوعات مؤمنة وتعالج عبر Stripe.",
+      "refundPolicy.payments.rule2": "تُخصم عمولة بنسبة %15 من كل معاملة ناجحة، ویدفع المستأجرون رسوم بنسبة %6 عند الدفع (تكالیف المعالجة وصیانة المنصة).",
     // cancellationPolicy
     "cancellationPolicy.title": "سیاسة الالغاء",
     "cancellationPolicy.intro": "في Bricola LTD ، نسعى لتقديم تجربة بسيطة وشفافة للمستأجرین والمالكین. فیما يلي قواعد الإلغاء:",

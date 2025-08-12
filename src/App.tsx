@@ -36,6 +36,7 @@ import AgeVerificationDialog from "./components/AgeVerificationDialog";
 import FloatingActionButton from "./components/FloatingActionButton";
 import ScrollToTop from "./components/ScrollToTop";
 import PolitiqueAnnulation from "./pages/PolitiqueAnnulation";
+import PolitiqueRemboursement from "./pages/PolitiqueRemboursement";
 
 const queryClient = new QueryClient();
 
@@ -68,13 +69,14 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/profile" element={<Profile />} />
-                {/* <Route path="/guide-loueur" element={<GuideLoueur />} /> */}
-                {/* <Route path="/guide-locataire" element={<GuideLocataire />} /> */}
+                <Route path="/guide-loueur" element={<GuideLoueur />} /> 
+                <Route path="/guide-locataire" element={<GuideLocataire />} /> 
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/cgu" element={<CGU />} />
-                {/* <Route path="/contrat-location" element={<ContratLocation />} /> */}
+                <Route path="/contrat-location" element={<ContratLocation />} />
                 <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
                 <Route path="/politique-annulation" element={<PolitiqueAnnulation />} />
+                <Route path="/politique-remboursement" element={<PolitiqueRemboursement />} />
                 <Route path="/under-age" element={<UnderAge />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
