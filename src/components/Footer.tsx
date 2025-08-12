@@ -4,6 +4,7 @@ import { Facebook, Twitter, Instagram, Mail } from 'lucide-react';
 import { Link, Route, useNavigate, useNavigation, useRoutes } from 'react-router-dom';
 import visaLogo from '@/assets/visa-logo.png';
 import mastercardLogo from '@/assets/mastercard-logo.png';
+import { FaTiktok } from "react-icons/fa6";
 
 // WhatsApp Icon Component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -42,9 +43,15 @@ const Footer = () => {
               {t('footer.description')}
             </p>
             <div className={ `flex space-x-4 ${language === 'ar' ? 'justify-end' : 'justify-start'}`}>
-              <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-              <Twitter className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-              <Instagram className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
+              <a href="https://www.facebook.com/profile.php?id=61579165954234" target="_blank" rel="noopener noreferrer">
+                <Facebook className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
+              </a>
+              <a href="https://www.instagram.com/bricola_ltd/" target="_blank" rel="noopener noreferrer">
+                <Instagram className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
+              </a>
+              <a href="https://www.tiktok.com/@bricola.ltd" target="_blank" rel="noopener noreferrer">
+                <FaTiktok className="h-5 w-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
+              </a>  
             </div>
           </div>
 
