@@ -4,8 +4,10 @@ import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const ContratLocation = () => {
+  const {t, language} = useLanguage();
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -13,131 +15,128 @@ const ContratLocation = () => {
         <div className="max-w-4xl mx-auto px-4">
           {/* Hero Section */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contrat de Location</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('rentalContract.title')}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Modèle de contrat de location d'outils entre particuliers
+              {t('rentalContract.subtitle')}
             </p>
           </div>
 
           <div className="space-y-8">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  Contrat de Location d'Outil
-                  <Button variant="outline" size="sm">
+              <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                <CardTitle className={"flex items-center justify-between " + (language === 'ar' ? '[direction:ltr]' : '')}>
+                  {t('rentalContract.cardTitle')}
+                  <Button variant="outline" size="sm" className='mr-1'>
                     <Download className="h-4 w-4 mr-2" />
-                    Télécharger PDF
+                    {t('rentalContract.downloadButton')}
                   </Button>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <h3 className="font-semibold mb-2">Entre les soussignés :</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.section.signatories.title')}</h3>
                   <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-                    <p><strong>Le Loueur :</strong> [Nom et prénom du propriétaire]</p>
-                    <p><strong>Adresse :</strong> [Adresse complète]</p>
-                    <p><strong>Téléphone :</strong> [Numéro de téléphone]</p>
-                    <p><strong>Email :</strong> [Adresse email]</p>
+                    <p><strong>{t('rentalContract.section.signatories.owner.name')} </strong></p>
+                    <p><strong>{t('rentalContract.section.signatories.owner.address')} </strong></p>
+                    <p><strong>{t('rentalContract.section.signatories.owner.phone')} </strong></p>
+                    <p><strong>{t('rentalContract.section.signatories.owner.email')} </strong></p>
                   </div>
-                  <p className="text-center font-medium my-2">ET</p>
+                  <p className="text-center font-medium my-2">{t('rentalContract.section.signatories.separator')}</p>
                   <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-                    <p><strong>Le Locataire :</strong> [Nom et prénom du locataire]</p>
-                    <p><strong>Adresse :</strong> [Adresse complète]</p>
-                    <p><strong>Téléphone :</strong> [Numéro de téléphone]</p>
-                    <p><strong>Email :</strong> [Adresse email]</p>
+                    <p><strong>{t('rentalContract.section.signatories.tenant.name')} </strong></p>
+                    <p><strong>{t('rentalContract.section.signatories.tenant.address')} </strong></p>
+                    <p><strong>{t('rentalContract.section.signatories.tenant.phone')} </strong></p>
+                    <p><strong>{t('rentalContract.section.signatories.tenant.email')} </strong></p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 1 - Objet du contrat</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article1.title')}</h3>
                   <p className="text-gray-600">
-                    Le présent contrat a pour objet la location de l'outil suivant :
+                    {t('rentalContract.article1.description')}
                   </p>
                   <div className="bg-gray-50 p-4 rounded-lg mt-2">
-                    <p><strong>Désignation :</strong> [Nom de l'outil]</p>
-                    <p><strong>Marque/Modèle :</strong> [Marque et modèle]</p>
-                    <p><strong>Numéro de série :</strong> [Si applicable]</p>
-                    <p><strong>État :</strong> [Description de l'état]</p>
-                    <p><strong>Accessoires inclus :</strong> [Liste des accessoires]</p>
+                    <p><strong>{t('rentalContract.article1.fields.designation')} </strong></p>
+                    <p><strong>{t('rentalContract.article1.fields.brandModel')} </strong></p>
+                    <p><strong>{t('rentalContract.article1.fields.serialNumber')} </strong></p>
+                    <p><strong>{t('rentalContract.article1.fields.condition')} </strong></p>
+                    <p><strong>{t('rentalContract.article1.fields.accessories')} </strong></p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 2 - Durée de la location</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article2.title')}</h3>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p><strong>Date de début :</strong> [Date et heure de début]</p>
-                    <p><strong>Date de fin :</strong> [Date et heure de fin]</p>
-                    <p><strong>Lieu de remise :</strong> [Adresse de remise]</p>
-                    <p><strong>Lieu de restitution :</strong> [Adresse de restitution]</p>
+                    <p><strong>{t('rentalContract.article2.fields.startDate')} </strong></p>
+                    <p><strong>{t('rentalContract.article2.fields.endDate')} </strong></p>
+                    <p><strong>{t('rentalContract.article2.fields.handoverLocation')} </strong></p>
+                    <p><strong>{t('rentalContract.article2.fields.returnLocation')} </strong></p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 3 - Prix et modalités de paiement</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article3.title')}</h3>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p><strong>Prix de location :</strong> [Montant] € pour [durée]</p>
-                    <p><strong>Caution :</strong> [Montant de la caution] €</p>
-                    <p><strong>Mode de paiement :</strong> Via la plateforme Bricola</p>
+                    <p><strong>{t('rentalContract.article3.fields.rentalPrice')} </strong></p>
+                    <p><strong>{t('rentalContract.article3.fields.deposit')} </strong></p>
+                    <p><strong>{t('rentalContract.article3.fields.paymentMethod')} </strong></p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 4 - Obligations du locataire</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article4.title')}</h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-600 ml-4">
-                    <li>Utiliser l'outil conformément à sa destination normale</li>
-                    <li>Prendre toutes les précautions d'usage pour sa conservation</li>
-                    <li>Ne pas prêter ou sous-louer l'outil à un tiers</li>
-                    <li>Signaler immédiatement tout dysfonctionnement</li>
-                    <li>Restituer l'outil dans l'état où il a été remis</li>
-                    <li>Respecter les horaires de restitution</li>
+                    <li>{t('rentalContract.article4.list.1')}</li>
+                    <li>{t('rentalContract.article4.list.2')}</li>
+                    <li>{t('rentalContract.article4.list.3')}</li>
+                    <li>{t('rentalContract.article4.list.4')}</li>
+                    <li>{t('rentalContract.article4.list.5')}</li>
+                    <li>{t('rentalContract.article4.list.6')}</li>
                   </ul>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 5 - Obligations du loueur</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article5.title')}</h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-600 ml-4">
-                    <li>Remettre l'outil en parfait état de fonctionnement</li>
-                    <li>Fournir les instructions d'utilisation si nécessaire</li>
-                    <li>Garantir la conformité de l'outil à sa description</li>
-                    <li>Être disponible pour la remise et la restitution</li>
+                    <li>{t('rentalContract.article5.list.1')}</li>
+                    <li>{t('rentalContract.article5.list.2')}</li>
+                    <li>{t('rentalContract.article5.list.3')}</li>
+                    <li>{t('rentalContract.article5.list.4')}</li>
                   </ul>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 6 - Assurance et responsabilité</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article6.title')}</h3>
                   <p className="text-gray-600 mb-2">
-                    L'outil est couvert par l'assurance Bricola pendant la durée de la location pour :
+                    {t('rentalContract.article6.intro')}
                   </p>
                   <ul className="list-disc list-inside space-y-1 text-gray-600 ml-4">
-                    <li>Les dommages accidentels</li>
-                    <li>Le vol (sous certaines conditions)</li>
-                    <li>Les dommages causés par un défaut de l'outil</li>
+                    <li>{t('rentalContract.article6.coverage.1')}</li>
+                    <li>{t('rentalContract.article6.coverage.2')}</li>
+                    <li>{t('rentalContract.article6.coverage.3')}</li>
                   </ul>
                   <p className="text-gray-600 mt-2">
-                    Le locataire reste responsable des dommages résultant d'une utilisation non conforme 
-                    ou d'une négligence grave.
+                    {t('rentalContract.article6.note')}
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-2">Article 7 - Résolution des litiges</h3>
+                  <h3 className="font-semibold mb-2">{t('rentalContract.article7.title')}</h3>
                   <p className="text-gray-600">
-                    En cas de litige, les parties s'engagent à rechercher une solution amiable. 
-                    À défaut, le service client Bricola interviendra en médiation. Les litiges non résolus 
-                    seront soumis aux tribunaux compétents.
+                    {t('rentalContract.article7.text')}
                   </p>
                 </div>
 
                 <div className="border-t pt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="font-semibold mb-2">Signature du Loueur</h4>
+                      <h4 className="font-semibold mb-2">{t('rentalContract.signatures.owner')}</h4>
                       <div className="border-2 border-dashed border-gray-300 h-20 flex items-center justify-center text-gray-500">
                         [Signature et date]
                       </div>
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-2">Signature du Locataire</h4>
+                      <h4 className="font-semibold mb-2">{t('rentalContract.signatures.tenant')}</h4>
                       <div className="border-2 border-dashed border-gray-300 h-20 flex items-center justify-center text-gray-500">
                         [Signature et date]
                       </div>
@@ -148,22 +147,22 @@ const ContratLocation = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>Instructions d'utilisation</CardTitle>
+              <CardHeader className={language === 'ar' ? '[direction:ltr]' : ''}>
+                <CardTitle>{t('rentalContract.instructions.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4 text-gray-600">
                   <p>
-                    <strong>1.</strong> Complétez toutes les sections marquées entre crochets avec les informations appropriées.
+                    <strong>1.</strong> {t('rentalContract.instructions.list.1')}
                   </p>
                   <p>
-                    <strong>2.</strong> Assurez-vous que toutes les parties ont lu et compris le contrat avant signature.
+                    <strong>2.</strong> {t('rentalContract.instructions.list.2')}
                   </p>
                   <p>
-                    <strong>3.</strong> Conservez une copie signée du contrat pendant toute la durée de la location.
+                    <strong>3.</strong> {t('rentalContract.instructions.list.3')}
                   </p>
                   <p>
-                    <strong>4.</strong> En cas de questions, contactez le service client Bricola.
+                    <strong>4.</strong> {t('rentalContract.instructions.list.4')}
                   </p>
                 </div>
               </CardContent>
