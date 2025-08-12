@@ -39,8 +39,20 @@ const About = () => {
                 <p className="text-gray-600 mb-4">
                   {t('about.mission_4')}
                 </p>
-                <p className="text-gray-600 ">
+                <p className="text-gray-600 mb-1 font-bold ">
+                  {t('about.advantages')}
+                </p>
+                <ul className="list-disc list-inside text-gray-600 mb-4">
+                  <li>{t('about.advantages_1')}</li>
+                  <li>{t('about.advantages_2')}</li>
+                  <li>{t('about.advantages_3')}</li>
+                  <li>{t('about.advantages_4')}</li>
+                </ul>
+                <p className="text-gray-600 mb-4 ">
                   {t('about.mission_5')}
+                </p>
+                <p className="text-gray-600 ">
+                  {t('about.mission_6')}
                 </p>
               </div>
               <img 
