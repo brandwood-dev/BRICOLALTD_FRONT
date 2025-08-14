@@ -10,6 +10,19 @@ interface LanguageContextType {
 
 const translations = {
   fr: {
+    // AgeVerificationDialog
+  "ageVerification.title": "Vérification de l'âge",
+  "ageVerification.description": "Notre plateforme est accessible via des applications web et mobiles. Elle est strictement réservée aux utilisateurs âgés de 18 ans ou plus qui ont la capacité légale d'utiliser nos services.",
+  "ageVerification.description2": "Bricola se réserve le droit de suspendre ou de résilier tout compte en cas de violations des politiques, de fraude ou d'abus.",
+  "ageVerification.description3": "Pour plus de détails, veuillez consulter nos Conditions Générales d'Utilisation.",
+  "ageVerification.confirmButton": "Oui, je confirme que j'ai 18 ans ou plus",
+  "ageVerification.denyButton": "Non, j'ai moins de 18 ans",
+
+    // UnderAge page
+    "underAge.title": "Accès non autorisé",
+    "underAge.message": "Nous sommes désolés, vous n'êtes pas autorisé à utiliser la plateforme Bricola.",
+    "underAge.message2": "Veuillez consulter nos Conditions Générales d'Utilisation.",
+    "underAge.cguButton": "Voir les CGU",
     // contrat
     "rentalContract.title": "Contrat de Location",
   "rentalContract.subtitle": "Modèle de contrat de location d'outils entre particuliers",
@@ -584,6 +597,8 @@ const translations = {
     'profile.delete_description': 'Cette action est irréversible. Toutes vos données, annonces, réservations et historique de transactions seront définitivement supprimés.',
     'profile.account_deletion_pending': 'Compte en attente de suppression',
     'profile.delete_processing':'Votre demande sera traitée sous 72h, le temps pour notre équipe de vérifier qu\'aucune réclamation ou litige en cours n\'est rattaché à votre compte.',
+    'profile.current_password': 'Mot de passe actuel',
+    'profile.new_password': 'Nouveau mot de passe',
 
     // Action translations (assuming these exist from previous context)
     'action.cancel': 'Annuler',
@@ -820,8 +835,8 @@ const translations = {
     'register.address_help': 'Adresse complète avec code postal et ville',
     'register.password': 'Mot de passe',
     'register.confirm_password': 'Confirmer le mot de passe',
-    'register.terms': 'J\'accepte les conditions d\'utilisation',
-    'register.sales_conditions': 'J\'accepte les termes et conditions et les conditions de vente',
+    'register.terms': 'J\'accepte les conditions Générales d\'utilisation',
+    'register.sales_conditions': 'J\'accepte la Politique de confidentialité',
     'register.create_account': 'Créer mon compte',
     'register.have_account': 'Déjà un compte ? Se connecter',
     'register.select_country': 'Sélectionnez un pays',
@@ -1236,6 +1251,19 @@ const translations = {
 
   },
   en: {
+    // AgeVerificationDialog
+  "ageVerification.title": "Age Verification",
+  "ageVerification.description": "Our platform is accessible via both web and mobile applications. It is strictly reserved for users aged 18 or older who have the legal capacity to use our services.",
+  "ageVerification.description2": "Bricola reserves the right to suspend or terminate any account in case of policy violations, fraud, or abuse.",
+  "ageVerification.description3": "For more details, please refer to our Terms and Conditions.",
+  "ageVerification.confirmButton": "Yes, I confirm that I am 18 years old or older",
+  "ageVerification.denyButton": "No, I am under 18",
+
+    // UnderAge page
+    "underAge.title": "Unauthorized Access",
+    "underAge.message": "We're sorry, you are not authorized to use the Bricola platform.",
+    "underAge.message2": "Please refer to our Terms and Conditions.",
+    "underAge.cguButton": "View Terms and Conditions",
     // contrat
 
     "rentalContract.title": "Rental Agreement",
@@ -1802,6 +1830,8 @@ const translations = {
     'profile.delete_description': 'This action is irreversible. All your data, ads, reservations, and transaction history will be permanently deleted.',
     'profile.account_deletion_pending': 'Account pending deletion',
     'profile.delete_processing':'Your request will be processed within 72 hours, allowing our team to verify that no ongoing claims or disputes are linked to your account.',
+    'profile.current_password': 'Current Password',
+    'profile.new_password': 'New Password',
 
     // Wallet translations
     'wallet.title': 'My Wallet',
@@ -2036,8 +2066,8 @@ const translations = {
     'register.address_help': 'Complete address with postal code and city',
     'register.password': 'Password',
     'register.confirm_password': 'Confirm password',
-    'register.terms': 'I accept the terms of use',
-    'register.sales_conditions': 'I accept the terms and conditions and sales conditions',
+    'register.terms': 'I accept the General terms of use',
+    'register.sales_conditions': 'I accept the Privacy Policy',
     'register.create_account': 'Create my account',
     'register.have_account': 'Already have an account? Sign in',
     'register.select_country': 'Select a country',
@@ -2482,6 +2512,19 @@ const translations = {
     "privacy.section10.p3": "Continued use of our services implies acceptance of the updated terms."
   },
   ar: {
+    // AgeVerificationDialog
+    "ageVerification.title": "التحقق من العمر",
+    "ageVerification.description": "منصتنا متاحة عبر تطبيقات الويب والهاتف المحمول. وهي مخصصة حصرياً للمستخدمين الذين تبلغ أعمارهم 18 عاماً أو أكثر والذين يتمتعون بالأهلية القانونية لاستخدام خدماتنا.",
+    "ageVerification.description2": "تحتفظ بريكولا بالحق في تعليق أو إنهاء أي حساب في حالة انتهاك السياسات أو الاحتيال أو سوء الاستخدام.",
+    "ageVerification.description3": "لمزيد من التفاصيل، يرجى الرجوع إلى شروط وأحكام الاستخدام.",
+    "ageVerification.confirmButton": "نعم، أؤكد أنني أبلغ من العمر 18 عاماً أو أكثر",
+    "ageVerification.denyButton": "لا، أنا أقل من 18 عاماً",
+
+    // UnderAge page
+    "underAge.title": "وصول غير مسموح",
+    "underAge.message": "نأسف، لكنك غير مخول لاستخدام منصة بريكولا.",
+    "underAge.message2": "يرجى الرجوع إلى شروط وأحكام الاستخدام.",
+    "underAge.cguButton": "عرض الشروط والأحكام",
     // contrat
     "rentalContract.title": "عقد الإيجار",
   "rentalContract.subtitle": "نموذج عقد إيجار أدوات بين الأفراد",
@@ -3196,6 +3239,8 @@ const translations = {
     'profile.delete_description': 'هذا الإجراء لا رجعة فيه. سيتم حذف جميع بياناتك، إعلاناتك، حجوزاتك، وسجل معاملاتك نهائيًا.',
     'profile.account_deletion_pending': 'الحساب في انتظار الحذف',
     'profile.delete_processing':'سيتم معالجة طلبك خلال 72 ساعة، وهو الوقت اللازم لفريقنا للتحقق من عدم وجود شكاوى أو نزاعات مرتبطة بحسابك.',
+    'profile.current_password': 'كلمة المرور الحالية',
+    'profile.new_password': 'كلمة المرور الجديدة',
     
     // Forms
     'form.first_name': 'الاسم الأول',
@@ -3282,7 +3327,7 @@ const translations = {
     'register.password': 'كلمة المرور',
     'register.confirm_password': 'تأكيد كلمة المرور',
     'register.terms': 'أوافق على شروط الاستخدام',
-    'register.sales_conditions': 'أوافق على الشروط والأحكام وشروط البيع',
+    'register.sales_conditions': 'أوافق على سياسة الخصوصية',
     'register.create_account': 'إنشاء حسابي',
     'register.have_account': 'لديك حساب بالفعل؟ تسجيل الدخول',
     'register.select_country': 'اختر بلداً',

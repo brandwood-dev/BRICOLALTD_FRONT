@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useAgeVerification } from '@/contexts/AgeVerificationContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const AgeVerificationDialog = () => {
   const { isVerified, setIsVerified, setIsUnderAge, isUnderAge } = useAgeVerification();
@@ -24,18 +25,19 @@ const AgeVerificationDialog = () => {
     setIsUnderAge(true);
     navigate('/under-age');
   };
+  const { t, language } = useLanguage();
 
   return (
     <AlertDialog open={!isVerified && !isUnderAge}>
       <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">Age Verification</AlertDialogTitle>
+          <AlertDialogTitle className="text-center">{t("ageVerification.title")}</AlertDialogTitle>
           <AlertDialogDescription className="text-center text-sm leading-relaxed">
-            Our platform is accessible via both web and mobile applications. It is strictly reserved for users aged 18 or older who have the legal capacity to use our services.
+            {t("ageVerification.description")}
             <br /><br />
-            Bricola reserves the right to suspend or terminate any account in case of policy violations, fraud, or abuse.
+            {t("ageVerification.description2")}
             <br /><br />
-            For more details, please refer to our Terms and Conditions.
+            {t("ageVerification.description3")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col gap-2 sm:flex-col">
@@ -43,14 +45,14 @@ const AgeVerificationDialog = () => {
             onClick={handleConfirmAge}
             className="w-full"
           >
-            Yes, I confirm that I am 18 years old or older
+            {t("ageVerification.confirmButton")}
           </Button>
           <Button 
             variant="outline" 
             onClick={handleUnderAge}
             className="w-full"
           >
-            No, I am under 18
+            {t("ageVerification.denyButton")}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

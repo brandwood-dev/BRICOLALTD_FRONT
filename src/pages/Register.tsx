@@ -53,13 +53,13 @@ const Register = () => {
     { value: 'AED', label: 'uae', flag: '<span class="fi fi-ae"></span>' },
   ];
   
-  const phonePrefixes = [
-    { value: '+965', label: `+965 (${t('country.kuwait')})` },
-    { value: '+966', label: `+966 (${t('country.ksa')})` },
-    { value: '+971', label: `+971 (${t('country.uae')})` },
-    { value: '+974', label: `+974 (${t('country.qatar')})` },
-    { value: '+973', label: `+973 (${t('country.bahrain')})` },
-    { value: '+968', label: `+968 (${t('country.oman')})` },
+ const phonePrefixes = [
+    { value: '+965', label: `+965 (${t('country.kuwait')})`, flag: '<span class="fi fi-kw"></span>' },
+    { value: '+966', label: `+966 (${t('country.ksa')})`, flag: '<span class="fi fi-sa"></span>' },
+    { value: '+971', label: `+971 (${t('country.uae')})`, flag: '<span class="fi fi-ae"></span>' },
+    { value: '+974', label: `+974 (${t('country.qatar')})`, flag: '<span class="fi fi-qa"></span>' },
+    { value: '+973', label: `+973 (${t('country.bahrain')})`, flag: '<span class="fi fi-bh"></span>' },
+    { value: '+968', label: `+968 (${t('country.oman')})`, flag: '<span class="fi fi-om"></span>' },
 
   ];
 
@@ -155,6 +155,7 @@ const Register = () => {
                       <SelectContent>
                         {phonePrefixes.map((prefix) => (
                           <SelectItem key={prefix.value} value={prefix.value}>
+                            <span className='mx-2' dangerouslySetInnerHTML={{ __html: prefix.flag }} />
                             {prefix.label}
                           </SelectItem>
                         ))}
@@ -244,7 +245,10 @@ const Register = () => {
                       onCheckedChange={handleTermsChange}
                     />
                     <Label htmlFor="terms" className="text-sm p-2">
-                      {t('register.terms')}
+                      <a
+                        href="/cgu"
+                        className="hover:underline"
+                      >{t('register.terms')}</a>
                     </Label>
                   </div>
                   
@@ -255,7 +259,12 @@ const Register = () => {
                       onCheckedChange={handleSalesConditionsChange}
                     />
                     <Label htmlFor="sales" className="text-sm p-2">
-                      {t('register.sales_conditions')}
+                      <a
+                        href="/politique-confidentialite"
+                        className="hover:underline"
+                      >
+                        {t('register.sales_conditions')}
+                      </a>
                     </Label>
                   </div>
                 </div>

@@ -113,7 +113,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
           </div>
 
           {/* Delete account button */}
-          <div className="flex justify-center sm:justify-end">
+          {/* <div className="flex justify-center sm:justify-end">
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button 
@@ -145,7 +145,7 @@ const ProfileHeader = ({ userInfo, stats, isAccountDeletionPending, onAccountDel
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

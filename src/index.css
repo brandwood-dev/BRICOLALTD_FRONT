@@ -116,6 +116,6 @@
   text-align: right;
 }
 
-[dir="rtl"] .flex {
+[dir="rtl"] .flex:not(.flex-col) {
   flex-direction: row-reverse;
 }

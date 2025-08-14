@@ -465,7 +465,7 @@ const Reservations = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Calendar className="h-5 w-5" />
-          Mes Réservations
+          {t('booking.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>

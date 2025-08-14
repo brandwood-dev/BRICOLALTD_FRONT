@@ -40,12 +40,12 @@ const Rent = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
    const phonePrefixes = [
-    { value: '+965', label: `+965 (${t('country.kuwait')})` },
-    { value: '+966', label: `+966 (${t('country.ksa')})` },
-    { value: '+971', label: `+971 (${t('country.uae')})` },
-    { value: '+974', label: `+974 (${t('country.qatar')})` },
-    { value: '+973', label: `+973 (${t('country.bahrain')})` },
-    { value: '+968', label: `+968 (${t('country.oman')})` },
+    { value: '+965', label: `+965 (${t('country.kuwait')})`, flag: '<span class="fi fi-kw"></span>' },
+    { value: '+966', label: `+966 (${t('country.ksa')})`, flag: '<span class="fi fi-sa"></span>' },
+    { value: '+971', label: `+971 (${t('country.uae')})`, flag: '<span class="fi fi-ae"></span>' },
+    { value: '+974', label: `+974 (${t('country.qatar')})`, flag: '<span class="fi fi-qa"></span>' },
+    { value: '+973', label: `+973 (${t('country.bahrain')})`, flag: '<span class="fi fi-bh"></span>' },
+    { value: '+968', label: `+968 (${t('country.oman')})`, flag: '<span class="fi fi-om"></span>' },
 
   ];
 
@@ -317,6 +317,7 @@ const Rent = () => {
                             <SelectContent>
                               {phonePrefixes.map((prefix) => (
                                 <SelectItem key={prefix.value} value={prefix.value}>
+                                  <span className='mx-2' dangerouslySetInnerHTML={{ __html: prefix.flag }} />
                                   {prefix.label}
                                 </SelectItem>
                               ))}
@@ -392,27 +393,27 @@ const Rent = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
-                    <div className="flex justify-between text-sm">
+                    <div className={"flex justify-between text-sm " + (language === 'ar' ? "[direction:ltr]" : "")}>
                       <span>{t('reservation.price_per_day')}</span>
                       <span>{displayPrice.toFixed(1)}€</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={"flex justify-between text-sm " + (language === 'ar' ? "[direction:ltr]" : "")}>
                       <span>{t('reservation.number_of_days')}</span>
                       <span>{calculateDays()}</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={"flex justify-between text-sm " + (language === 'ar' ? "[direction:ltr]" : "")}>
                       <span>{t('reservation.subtotal')}</span>
                       <span>{totalPrice.toFixed(1)}€</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={"flex justify-between text-sm " + (language === 'ar' ? "[direction:ltr]" : "")}>
                       <span>{t('reservation.payment_fee')}</span>
                       <span>{totalFees.toFixed(1)}€</span>
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className={"flex justify-between text-sm " + (language === 'ar' ? "[direction:ltr]" : "")}>
                       <span>{t('reservation.deposit')}</span>
                       <span>{deposit}€</span>
                     </div>
-                    <div className="border-t pt-3">
+                    <div className={"border-t pt-3 " + (language === 'ar' ? "[direction:ltr]" : "")}>
                       <div className="flex justify-between font-semibold text-lg">
                         <span>{t('reservation.total_amount')}</span>
                         <span>{totalToPay.toFixed(1)}€</span>
